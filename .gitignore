@@ -1,3 +1,7 @@
+# Other
+.gitattributes
+bin/
+
 # Compiled class file
 *.class
 
