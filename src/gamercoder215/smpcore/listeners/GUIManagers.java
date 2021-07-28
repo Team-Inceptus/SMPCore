@@ -127,6 +127,8 @@ public class GUIManagers implements Listener {
         	 Bukkit.dispatchCommand(p, "enderchest");
          } else if (clickedItem.getType().equals(Material.RED_BED)) {
         	 Bukkit.dispatchCommand(p, "bed");
+         } else if (clickedItem.getType().equals(Material.ALLIUM)) {
+        	 Bukkit.dispatchCommand(p, "abilities");
          }
       }	else if (inv.getTitle().contains("Wand Info")) {
     	  e.setCancelled(true);

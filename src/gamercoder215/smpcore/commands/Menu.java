@@ -99,6 +99,15 @@ public class Menu implements CommandExecutor {
       
       gui.setItem(21, bed);
       
+      ItemStack abilities = new ItemStack(Material.ALLIUM, 1);
+      ItemMeta aMeta = abilities.getItemMeta();
+      aMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Abilities");
+      aMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+      aMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+      abilities.setItemMeta(aMeta);
+      
+      gui.setItem(39, abilities);
+      
       p.openInventory(gui);
       return false;
    }
