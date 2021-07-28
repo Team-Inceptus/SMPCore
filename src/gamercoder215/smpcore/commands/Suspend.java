@@ -1,0 +1,64 @@
+package gamercoder215.smpcore.commands;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import org.bukkit.BanList;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import gamercoder215.smpcore.Main;
+
+public class Suspend implements CommandExecutor {
+	
+	public Main plugin;
+	
+	public Suspend(Main plugin) {
+		this.plugin = plugin;
+		plugin.getCommand("suspend").setExecutor(this);
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		String bumper = org.apache.commons.lang.StringUtils.repeat("\n", 35);
+		try {
+			if (sender.isOp()) {
+				if (args.length < 1) {
+					sender.sendMessage(ChatColor.RED + "Please provide a target.");
+				} else {
+					Player target = Bukkit.getPlayer(args[0]);
+					if (args.length < 2) {
+						sender.sendMessage(ChatColor.RED + "Please provide a valid date, in days. For example: /suspend <target> 7 <reason> (7 days)");
+					} else {
+						String timeParsed = args[1] + " Days";
+						int days = Integer.parseInt(args[1]);
+						Date time = new Date(System.currentTimeMillis() + (60 * 60 * 24 * days * 1000));
+						if (args.length < 3) {
+							sender.sendMessage(ChatColor.RED + "A reason needs to be provided.");
+						} else {
+							ArrayList<String> reasonArgs = new ArrayList<String>();
+							for (int i = 2; i < args.length; i++) {
+								reasonArgs.add(args[i]);
+							}
+							String reason = String.join(" ", reasonArgs);
+							if (target != null) {	
+								target.kickPlayer(ChatColor.YELLOW + "You have been suspended!\n\n" + ChatColor.GOLD + "Admin: " + ChatColor.DARK_RED + sender.getName() + ChatColor.GOLD + "\nReason: " + ChatColor.WHITE + reason + ChatColor.GOLD + "\nTime: " + ChatColor.AQUA + timeParsed);
+							}
+							Bukkit.getBanList(BanList.Type.NAME).addBan(target.getName(), bumper + ChatColor.YELLOW + "You have been suspended!\n\n" + ChatColor.GOLD + "Admin: " + ChatColor.DARK_RED + sender.getName() + ChatColor.GOLD + "\nReason: " + ChatColor.WHITE + reason + ChatColor.GOLD + "\nTime: " + ChatColor.AQUA + timeParsed + bumper, time, sender.getName());
+						}
+					}
+				}
+			} else {
+				sender.sendMessage(ChatColor.RED + "You need to be an OP to ban someone!");
+			}
+		} catch (NumberFormatException e) {
+			sender.sendMessage(ChatColor.RED + "Please provide a valid date, in days. For example: /suspend <target> 7 <reason> (7 days)");
+		}
+		return false;
+	}
+
+}
