@@ -102,7 +102,7 @@ public class PlayerStatusUpdate implements Listener {
       p.setPlayerListHeader(ChatColor.GOLD + "\n You are playing on " + ChatColor.GREEN + "noobygodssmp.apexmc.co \n" + ChatColor.BLUE + "\n discord.io/thenoobygods \n" + ChatColor.RED + "reddit.com/r/TheNoobyGods\n\n" + ChatColor.GOLD + "Version " + ChatColor.GREEN + "v" + plugin.getDescription().getVersion());
       
       p.setHealthScaled(true);
-      p.setHealthScale(10);
+      p.setHealthScale(0.1);
       
       int onlinePlayers = p.getServer().getOnlinePlayers().size();
       int maxPlayers = p.getServer().getMaxPlayers();
