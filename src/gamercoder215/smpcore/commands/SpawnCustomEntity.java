@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.utils.entities.PathfindingTest;
+import gamercoder215.smpcore.utils.entities.TitanEnderman;
+import gamercoder215.smpcore.utils.entities.TitanPiglin;
 import net.minecraft.server.level.WorldServer;
 
 public class SpawnCustomEntity implements CommandExecutor{
@@ -26,6 +28,7 @@ public class SpawnCustomEntity implements CommandExecutor{
 		if (!(sender instanceof Player)) return false;
 		
 		Player p = (Player) sender;
+		WorldServer wrld = ((CraftWorld) p.getWorld()).getHandle();
 		
 		if (!(p.isOp())) {
 			p.sendMessage(ChatColor.RED + "You need to be an OP to use this command!");
@@ -34,8 +37,13 @@ public class SpawnCustomEntity implements CommandExecutor{
 			
 			if (args[0].contains("test")) {
 				PathfindingTest test = new PathfindingTest(p.getLocation());
-				WorldServer wrld = ((CraftWorld) p.getWorld()).getHandle();
 				wrld.addEntity(test);
+			} else if (args[0].contains("titan_enderman")) {
+				TitanEnderman titane = new TitanEnderman(p.getLocation());
+				wrld.addEntity(titane);
+			} else if (args[0].contains("titan_piglin")) {
+				TitanPiglin titanp = new TitanPiglin(p.getLocation(), false);
+				wrld.addEntity(titanp);
 			}
 		}
 		
