@@ -315,6 +315,7 @@ public class TitanEnchants implements Listener {
 		Player p = (Player) e.getEntity();
 		
 		for (ItemStack i : p.getInventory().getArmorContents()) {
+			if (i == null) return;
 			if (!(i.hasItemMeta())) return;
 			if (!(i.getItemMeta().hasLore())) return;
 			
