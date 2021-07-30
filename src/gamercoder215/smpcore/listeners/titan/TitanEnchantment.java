@@ -1,4 +1,4 @@
-package gamercoder215.smpcore.utils;
+package gamercoder215.smpcore.listeners.titan;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+
+import gamercoder215.smpcore.utils.fetcher.EnchantmentFetcher;
 
 public class TitanEnchantment {
 	

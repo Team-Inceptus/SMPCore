@@ -26,7 +26,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.utils.AdvancementMessages;
-import gamercoder215.smpcore.utils.ItemFetcher;
+import gamercoder215.smpcore.utils.fetcher.ItemFetcher;
 
 public class TitanAbilities implements Listener {
 	

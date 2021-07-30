@@ -1,4 +1,4 @@
-package gamercoder215.smpcore.utils;
+package gamercoder215.smpcore.listeners.titan;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.listeners.GUIManagers;
+import gamercoder215.smpcore.utils.fetcher.EnchantmentFetcher;
+import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanEnchantmentTable {
 	

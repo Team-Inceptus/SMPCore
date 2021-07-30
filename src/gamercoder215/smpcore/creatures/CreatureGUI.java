@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import gamercoder215.smpcore.Main;
-import gamercoder215.smpcore.utils.Creatures;
+import gamercoder215.smpcore.utils.CreatureUtils;
 
 public class CreatureGUI implements Listener {
 	
@@ -42,9 +42,9 @@ public class CreatureGUI implements Listener {
         	p.sendMessage(ChatColor.RED + "You are too tired to look for another creature. Look back in an hour...");
         } else {
 	        if (displayName.contains("Ice Golem")) {
-	        	Creatures.spawnCreature(p, "Ice Golem");
+	        	CreatureUtils.spawnCreature(p, "Ice Golem");
 	        } else if (displayName.contains("Iron Horse")) {
-	        	Creatures.spawnCreature(p, "Iron Horse");
+	        	CreatureUtils.spawnCreature(p, "Iron Horse");
 	        }
 	        
 	        

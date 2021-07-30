@@ -1,8 +1,10 @@
-package gamercoder215.smpcore.utils;
+package gamercoder215.smpcore.utils.fetcher;
 
 import org.bukkit.ChatColor;
 
-import gamercoder215.smpcore.utils.TitanEnchantment.Item;
+import gamercoder215.smpcore.listeners.titan.TitanEnchantment;
+import gamercoder215.smpcore.listeners.titan.TitanEnchantment.Item;
+import gamercoder215.smpcore.utils.GeneralUtils;
 
 public class EnchantmentFetcher {
 	

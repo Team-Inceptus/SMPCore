@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import gamercoder215.smpcore.Main;
-import gamercoder215.smpcore.utils.TitanEnchantmentTable;
-import gamercoder215.smpcore.utils.TitanFetcher;
+import gamercoder215.smpcore.listeners.titan.TitanEnchantmentTable;
+import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanWarps implements CommandExecutor {
 	

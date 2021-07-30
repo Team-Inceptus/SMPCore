@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.listeners.GUIManagers;
-import gamercoder215.smpcore.utils.Creatures;
+import gamercoder215.smpcore.utils.CreatureUtils;
 
 public class CreaturesGuide implements CommandExecutor {
 	
@@ -42,7 +42,7 @@ public class CreaturesGuide implements CommandExecutor {
 		iceDrops.add(ChatColor.AQUA + "Ice x2 " + ChatColor.DARK_GRAY + "(100%)");
 		iceDrops.add(ChatColor.DARK_AQUA + "Icey Boots x1 " + ChatColor.DARK_GRAY + "(100%)");
 		
-		ItemStack iceGolem = Creatures.generateCreatureItem(Material.ICE, "Very Common", ChatColor.AQUA + "Ice Golem", "Passive", "300 years, 5 months, 12 days", iceDescription, iceDrops, false);
+		ItemStack iceGolem = CreatureUtils.generateCreatureItem(Material.ICE, "Very Common", ChatColor.AQUA + "Ice Golem", "Passive", "300 years, 5 months, 12 days", iceDescription, iceDrops, false);
 		
 		
 		// Cmn
@@ -55,7 +55,7 @@ public class CreaturesGuide implements CommandExecutor {
 		ironDrops.add(ChatColor.WHITE + "Iron Ingot x16 " + ChatColor.DARK_GRAY + "(100%)");
 		ironDrops.add(ChatColor.DARK_GRAY + "Damaged Iron Horsearmor x1" + "(100%)");
 		
-		ItemStack ironHorse = Creatures.generateCreatureItem(Material.IRON_INGOT, "Common", ChatColor.WHITE + "Iron Horse", "Passive", "150 years, 7 months, 21 days", ironDescription, ironDrops, true);
+		ItemStack ironHorse = CreatureUtils.generateCreatureItem(Material.IRON_INGOT, "Common", ChatColor.WHITE + "Iron Horse", "Passive", "150 years, 7 months, 21 days", ironDescription, ironDrops, true);
 		// UCmn
 		// Rr
 		

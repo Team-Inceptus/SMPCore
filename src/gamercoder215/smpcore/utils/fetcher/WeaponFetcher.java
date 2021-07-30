@@ -1,4 +1,4 @@
-package gamercoder215.smpcore.utils;
+package gamercoder215.smpcore.utils.fetcher;
 
 import java.util.ArrayList;
 import java.util.UUID;

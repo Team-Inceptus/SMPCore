@@ -1,5 +1,7 @@
 package gamercoder215.smpcore.listeners.titan;
 
-public class TitanEntities {
+import org.bukkit.event.Listener;
+
+public class TitanEntities implements Listener {
 
 }

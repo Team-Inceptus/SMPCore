@@ -30,13 +30,13 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.advancements.TitanAdvancements;
 import gamercoder215.smpcore.listeners.GUIManagers;
+import gamercoder215.smpcore.listeners.titan.TitanEnchantment;
+import gamercoder215.smpcore.listeners.titan.TitanEnchantmentTable;
+import gamercoder215.smpcore.listeners.titan.TitanEnchantment.Item;
+import gamercoder215.smpcore.listeners.titan.TitanEnchantment.TitanEnchant;
 import gamercoder215.smpcore.utils.GeneralUtils;
-import gamercoder215.smpcore.utils.TitanEnchantment;
-import gamercoder215.smpcore.utils.TitanEnchantment.Item;
-import gamercoder215.smpcore.utils.TitanEnchantment.TitanEnchant;
-import gamercoder215.smpcore.utils.TitanEnchantmentTable;
-import gamercoder215.smpcore.utils.TitanFetcher;
 import gamercoder215.smpcore.utils.enums.TitanType;
+import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanEnchants implements Listener {
 	

@@ -1,4 +1,4 @@
-package gamercoder215.smpcore.utils;
+package gamercoder215.smpcore.utils.fetcher;
 
 import java.util.ArrayList;
 
@@ -10,6 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
+import gamercoder215.smpcore.utils.GeneralUtils;
 
 public class ItemFetcher {
 	

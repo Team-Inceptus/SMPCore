@@ -1,4 +1,4 @@
-package gamercoder215.smpcore.utils;
+package gamercoder215.smpcore.utils.fetcher;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,6 +25,7 @@ import com.mojang.authlib.properties.Property;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import gamercoder215.smpcore.listeners.GUIManagers;
+import gamercoder215.smpcore.utils.GeneralUtils;
 import gamercoder215.smpcore.utils.enums.TitanType;
 
 public class TitanFetcher {

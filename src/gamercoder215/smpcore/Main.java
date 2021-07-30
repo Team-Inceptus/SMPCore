@@ -73,7 +73,7 @@ import gamercoder215.smpcore.creatures.CreaturesGuide;
 import gamercoder215.smpcore.listeners.GUIManagers;
 import gamercoder215.smpcore.listeners.PlayerDrops;
 import gamercoder215.smpcore.listeners.PlayerStatusUpdate;
-import gamercoder215.smpcore.utils.TitanWorld;
+import gamercoder215.smpcore.listeners.titan.TitanWorld;
 
 public class Main extends JavaPlugin {
 	

@@ -13,10 +13,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import gamercoder215.smpcore.Main;
-import gamercoder215.smpcore.utils.ItemFetcher;
-import gamercoder215.smpcore.utils.TitanFetcher;
-import gamercoder215.smpcore.utils.WandFetcher;
-import gamercoder215.smpcore.utils.WeaponFetcher;
+import gamercoder215.smpcore.utils.fetcher.ItemFetcher;
+import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
+import gamercoder215.smpcore.utils.fetcher.WandFetcher;
+import gamercoder215.smpcore.utils.fetcher.WeaponFetcher;
 
 public class GetCustomItem implements CommandExecutor {
 	

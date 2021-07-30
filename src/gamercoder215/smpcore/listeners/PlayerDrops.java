@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import gamercoder215.smpcore.Main;
-import gamercoder215.smpcore.utils.ItemFetcher;
+import gamercoder215.smpcore.utils.fetcher.ItemFetcher;
 
 public class PlayerDrops implements Listener {
 	

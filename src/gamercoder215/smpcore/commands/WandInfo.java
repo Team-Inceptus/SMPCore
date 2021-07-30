@@ -11,10 +11,10 @@ import org.bukkit.inventory.Inventory;
 
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.listeners.GUIManagers;
-import gamercoder215.smpcore.utils.WandFetcher;
 import gamercoder215.smpcore.utils.classes.PrimarySpell;
 import gamercoder215.smpcore.utils.classes.SecondarySpell;
 import gamercoder215.smpcore.utils.classes.Wand;
+import gamercoder215.smpcore.utils.fetcher.WandFetcher;
 
 public class WandInfo implements CommandExecutor {
 	

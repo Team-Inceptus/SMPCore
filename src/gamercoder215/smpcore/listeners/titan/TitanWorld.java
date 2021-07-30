@@ -1,4 +1,4 @@
-package gamercoder215.smpcore.utils;
+package gamercoder215.smpcore.listeners.titan;
 
 import java.util.Random;
 
@@ -38,6 +38,7 @@ import eu.endercentral.crazy_advancements.NameKey;
 import eu.endercentral.crazy_advancements.manager.AdvancementManager;
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.advancements.TitanAdvancements;
+import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanWorld implements Listener {
 	

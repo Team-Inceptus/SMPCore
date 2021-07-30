@@ -10,8 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import gamercoder215.smpcore.Main;
-import gamercoder215.smpcore.utils.WandFetcher;
 import gamercoder215.smpcore.utils.classes.Wand;
+import gamercoder215.smpcore.utils.fetcher.WandFetcher;
 
 	public class Spells implements Listener {
 	

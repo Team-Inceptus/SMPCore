@@ -28,14 +28,14 @@ import gamercoder215.smpcore.bosses.abilities.EmeraldWarriorAbilities;
 import gamercoder215.smpcore.bosses.abilities.TitanAbilities;
 import gamercoder215.smpcore.bosses.abilities.ZombieKingAbilities;
 import gamercoder215.smpcore.commands.Boss;
+import gamercoder215.smpcore.listeners.titan.TitanEnchantment;
+import gamercoder215.smpcore.listeners.titan.TitanEnchantment.TitanEnchant;
 import gamercoder215.smpcore.utils.AdvancementMessages;
-import gamercoder215.smpcore.utils.EnchantmentFetcher;
-import gamercoder215.smpcore.utils.ItemFetcher;
-import gamercoder215.smpcore.utils.TitanEnchantment;
-import gamercoder215.smpcore.utils.TitanFetcher;
-import gamercoder215.smpcore.utils.TitanEnchantment.TitanEnchant;
 import gamercoder215.smpcore.utils.TradeInventories;
 import gamercoder215.smpcore.utils.TradeParser;
+import gamercoder215.smpcore.utils.fetcher.EnchantmentFetcher;
+import gamercoder215.smpcore.utils.fetcher.ItemFetcher;
+import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 
 public class GUIManagers implements Listener {
    private Main plugin;
