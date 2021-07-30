@@ -1,4 +1,4 @@
-package gamercoder215.smpcore.abilities;
+package gamercoder215.smpcore.listeners.titan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +30,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.advancements.TitanAdvancements;
 import gamercoder215.smpcore.listeners.GUIManagers;
-import gamercoder215.smpcore.listeners.titan.TitanEnchantment;
-import gamercoder215.smpcore.listeners.titan.TitanEnchantmentTable;
 import gamercoder215.smpcore.listeners.titan.TitanEnchantment.Item;
 import gamercoder215.smpcore.listeners.titan.TitanEnchantment.TitanEnchant;
 import gamercoder215.smpcore.utils.GeneralUtils;
