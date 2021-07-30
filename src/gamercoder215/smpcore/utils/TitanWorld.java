@@ -44,6 +44,7 @@ public class TitanWorld implements Listener {
 	public Main plugin;
 	private static AdvancementManager m = TitanAdvancements.m;
 	
+	
 	public TitanWorld(Main plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
