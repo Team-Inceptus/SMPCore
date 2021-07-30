@@ -9,6 +9,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 public class ItemFetcher {
 	
 	public static ItemStack getInventoryCore() {
@@ -84,6 +86,27 @@ public class ItemFetcher {
 		goldEssence.setItemMeta(essenceMeta);
 		
 		return goldEssence;
+	}
+	
+	public static ItemStack getOverworldEssence() {
+		try {
+			ItemStack oEssence = GeneralUtils.itemFromNBT("{id: \"minecraft:lime_dye\", tag: {display: {Name: '{\"text\":\"Overworld Essence\",\"color\":\"green\",\"bold\":true,\"italic\":false}'}, HideFlags: 1, Enchantments: [{id: \"minecraft:protection\", lvl: 1s}]}, Count: 1b}");
+			return oEssence;
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public static ItemStack getEndEssence() {
+		try {
+			ItemStack eEssence = GeneralUtils.itemFromNBT("{id: \"minecraft:purple_dye\", tag: {display: {Name: '{\"text\":\"End Essence\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false}'}, HideFlags: 1, Enchantments: [{id: \"minecraft:protection\", lvl: 1s}]}, Count: 1b}");
+			return eEssence;
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public static ItemStack getEnchantedOverworldEssence() {

@@ -114,6 +114,8 @@ public class TitanFetcher {
 		return shopInfo;
 	}
 	
+	
+	
 	public static Inventory getVenaliciusTrade() {
 		Inventory inv = GUIManagers.generateGUI(54, ChatColor.GRAY + "Titan Shop - Venalicius's Barter");
 		
@@ -144,7 +146,19 @@ public class TitanFetcher {
 		return inv;
 	}
 	
-	// Titan World Tools
+	// TODO Other Items
+	
+	public static ItemStack getTitanCore() {
+		try {
+			ItemStack titanCore = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", tag: {display: {Name: '{\"text\":\"Titan Core\",\"color\":\"#006478\",\"bold\":true,\"italic\":false}'}, SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTRhZDIyOWQ4MDMwODA1OWZhN2FlZDg2NTQzNzc5Y2Y5MzNmOTFiNmE0Mzc0MzEyOTNkMGJiMzFhMDk1NWI3MSJ9fX0=\"}]}, Id: [I; 1341988342, 1338392604, -1334015479, -26366109]}}, Count: 1b}");
+			return titanCore;
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	// TODO Titan World Tools
 	public static ItemStack getOpulensHoe() {
 		try {
 			ItemStack opulensHoe = GeneralUtils.itemFromNBT("{id:\"minecraft:wooden_hoe\",Count:1b,tag:{CanDestroy:[\"minecraft:warped_fungus\",\"minecraft:warped_nylium\"],display:{Name:'{\"text\":\"Opulens Hoe\",\"color\":\"dark_aqua\",\"italic\":false}'},HideFlags:8,Unbreakable:1b}}");
