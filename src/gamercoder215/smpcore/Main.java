@@ -13,7 +13,6 @@ import gamercoder215.smpcore.abilities.PerussiWeapons;
 import gamercoder215.smpcore.abilities.PlayerAbilities;
 import gamercoder215.smpcore.abilities.Spells;
 import gamercoder215.smpcore.abilities.SuperPickaxes;
-import gamercoder215.smpcore.abilities.TitanEnchants;
 import gamercoder215.smpcore.abilities.WorldAbilities;
 import gamercoder215.smpcore.advancements.TitanAdvancements;
 import gamercoder215.smpcore.bosses.abilities.AraneaAbilities;
@@ -48,7 +47,6 @@ import gamercoder215.smpcore.commands.Bed;
 import gamercoder215.smpcore.commands.Boss;
 import gamercoder215.smpcore.commands.CoderTest;
 import gamercoder215.smpcore.commands.Craft;
-import gamercoder215.smpcore.commands.CreateWorld;
 import gamercoder215.smpcore.commands.EditPlayer;
 import gamercoder215.smpcore.commands.Emojilist;
 import gamercoder215.smpcore.commands.Enderchest;
@@ -73,6 +71,7 @@ import gamercoder215.smpcore.creatures.CreaturesGuide;
 import gamercoder215.smpcore.listeners.GUIManagers;
 import gamercoder215.smpcore.listeners.PlayerDrops;
 import gamercoder215.smpcore.listeners.PlayerStatusUpdate;
+import gamercoder215.smpcore.listeners.titan.TitanEnchants;
 import gamercoder215.smpcore.listeners.titan.TitanWorld;
 
 public class Main extends JavaPlugin {
@@ -128,7 +127,6 @@ public class Main extends JavaPlugin {
       new SpawnCustomEntity(this);
       new Rejoin(this);
       new EditPlayer(this);
-      new CreateWorld(this);
       new CoderTest(this);
       new Ban(this);
       new Suspend(this);

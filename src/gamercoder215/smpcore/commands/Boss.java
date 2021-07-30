@@ -1095,8 +1095,12 @@ public class Boss implements CommandExecutor {
 		
 		bossGUI.setItem(49, t5Bosses);
 		
-		p.openInventory(bossGUI);
-		p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 3F, 0.5F);	
+		if (p.getWorld().getName().contains("world_titan")) {
+			p.sendMessage(ChatColor.RED + "You are too weak to summon a boss here...");
+		} else {
+			p.openInventory(bossGUI);
+			p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 3F, 0.5F);	
+		}
 		
 		return false;
 	}

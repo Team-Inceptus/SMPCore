@@ -68,7 +68,11 @@ public class CreaturesGuide implements CommandExecutor {
 		creatureGUI.setItem(10, iceGolem);
 		creatureGUI.setItem(19, ironHorse);
 		
-		p.openInventory(creatureGUI);
+		if (p.getWorld().getName().contains("world_titan")) {
+			p.sendMessage(ChatColor.RED + "You are too weak to summon a creature here...");
+		} else {
+			p.openInventory(creatureGUI);
+		}
 		
 		return false;
 	}
