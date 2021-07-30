@@ -73,9 +73,6 @@ commands:
     aliases: [editp, ep]
     permission: core.admin.editplayer
     permission-message: You do not have permission to use this command.
-  createworld:
-    description: Generate a world.
-    aliases: [cworld, createw]
   codertest:
     description: Main command for testing
     aliases: [ctest, ct, codert]
