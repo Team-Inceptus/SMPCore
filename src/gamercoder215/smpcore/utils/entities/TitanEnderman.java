@@ -3,6 +3,7 @@ package gamercoder215.smpcore.utils.entities;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.entity.LivingEntity;
 
 import net.minecraft.network.chat.ChatComponentText;
 import net.minecraft.world.entity.EntityTypes;
@@ -20,12 +21,15 @@ public class TitanEnderman extends EntityEnderman {
 	public TitanEnderman(Location loc) {
 		super(EntityTypes.w, ((CraftWorld) loc.getWorld()).getHandle());
 		
-		this.setHealth(1000f);
 		this.setCanPickupLoot(false);
 		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
 		this.setAggressive(true);
 		this.setCustomNameVisible(false);
 		this.setCustomName(new ChatComponentText(ChatColor.GREEN + "" +ChatColor.BOLD + "Titan Enderman"));
+		
+		LivingEntity en = (LivingEntity) this.getBukkitEntity();
+		
+		en.setHealth(1050f);
 	}
 	
     public void initPathfinder() {

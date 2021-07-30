@@ -2,6 +2,7 @@ package gamercoder215.smpcore.utils.entities;
 
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.entity.LivingEntity;
 
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.goal.PathfinderGoalLookAtPlayer;
@@ -20,14 +21,16 @@ public class TitanPiglin extends EntityPiglin {
 
 	public TitanPiglin(Location loc, boolean isBaby) {
 		super(EntityTypes.ao, ((CraftWorld) loc.getWorld()).getHandle());
-		
-		this.setHealth(1500f);
 		this.setImmuneToZombification(true);
 		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
 
 		if (isBaby) {
 			this.setBaby(true);
 		}
+		
+		LivingEntity en = (LivingEntity) this.getBukkitEntity();
+		
+		en.setHealth(1000f);
 		
 	}
 	
