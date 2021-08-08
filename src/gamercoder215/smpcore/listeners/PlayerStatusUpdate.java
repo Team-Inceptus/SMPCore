@@ -95,6 +95,17 @@ public class PlayerStatusUpdate implements Listener {
       if (plugin.getConfig().getConfigurationSection(uuid).get("rank") == null) {
     	  plugin.getConfig().getConfigurationSection(uuid).set("rank", "default");
       }
+ 
+      
+      if (plugin.getConfig().getConfigurationSection(uuid).get("pet_damage") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).set("pet_damage", 0);
+      }
+      if (plugin.getConfig().getConfigurationSection(uuid).get("pet_defense") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).set("pet_defense", 0);
+      }
+      if (plugin.getConfig().getConfigurationSection(uuid).get("pet_speed") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).set("pet_speed", 0);
+      }
       
       plugin.saveConfig();
       setRank(p);
