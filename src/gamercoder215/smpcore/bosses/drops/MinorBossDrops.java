@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import gamercoder215.smpcore.Main;
+import gamercoder215.smpcore.utils.fetcher.ItemFetcher;
 
 public class MinorBossDrops implements Listener {
 	
@@ -107,6 +108,14 @@ public class MinorBossDrops implements Listener {
 			deathLoc.getWorld().dropItemNaturally(deathLoc, new ItemStack(Material.EMERALD, 64));
 		} else if (en.getCustomName().contains("Netherite Skeleton")) {
 			deathLoc.getWorld().dropItemNaturally(deathLoc, new ItemStack(Material.NETHERITE_INGOT, 4));
+		} else if (en.getCustomName().contains("Witherman")) {
+			deathLoc.getWorld().dropItemNaturally(deathLoc, new ItemStack(Material.ENDER_PEARL, 16));
+			deathLoc.getWorld().dropItemNaturally(deathLoc, new ItemStack(Material.ENDER_PEARL, 16));
+			deathLoc.getWorld().dropItemNaturally(deathLoc, new ItemStack(Material.ENDER_PEARL, 16));
+			
+			if (r.nextBoolean() == true) {
+				deathLoc.getWorld().dropItemNaturally(deathLoc, ItemFetcher.getEndEssence());
+			}
 		}
 	}
 }
