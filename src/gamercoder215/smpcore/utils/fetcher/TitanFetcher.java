@@ -527,6 +527,47 @@ public class TitanFetcher {
 		return null;
 	}
 	
+	// TODO Titan Nether Items
+	
+	public static ItemStack getTitanPorkchop() {
+		ItemStack titanPork = new ItemStack(Material.PORKCHOP);
+		ItemMeta porkMeta = titanPork.getItemMeta();
+		
+		porkMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Titan Porkchop");
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.GRAY + "When consumed, your");
+		lore.add(ChatColor.GRAY + "food bar is completely");
+		lore.add(ChatColor.GRAY + "replenished.");
+		porkMeta.setLore(lore);
+		porkMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		porkMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+		
+		titanPork.setItemMeta(porkMeta);
+		
+		return titanPork;
+	}
+	
+	// TODO Titan End Items
+	
+	public static ItemStack getMitis() {
+		try {
+			ItemStack mitis = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Mitis\",\"color\":\"#F5F5F5\",\"italic\":false}'},SkullOwner:{Id:[I;-1027895906,1676627499,-1832298011,-1603800004],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTQ3ZGU4OTE0YWMyY2I5NzVmODU1ODdlMzNiZTk2N2E4MWVlNzUxYjQ1MzJhOWJmMmVhOWZiODVmMmQ3NTliZSJ9fX0=\"}]}}}}");
+			return mitis;
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static ItemStack getHardenedMitis() {
+		try {
+			ItemStack hardenedMitis = GeneralUtils.itemFromNBT("/give @p player_head{display:{Name:'{\"text\":\"Hardened Mitis\",\"color\":\"#696969\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-211773432,1670399169,-1754482048,-302969030],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTM3NjVmM2RiZTViZDE0ZDRmMWNiOTdlNTAxY2UyNDExNmVjYTg4YzNkYWRmNDYzMjE3MzVlZTgxNDFmNyJ9fX0=\"}]}}} 1");
+			return hardenedMitis;
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public static boolean isTitanItem(ItemStack item, TitanType type) {
 			if (!(item.hasItemMeta())) return false;
