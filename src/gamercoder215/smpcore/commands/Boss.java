@@ -916,6 +916,40 @@ public class Boss implements CommandExecutor {
 		ItemMeta airMeta = rottenAir.getItemMeta();
 		airMeta.setLore(airLore);
 		rottenAir.setItemMeta(airMeta);
+		
+		
+		ItemStack witherman = generateItem(Material.ENDER_EYE, "Witherman", ChatColor.RED, 3);
+		
+		ArrayList<String> withermanLore = new ArrayList<String>();
+		
+		withermanLore.add("");
+		withermanLore.add(ChatColor.RESET + "" + ChatColor.RED + "1,050 HP");
+		withermanLore.add("");
+		withermanLore.add(ChatColor.RESET + "" + ChatColor.DARK_GRAY + "" + ChatColor.UNDERLINE + "Spawn Cost");
+		withermanLore.add("");
+		withermanLore.add(ChatColor.RESET + "- " + ChatColor.WHITE + "Ender Pearl" + ChatColor.DARK_GRAY + " x64");
+		withermanLore.add("");
+		withermanLore.add(ChatColor.RESET + "" + ChatColor.DARK_GRAY + "" + ChatColor.UNDERLINE + "Abilities");
+		withermanLore.add("");
+		withermanLore.add(ChatColor.RESET + "" + ChatColor.DARK_GREEN + "Wither Enriched");
+		withermanLore.add(ChatColor.RESET + "" + ChatColor.GRAY + "Permanent " + ChatColor.DARK_RED + "Strength VI" + ChatColor.GRAY + ", ");
+		withermanLore.add(ChatColor.GOLD + "Fire Resistance II" + ChatColor.GRAY + ", and " + ChatColor.RED + "Regeneration" + ChatColor.GRAY + ".");
+		withermanLore.add("");
+		withermanLore.add(ChatColor.RESET + "" + ChatColor.DARK_PURPLE + "Ender Side");
+		withermanLore.add(ChatColor.RESET + "" + ChatColor.GRAY + "Scared of " + ChatColor.DARK_GRAY + "Withers" + ChatColor.GRAY + ".");
+		withermanLore.add("");
+		withermanLore.add(ChatColor.RESET + "" + ChatColor.DARK_GRAY + "Wither Spikes");
+		withermanLore.add(ChatColor.RESET + "" + ChatColor.GRAY + "Gain " + ChatColor.GRAY + "Wither III" + ChatColor.GRAY + " when it is damaged.");
+		withermanLore.add("");
+		withermanLore.add("");
+		withermanLore.add(ChatColor.RESET + "" + ChatColor.DARK_GRAY + "" + ChatColor.UNDERLINE + "Drops");
+		withermanLore.add("");
+		withermanLore.add(ChatColor.RESET + "- " + ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "End Essence" + ChatColor.DARK_GRAY + "x1" + ChatColor.GRAY + " (50% | True Chance)");
+		withermanLore.add(ChatColor.RESET + "- " + ChatColor.WHITE + "Ender Pearl" + ChatColor.DARK_GRAY + " x48" + ChatColor.GRAY + "(100%)");
+		
+		ItemMeta withermanMeta = witherman.getItemMeta();
+		withermanMeta.setLore(withermanLore);
+		witherman.setItemMeta(withermanMeta);
 		// T4
 		
 		ItemStack dimGuard = generateItem(Material.CLAY, ChatColor.BOLD + "Dimensional Guard", ChatColor.GRAY, 4);
@@ -1066,6 +1100,7 @@ public class Boss implements CommandExecutor {
 		bossGUI.setItem(28, blazeKing);
 		bossGUI.setItem(29, spiderQueen);
 		bossGUI.setItem(30, rottenAir);
+		bossGUI.setItem(31, witherman);
 		// T4 Sets
 		bossGUI.setItem(37, snowPrince);
 		bossGUI.setItem(38, dimGuard);
