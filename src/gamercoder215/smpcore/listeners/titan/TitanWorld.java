@@ -289,7 +289,7 @@ public class TitanWorld implements Listener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 		Player p = e.getPlayer();
-		if (!(p.getWorld().getName().equalsIgnoreCase("world_titan"))) return;
+		if (!(p.getWorld().getName().contains("world_titan"))) return;
 		if (p.getGameMode().equals(GameMode.CREATIVE)) return;
 		e.setDropItems(false);
 		e.setCancelled(true);
@@ -319,7 +319,7 @@ public class TitanWorld implements Listener {
 	public void onDamage(EntityDamageEvent e) {
 		if (!(e.getEntityType().equals(EntityType.PLAYER))) return;
 		Player p = (Player) e.getEntity();
-		if (!(p.getWorld().getName().equalsIgnoreCase("world_titan"))) return;
+		if (!(p.getWorld().getName().contains("world_titan"))) return;
 		
 		if (e.getCause().equals(DamageCause.LAVA)) {
 			e.setDamage(100);
@@ -457,7 +457,7 @@ public class TitanWorld implements Listener {
 	@EventHandler
 	public void onHarvest(PlayerHarvestBlockEvent e) {
 		Player p = e.getPlayer();
-		if (!(p.getWorld().getName().equalsIgnoreCase("world_titan"))) return;
+		if (!(p.getWorld().getName().contains("world_titan"))) return;
 		
 		if (e.getHarvestedBlock().getType().equals(Material.CAVE_VINES_PLANT) || e.getHarvestedBlock().getType().equals(Material.CAVE_VINES)) {	
 			e.setCancelled(true);
@@ -469,7 +469,7 @@ public class TitanWorld implements Listener {
 	public void onMove(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
 		if (p.isOp()) return;
-		if (!(p.getWorld().getName().equalsIgnoreCase("world_titan"))) return;
+		if (!(p.getWorld().getName().contains("world_titan"))) return;
 		if (!(p.getGameMode().equals(GameMode.ADVENTURE))) {
 			p.setGameMode(GameMode.ADVENTURE);
 		}
@@ -479,7 +479,7 @@ public class TitanWorld implements Listener {
 	public void onTeleport(PlayerTeleportEvent e) {
 		Player p = e.getPlayer();
 		if (p.isOp()) return;
-		if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
+		if (p.getWorld().getName().contains("world_titan")) {
 			p.setGameMode(GameMode.ADVENTURE);
 		} else {
 			p.setGameMode(GameMode.SURVIVAL);
@@ -523,7 +523,7 @@ public class TitanWorld implements Listener {
 	public void onInventoryOpen(PlayerInteractEvent e) {
 		Player p = (Player) e.getPlayer();
 		
-		if (!(p.getWorld().getName().equalsIgnoreCase("world_titan"))) return;
+		if (!(p.getWorld().getName().contains("world_titan"))) return;
 		
 		if (e.getClickedBlock() == null) return;
 		
