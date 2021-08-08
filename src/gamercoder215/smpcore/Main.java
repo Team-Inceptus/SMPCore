@@ -29,6 +29,7 @@ import gamercoder215.smpcore.bosses.abilities.PhantomKingAbilities;
 import gamercoder215.smpcore.bosses.abilities.SnowPrinceAbilities;
 import gamercoder215.smpcore.bosses.abilities.SpiderQueenAbilities;
 import gamercoder215.smpcore.bosses.abilities.TitanAbilities;
+import gamercoder215.smpcore.bosses.abilities.WithermanAbilities;
 import gamercoder215.smpcore.bosses.abilities.ZombieKingAbilities;
 import gamercoder215.smpcore.bosses.drops.AraneaDrops;
 import gamercoder215.smpcore.bosses.drops.BlazeKingDrops;
@@ -73,6 +74,7 @@ import gamercoder215.smpcore.listeners.PlayerDrops;
 import gamercoder215.smpcore.listeners.PlayerStatusUpdate;
 import gamercoder215.smpcore.listeners.titan.TitanEnchants;
 import gamercoder215.smpcore.listeners.titan.TitanWorld;
+import gamercoder215.smpcore.utils.InventoryUtils;
 
 public class Main extends JavaPlugin {
 	
@@ -132,7 +134,7 @@ public class Main extends JavaPlugin {
       new Suspend(this);
       new GetStatistic(this);
       new SetRank(this);
-      // Listeners
+      // Listeners & Utils
       new PlayerStatusUpdate(this);
       new GUIManagers(this);
       new PlayerDrops(this);
@@ -143,6 +145,8 @@ public class Main extends JavaPlugin {
       new TitanWorld(this);
       new TitanEnchants(this);
       new TitanAdvancements(this);
+      
+      new InventoryUtils(this);
       // Abilities
       new WorldAbilities(this);
       new InfiniBlocks(this);
@@ -160,6 +164,8 @@ public class Main extends JavaPlugin {
       
       new BlazeKingAbilities(this);
       new BlazeKingDrops(this);
+      
+      new WithermanAbilities(this);
       
       new SnowPrinceAbilities(this);
       new SnowPrinceDrops(this);
