@@ -46,6 +46,8 @@ commands:
   invsee:
     description: Look at a player's inventory.
     aliases: [inventorysee, isee, inventorys]
+    permission: core.admin.invsee
+    permission-message: You do not have permission to use this command.
   flyspeed:
     description: Control your fly speed.
     aliases: [fspeed, flys, fs]
@@ -53,6 +55,8 @@ commands:
     permission-message: You do not have permission to use this command.
   ecsee:
     description: Look at a player's ender chest.
+    permission: core.admin.invsee
+    permission-message: You do not have permission to use this command.
   allowflight:
     description: Allows or disallows a player's flight.
   getcustomitem:  
