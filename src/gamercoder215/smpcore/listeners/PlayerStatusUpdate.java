@@ -14,7 +14,7 @@ import gamercoder215.smpcore.Main;
 
 public class PlayerStatusUpdate implements Listener {
 	
-	private Main plugin;
+	protected Main plugin;
    
 	public PlayerStatusUpdate(Main plugin) {
 		this.plugin = plugin;
