@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Statistic;
+import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,9 +34,11 @@ import gamercoder215.smpcore.listeners.titan.TitanEnchantment.TitanEnchant;
 import gamercoder215.smpcore.utils.AdvancementMessages;
 import gamercoder215.smpcore.utils.TradeInventories;
 import gamercoder215.smpcore.utils.TradeParser;
+import gamercoder215.smpcore.utils.entities.Witherman;
 import gamercoder215.smpcore.utils.fetcher.EnchantmentFetcher;
 import gamercoder215.smpcore.utils.fetcher.ItemFetcher;
 import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
+import net.minecraft.server.level.WorldServer;
 
 public class GUIManagers implements Listener {
    private Main plugin;
@@ -105,6 +108,8 @@ public class GUIManagers implements Listener {
    public void onClick(InventoryClickEvent e) {
 	  if (e.getWhoClicked() == null) return;
       Player p = (Player)e.getWhoClicked();
+      WorldServer wServer = ((CraftWorld) p.getWorld()).getHandle();
+      
       if (e.getClickedInventory() == null) return;
       Inventory inventory = e.getClickedInventory();
       
@@ -409,8 +414,45 @@ public class GUIManagers implements Listener {
         		 p.getInventory().removeItem(new ItemStack(Material.STRING, 64));
         		 p.getInventory().removeItem(new ItemStack(Material.STRING, 64));
         		 p.sendMessage(ChatColor.GRAY + "The Spider Queen has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.GRAY + "String!");
-        		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon spider %x% %y% %z% {Silent:1b,Glowing:0b,CustomNameVisible:1b,Health:800f,CustomName:'{\"text\":\"Spider Queen\",\"color\":\"gray\",\"bold\":true,\"italic\":false}',ActiveEffects:[{Id:1b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:7b,Duration:200000,ShowParticles:0b},{Id:8b,Amplifier:3b,Duration:200000,ShowParticles:0b},{Id:10b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:28b,Amplifier:2b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:800},{Name:generic.follow_range,Base:150},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_knockback,Base:5}]}"
-        				 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY())).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
+        		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon spider ~ ~ ~ {Silent:1b,Glowing:0b,CustomNameVisible:1b,Health:800f,CustomName:'{\"text\":\"Spider Queen\",\"color\":\"gray\",\"bold\":true,\"italic\":false}',ActiveEffects:[{Id:1b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:7b,Duration:200000,ShowParticles:0b},{Id:8b,Amplifier:3b,Duration:200000,ShowParticles:0b},{Id:10b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:28b,Amplifier:2b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:800},{Name:generic.follow_range,Base:150},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_knockback,Base:5}]}");
+                 plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
+                 
+                 int bossSummons = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons");
+                 
+            	 if (bossSummons == 1) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(1, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 5) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(2, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 15) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(3, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 30) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(4, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 55) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(5, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 70) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(6, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 125) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(7, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 }
+        	 }
+         } else if (clickedItem.getItemMeta().getDisplayName().contains("Witherman")) {
+        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.ENDER_PEARL), 64))) {
+        		 p.sendMessage(notEnoughMats);
+        	 } else {
+        		 p.getInventory().removeItem(new ItemStack(Material.ENDER_PEARL, 16), new ItemStack(Material.ENDER_PEARL, 16), new ItemStack(Material.ENDER_PEARL, 16), new ItemStack(Material.ENDER_PEARL, 16));
+        		 
+        		 p.sendMessage(ChatColor.DARK_AQUA + "A Witherman has spawned from " + ChatColor.GRAY + p.getName() + "'s " + ChatColor.DARK_AQUA + "Pearls!");
+        		 Witherman witherman = new Witherman(p.getLocation());
+        		 wServer.addEntity(witherman);
+        		 
+        		 
                  plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
                  
                  int bossSummons = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons");
