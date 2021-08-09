@@ -39,11 +39,10 @@ import eu.endercentral.crazy_advancements.NameKey;
 import eu.endercentral.crazy_advancements.manager.AdvancementManager;
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.advancements.TitanAdvancements;
-import gamercoder215.smpcore.utils.entities.EnderSkeleton;
 import gamercoder215.smpcore.utils.entities.TitanEnderman;
 import gamercoder215.smpcore.utils.entities.TitanPiglin;
-import gamercoder215.smpcore.utils.entities.TitanSkeleton;
 import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
+import net.minecraft.server.level.WorldServer;
 
 public class TitanWorld implements Listener {
 	
@@ -325,13 +324,14 @@ public class TitanWorld implements Listener {
 				}
 			}.runTaskLater(plugin, 20 * (r.nextInt(15 - 5) + 5));
 		}
-		m.saveProgress(p, null);
+		m.saveProgress(p, "titan");
 	}
 	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 		Player p = e.getPlayer();
 		if (!(p.getWorld().getName().contains("world_titan"))) return;
+		if (p.getWorld().getName().equalsIgnoreCase("world_titan_end")) return;
 		if (p.getGameMode().equals(GameMode.CREATIVE)) return;
 		e.setDropItems(false);
 		e.setCancelled(true);
@@ -341,6 +341,8 @@ public class TitanWorld implements Listener {
 		if (b.getType() == null) return;
 		
 		// Drops
+		if (matchTitanMaterial(b.getType()) == null) return;
+		
 		TitanMaterial mat = matchTitanMaterial(b.getType());
 		ItemStack drop = parseMaterial(mat);
 		p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 3F, 2F);
@@ -526,6 +528,8 @@ public class TitanWorld implements Listener {
 		} else {
 			p.setGameMode(GameMode.SURVIVAL);
 		}
+		
+		
 	}
 	
 	@EventHandler
@@ -588,19 +592,21 @@ public class TitanWorld implements Listener {
 		if (e.getEntity() == null) return;
 		if (!(e.getEntity().getWorld().getName().contains("world_titan"))) return;
 		
+		WorldServer wrld = ((CraftWorld) e.getEntity().getWorld()).getHandle();
+		
 		if (e.getEntityType().equals(EntityType.ENDERMAN)) {
 			e.setCancelled(true);
-			((CraftWorld) e.getEntity().getWorld()).getHandle().addEntity(new TitanEnderman(e.getLocation()));
 			
-			if (r.nextInt(100) < 5) {
-				((CraftWorld) e.getEntity().getWorld()).getHandle().addEntity(new EnderSkeleton(e.getLocation()));
+			if (r.nextInt(100) < 10) {
+				TitanEnderman en = new TitanEnderman(e.getLocation());
+				wrld.addEntity(en);
 			}
 		} else if (e.getEntityType().equals(EntityType.PIGLIN)) {
 			e.setCancelled(true);
-			((CraftWorld) e.getEntity().getWorld()).getHandle().addEntity(new TitanPiglin(e.getLocation(), r.nextBoolean()));
 			
-			if (r.nextInt(100) < 20) {
-				((CraftWorld) e.getEntity().getWorld()).getHandle().addEntity(new TitanSkeleton(e.getLocation()));
+			if (r.nextInt(100) < 10) {
+				TitanPiglin en = new TitanPiglin(e.getLocation(), r.nextBoolean());
+				wrld.addEntity(en);
 			}
 		}
 	}
