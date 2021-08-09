@@ -5,19 +5,13 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.WorldCreator;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.comphenix.protocol.wrappers.EnumWrappers.PlayerDigType;
 
 import gamercoder215.smpcore.abilities.InfiniBlocks;
 import gamercoder215.smpcore.abilities.PerussiWeapons;
@@ -107,21 +101,6 @@ public class Main extends JavaPlugin {
 	};
 	
 	Random r = new Random();
-	private void interceptPackets() {
-		  pm.addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL, PacketType.Play.Client.BLOCK_DIG) {
-			@SuppressWarnings("unused")
-			public void onPacket(PacketEvent e) {
-				  Player p = e.getPlayer();
-				  if (!(p.getWorld().getName().equalsIgnoreCase("world_titan_end")) && !(p.getWorld().getName().equalsIgnoreCase("world_titan_nether"))) return;
-				  
-				  EnumWrappers.PlayerDigType digType = e.getPacket().getPlayerDigTypes().getValues().get(0);
-				  
-				  if (digType.equals(PlayerDigType.ABORT_DESTROY_BLOCK)) {
-					  p.removePotionEffect(PotionEffectType.SLOW_DIGGING);
-				  }
-			  }
-		  });
-	}
    public void onEnable() {
 	  pm = ProtocolLibrary.getProtocolManager();
 	   
@@ -142,7 +121,21 @@ public class Main extends JavaPlugin {
 	  WorldCreator titanWorldEnd = new WorldCreator("world_titan_end");
 	  Bukkit.createWorld(titanWorldEnd);
 	  
-	  interceptPackets();
+	  // World-Specific Modifications
+	  new BukkitRunnable() {
+		  public void run() {
+			  Bukkit.getOnlinePlayers().forEach(p -> {
+				  if (p.getWorld().getName().equalsIgnoreCase("world_titan_end")) {
+					  p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 4, 6, true, false, false));
+					  p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 4, 1, true, false, false));
+				  }
+				  
+				  if (p.getWorld().getName().equalsIgnoreCase("world_titan_end") || p.getWorld().getName().equalsIgnoreCase("world_titan_nether")) {
+					  p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 4, 3, true, false, false));
+				  }
+			  });
+		  }
+	  }.runTaskTimer(this, 0, 2);
 
 	  
 	  // Regular Commands
