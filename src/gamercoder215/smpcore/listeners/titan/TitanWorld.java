@@ -334,6 +334,8 @@ public class TitanWorld implements Listener {
 		if (p.getWorld().getName().equalsIgnoreCase("world_titan_end")) return;
 		if (p.getGameMode().equals(GameMode.CREATIVE)) return;
 		e.setDropItems(false);
+		
+		if (p.isOp()) return;
 		e.setCancelled(true);
 		
 		Block b = e.getBlock();
