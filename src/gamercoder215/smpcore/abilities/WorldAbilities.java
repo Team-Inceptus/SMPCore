@@ -31,12 +31,14 @@ import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.ExpBottleEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -50,6 +52,7 @@ import org.bukkit.util.Vector;
 
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.listeners.GUIManagers;
+import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 
 public class WorldAbilities implements Listener {
 	
@@ -578,6 +581,23 @@ public class WorldAbilities implements Listener {
 		}
 	}
 	
+	
+	@EventHandler
+	public void onDamageBoots(EntityDamageEvent e) {
+		if (!(e.getEntity() instanceof Player)) return;
+		
+		Player p = (Player) e.getEntity();
+		
+		if (p.getInventory().getBoots() == null) return;
+		
+		if (p.getInventory().getBoots().isSimilar(TitanFetcher.getMitisBoots()) && e.getCause().equals(DamageCause.FALL)) {
+			e.setCancelled(true);
+			double bounceY = Math.abs(p.getFallDistance()) / 20;
+			p.setVelocity(new Vector(p.getVelocity().getX(), bounceY, p.getVelocity().getZ()));
+		}
+		
+	}
+	
 	@EventHandler
 	public void onDamageDefenseChestplate(EntityDamageByEntityEvent e) {
 		EntityType et = e.getEntity().getType();
@@ -602,6 +622,7 @@ public class WorldAbilities implements Listener {
 			}
 		}
 	}
+
 	
 	@EventHandler
 	public void onDamagePlayer(EntityDamageByEntityEvent e) {
@@ -657,6 +678,49 @@ public class WorldAbilities implements Listener {
 			Vector facing = p.getLocation().getDirection();
 			p.teleport(e.getHook().getLocation().setDirection(facing));
 			p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 3F, 1F);
+		}
+	}
+	
+	ArrayList<UUID> gappleCooldown = new ArrayList<UUID>();
+	
+	@EventHandler
+	public void onConsume(PlayerItemConsumeEvent e) {
+		Player p = e.getPlayer();
+		if (e.getItem() == null) return;
+		
+		if (e.getItem().isSimilar(TitanFetcher.getTitanPorkchop())) {
+			p.setFoodLevel(20);
+		} else if (e.getItem().isSimilar(TitanFetcher.getTitanGapple())) {
+			e.setCancelled(true);
+			
+			if (gappleCooldown.contains(p.getUniqueId())) {
+				p.sendMessage(ChatColor.RED + "Your Titan Gapple is currently on a cooldown!");
+			} else {
+				p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 3F, 1F);
+				
+				p.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20 * 60 * 8, 14, true, false, true));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100, 6, true, false, true));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20 * 60 * 8, 1, true, false, true));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 60 * 8, 5, true, false, true));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20 * 60 * 8, 8, true, false, true));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 20 * 60 * 8, 1, true, false, true));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 60 * 8, 9, true, false, true));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 60 * 8, 2, true, false, true));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20 * 60 * 8, 1, true, false, true));
+				
+				p.setFoodLevel(p.getFoodLevel() + 6);
+				
+				if (!(p.isOp())) {
+					gappleCooldown.add(p.getUniqueId());
+					
+					new BukkitRunnable() {
+						public void run() {
+							gappleCooldown.remove(p.getUniqueId());
+							p.sendMessage(ChatColor.GREEN + "Your Titan Gapple cooldown has been refreshed!");
+						}
+					}.runTaskLater(plugin, 20 * 60 * 15);
+				}
+			}
 		}
 	}
 	
