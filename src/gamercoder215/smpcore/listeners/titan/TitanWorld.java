@@ -70,9 +70,20 @@ public class TitanWorld implements Listener {
 		ENCHANTED_FERRUM,
 		FERRUM_BLOCK,
 		CANTONIUM,
-		CONSTIBILIS
+		CONSTIBILIS,
+		// Nether
+		MITIS,
+		SOFTENED_MITIS,
+		CRYSTAL_MITIS,
+		RED_MITIS,
+		BLACK_MITIS,
+		GOLDEN_MITIS,
+		// End
+		HARDENED_MITIS
+		
+		
 	}
-	public TitanMaterial matchTitanMaterial(Material mat, Biome biome) {
+	public TitanMaterial matchTitanMaterial(Material mat) {
 		if (mat.equals(Material.DEEPSLATE)) return TitanMaterial.SAXUM;
 		else if (mat.equals(Material.TUFF)) return TitanMaterial.OSSUM;
 		else if (mat.equals(Material.SOUL_SAND)) return TitanMaterial.EXITATUS;
@@ -90,6 +101,13 @@ public class TitanWorld implements Listener {
 		else if (mat.equals(Material.DEEPSLATE_COPPER_ORE)) return TitanMaterial.IABESIUM;
 		else if (mat.equals(Material.WARPED_WART_BLOCK)) return TitanMaterial.PRAEFORTIS_BLOCK;
 		else if (mat.equals(Material.WARPED_FUNGUS)) return TitanMaterial.PRAEFORTIS_SHROOM;
+		else if (mat.equals(Material.END_STONE)) return TitanMaterial.MITIS;
+		else if (mat.equals(Material.STONE)) return TitanMaterial.HARDENED_MITIS;
+		else if (mat.equals(Material.SEA_LANTERN)) return TitanMaterial.SOFTENED_MITIS;
+		else if (mat.equals(Material.EMERALD_BLOCK)) return TitanMaterial.CRYSTAL_MITIS;
+		else if (mat.equals(Material.BLACKSTONE)) return TitanMaterial.BLACK_MITIS;
+		else if (mat.equals(Material.CRIMSON_NYLIUM) || mat.equals(Material.CRIMSON_HYPHAE)) return TitanMaterial.RED_MITIS;
+		else if (mat.equals(Material.GILDED_BLACKSTONE)) return TitanMaterial.GOLDEN_MITIS;
 		else return null;
 	}
 	
@@ -133,7 +151,26 @@ public class TitanWorld implements Listener {
 				return TitanFetcher.getPraefortis();
 			} else if (mat.equals(TitanMaterial.PRAEFORTIS_SHROOM)) {
 				return TitanFetcher.getPraefortisShroom();
-			} else return null;
+			}
+			// Nether
+			else if (mat.equals(TitanMaterial.SOFTENED_MITIS)) {
+				return TitanFetcher.getSoftenedMitis();
+			} else if (mat.equals(TitanMaterial.CRYSTAL_MITIS)) {
+				return TitanFetcher.getCrystalMitis();
+			} else if (mat.equals(TitanMaterial.BLACK_MITIS)) {
+				return TitanFetcher.getBlackMitis();
+			} else if (mat.equals(TitanMaterial.RED_MITIS)) {
+				return TitanFetcher.getRedMitis();
+			} else if (mat.equals(TitanMaterial.GOLDEN_MITIS)) {
+				return TitanFetcher.getGoldenMitis();
+			}
+			// End
+			else if (mat.equals(TitanMaterial.MITIS)) {
+				return TitanFetcher.getMitis();
+			} else if (mat.equals(TitanMaterial.HARDENED_MITIS)) {
+				return TitanFetcher.getHardenedMitis();
+			}
+			else return null;
 		
 		} catch (CommandSyntaxException e) {
 			return null;
@@ -299,7 +336,7 @@ public class TitanWorld implements Listener {
 		if (b.getType() == null) return;
 		
 		// Drops
-		TitanMaterial mat = matchTitanMaterial(b.getType(), p.getWorld().getBiome(p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ()));
+		TitanMaterial mat = matchTitanMaterial(b.getType());
 		ItemStack drop = parseMaterial(mat);
 		p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 3F, 2F);
 		
@@ -469,7 +506,7 @@ public class TitanWorld implements Listener {
 	public void onMove(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
 		if (p.isOp()) return;
-		if (!(p.getWorld().getName().contains("world_titan"))) return;
+		if (!(p.getWorld().getName().equalsIgnoreCase("world_titan"))) return;
 		if (!(p.getGameMode().equals(GameMode.ADVENTURE))) {
 			p.setGameMode(GameMode.ADVENTURE);
 		}
@@ -479,7 +516,7 @@ public class TitanWorld implements Listener {
 	public void onTeleport(PlayerTeleportEvent e) {
 		Player p = e.getPlayer();
 		if (p.isOp()) return;
-		if (p.getWorld().getName().contains("world_titan")) {
+		if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 			p.setGameMode(GameMode.ADVENTURE);
 		} else {
 			p.setGameMode(GameMode.SURVIVAL);
@@ -512,9 +549,17 @@ public class TitanWorld implements Listener {
 	
 	@EventHandler
 	public void onPlace(BlockPlaceEvent e) {
-		// Player p = e.getPlayer();
+		Player p = e.getPlayer();
 		ItemStack item = e.getItemInHand();
 		if (TitanFetcher.getTitanWorldItems().contains(item)) {
+			e.setCancelled(true);
+		}
+		
+		if ((p.getWorld().getName().equalsIgnoreCase("world_titan") || p.getWorld().getName().equalsIgnoreCase("world_titan_nether")) && !(p.isOp())) {
+			e.setCancelled(true);
+		}
+		
+		if (p.getWorld().getName().equalsIgnoreCase("world_titan_end") && !(p.isOp()) && (Math.abs(p.getLocation().getX()) < 31 || Math.abs(p.getLocation().getZ()) < 31)) {
 			e.setCancelled(true);
 		}
 	}
