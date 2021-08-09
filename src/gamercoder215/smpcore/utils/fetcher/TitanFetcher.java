@@ -547,6 +547,64 @@ public class TitanFetcher {
 		return titanPork;
 	}
 	
+	public static ItemStack getSoftenedMitis() {
+		try {
+			ItemStack softenedMitis = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Softened Mitis\",\"color\":\"#2AC7AD\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1526982026,1365196975,-1324047174,245731363],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODZkYjVlZDY2MDZjZDQ2MzkxNGNhZDZmZDlkYWRjMTQ2NGE1MTVlMjFhYTMxNmE1ZDZhZGY4MzE0YWY5Y2QifX19\"}]}}}}");
+			return softenedMitis;
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static ItemStack getCrystalMitis() {
+		try {
+			ItemStack crystalMitis = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Crystalized Mitis\",\"color\":\"#5EFF00\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1689374481,-1707195267,-2142533999,-163636692],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2YyMzU1YzYwYzFmZDk1ZjMzMWFkZDUyNjNjMjhmMTE0NWY2ODIzOWVmMmMwODFhZjU1Zjg4MDI0MTc1ZWM0NyJ9fX0=\"}]}}}}");
+			return crystalMitis;
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static ItemStack getRedMitis() {
+		ItemStack redMitis = new ItemStack(Material.CRIMSON_NYLIUM);
+		ItemMeta redMeta = redMitis.getItemMeta();
+		redMeta.setDisplayName(ChatColor.RED + "Red Mitis");
+		redMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+		redMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		
+		redMitis.setItemMeta(redMeta);
+		
+		return redMitis;
+	}
+	
+	public static ItemStack getBlackMitis() {
+		ItemStack blackMitis = new ItemStack(Material.POLISHED_BLACKSTONE_BUTTON);
+		ItemMeta blackMeta = blackMitis.getItemMeta();
+		
+		blackMeta.setDisplayName(GeneralUtils.hexToChat("383838", "Black Mitis Shard"));
+		blackMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+		blackMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		
+		blackMitis.setItemMeta(blackMeta);
+		
+		return blackMitis;
+	}
+	
+	public static ItemStack getGoldenMitis() {
+		ItemStack goldenMitis = new ItemStack(Material.GOLD_NUGGET);
+		ItemMeta goldenMeta = goldenMitis.getItemMeta();
+		
+		goldenMeta.setDisplayName(ChatColor.GOLD + "Golden Mitis");
+		goldenMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+		goldenMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		
+		goldenMitis.setItemMeta(goldenMeta);
+		
+		return goldenMitis;
+	}
+	
 	// TODO Titan End Items
 	
 	public static ItemStack getMitis() {
@@ -561,12 +619,38 @@ public class TitanFetcher {
 	
 	public static ItemStack getHardenedMitis() {
 		try {
-			ItemStack hardenedMitis = GeneralUtils.itemFromNBT("/give @p player_head{display:{Name:'{\"text\":\"Hardened Mitis\",\"color\":\"#696969\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-211773432,1670399169,-1754482048,-302969030],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTM3NjVmM2RiZTViZDE0ZDRmMWNiOTdlNTAxY2UyNDExNmVjYTg4YzNkYWRmNDYzMjE3MzVlZTgxNDFmNyJ9fX0=\"}]}}} 1");
+			ItemStack hardenedMitis = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Hardened Mitis\",\"color\":\"#878787\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-211773432,1670399169,-1754482048,-302969030],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTM3NjVmM2RiZTViZDE0ZDRmMWNiOTdlNTAxY2UyNDExNmVjYTg4YzNkYWRmNDYzMjE3MzVlZTgxNDFmNyJ9fX0=\"}]}}}}");
 			return hardenedMitis;
 		} catch (CommandSyntaxException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static ItemStack getMitisEssence() {
+		ItemStack mitisEssence = new ItemStack(Material.CYAN_DYE);
+		ItemMeta essenceMeta = mitisEssence.getItemMeta();
+		
+		essenceMeta.setDisplayName(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Mitis Essence");
+		essenceMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+		essenceMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		
+		mitisEssence.setItemMeta(essenceMeta);
+		
+		return mitisEssence;
+	}
+	
+	public static ItemStack getMitisHelmet() {
+		ItemStack mitisHelmet = new ItemStack(Material.NETHERITE_HELMET);
+		ItemMeta mitisMeta = mitisHelmet.getItemMeta();
+		
+		mitisMeta.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Mitis Helmet");
+		mitisMeta.setUnbreakable(true);
+		mitisMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 400, true);
+		
+		mitisHelmet.setItemMeta(mitisMeta);
+		
+		return mitisHelmet;
 	}
 	
 	public static boolean isTitanItem(ItemStack item, TitanType type) {
