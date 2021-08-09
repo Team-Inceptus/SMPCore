@@ -4,26 +4,24 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Statistic;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerStatisticIncrementEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanWorldEnd implements Listener {
+	
 	
 	protected Main plugin;
 	
@@ -45,26 +43,13 @@ public class TitanWorldEnd implements Listener {
 	}
 	
 	@EventHandler
-	public void onBlockDamageUnbreakables(BlockDamageEvent e) {
-		if (e.getBlock() == null) return;
-		if (!(e.getBlock().getWorld().getName().equalsIgnoreCase("world_titan_end"))) return;
+	public void onDamage(EntityDamageEvent e) {
+		if (!(e.getEntity() instanceof Player)) return;
+		Player p = (Player) e.getEntity();
 		
-		Material mat = e.getBlock().getType();
+		if (!(p.getWorld().getName().equalsIgnoreCase("world_titan_end"))) return;
 		
-		if (mat.equals(Material.END_STONE_BRICKS) || mat.equals(Material.BLACKSTONE) || mat.equals(Material.CRYING_OBSIDIAN)) e.setCancelled(true);
-	}
-	
-	@EventHandler
-	public void onJump(PlayerStatisticIncrementEvent e) {
-		if (e.getPlayer() == null) return;
-		if (e.getStatistic() == null) return;
-		if (!(e.getStatistic().equals(Statistic.JUMP))) return;
-		if (!(e.getPlayer().getWorld().getName().equalsIgnoreCase("world_titan_end"))) return;
-		
-		Player p = e.getPlayer();
-		
-		p.setVelocity(new Vector(p.getVelocity().getX(), p.getVelocity().getY() * 3, p.getVelocity().getZ()));
-		
+		if (e.getCause().equals(DamageCause.FALL)) e.setCancelled(true);
 	}
 	
 	@EventHandler
@@ -80,26 +65,7 @@ public class TitanWorldEnd implements Listener {
 			b.getWorld().dropItemNaturally(b.getLocation(), TitanFetcher.getMitis());
 		} else if (mat.equals(Material.STONE)) {
 			b.getWorld().dropItemNaturally(b.getLocation(), TitanFetcher.getHardenedMitis());
-		}
-	}
-	
-	@EventHandler
-	public void onBlockDamage(BlockDamageEvent e) {
-		if (e.getBlock() == null) return;
-		if (!(e.getBlock().getWorld().getName().equalsIgnoreCase("world_titan_end"))) return;
-		
-		Player p = e.getPlayer();
-		ItemStack tool = e.getItemInHand();
-		Material toolType = tool.getType();
-		Material blockType = e.getBlock().getType();
-		
-		if (toolType != Material.NETHERITE_PICKAXE) e.setCancelled(true);
-		
-		if (blockType.equals(Material.END_STONE)) {
-			p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 3, 1, true, false, false));
-		} else if (blockType.equals(Material.STONE)) {
-			p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 3, 8, true, false, false));
-		}
+		} else e.setCancelled(true);
 	}
 	
 	@EventHandler
