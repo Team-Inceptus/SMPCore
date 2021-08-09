@@ -1,5 +1,7 @@
 package gamercoder215.smpcore.listeners.titan;
 
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
@@ -29,6 +31,8 @@ public class TitanWorldEnd implements Listener {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
+	
+	Random r = new Random();
 	
 	@EventHandler
 	public void onDragonBreakBlock(EntityExplodeEvent e) {
@@ -87,10 +91,14 @@ public class TitanWorldEnd implements Listener {
 		Player p = e.getPlayer();
 		ItemStack tool = e.getItemInHand();
 		Material toolType = tool.getType();
+		Material blockType = e.getBlock().getType();
 		
 		if (toolType != Material.NETHERITE_PICKAXE) e.setCancelled(true);
-		else {
-			p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 2, 1, true, false, false));
+		
+		if (blockType.equals(Material.END_STONE)) {
+			p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 3, 1, true, false, false));
+		} else if (blockType.equals(Material.STONE)) {
+			p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 3, 8, true, false, false));
 		}
 	}
 	
