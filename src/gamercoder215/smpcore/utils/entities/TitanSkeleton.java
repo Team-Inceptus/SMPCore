@@ -1,6 +1,7 @@
 package gamercoder215.smpcore.utils.entities;
 
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
@@ -26,6 +27,7 @@ public class TitanSkeleton extends EntitySkeleton {
 		
 		LivingEntity en = (LivingEntity) this.getBukkitEntity();
 		
+		en.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(200f);
 		en.setHealth(200f);
 		en.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 1, true, false, false));
 	}

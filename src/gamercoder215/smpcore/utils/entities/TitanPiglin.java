@@ -1,6 +1,7 @@
 package gamercoder215.smpcore.utils.entities;
 
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 
@@ -30,6 +31,7 @@ public class TitanPiglin extends EntityPiglin {
 		
 		LivingEntity en = (LivingEntity) this.getBukkitEntity();
 		
+		en.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(1000f);
 		en.setHealth(1000f);
 		
 	}
