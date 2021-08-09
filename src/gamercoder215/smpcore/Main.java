@@ -5,8 +5,19 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.comphenix.protocol.wrappers.EnumWrappers.PlayerDigType;
 
 import gamercoder215.smpcore.abilities.InfiniBlocks;
 import gamercoder215.smpcore.abilities.PerussiWeapons;
@@ -80,6 +91,8 @@ import gamercoder215.smpcore.utils.InventoryUtils;
 
 public class Main extends JavaPlugin {
 	
+	public ProtocolManager pm;
+	
 	String[] infoMessages = {
 			ChatColor.RED + "Subscribe to GamerCoder215 for Updates, Feed, and Quality Content! https://bit.ly/sub2gamer",
 			ChatColor.AQUA + "You can chat with other players in your world only by doing /wc <message>.",
@@ -94,7 +107,23 @@ public class Main extends JavaPlugin {
 	};
 	
 	Random r = new Random();
+	private void interceptPackets() {
+		  pm.addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL, PacketType.Play.Client.BLOCK_DIG) {
+			@SuppressWarnings("unused")
+			public void onPacket(PacketEvent e) {
+				  Player p = e.getPlayer();
+				  if (!(p.getWorld().getName().equalsIgnoreCase("world_titan_end")) && !(p.getWorld().getName().equalsIgnoreCase("world_titan_nether"))) return;
+				  
+				  EnumWrappers.PlayerDigType digType = e.getPacket().getPlayerDigTypes().getValues().get(0);
+				  
+				  if (digType.equals(PlayerDigType.ABORT_DESTROY_BLOCK)) {
+					  p.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+				  }
+			  }
+		  });
+	}
    public void onEnable() {
+	  pm = ProtocolLibrary.getProtocolManager();
 	   
 	  // Info Messages
 	  new BukkitRunnable() {
@@ -113,7 +142,8 @@ public class Main extends JavaPlugin {
 	  WorldCreator titanWorldEnd = new WorldCreator("world_titan_end");
 	  Bukkit.createWorld(titanWorldEnd);
 	  
-	  // Other Tasks before Load
+	  interceptPackets();
+
 	  
 	  // Regular Commands
       new Help(this);
