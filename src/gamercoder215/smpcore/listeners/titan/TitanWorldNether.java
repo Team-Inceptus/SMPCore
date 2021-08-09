@@ -10,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
-import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -87,16 +86,6 @@ public class TitanWorldNether implements Listener {
 	}
 	
 	@EventHandler
-	public void onHarvest(PlayerHarvestBlockEvent e) {
-		if (e.getHarvestedBlock() == null) return;
-		if (!(e.getHarvestedBlock().getWorld().getName().equalsIgnoreCase("world_titan_nether"))) return;
-		
-		Material type = e.getHarvestedBlock().getType();
-		
-		if (type.equals(Material.CAVE_VINES) || type.equals(Material.CAVE_VINES_PLANT)) return;
-	}
-	
-	@EventHandler
 	public void onBlockDamage(BlockDamageEvent e) {
 		if (e.getBlock() == null) return;
 		if (!(e.getBlock().getWorld().getName().equalsIgnoreCase("world_titan_nether"))) return;
@@ -107,6 +96,7 @@ public class TitanWorldNether implements Listener {
 		
 		if (type.equals(Material.EMERALD_BLOCK)) p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 3, 2, true, false, false));
 		else if (type.equals(Material.BLACKSTONE)) p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 3, 5, true, false, false));
+		else if (type.equals(Material.END_STONE)) p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 3, 4, true, false, false));
 	}
 	
 	@EventHandler
