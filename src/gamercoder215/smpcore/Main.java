@@ -74,6 +74,8 @@ import gamercoder215.smpcore.listeners.PlayerDrops;
 import gamercoder215.smpcore.listeners.PlayerStatusUpdate;
 import gamercoder215.smpcore.listeners.titan.TitanEnchants;
 import gamercoder215.smpcore.listeners.titan.TitanWorld;
+import gamercoder215.smpcore.listeners.titan.TitanWorldEnd;
+import gamercoder215.smpcore.listeners.titan.TitanWorldNether;
 import gamercoder215.smpcore.utils.InventoryUtils;
 
 public class Main extends JavaPlugin {
@@ -104,6 +106,12 @@ public class Main extends JavaPlugin {
 	  // Load External Worlds
 	  WorldCreator titanWorld = new WorldCreator("world_titan");
 	  Bukkit.createWorld(titanWorld);
+	  
+	  WorldCreator titanWorldNether = new WorldCreator("world_titan_nether");
+	  Bukkit.createWorld(titanWorldNether);
+	  
+	  WorldCreator titanWorldEnd = new WorldCreator("world_titan_end");
+	  Bukkit.createWorld(titanWorldEnd);
 	  
 	  // Other Tasks before Load
 	  
@@ -143,6 +151,9 @@ public class Main extends JavaPlugin {
       new PlayerAbilities(this);
       
       new TitanWorld(this);
+      new TitanWorldNether(this);
+      new TitanWorldEnd(this);
+      
       new TitanEnchants(this);
       new TitanAdvancements(this);
       
