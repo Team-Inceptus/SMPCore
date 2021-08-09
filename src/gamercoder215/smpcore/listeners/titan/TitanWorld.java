@@ -7,8 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
@@ -19,6 +19,7 @@ import org.bukkit.event.block.BlockCookEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -38,6 +39,10 @@ import eu.endercentral.crazy_advancements.NameKey;
 import eu.endercentral.crazy_advancements.manager.AdvancementManager;
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.advancements.TitanAdvancements;
+import gamercoder215.smpcore.utils.entities.EnderSkeleton;
+import gamercoder215.smpcore.utils.entities.TitanEnderman;
+import gamercoder215.smpcore.utils.entities.TitanPiglin;
+import gamercoder215.smpcore.utils.entities.TitanSkeleton;
 import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanWorld implements Listener {
@@ -575,6 +580,28 @@ public class TitanWorld implements Listener {
 		if (e.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE)) {
 			e.setCancelled(true);
 			p.openInventory(TitanEnchantmentTable.getTitanEnchantTable());
+		}
+	}
+	
+	@EventHandler
+	public void onSpawn(EntitySpawnEvent e) {
+		if (e.getEntity() == null) return;
+		if (!(e.getEntity().getWorld().getName().contains("world_titan"))) return;
+		
+		if (e.getEntityType().equals(EntityType.ENDERMAN)) {
+			e.setCancelled(true);
+			((CraftWorld) e.getEntity().getWorld()).getHandle().addEntity(new TitanEnderman(e.getLocation()));
+			
+			if (r.nextInt(100) < 5) {
+				((CraftWorld) e.getEntity().getWorld()).getHandle().addEntity(new EnderSkeleton(e.getLocation()));
+			}
+		} else if (e.getEntityType().equals(EntityType.PIGLIN)) {
+			e.setCancelled(true);
+			((CraftWorld) e.getEntity().getWorld()).getHandle().addEntity(new TitanPiglin(e.getLocation(), r.nextBoolean()));
+			
+			if (r.nextInt(100) < 20) {
+				((CraftWorld) e.getEntity().getWorld()).getHandle().addEntity(new TitanSkeleton(e.getLocation()));
+			}
 		}
 	}
 }
