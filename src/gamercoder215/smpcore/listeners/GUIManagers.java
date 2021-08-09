@@ -1263,6 +1263,10 @@ public class GUIManagers implements Listener {
 			
 			p.openInventory(warpInventory);
 			p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 3F, 0.5F);
+    	  } else if (clickedItem.getType().equals(Material.BLACKSTONE)) {
+    		 p.teleport(Bukkit.getWorld("world_titan_nether").getSpawnLocation(), TeleportCause.END_PORTAL);
+    	  } else if (clickedItem.getType().equals(Material.BEDROCK)) {
+    		  p.teleport(Bukkit.getWorld("world_titan_end").getSpawnLocation(), TeleportCause.END_PORTAL);
     	  }
     	  
     	  if (!p.isOp() && !(p.getGameMode().equals(GameMode.ADVENTURE))) {
