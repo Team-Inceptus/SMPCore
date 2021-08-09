@@ -100,6 +100,22 @@ public class TitanFetcher {
 		
 		inv.setItem(25, incitatusForest);
 		
+		ItemStack titanNether = new ItemStack(Material.BLACKSTONE);
+		ItemMeta netherMeta = titanNether.getItemMeta();
+		
+		netherMeta.setDisplayName(ChatColor.GRAY + "Titan Nether");
+		titanNether.setItemMeta(netherMeta);
+		
+		inv.setItem(12, titanNether);
+		
+		ItemStack titanEnd = new ItemStack(Material.BEDROCK);
+		ItemMeta endMeta = titanEnd.getItemMeta();
+		
+		endMeta.setDisplayName(ChatColor.DARK_PURPLE + "Titan End");
+		titanEnd.setItemMeta(endMeta);
+		
+		inv.setItem(14, titanEnd);
+		
 		return inv;
 	}
 	
@@ -515,7 +531,22 @@ public class TitanFetcher {
 					getCito(),
 					getOpulens(),
 					getChalybs(),
-					getExitatus()
+					getExitatus(),
+					// Nether
+					getSoftenedMitis(),
+					getRedMitis(),
+					getBlackMitis(),
+					getGoldenMitis(),
+					getCrystalMitis(),
+					getTitanPorkchop(),
+					// End
+					getMitis(),
+					getHardenedMitis(),
+					getMitisEssence(),
+					getMitisHelmet(),
+					getAgnes(),
+					getMitisBoots(),
+					getIndeses()
 			};
 			titanWorldItems.addAll(Arrays.asList(items));
 			
@@ -545,6 +576,16 @@ public class TitanFetcher {
 		titanPork.setItemMeta(porkMeta);
 		
 		return titanPork;
+	}
+	
+	public static ItemStack getTitanGapple() {
+		try {
+			ItemStack titanGapple = GeneralUtils.itemFromNBT("{id:\"minecraft:enchanted_golden_apple\",Count:1b,tag:{display:{Name:'[{\"text\":\"()\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false,\"obfuscated\":true},{\"text\":\" Titan Golden Apple \",\"color\":\"light_purple\",\"bold\":true,\"italic\":false,\"obfuscated\":false},{\"text\":\"()\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false,\"obfuscated\":true}]'}}}");
+			return titanGapple;
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public static ItemStack getSoftenedMitis() {
@@ -647,10 +688,54 @@ public class TitanFetcher {
 		mitisMeta.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Mitis Helmet");
 		mitisMeta.setUnbreakable(true);
 		mitisMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 400, true);
+		mitisMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		
 		mitisHelmet.setItemMeta(mitisMeta);
 		
 		return mitisHelmet;
+	}
+	
+	public static ItemStack getAgnes() {
+		ItemStack agnes = new ItemStack(Material.NETHERITE_PICKAXE);
+		ItemMeta aMeta = agnes.getItemMeta();
+		aMeta.setDisplayName(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Agnes");
+		aMeta.addEnchant(Enchantment.DIG_SPEED, 350, true);
+		aMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 125, true);
+		aMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		aMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_SPEED", 24, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		aMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_SPEED", 24, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.OFF_HAND));
+		agnes.setItemMeta(aMeta);
+		
+		return agnes;
+	}
+	
+	public static ItemStack getIndeses() {
+		ItemStack indeses = new ItemStack(Material.NETHERITE_AXE);
+		ItemMeta iMeta = indeses.getItemMeta();
+		iMeta.setDisplayName(ChatColor.DARK_BLUE + "" + ChatColor.BOLD + "Indeses");
+		iMeta.addEnchant(Enchantment.DIG_SPEED, 350, true);
+		iMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 125, true);
+		iMeta.addEnchant(Enchantment.DAMAGE_ALL, 75, true);
+		iMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		iMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_SPEED", 13, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		iMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_SPEED", 13, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.OFF_HAND));
+		indeses.setItemMeta(iMeta);
+		
+		return indeses;
+	}
+	
+	public static ItemStack getMitisBoots() {
+		ItemStack mitisBoots = new ItemStack(Material.NETHERITE_BOOTS);
+		ItemMeta bMeta = mitisBoots.getItemMeta();
+		bMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 400, true);
+		bMeta.addEnchant(Enchantment.PROTECTION_FALL, 32767, true);
+		bMeta.setDisplayName(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Mitis Boots");
+		bMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		bMeta.setUnbreakable(true);
+		
+		mitisBoots.setItemMeta(bMeta);
+		
+		return mitisBoots;
 	}
 	
 	public static boolean isTitanItem(ItemStack item, TitanType type) {
