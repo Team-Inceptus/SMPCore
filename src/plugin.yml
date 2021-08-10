@@ -99,6 +99,10 @@ commands:
     aliases: [gets, gstatistic, gs, getplayerstatistic, getplayers, gplayerstatistic, gpstatistic, gps]
     permission: core.admin.getstatistic
     permission-message: You do not have permission to use this command.
+  # Owner
+  reloadjar:
+    description: Reload the Server's JAR file.
+    aliases: [rljar, smpreload, smprl]
   
   
 permissions:
