@@ -64,7 +64,6 @@ import gamercoder215.smpcore.commands.Help;
 import gamercoder215.smpcore.commands.InvSee;
 import gamercoder215.smpcore.commands.Menu;
 import gamercoder215.smpcore.commands.Rejoin;
-import gamercoder215.smpcore.commands.ReloadJar;
 import gamercoder215.smpcore.commands.SetRank;
 import gamercoder215.smpcore.commands.SpawnCustomEntity;
 import gamercoder215.smpcore.commands.Suspend;
@@ -166,8 +165,6 @@ public class Main extends JavaPlugin {
       new Suspend(this);
       new GetStatistic(this);
       new SetRank(this);
-      // Gamer Only Commands
-      new ReloadJar(this);
       // Listeners & Utils
       new PlayerStatusUpdate(this);
       new GUIManagers(this);
