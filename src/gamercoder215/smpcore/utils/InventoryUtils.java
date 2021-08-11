@@ -2,6 +2,7 @@ package gamercoder215.smpcore.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -31,7 +32,11 @@ public class InventoryUtils implements Listener {
 		if (e.getSlotType() == null) return;
 		if (!(e.getSlotType().equals(SlotType.RESULT))) return;
 		
+		if (e.getCurrentItem().getType().equals(Material.NAME_TAG)) return;
+		if (e.getCurrentItem().getType().equals(Material.AXOLOTL_BUCKET)) return;
+		if (e.getCurrentItem().getType().equals(Material.TROPICAL_FISH_BUCKET)) return;
+		
 		e.setCancelled(true);
-		e.getWhoClicked().sendMessage(ChatColor.RED + "You cannot rename items!");
+		e.getWhoClicked().sendMessage(ChatColor.RED + "You cannot rename items! The Exceptions are:\n- Name Tags\n-Axolotl Buckets\n-Tropical Fish Buckets");
 	}
 }
