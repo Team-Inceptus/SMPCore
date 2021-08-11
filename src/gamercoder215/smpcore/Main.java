@@ -78,6 +78,7 @@ import gamercoder215.smpcore.listeners.GUIManagers;
 import gamercoder215.smpcore.listeners.PlayerDrops;
 import gamercoder215.smpcore.listeners.PlayerStatusUpdate;
 import gamercoder215.smpcore.listeners.titan.TitanEnchants;
+import gamercoder215.smpcore.listeners.titan.TitanNPCs;
 import gamercoder215.smpcore.listeners.titan.TitanWorld;
 import gamercoder215.smpcore.listeners.titan.TitanWorldEnd;
 import gamercoder215.smpcore.listeners.titan.TitanWorldNether;
@@ -179,6 +180,7 @@ public class Main extends JavaPlugin {
       
       new TitanEnchants(this);
       new TitanAdvancements(this);
+      new TitanNPCs(this);
       
       new InventoryUtils(this);
       // Abilities

@@ -24,7 +24,6 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerHarvestBlockEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -374,33 +373,7 @@ public class TitanWorld implements Listener {
 		}
 	}
 	
-	Sound[] villagerSounds = {
-			Sound.ENTITY_VILLAGER_AMBIENT,
-			Sound.ENTITY_VILLAGER_CELEBRATE,
-			Sound.ENTITY_VILLAGER_YES,
-			Sound.ENTITY_VILLAGER_TRADE
-	};
-	
-	Sound[] pillagerSounds = {
-			Sound.ENTITY_PILLAGER_AMBIENT,
-			Sound.ENTITY_PILLAGER_CELEBRATE
-	};
-	
-	@EventHandler
-	public void onInteract(PlayerInteractEntityEvent e) {
-		if (!(e.getRightClicked().getType().equals(EntityType.PLAYER))) return;
-		
-		Player p = e.getPlayer();
-		Player npc = (Player) e.getRightClicked();
-		
-		String name = ChatColor.stripColor(npc.getCustomName() == null ? npc.getName() : npc.getCustomName());
-		if (name.equalsIgnoreCase("Venalicius")) {
-			p.playSound(p.getLocation(), villagerSounds[r.nextInt(villagerSounds.length)], 3F, 0F);
-			p.openInventory(TitanFetcher.getVenaliciusTrade());
-		} else if (name.equalsIgnoreCase("Shulker Wizard")) {
-			p.playSound(p.getLocation(), pillagerSounds[r.nextInt(pillagerSounds.length)], 3F, 0.75F);
-		}
-	}
+
 	
 	@EventHandler
 	public void onInteractInventory(InventoryClickEvent e) {
@@ -515,9 +488,11 @@ public class TitanWorld implements Listener {
 	public void onMove(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
 		if (p.isOp()) return;
-		if (!(p.getWorld().getName().equalsIgnoreCase("world_titan"))) return;
-		if (!(p.getGameMode().equals(GameMode.ADVENTURE))) {
+		if (p.hasPermission("core.admin.gamemodebypass")) return;
+		if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 			p.setGameMode(GameMode.ADVENTURE);
+		} else {
+			p.setGameMode(GameMode.SURVIVAL);
 		}
 	}
 	
@@ -525,6 +500,7 @@ public class TitanWorld implements Listener {
 	public void onTeleport(PlayerTeleportEvent e) {
 		Player p = e.getPlayer();
 		if (p.isOp()) return;
+		if (p.hasPermission("core.admin.gamemodebypass")) return;
 		if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 			p.setGameMode(GameMode.ADVENTURE);
 		} else {
