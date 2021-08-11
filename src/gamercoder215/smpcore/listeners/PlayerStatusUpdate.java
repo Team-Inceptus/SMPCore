@@ -107,6 +107,16 @@ public class PlayerStatusUpdate implements Listener {
     	  plugin.getConfig().getConfigurationSection(uuid).set("pet_speed", 0);
       }
       
+      // NPCs
+      
+      if (plugin.getConfig().getConfigurationSection(uuid).get("npc_talks") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).createSection("npc_talks");
+      }
+      
+      if (plugin.getConfig().getConfigurationSection(uuid).getConfigurationSection("npc_talks").get("bellator") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).getConfigurationSection("npc_talks").set("bellator", false);;
+      }
+      
       plugin.saveConfig();
       setRank(p);
       e.setJoinMessage(ChatColor.DARK_GREEN + p.getDisplayName() + ChatColor.GREEN + " joined the game");
