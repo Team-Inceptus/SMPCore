@@ -26,6 +26,11 @@ bin/
 *.tar.gz
 *.rar
 
+# Other
+BuildData/
+Bukkit/
+
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 src/gamercoder215/smpcore/commands/ReloadJar.java
