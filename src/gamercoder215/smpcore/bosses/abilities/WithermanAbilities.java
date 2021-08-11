@@ -43,7 +43,7 @@ public class WithermanAbilities implements Listener {
 	@EventHandler
 	public void onDamageOffensive(EntityDamageByEntityEvent e) {
 		if (!(e.getDamager().getType().equals(EntityType.ENDERMAN))) return;
-		if (!(e.getDamager().getCustomName() == null)) return;
+		if (e.getDamager().getCustomName() == null) return;
 		if (!(e.getDamager().getCustomName().contains("Witherman"))) return;
 		if (!(e.getDamager().isCustomNameVisible())) return;
 		
