@@ -3,6 +3,7 @@ package gamercoder215.smpcore.listeners.titan;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EnderDragon;
@@ -56,6 +57,8 @@ public class TitanWorldEnd implements Listener {
 	public void onMine(BlockBreakEvent e) {
 		if (e.getBlock() == null) return;
 		if (!(e.getBlock().getWorld().getName().equalsIgnoreCase("world_titan_end"))) return;
+		
+		if (e.getPlayer().isOp() && e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) return;
 		e.setDropItems(false);
 		
 		Block b = e.getBlock();

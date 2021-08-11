@@ -42,10 +42,13 @@ public class SuperPickaxes implements Listener {
 		if (item.getItemMeta() == null) return;
 		ItemMeta itemMeta = item.getItemMeta();
 		
+		
+		
 		Player p = e.getPlayer();
 		Action clickedAction = e.getAction();
 		
 		if (itemMeta.getDisplayName().contains("Steven's Drill") && itemMeta.hasItemFlag(ItemFlag.HIDE_ENCHANTS)) {
+			
 			if (clickedAction == Action.LEFT_CLICK_AIR) {
 				if (stevenCooldownLeft.contains(p.getUniqueId())) {
 					p.sendMessage(ChatColor.RED + "Your Haste Ability is on a cooldown!");
@@ -61,6 +64,10 @@ public class SuperPickaxes implements Listener {
 					}.runTaskLater(plugin, 45 * 20);
 				}
 			} else if (clickedAction == Action.RIGHT_CLICK_AIR) {
+				if (p.getWorld().getName().contains("world_titan")) {
+					p.sendMessage(ChatColor.RED + "Some Abilities don't work here...");
+					return;
+				}
 				if (stevenCooldownRight.contains(p.getUniqueId())) {
 					p.sendMessage(ChatColor.RED + "Your Explosion Ability is on a cooldown!");
 				} else {
@@ -81,6 +88,8 @@ public class SuperPickaxes implements Listener {
 	
 	@EventHandler
 	public void onBreak(BlockBreakEvent e) {
+		
+		
 		Player p = e.getPlayer();
 		Block b = e.getBlock();
 		if (p.getInventory().getItemInMainHand() == null) return;
