@@ -98,7 +98,7 @@ commands:
     description: Gets a player's statistic.
     aliases: [gets, gstatistic, gs, getplayerstatistic, getplayers, gplayerstatistic, gpstatistic, gps]
     permission: core.admin.getstatistic
-    permission-message: You do not have permission to use this command.
+    permission-message: You do not have permission to use this command.   
   
   
 permissions:
@@ -118,6 +118,11 @@ permissions:
   core.admin:
     description: Gives all access to NoobyGodsSMP-Core Administrator Commands
     default: op
+  core.admin.gamemodebypass:
+    description: Bypass the movement gamemode resetter
+    default: op
+    children:
+      core.admin: true
   core.admin.invsee:
     description: Allows you to see other inventories.
     children:
