@@ -736,6 +736,11 @@ public class WorldAbilities implements Listener {
 			e.setCancelled(true);
 			e.getEntity().setFireTicks(0);
 		}
+		
+		if (it.getItemStack().getItemMeta().isUnbreakable()) {
+			e.setCancelled(true);
+			e.getEntity().setFireTicks(0);
+		}
 	}
 	
 	@EventHandler
@@ -747,6 +752,11 @@ public class WorldAbilities implements Listener {
 		if (p == null) return;
 		
 		if (p.hasPermission("core.special.itemprotector")) {
+			e.setCancelled(true);
+			e.getEntity().setFireTicks(0);
+		}
+		
+		if (it.getItemStack().getItemMeta().isUnbreakable()) {
 			e.setCancelled(true);
 			e.getEntity().setFireTicks(0);
 		}
@@ -764,6 +774,11 @@ public class WorldAbilities implements Listener {
 			e.setCancelled(true);
 			e.getEntity().setFireTicks(0);
 		}
+		
+		if (it.getItemStack().getItemMeta().isUnbreakable()) {
+			e.setCancelled(true);
+			e.getEntity().setFireTicks(0);
+		}
 	}
 	
 	@EventHandler
@@ -775,6 +790,11 @@ public class WorldAbilities implements Listener {
 		if (p == null) return;
 		
 		if (p.hasPermission("core.special.itemprotector")) {
+			e.setCancelled(true);
+			e.getEntity().setFireTicks(0);
+		}
+		
+		if (it.getItemStack().getItemMeta().isUnbreakable()) {
 			e.setCancelled(true);
 			e.getEntity().setFireTicks(0);
 		}
@@ -792,6 +812,11 @@ public class WorldAbilities implements Listener {
 			e.setCancelled(true);
 			e.getEntity().setFireTicks(0);
 		}
+		
+		if (it.getItemStack().getItemMeta().isUnbreakable()) {
+			e.setCancelled(true);
+			e.getEntity().setFireTicks(0);
+		}
 	}
 	
 	@EventHandler
@@ -803,6 +828,11 @@ public class WorldAbilities implements Listener {
 		if (p == null) return;
 		
 		if (p.hasPermission("core.special.itemprotector")) {
+			e.setCancelled(true);
+			e.getEntity().setFireTicks(0);
+		}
+		
+		if (it.getItemStack().getItemMeta().isUnbreakable()) {
 			e.setCancelled(true);
 			e.getEntity().setFireTicks(0);
 		}
