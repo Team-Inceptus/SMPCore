@@ -48,6 +48,8 @@ public class TitanNPCs implements Listener {
 	
 	
 	
+	boolean bellatorTalking = false;
+	
 	@EventHandler
 	public void onInteract(PlayerInteractEntityEvent e) {
 		if (!(e.getRightClicked().getType().equals(EntityType.PLAYER))) return;
@@ -58,9 +60,10 @@ public class TitanNPCs implements Listener {
 		Player npc = (Player) e.getRightClicked();
 		
 		HashMap<Integer, String> bd = new HashMap<Integer, String>();
-		bd.put(0, "My days of fighting are over, " + p.getName() + ".");
-		bd.put(1, "However, you still seem to be full of life!");
-		bd.put(2, "How about you help me defeat some old friends?");
+		bd.put(0, "Hello there, " + p.getName() + "!");
+		bd.put(1, "It's been a while since i've foughten in the " + ChatColor.RED + "titan war" + ChatColor.WHITE + ".");
+		bd.put(2, "I still have a few rouge titans lurking around these parts...");
+		bd.put(3, "You seem to be full of life, however! How about your help me take down a few baddies?");
 		
 		String name = ChatColor.stripColor(npc.getCustomName() == null ? npc.getName() : npc.getCustomName());
 		if (name.equalsIgnoreCase("Venalicius")) {
@@ -70,19 +73,25 @@ public class TitanNPCs implements Listener {
 			p.playSound(p.getLocation(), pillagerSounds[r.nextInt(pillagerSounds.length)], 3F, 0.75F);
 		} else if (name.equalsIgnoreCase("Bellator")) {
 			if (!(plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getConfigurationSection("npc_talks").getBoolean("bellator"))) {
+				if (bellatorTalking) return;
+				bellatorTalking = true;
+				
 				for (int i = 0; i < bd.size(); i++) {
-					int pick = i;
-					
+					p.sendMessage(ChatColor.BLUE + "[Bellator] " + ChatColor.WHITE + bd.get(i));
 					new BukkitRunnable() {
 						public void run() {
-							p.playSound(p.getLocation(), foxSounds[r.nextInt(foxSounds.length)], 3F, 1F);
-							p.sendMessage(bd.get(pick));
+							e.hashCode();
 						}
-					}.runTaskLater(plugin, (r.nextInt(60 - 20) + 20));
+					}.runTaskLater(plugin, r.nextInt(100 - 40) + 40);
 				}
 				
-			} else {
+				p.openInventory(TitanFinder.getTitanFinder());
+				plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getConfigurationSection("npc_talks").set("bellator", true);
 				
+				bellatorTalking = false;
+				
+			} else {
+				p.openInventory(TitanFinder.getTitanFinder());
 			}
 		}
 	}
