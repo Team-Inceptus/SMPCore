@@ -27,7 +27,13 @@ public class InventoryUtils implements Listener {
 		
 		if (!(e.getInventory() instanceof AnvilInventory)) return;
 		
+		AnvilInventory inv = (AnvilInventory) e.getInventory();
+		
+		if (inv.getRenameText().length() < 1) return;
+		
 		if (e.getCurrentItem() == null) return;
+		
+		
 		
 		if (e.getSlotType() == null) return;
 		if (!(e.getSlotType().equals(SlotType.RESULT))) return;
