@@ -14,6 +14,14 @@ public class GeneralUtils {
 	
 	public Main plugin;
 	
+	public static String withSuffix(double count) {
+	    if (count < 1000) return "" + count;
+	    int exp = (int) (Math.log(count) / Math.log(1000));
+	    return String.format("%.1f%c",
+	                         count / Math.pow(1000, exp),
+	                         "KMBTQISPOND".charAt(exp-1));
+	}
+	
 	public static String hexToChat(String hexCode, String message) {
 		
 		String hex1 = "&" + Character.toString(hexCode.charAt(0)).toUpperCase();
