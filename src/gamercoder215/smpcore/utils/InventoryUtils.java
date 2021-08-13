@@ -43,6 +43,6 @@ public class InventoryUtils implements Listener {
 		if (e.getCurrentItem().getType().equals(Material.TROPICAL_FISH_BUCKET)) return;
 		
 		e.setCancelled(true);
-		e.getWhoClicked().sendMessage(ChatColor.RED + "You cannot rename items! The Exceptions are:\n- Name Tags\n-Axolotl Buckets\n-Tropical Fish Buckets");
+		e.getWhoClicked().sendMessage(ChatColor.RED + "You cannot rename items! The Exceptions are:\n- Name Tags\n- Axolotl Buckets\n- Tropical Fish Buckets");
 	}
 }

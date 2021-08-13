@@ -36,7 +36,9 @@ public class BossStatusUpdate implements Listener {
 		
 		LivingEntity len = (LivingEntity) en;
 		
-		len.setCustomName(len.getCustomName() + ChatColor.GREEN + " - " + GeneralUtils.withSuffix(len.getHealth()));
+		String customName = (len.getCustomName().contains("-") ? len.getCustomName().split("-")[0].substring(0, len.getCustomName().split("-")[0].length() - 1) : len.getCustomName());
+		
+		len.setCustomName(customName + ChatColor.GREEN + " - " + GeneralUtils.withSuffix(Math.floor(len.getHealth())));
 	}
 	
 }
