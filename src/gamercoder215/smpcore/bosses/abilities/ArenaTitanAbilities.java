@@ -4,23 +4,24 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.MagmaCube;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Vindicator;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import gamercoder215.smpcore.Main;
+import gamercoder215.smpcore.utils.AdvancementMessages;
 import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 
 public class ArenaTitanAbilities implements Listener {
@@ -128,6 +129,7 @@ public class ArenaTitanAbilities implements Listener {
 		
 		LivingEntity en = e.getEntity();
 		
+		
 		if (e.getEntityType() == EntityType.BLAZE) {
 			en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getInfernoBlade());
 			
@@ -151,6 +153,39 @@ public class ArenaTitanAbilities implements Listener {
 		} else if (e.getEntityType() == EntityType.ILLUSIONER) {
 			en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getAttributeApple());
 		}
+		
+		if (en.getKiller() == null) return;
+		Player p = en.getKiller();
+		
+		plugin.saveConfig();
+		
+		plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("titan_kills", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills") + 1);
+		
+	   	 int titanKills = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills");
+	   	 if (titanKills == 1) {
+	   		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getTitanKiller(1, true));
+	   		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+	   	 } else if (titanKills == 5) {
+	   		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getTitanKiller(2, true));
+	   		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+	   	 } else if (titanKills == 15) {
+	   		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getTitanKiller(3, true));
+	   		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+	   	 } else if (titanKills == 30) {
+	   		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getTitanKiller(4, true));
+	   		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+	   	 } else if (titanKills == 50) {
+	   		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getTitanKiller(5, true));
+	   		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+	   	 } else if (titanKills == 80) {
+	   		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getTitanKiller(6, true));
+	   		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+	   	 } else if (titanKills == 125) {
+	   		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getTitanKiller(7, true));
+	   		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+	   	 }
+		
+		plugin.saveConfig();
 	}
 	
 }

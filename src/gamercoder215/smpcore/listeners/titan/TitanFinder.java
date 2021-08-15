@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.listeners.GUIManagers;
 
 public class TitanFinder {
@@ -32,14 +33,22 @@ public class TitanFinder {
 		return comingLater;
 	}
 	
-	protected static ItemStack notUnlocked() {
+	protected static ItemStack notUnlocked(int amountReq) {
 		ItemStack notUnlocked = new ItemStack(Material.BARRIER, 1);
 		ItemMeta nMeta = notUnlocked.getItemMeta();
 		nMeta.setDisplayName(ChatColor.RED + "You haven't unlocked this yet!");
 		
+		List<String> lore = new ArrayList<>();
+		lore.add(ChatColor.GRAY + "To fight this boss, you need");
+		lore.add(ChatColor.GRAY + "to kill " + ChatColor.GREEN + Integer.toString(amountReq) + ChatColor.GRAY + " titans.");
+		
 		notUnlocked.setItemMeta(nMeta);
 		
 		return notUnlocked;
+	}
+	
+	protected static boolean hasUnlocked(Main plugin, Player p, int amountReq) {
+		return (plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills") >= amountReq);
 	}
 	
 	public static ItemStack generateTitanItem(Material icon, String name, double rating) {
@@ -58,7 +67,7 @@ public class TitanFinder {
 		return item;
 	}
 	
-	public static Inventory getTitanFinder(Player p) {
+	public static Inventory getTitanFinder(Main plugin, Player p) {
 		Inventory titanFinder = GUIManagers.generateGUI(45, ChatColor.GRAY + "" + ChatColor.BOLD + "Titan Finder");
 		
 		ItemStack later = comingLater();
@@ -112,8 +121,8 @@ public class TitanFinder {
 		
 		
 		// Setting
-		titanFinder.setItem(10, fireTitan);
-		titanFinder.setItem(11, magicTitan);
+		titanFinder.setItem(10, (hasUnlocked(plugin, p, 40) ? fireTitan : notUnlocked(40)));
+		titanFinder.setItem(11, (hasUnlocked(plugin, p, 50) ? magicTitan : notUnlocked(50)));
 		
 		// Later
 		titanFinder.setItem(37, later);

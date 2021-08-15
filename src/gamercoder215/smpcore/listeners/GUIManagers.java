@@ -11,9 +11,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Statistic;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Ravager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -35,7 +38,9 @@ import gamercoder215.smpcore.utils.AdvancementMessages;
 import gamercoder215.smpcore.utils.TradeInventories;
 import gamercoder215.smpcore.utils.TradeParser;
 import gamercoder215.smpcore.utils.entities.Witherman;
+import gamercoder215.smpcore.utils.entities.arena_titans.CrossbowTitan;
 import gamercoder215.smpcore.utils.entities.arena_titans.FireTitan;
+import gamercoder215.smpcore.utils.entities.arena_titans.MagicalTitan;
 import gamercoder215.smpcore.utils.fetcher.ItemFetcher;
 import net.minecraft.server.level.WorldServer;
 
@@ -1278,20 +1283,21 @@ public class GUIManagers implements Listener {
       } else if (inv.getTitle().contains("Titan Finder")) {
     	  e.setCancelled(true);
     	  
+    	  ItemStack clickedItem = e.getCurrentItem();
+    	  Material type = clickedItem.getType();
+    	  
+    	  if (type == Material.GRAY_STAINED_GLASS_PANE || type == Material.REDSTONE_TORCH || type == Material.COAL_BLOCK || type == Material.BARRIER || !clickedItem.hasItemMeta()) return;
+    	  
     	  if (finderCooldown.contains(p.getUniqueId())) {
     		  p.sendMessage(ChatColor.RED + "Bellator hasn't found a new foe yet!");
     		  return;
     	  }
     	  
-    	  ItemStack clickedItem = e.getCurrentItem();
+    	  
     	  Location playerLoc = new Location(Bukkit.getWorld("world_titan_end"), -15, 74, 0, -90f, -10f);
     	  Location bossLoc = new Location(Bukkit.getWorld("world_titan_end"), 0, 79, 0);
+    	  
     	  WorldServer ws = ((CraftWorld) Bukkit.getWorld("world_titan_end")).getHandle();
-    	  
-    	  
-    	  Material type = clickedItem.getType();
-    	  
-    	  if (type == Material.GRAY_STAINED_GLASS_PANE || type == Material.REDSTONE_TORCH || type == Material.COAL_BLOCK || type == Material.BARRIER || !clickedItem.hasItemMeta()) return;
     	  
 		  p.closeInventory();
 		  p.teleport(playerLoc, TeleportCause.PLUGIN);
@@ -1299,19 +1305,34 @@ public class GUIManagers implements Listener {
     	  if (type.equals(Material.BLAZE_ROD)) {
     		  FireTitan b = new FireTitan(bossLoc);
     		  ws.addEntity(b);
+    	  } else if (type.equals(Material.AMETHYST_SHARD)) {
+    		  MagicalTitan m = new MagicalTitan(bossLoc);
+    		  ws.addEntity(m);
+    	  } else if (type.equals(Material.CROSSBOW)) {
+    		  Ravager r = (Ravager) bossLoc.getWorld().spawnEntity(bossLoc, EntityType.RAVAGER);
+    		  
+    		  r.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(100000);
+    		  r.setHealth(100000);
+    		  
+    		  CrossbowTitan c = new CrossbowTitan(bossLoc);
+    		  ws.addEntity(c);
+    		  
+    		  r.addPassenger((LivingEntity) c.getBukkitEntity());
     	  }
     	  
     	  p.playSound(bossLoc, Sound.ENTITY_ENDER_DRAGON_GROWL, 3F, 1F);
     	  
-		  
-		  finderCooldown.add(p.getUniqueId());
-		  
-		  new BukkitRunnable() {
-			  public void run() {
-				  finderCooldown.remove(p.getUniqueId());
-				  p.sendMessage(ChatColor.GOLD + "Bellator has found a new foe! Use /titanwarp to teleport!");
-			  }
-		  }.runTaskLater(plugin, 20 * 60 * 20);
+		  if (!(p.isOp())) {
+	    	  
+			  finderCooldown.add(p.getUniqueId());
+			  
+			  new BukkitRunnable() {
+				  public void run() {
+					  finderCooldown.remove(p.getUniqueId());
+					  p.sendMessage(ChatColor.GOLD + "Bellator has found a new foe! Use /titanwarp to teleport!");
+				  }
+			  }.runTaskLater(plugin, 20 * 60 * 20);
+		  }
       }
 
    }
