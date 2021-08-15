@@ -21,6 +21,7 @@ import gamercoder215.smpcore.abilities.SuperPickaxes;
 import gamercoder215.smpcore.abilities.WorldAbilities;
 import gamercoder215.smpcore.advancements.TitanAdvancements;
 import gamercoder215.smpcore.bosses.abilities.AraneaAbilities;
+import gamercoder215.smpcore.bosses.abilities.ArenaTitanAbilities;
 import gamercoder215.smpcore.bosses.abilities.BlazeKingAbilities;
 import gamercoder215.smpcore.bosses.abilities.BossStatusUpdate;
 import gamercoder215.smpcore.bosses.abilities.CreeperKingAbilities;
@@ -235,5 +236,8 @@ public class Main extends JavaPlugin {
         
         new GolemKingAbilities(this);
         new GolemKingDrops(this);
+        
+        // Arena Titans
+        new ArenaTitanAbilities(this);
    }
 }

@@ -85,13 +85,13 @@ public class TitanNPCs implements Listener {
 					}.runTaskLater(plugin, r.nextInt(100 - 40) + 40);
 				}
 				
-				p.openInventory(TitanFinder.getTitanFinder());
+				p.openInventory(TitanFinder.getTitanFinder(p));
 				plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getConfigurationSection("npc_talks").set("bellator", true);
 				
 				bellatorTalking = false;
 				
 			} else {
-				p.openInventory(TitanFinder.getTitanFinder());
+				p.openInventory(TitanFinder.getTitanFinder(p));
 			}
 		}
 	}

@@ -1,5 +1,9 @@
 package gamercoder215.smpcore.listeners;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -21,23 +25,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.bosses.abilities.CreeperKingAbilities;
 import gamercoder215.smpcore.bosses.abilities.EmeraldWarriorAbilities;
 import gamercoder215.smpcore.bosses.abilities.TitanAbilities;
 import gamercoder215.smpcore.bosses.abilities.ZombieKingAbilities;
 import gamercoder215.smpcore.commands.Boss;
-import gamercoder215.smpcore.listeners.titan.TitanEnchantment;
-import gamercoder215.smpcore.listeners.titan.TitanEnchantment.TitanEnchant;
 import gamercoder215.smpcore.utils.AdvancementMessages;
 import gamercoder215.smpcore.utils.TradeInventories;
 import gamercoder215.smpcore.utils.TradeParser;
 import gamercoder215.smpcore.utils.entities.Witherman;
-import gamercoder215.smpcore.utils.fetcher.EnchantmentFetcher;
+import gamercoder215.smpcore.utils.entities.arena_titans.FireTitan;
 import gamercoder215.smpcore.utils.fetcher.ItemFetcher;
-import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 import net.minecraft.server.level.WorldServer;
 
 public class GUIManagers implements Listener {
@@ -102,7 +101,9 @@ public class GUIManagers implements Listener {
       this.plugin = plugin;
       Bukkit.getPluginManager().registerEvents(this, plugin);
    }
-  
+   
+   List<UUID> finderCooldown = new ArrayList<>();
+   
    String notEnoughMats = ChatColor.RED + "You do not have the required items to spawn this boss!";
    @EventHandler
    public void onClick(InventoryClickEvent e) {
@@ -1274,42 +1275,43 @@ public class GUIManagers implements Listener {
     	  }
       } else if (inv.getTitle().contains("Titan Shop")) {
     	  e.setCancelled(true);
-      } else if (inv.getTitle().contains("Enchantment Forge")) {
+      } else if (inv.getTitle().contains("Titan Finder")) {
     	  e.setCancelled(true);
     	  
-    	  TitanEnchant enchant = TitanEnchantment.parseString(e.getCurrentItem().getItemMeta().getLore().get(0));
-    	  
-    	  String notEnough = ChatColor.RED + "You don't have enough materials to buy this item!";
-    	  
-    	  if (p.getInventory().firstEmpty() == -1) {
-    		  p.sendMessage(ChatColor.RED + "Your inventory is full!");
+    	  if (finderCooldown.contains(p.getUniqueId())) {
+    		  p.sendMessage(ChatColor.RED + "Bellator hasn't found a new foe yet!");
     		  return;
     	  }
     	  
-    	  try {
-        	  ItemStack novaStack = TitanFetcher.getNova();
-        	  novaStack.setAmount(64);
-	    	  if (enchant.equals(TitanEnchant.DOUBLE_DAMAGE)) {
-	    		  if (!(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 640))) {
-	    			  p.sendMessage(notEnough);
-	    		  } else {
-	    			  p.getInventory().removeItem(novaStack);
-	    			  p.getInventory().removeItem(novaStack);
-	    			  p.getInventory().removeItem(novaStack);
-	    			  p.getInventory().removeItem(novaStack);
-	    			  p.getInventory().removeItem(novaStack);
-	    			  p.getInventory().removeItem(novaStack);
-	    			  p.getInventory().removeItem(novaStack);
-	    			  p.getInventory().removeItem(novaStack);
-	    			  p.getInventory().removeItem(novaStack);
-	    			  p.getInventory().removeItem(novaStack);
-	    			  
-	    			  p.getInventory().addItem(EnchantmentFetcher.doubleDamage.generateItemStack());
-	    		  }
-	    	  }
-    	  } catch (CommandSyntaxException err) {
-    		  err.printStackTrace();
+    	  ItemStack clickedItem = e.getCurrentItem();
+    	  Location playerLoc = new Location(Bukkit.getWorld("world_titan_end"), -15, 74, 0, -90f, -10f);
+    	  Location bossLoc = new Location(Bukkit.getWorld("world_titan_end"), 0, 79, 0);
+    	  WorldServer ws = ((CraftWorld) Bukkit.getWorld("world_titan_end")).getHandle();
+    	  
+    	  
+    	  Material type = clickedItem.getType();
+    	  
+    	  if (type == Material.GRAY_STAINED_GLASS_PANE || type == Material.REDSTONE_TORCH || type == Material.COAL_BLOCK || type == Material.BARRIER || !clickedItem.hasItemMeta()) return;
+    	  
+		  p.closeInventory();
+		  p.teleport(playerLoc, TeleportCause.PLUGIN);
+		  
+    	  if (type.equals(Material.BLAZE_ROD)) {
+    		  FireTitan b = new FireTitan(bossLoc);
+    		  ws.addEntity(b);
     	  }
+    	  
+    	  p.playSound(bossLoc, Sound.ENTITY_ENDER_DRAGON_GROWL, 3F, 1F);
+    	  
+		  
+		  finderCooldown.add(p.getUniqueId());
+		  
+		  new BukkitRunnable() {
+			  public void run() {
+				  finderCooldown.remove(p.getUniqueId());
+				  p.sendMessage(ChatColor.GOLD + "Bellator has found a new foe! Use /titanwarp to teleport!");
+			  }
+		  }.runTaskLater(plugin, 20 * 60 * 20);
       }
 
    }

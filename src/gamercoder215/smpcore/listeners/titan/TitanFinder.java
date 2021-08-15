@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -31,6 +32,16 @@ public class TitanFinder {
 		return comingLater;
 	}
 	
+	protected static ItemStack notUnlocked() {
+		ItemStack notUnlocked = new ItemStack(Material.BARRIER, 1);
+		ItemMeta nMeta = notUnlocked.getItemMeta();
+		nMeta.setDisplayName(ChatColor.RED + "You haven't unlocked this yet!");
+		
+		notUnlocked.setItemMeta(nMeta);
+		
+		return notUnlocked;
+	}
+	
 	public static ItemStack generateTitanItem(Material icon, String name, double rating) {
 		ItemStack item = new ItemStack(icon, 1);
 		
@@ -47,8 +58,8 @@ public class TitanFinder {
 		return item;
 	}
 	
-	public static Inventory getTitanFinder() {
-		Inventory titanFinder = GUIManagers.generateGUI(45, ChatColor.GRAY + "Titan Finder");
+	public static Inventory getTitanFinder(Player p) {
+		Inventory titanFinder = GUIManagers.generateGUI(45, ChatColor.GRAY + "" + ChatColor.BOLD + "Titan Finder");
 		
 		ItemStack later = comingLater();
 		

@@ -41,36 +41,6 @@ public class ArenaTitanAbilities implements Listener {
 		});
 	}
 	
-	@EventHandler
-	public void onSpawn(EntitySpawnEvent e) {
-		if (!(e.getEntity().getWorld().getName().equalsIgnoreCase("world_titan_end"))) return;
-		if (e.getEntity() instanceof HumanEntity) return;
-		if (!(e.getEntity() instanceof LivingEntity)) return;
-		if (e.getEntity().getCustomName() == null) return;
-		if (!(e.getEntity().getCustomName().contains("Titan"))) return;
-		
-		LivingEntity en = (LivingEntity) e.getEntity();
-		
-		if (en.getHealth() < 1000000) return;
-		
-		while (!(en.isDead())) {
-			if (e.getEntityType().equals(EntityType.BLAZE)) {
-				new BukkitRunnable() {
-					public void run() {
-						en.getNearbyEntities(20, 20, 20).forEach(t -> {
-							if (!(t instanceof LivingEntity)) return;
-							LivingEntity ten = (LivingEntity) t;
-							if (ten.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)) {
-								ten.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-							}
-							ten.setFireTicks(23);
-						});
-					}
-				}.runTaskLater(plugin, 20);
-			}
-		}
-	}
-	
 	
 	
 	@EventHandler
