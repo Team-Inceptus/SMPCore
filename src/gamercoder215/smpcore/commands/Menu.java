@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -57,6 +58,15 @@ public class Menu implements CommandExecutor {
       playerHeadLore.add(ChatColor.RED + "" + p.getHealth() + " Health");
       playerHeadLore.add(ChatColor.AQUA + "" + p.getExpToLevel() + " Experience Levels");
       playerHeadLore.add(ChatColor.GOLD + "" + p.getFoodLevel() + " Food Bars");
+      playerHeadLore.add("");
+      playerHeadLore.add(ChatColor.GOLD + p.getName() + "'s Attributes");
+      playerHeadLore.add(ChatColor.RED + "Attack Damage: " + Math.floor(p.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()));
+      playerHeadLore.add(ChatColor.GREEN + "Armor: " + Math.floor(p.getAttribute(Attribute.GENERIC_ARMOR).getValue()));
+      playerHeadLore.add(ChatColor.DARK_GREEN + "Armor Toughness: " + Math.floor(p.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).getValue()));
+      playerHeadLore.add(ChatColor.AQUA + "Attack Speed: " + Math.floor(p.getAttribute(Attribute.GENERIC_ATTACK_SPEED).getValue()));
+      playerHeadLore.add(ChatColor.DARK_GREEN + "Luck: " + Math.floor(p.getAttribute(Attribute.GENERIC_LUCK).getValue()));
+      playerHeadLore.add(ChatColor.RED + "Max Health: " + Math.floor(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()));
+      playerHeadLore.add(ChatColor.DARK_AQUA + "Movement Speed: " + Math.floor(p.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue()));
       
       playerHeadMeta.setLore(playerHeadLore);
       playerHead.setItemMeta(playerHeadMeta);
