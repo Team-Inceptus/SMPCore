@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Arrow;
@@ -720,6 +721,30 @@ public class WorldAbilities implements Listener {
 						}
 					}.runTaskLater(plugin, 20 * 60 * 15);
 				}
+			}
+		} else if (e.getItem().isSimilar(TitanFetcher.getAttributeApple())) {
+			e.setCancelled(true);
+			p.getInventory().removeItem(TitanFetcher.getAttributeApple());
+			
+			Attribute[] attributes = {
+				Attribute.GENERIC_ARMOR,
+				Attribute.GENERIC_ARMOR_TOUGHNESS,
+				Attribute.GENERIC_ATTACK_DAMAGE,
+				Attribute.GENERIC_LUCK
+			};
+			
+			Attribute chosen = attributes[r.nextInt(attributes.length)];
+			
+			p.getAttribute(chosen).setBaseValue(p.getAttribute(chosen).getBaseValue() * 1.03);
+			
+			if (chosen == Attribute.GENERIC_ARMOR) {
+				p.sendMessage(ChatColor.GREEN + "The attribute \"" + ChatColor.BLUE + "Armor" + ChatColor.GREEN + "\" has been upgraded!");
+			} else if (chosen == Attribute.GENERIC_ARMOR_TOUGHNESS) {
+				p.sendMessage(ChatColor.GREEN + "The attribute \"" + ChatColor.BLUE + "Armor Toughness" + ChatColor.GREEN + "\" has been upgraded!");
+			} else if (chosen == Attribute.GENERIC_ATTACK_DAMAGE) {
+				p.sendMessage(ChatColor.GREEN + "The attribute \"" + ChatColor.RED + "Attack Damage" + ChatColor.GREEN + "\" has been upgraded!");
+			} else if (chosen == Attribute.GENERIC_LUCK) {
+				p.sendMessage(ChatColor.GREEN + "The attribute \"" + ChatColor.DARK_GREEN + "Luck" + ChatColor.GREEN + "\" has been upgraded!");
 			}
 		}
 	}
