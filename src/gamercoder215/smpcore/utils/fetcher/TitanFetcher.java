@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
@@ -1236,5 +1238,61 @@ public class TitanFetcher {
 		titanArmors.add(getInfernoNetheriteSet());
 		
 		return titanArmors;
+	}
+	
+	static Random r = new Random();
+	
+	public static ItemStack getMagicalAxe() {
+		ItemStack magicAxe = new ItemStack(Material.DIAMOND_AXE);
+		ItemMeta mMeta = magicAxe.getItemMeta();
+		mMeta.setDisplayName(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "The Magical Axe");
+		mMeta.addEnchant(Enchantment.DURABILITY, 30126, true);
+		mMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_ATTRIBUTES);
+		
+		int sharpValue = r.nextInt(800 - 250) + 250;
+		int smiteValue = r.nextInt(600 - 150) + 150;
+		int baneValue = r.nextInt(600 - 150) + 150;
+		int lootValue = r.nextInt(350 - 100) + 100;
+		
+		mMeta.addEnchant(Enchantment.DAMAGE_ALL, sharpValue, true);
+		mMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, smiteValue, true);
+		mMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, baneValue, true);
+		mMeta.addEnchant(Enchantment.LOOT_BONUS_MOBS, lootValue, true);
+		
+		List<String> lore = new ArrayList<>();
+		lore.add(ChatColor.GRAY + "Sharpness " + GeneralUtils.toRoman(sharpValue));
+		lore.add(ChatColor.GRAY + "Smite " + GeneralUtils.toRoman(smiteValue));
+		lore.add(ChatColor.GRAY + "Bane of Arthropods " + GeneralUtils.toRoman(baneValue));
+		lore.add(ChatColor.GRAY + "Looting " + GeneralUtils.toRoman(lootValue));
+		
+		mMeta.setLore(lore);
+		mMeta.setUnbreakable(true);
+		
+		int amount = r.nextInt(10000 - 100) + 100;
+		
+		mMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", amount, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+		mMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", amount, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
+		
+		magicAxe.setItemMeta(mMeta);
+		
+		return magicAxe;
+	}
+	
+	public static ItemStack getAttributeApple() {
+		ItemStack attributeApple = new ItemStack(Material.GOLDEN_APPLE);
+		ItemMeta aMeta = attributeApple.getItemMeta();
+		aMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Attribute Apple");
+		
+		List<String> lore = new ArrayList<>();
+		lore.add(ChatColor.GRAY + "When consumed, increases a");
+		lore.add(ChatColor.BLUE + "random base stat " + ChatColor.GRAY + "(damage,");
+		lore.add(ChatColor.GRAY + "speed, etc.) by " + ChatColor.GREEN + "3%" + ChatColor.GRAY + ".");
+		
+		aMeta.setLore(lore);
+		
+		attributeApple.setItemMeta(aMeta);
+		
+		
+		return attributeApple;
 	}
 }

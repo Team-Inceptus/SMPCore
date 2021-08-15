@@ -31,13 +31,13 @@ public class TitanFinder {
 		return comingLater;
 	}
 	
-	public static ItemStack generateTitanItem(Material icon, String name, int rating) {
+	public static ItemStack generateTitanItem(Material icon, String name, double rating) {
 		ItemStack item = new ItemStack(icon, 1);
 		
 		if (rating > 10) rating = 10;
 		
 		ItemMeta iMeta = item.getItemMeta();
-		iMeta.setDisplayName(name + ChatColor.DARK_GRAY + " Rating: " + Integer.toString(rating) + " / 10");
+		iMeta.setDisplayName(name + ChatColor.DARK_GRAY + " Rating: " + Double.toString(rating) + " / 10");
 		
 		iMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
 		iMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
@@ -65,6 +65,44 @@ public class TitanFinder {
 		
 		titanFinder.setItem(4, info);
 		
+		// T1
+		
+		List<String> fireLore = new ArrayList<>();
+		fireLore.add(ChatColor.GRAY + "This titan is very good with flames");
+		fireLore.add(ChatColor.GRAY + "and fire. Be careful, he can do");
+		fireLore.add(ChatColor.GOLD + "True Fire" + ChatColor.GRAY + ", which can remove");
+		fireLore.add(ChatColor.GRAY + "fire resistance. He can also spawn");
+		fireLore.add(ChatColor.GRAY + "default entities from the nether, however");
+		fireLore.add(ChatColor.GRAY + "since they are frequent, they are not as");
+		fireLore.add(ChatColor.GRAY + "much of a challenge.");
+		fireLore.add("");
+		fireLore.add(ChatColor.GREEN + "Good Luck Soldier!");
+		
+		ItemStack fireTitan = generateTitanItem(Material.BLAZE_ROD, ChatColor.GOLD + "Fire Titan", 1.3);
+		ItemMeta fMeta = fireTitan.getItemMeta();
+		
+		fMeta.setLore(fireLore);
+		fireTitan.setItemMeta(fMeta);
+		
+		
+		List<String> magicLore = new ArrayList<>();
+		magicLore.add(ChatColor.GRAY + "The Magical Titan was always my favorite");
+		magicLore.add(ChatColor.GRAY + "to fight, since it drops an item that can");
+		magicLore.add(ChatColor.GRAY + "increase your base statistics. But, all");
+		magicLore.add(ChatColor.GRAY + "good things come at a price.");
+		magicLore.add("");
+		magicLore.add(ChatColor.GREEN + "Good Luck Soldier!");
+		
+		ItemStack magicTitan = generateTitanItem(Material.AMETHYST_SHARD, ChatColor.DARK_GREEN + "Magical Titan", 1.4);
+		ItemMeta mMeta = magicTitan.getItemMeta();
+		
+		mMeta.setLore(magicLore);
+		magicTitan.setItemMeta(mMeta);
+		
+		
+		// Setting
+		titanFinder.setItem(10, fireTitan);
+		titanFinder.setItem(11, magicTitan);
 		
 		// Later
 		titanFinder.setItem(37, later);
