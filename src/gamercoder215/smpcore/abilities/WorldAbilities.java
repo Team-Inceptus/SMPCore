@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Arrow;
@@ -21,6 +22,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.SpectralArrow;
 import org.bukkit.entity.ThrownExpBottle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,6 +35,7 @@ import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ExpBottleEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -409,14 +412,28 @@ public class WorldAbilities implements Listener {
 	@EventHandler
 	public void onHitMainhand(ProjectileHitEvent e) {
 		if (!(e.getEntity().getShooter() instanceof Player)) return;
-		if (e.getHitEntity() == null) return;
-		if (!(e.getHitEntity() instanceof LivingEntity)) return;
-		LivingEntity en = (LivingEntity) e.getHitEntity();
+		
 		Player p = (Player) e.getEntity().getShooter();
 		if (p.getInventory().getItemInMainHand() == null) return;
 		ItemStack item = p.getInventory().getItemInMainHand();
 		if (!(item.hasItemMeta())) return;
 		ItemMeta itemMeta = item.getItemMeta();
+		
+		if (itemMeta.getDisplayName().contains("Rectus") && item.getType() == Material.CROSSBOW && itemMeta.hasItemFlag(ItemFlag.HIDE_DYE)) {
+			if (e.getHitBlock() != null) {
+				Block b = e.getHitBlock();
+				
+				b.getWorld().strikeLightning(b.getLocation());
+				b.getWorld().createExplosion(b.getLocation(), 8F, false, false, p);
+			} else if (e.getHitEntity() != null) {
+				
+				e.getHitEntity().getWorld().strikeLightning(e.getHitEntity().getLocation());
+				e.getHitEntity().getWorld().createExplosion(e.getHitEntity().getLocation(), 8F, false, false, p);
+			}
+		}
+		if (e.getHitEntity() == null) return;
+		if (!(e.getHitEntity() instanceof LivingEntity)) return;
+		LivingEntity en = (LivingEntity) e.getHitEntity();
 		
 		if (itemMeta.getDisplayName().contains("Ocassus Bow") && itemMeta.getEnchantLevel(Enchantment.RIPTIDE) == 2 && itemMeta.getEnchantLevel(Enchantment.ARROW_INFINITE) == 4) {
 			if (!(en.getType().equals(EntityType.ENDERMAN))) e.setCancelled(true);
@@ -682,7 +699,26 @@ public class WorldAbilities implements Listener {
 		}
 	}
 	
+	@EventHandler
+	public void onBowShoot(EntityShootBowEvent e) {
+		if (!(e.getEntity() instanceof Player)) return;
+		
+		ItemStack consumed = e.getConsumable();
+		
+		if (consumed.isSimilar(TitanFetcher.getVelocityArrow())) {
+			if (!(e.getProjectile() instanceof SpectralArrow)) return;
+			SpectralArrow arrow = (SpectralArrow) e.getProjectile();
+			
+			arrow.setVelocity(e.getProjectile().getVelocity().multiply(3));
+			arrow.setCritical(true);
+			arrow.setShotFromCrossbow(true);
+			arrow.setPierceLevel(15);
+		}
+	}
+	
 	ArrayList<UUID> gappleCooldown = new ArrayList<UUID>();
+	
+	
 	
 	@EventHandler
 	public void onConsume(PlayerItemConsumeEvent e) {
