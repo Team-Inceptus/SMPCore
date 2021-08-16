@@ -126,11 +126,11 @@ public class TitanFinder {
 		crossbowLore.add("");
 		crossbowLore.add(ChatColor.GREEN + "Good Luck Soldier!");
 		
-		ItemStack crossbowTitan = generateTitanItem(Material.CROSSBOW, ChatColor.DARK_AQUA + "Crossbow Titna", 1.65);
+		ItemStack crossbowTitan = generateTitanItem(Material.CROSSBOW, ChatColor.DARK_AQUA + "Crossbow Titan", 1.65);
 		ItemMeta cMeta = crossbowTitan.getItemMeta();
 		
 		cMeta.setLore(crossbowLore);
-		crossbowTitan.setItemMeta(mMeta);
+		crossbowTitan.setItemMeta(cMeta);
 		
 		// Setting
 		titanFinder.setItem(10, (hasUnlocked(plugin, p, 40) ? fireTitan : notUnlocked(40)));

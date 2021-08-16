@@ -11,12 +11,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Statistic;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Ravager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -42,6 +40,7 @@ import gamercoder215.smpcore.utils.entities.arena_titans.CrossbowTitan;
 import gamercoder215.smpcore.utils.entities.arena_titans.FireTitan;
 import gamercoder215.smpcore.utils.entities.arena_titans.MagicalTitan;
 import gamercoder215.smpcore.utils.fetcher.ItemFetcher;
+import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 import net.minecraft.server.level.WorldServer;
 
 public class GUIManagers implements Listener {
@@ -1309,15 +1308,12 @@ public class GUIManagers implements Listener {
     		  MagicalTitan m = new MagicalTitan(bossLoc);
     		  ws.addEntity(m);
     	  } else if (type.equals(Material.CROSSBOW)) {
-    		  Ravager r = (Ravager) bossLoc.getWorld().spawnEntity(bossLoc, EntityType.RAVAGER);
-    		  
-    		  r.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(100000);
-    		  r.setHealth(100000);
-    		  
     		  CrossbowTitan c = new CrossbowTitan(bossLoc);
-    		  ws.addEntity(c);
     		  
-    		  r.addPassenger((LivingEntity) c.getBukkitEntity());
+    		  ((LivingEntity) c.getBukkitEntity()).getEquipment().setItemInMainHand(TitanFetcher.getRectus());
+    		  ((LivingEntity) c.getBukkitEntity()).getEquipment().setItemInMainHandDropChance(0.0005f);
+    		  
+    		  ws.addEntity(c);
     	  }
     	  
     	  p.playSound(bossLoc, Sound.ENTITY_ENDER_DRAGON_GROWL, 3F, 1F);
