@@ -45,6 +45,8 @@ public class MagicalTitan extends EntityIllagerIllusioner {
 		eMeta.addEnchant(Enchantment.ARROW_KNOCKBACK, 25, true);
 		eMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
 		
+		eMeta.setUnbreakable(true);
+		
 		eMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
 		
 		eMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 70, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
@@ -55,7 +57,7 @@ public class MagicalTitan extends EntityIllagerIllusioner {
 		en.getEquipment().setItemInMainHand(enchantedBow);
 		en.getEquipment().setItemInMainHandDropChance(r.nextFloat());
 		
-		FinderUtils.setAttributes(en, 1.1);
+		FinderUtils.setAttributes(en, 1.3);
 		FinderUtils.addTitanEffects(1, en);
 	}
 	

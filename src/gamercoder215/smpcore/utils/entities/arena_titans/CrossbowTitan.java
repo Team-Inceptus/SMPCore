@@ -22,7 +22,9 @@ public class CrossbowTitan extends EntityPillager {
 		
 		LivingEntity en = (LivingEntity) this.getBukkitEntity();
 		
-		FinderUtils.setAttributes(en, 1.3);
+		
+		
+		FinderUtils.setAttributes(en, 1.6);
 		FinderUtils.addTitanEffects(1, en);
 	}
 }

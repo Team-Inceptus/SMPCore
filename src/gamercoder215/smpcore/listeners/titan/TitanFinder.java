@@ -119,10 +119,23 @@ public class TitanFinder {
 		mMeta.setLore(magicLore);
 		magicTitan.setItemMeta(mMeta);
 		
+		List<String> crossbowLore = new ArrayList<>();
+		crossbowLore.add(ChatColor.GRAY + "The Crossbow Titan is a master of");
+		crossbowLore.add(ChatColor.GRAY + "archery. He sometimes teleports behind");
+		crossbowLore.add(ChatColor.GRAY + "you, which can get annoying.");
+		crossbowLore.add("");
+		crossbowLore.add(ChatColor.GREEN + "Good Luck Soldier!");
+		
+		ItemStack crossbowTitan = generateTitanItem(Material.CROSSBOW, ChatColor.DARK_AQUA + "Crossbow Titna", 1.65);
+		ItemMeta cMeta = crossbowTitan.getItemMeta();
+		
+		cMeta.setLore(crossbowLore);
+		crossbowTitan.setItemMeta(mMeta);
 		
 		// Setting
 		titanFinder.setItem(10, (hasUnlocked(plugin, p, 40) ? fireTitan : notUnlocked(40)));
-		titanFinder.setItem(11, (hasUnlocked(plugin, p, 50) ? magicTitan : notUnlocked(50)));
+		titanFinder.setItem(11, (hasUnlocked(plugin, p, 45) ? magicTitan : notUnlocked(45)));
+		titanFinder.setItem(12, (hasUnlocked(plugin, p, 55) ? crossbowTitan : notUnlocked(55)));
 		
 		// Later
 		titanFinder.setItem(37, later);

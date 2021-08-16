@@ -11,12 +11,12 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.MagmaCube;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Vindicator;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -42,6 +42,24 @@ public class ArenaTitanAbilities implements Listener {
 		});
 	}
 	
+	@EventHandler
+	public void onBowShoot(EntityShootBowEvent e) {
+		if (!(e.getEntity().getWorld().getName().equalsIgnoreCase("world_titan_end"))) return;
+		if (e.getEntity() instanceof HumanEntity) return;
+		if (!(e.getEntity() instanceof LivingEntity)) return;
+		if (e.getEntity().getCustomName() == null) return;
+		if (!(e.getEntity().getCustomName().contains("Titan"))) return;
+		
+		LivingEntity en = (LivingEntity) e.getEntity();
+		
+		if (e.getEntityType() == EntityType.PILLAGER) {
+			e.getProjectile().setVelocity(e.getProjectile().getVelocity().multiply(3));
+			
+			if (r.nextInt(100) < 5) {
+				announceDialogue(en, "My bow fires extremely fast arrows to speeds that simpletons like you cannot understand.");
+			}
+		}
+	}
 	
 	
 	@EventHandler
@@ -82,21 +100,17 @@ public class ArenaTitanAbilities implements Listener {
 			
 		} else if (e.getEntityType() == EntityType.ILLUSIONER) {
 			if (r.nextInt(100) < 15) {
-				announceDialogue(en, "Come, my villager brothers!");
-				if (r.nextInt(100) < 25) {
-					en.getWorld().spawnEntity(en.getLocation(), EntityType.EVOKER);
-				} else {
-					if (r.nextBoolean() == true) {
-						Vindicator v = (Vindicator) en.getWorld().spawnEntity(en.getLocation(), EntityType.VINDICATOR);
-						
-						v.setCustomName(ChatColor.DARK_GREEN + "Magic Vindicator");
-						v.setCustomNameVisible(true);
-						v.setHealth(r.nextInt(10000 - 25000) + 25000);
-						v.getEquipment().setItem(EquipmentSlot.HAND, TitanFetcher.getMagicalAxe());            
-					} else {
-						en.getWorld().spawnEntity(en.getLocation(), EntityType.PILLAGER);
-					}
-				}
+				announceDialogue(en, "Come, my illager brothers!");
+				en.getWorld().spawnEntity(en.getLocation(), EntityType.EVOKER);
+			}
+		} else if (e.getEntityType() == EntityType.PILLAGER) {
+			if (r.nextInt(100) < 10) {
+				en.teleport(den.getLocation().subtract(den.getLocation().getDirection().multiply(-3)));
+				den.damage(100, en);
+			}
+			
+			if (r.nextInt(100) < 25) {
+				en.getWorld().spawnEntity(en.getLocation(), EntityType.RAVAGER);
 			}
 		}
 		
@@ -116,6 +130,10 @@ public class ArenaTitanAbilities implements Listener {
 		if (en.getType() == EntityType.BLAZE) {
 			if (r.nextBoolean() == true) {
 				target.getWorld().createExplosion(target.getLocation(), 6, true, false, en);
+			}
+		} else if (en.getType() == EntityType.PILLAGER) {
+			if (r.nextBoolean() == true) {
+				target.getWorld().createExplosion(target.getLocation(), 4, false, false, en);
 			}
 		}
 	}
@@ -152,6 +170,11 @@ public class ArenaTitanAbilities implements Listener {
 			}
 		} else if (e.getEntityType() == EntityType.ILLUSIONER) {
 			en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getAttributeApple());
+		} else if (e.getEntityType() == EntityType.PILLAGER) {
+			ItemStack arrows = TitanFetcher.getVelocityArrow();
+			arrows.setAmount(r.nextInt(32 - 4) + 4);
+			
+			en.getWorld().dropItemNaturally(en.getLocation(), arrows);
 		}
 		
 		if (en.getKiller() == null) return;

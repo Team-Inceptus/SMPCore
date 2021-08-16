@@ -1295,4 +1295,27 @@ public class TitanFetcher {
 		
 		return attributeApple;
 	}
+	
+	public static ItemStack getVelocityArrow() {
+		ItemStack speedArrow = new ItemStack(Material.SPECTRAL_ARROW, 1);
+		ItemMeta sMeta = speedArrow.getItemMeta();
+		sMeta.setDisplayName(ChatColor.BLUE + "Velocity Arrow");
+		sMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+		sMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		
+		speedArrow.setItemMeta(sMeta);
+		
+		return speedArrow;
+	}
+	
+	public static ItemStack getRectus() {
+		try {
+			ItemStack rectus = GeneralUtils.itemFromNBT("{id: \"minecraft:crossbow\", tag: {Enchantments: [{id: \"minecraft:flame\", lvl: 1s}, {id: \"minecraft:infinity\", lvl: 1s}, {id: \"minecraft:looting\", lvl: 175s}, {id: \"minecraft:multishot\", lvl: 1s}, {id: \"minecraft:piercing\", lvl: 300s}, {id: \"minecraft:power\", lvl: 600s}, {id: \"minecraft:punch\", lvl: 150s}, {id: \"minecraft:quick_charge\", lvl: 4s}], Unbreakable: 1b, Damage: 0, HideFlags: 67, Charged: 0b, display: {Name: '{\"text\":\"Rectus\",\"color\":\"blue\",\"bold\":true,\"italic\":false}'}, AttributeModifiers: [{Slot: \"mainhand\", AttributeName: \"generic.attack_damage\", Operation: 0, UUID: [I; -1323901606, 399658585, -1600109813, 1924284967], Name: \"generic.attack_damage\", Amount: 11000}, {Slot: \"offhand\", AttributeName: \"generic.attack_damage\", Operation: 0, UUID: [I; -1865026865, 845563246, -2095761092, -1675840117], Name: \"generic.attack_damage\", Amount: 9000}], ChargedProjectiles: []}, Count: 1b}");
+			return rectus;
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }
