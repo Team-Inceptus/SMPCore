@@ -88,6 +88,8 @@ commands:
   suspend:
     description: Suspend a player (temp ban)
     aliases: [tempban, tban, yeetintospace, yeetintolespace, softban]
+    permission: core.admin.suspend
+    permission-message: You do not have permission to use this command.
   titanwarps:
     description: Opens up the Titan Warps menu.
     aliases: [twarps, tw, titanw]
@@ -98,7 +100,17 @@ commands:
     description: Gets a player's statistic.
     aliases: [gets, gstatistic, gs, getplayerstatistic, getplayers, gplayerstatistic, gpstatistic, gps]
     permission: core.admin.getstatistic
-    permission-message: You do not have permission to use this command.   
+    permission-message: You do not have permission to use this command.
+  banlist:
+    description: Get the banlist.
+    aliases: [blist, bl, banl]
+    permission: core.admin.ban
+    permission-message: You do not have permission to use this command.
+  suspendlist:
+    description: Get the suspend list.
+    aliases: [slist, sl, suspendl]
+    permission: core.admin.suspend
+    permission-message: You do not have permission to use this command.
   
   
 permissions:

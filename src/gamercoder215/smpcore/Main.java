@@ -50,6 +50,7 @@ import gamercoder215.smpcore.bosses.drops.ZombieKingDrops;
 import gamercoder215.smpcore.commands.Abilities;
 import gamercoder215.smpcore.commands.AllowFlight;
 import gamercoder215.smpcore.commands.Ban;
+import gamercoder215.smpcore.commands.Banlist;
 import gamercoder215.smpcore.commands.Bed;
 import gamercoder215.smpcore.commands.Boss;
 import gamercoder215.smpcore.commands.CoderTest;
@@ -68,6 +69,7 @@ import gamercoder215.smpcore.commands.Rejoin;
 import gamercoder215.smpcore.commands.SetRank;
 import gamercoder215.smpcore.commands.SpawnCustomEntity;
 import gamercoder215.smpcore.commands.Suspend;
+import gamercoder215.smpcore.commands.Suspendlist;
 import gamercoder215.smpcore.commands.TitanWarps;
 import gamercoder215.smpcore.commands.TradesMenu;
 import gamercoder215.smpcore.commands.WandInfo;
@@ -164,7 +166,9 @@ public class Main extends JavaPlugin {
       new EditPlayer(this);
       new CoderTest(this);
       new Ban(this);
+      new Banlist(this);
       new Suspend(this);
+      new Suspendlist(this);
       new GetStatistic(this);
       new SetRank(this);
       // Listeners & Utils
