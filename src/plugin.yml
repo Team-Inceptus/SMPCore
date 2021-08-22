@@ -55,7 +55,7 @@ commands:
     permission-message: You do not have permission to use this command.
   ecsee:
     description: Look at a player's ender chest.
-    permission: core.admin.invsee
+    permission: core.admin.ecsee
     permission-message: You do not have permission to use this command.
   allowflight:
     description: Allows or disallows a player's flight.
@@ -137,6 +137,10 @@ permissions:
       core.admin: true
   core.admin.invsee:
     description: Allows you to see other inventories.
+    children:
+      core.admin: true
+  core.admin.ecsee:
+    description: Allows you to see ender chests.
     children:
       core.admin: true
   core.admin.spawnboss:
