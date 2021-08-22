@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 import net.minecraft.network.chat.ChatComponentText;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.monster.EntityVindicator;
@@ -37,29 +36,26 @@ public class AxeTitan extends EntityVindicator {
 		
 		LivingEntity en = (LivingEntity) this.getBukkitEntity();
 		
-		ItemStack clades = new ItemStack(Material.NETHERITE_AXE, 1);
-		ItemMeta cMeta = clades.getItemMeta();
+		ItemStack bossclades = new ItemStack(Material.NETHERITE_AXE, 1);
+		ItemMeta cMeta = bossclades.getItemMeta();
 		cMeta.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Clades");
-		cMeta.addEnchant(Enchantment.DAMAGE_ALL, 550, true);
+		cMeta.setUnbreakable(true);
+		cMeta.addEnchant(Enchantment.DAMAGE_ALL, 600, true);
 		cMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 450, true);
 		cMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, 450, true);
 		cMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
 		
-		cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 9500, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
-		cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 9500, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
+		cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 900, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+		cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 900, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
 		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", -0.75, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
 		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", -0.75, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.OFF_HAND));
 		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", -0.75, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
 		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", -0.75, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.OFF_HAND));
 		
-		clades.setItemMeta(cMeta);
+		bossclades.setItemMeta(cMeta);
 		
-		en.getEquipment().setItemInMainHand(clades);
-		en.getEquipment().setItemInMainHandDropChance(0.0005f);
-		
-		
-		en.getEquipment().setItemInOffHand(TitanFetcher.getMagicalAxe());
-		en.getEquipment().setItemInOffHandDropChance(r.nextFloat());
+		en.getEquipment().setItemInMainHand(bossclades);
+		en.getEquipment().setItemInMainHandDropChance(0);
 		
 		FinderUtils.setAttributes(en, 2);
 		FinderUtils.addTitanEffects(1, en);

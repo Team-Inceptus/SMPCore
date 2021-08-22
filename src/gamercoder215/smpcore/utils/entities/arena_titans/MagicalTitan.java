@@ -56,7 +56,7 @@ public class MagicalTitan extends EntityIllagerIllusioner {
 		
 		en.getEquipment().setItemInMainHand(enchantedBow);
 		en.getEquipment().setItemInMainHandDropChance(r.nextFloat());
-		
+
 		FinderUtils.setAttributes(en, 1.3);
 		FinderUtils.addTitanEffects(1, en);
 	}

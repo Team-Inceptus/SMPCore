@@ -132,10 +132,55 @@ public class TitanFinder {
 		cMeta.setLore(crossbowLore);
 		crossbowTitan.setItemMeta(cMeta);
 		
+		List<String> axeLore = new ArrayList<>();
+		axeLore.add(ChatColor.GRAY + "The Axe titan is very strong, but");
+		axeLore.add(ChatColor.GRAY + "lacks decent abilities. I recommend");
+		axeLore.add(ChatColor.GRAY + "not bringing a shield to this fight,");
+		axeLore.add(ChatColor.GRAY + "you will definetly not be happy with");
+		axeLore.add(ChatColor.GRAY + "the outcome.");
+		axeLore.add("");
+		axeLore.add(ChatColor.GREEN + "Good Luck Soldier!");
+		
+		ItemStack axeTitan = generateTitanItem(Material.NETHERITE_AXE, ChatColor.AQUA + "Axe Titan", 1.8);
+		ItemMeta aMeta = axeTitan.getItemMeta();
+		
+		aMeta.setLore(axeLore);
+		axeTitan.setItemMeta(aMeta);
+		
+		List<String> knockbackLore = new ArrayList<>();
+		knockbackLore.add(ChatColor.GRAY + "Sending you far is this titan's");
+		knockbackLore.add(ChatColor.GRAY + "thing. Be careful where you land.");
+		knockbackLore.add(ChatColor.GRAY + "Minions appear as well.");
+		knockbackLore.add("");
+		knockbackLore.add(ChatColor.GREEN + "Good Luck Soldier!");
+		
+		ItemStack knockbackTitan = generateTitanItem(Material.STICK, ChatColor.RED + "Knockback Titan", 1.95);
+		ItemMeta kMeta = knockbackTitan.getItemMeta();
+		
+		kMeta.setLore(knockbackLore);
+		knockbackTitan.setItemMeta(kMeta);
+		
+		List<String> pLore = new ArrayList<>();
+		pLore.add(ChatColor.GRAY + "Potions effects are thrown all");
+		pLore.add(ChatColor.GRAY + "the time with this titan. Make sure");
+		pLore.add(ChatColor.GRAY + "to bring plenty of milk, although it");
+		pLore.add(ChatColor.GRAY + "may not be enough.");
+		pLore.add("");
+		pLore.add(ChatColor.GREEN + "Good Luck Soldier!");
+		
+		
+		ItemStack potTitan = generateTitanItem(Material.POTION, ChatColor.DARK_PURPLE + "Potion Titan", 2.1);
+		ItemMeta pMeta = potTitan.getItemMeta();
+		pMeta.setLore(pLore);
+		potTitan.setItemMeta(pMeta);
+		
 		// Setting
 		titanFinder.setItem(10, (hasUnlocked(plugin, p, 40) ? fireTitan : notUnlocked(40)));
 		titanFinder.setItem(11, (hasUnlocked(plugin, p, 45) ? magicTitan : notUnlocked(45)));
 		titanFinder.setItem(12, (hasUnlocked(plugin, p, 55) ? crossbowTitan : notUnlocked(55)));
+		titanFinder.setItem(13, (hasUnlocked(plugin, p, 65) ? axeTitan : notUnlocked(65)));
+		titanFinder.setItem(14, (hasUnlocked(plugin, p, 80) ? knockbackTitan : notUnlocked(80)));
+		titanFinder.setItem(15, (hasUnlocked(plugin, p, 90) ? potTitan : notUnlocked(90)));
 		
 		// Later
 		titanFinder.setItem(37, later);

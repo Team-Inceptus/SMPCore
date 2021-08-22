@@ -36,15 +36,18 @@ import gamercoder215.smpcore.utils.AdvancementMessages;
 import gamercoder215.smpcore.utils.TradeInventories;
 import gamercoder215.smpcore.utils.TradeParser;
 import gamercoder215.smpcore.utils.entities.Witherman;
+import gamercoder215.smpcore.utils.entities.arena_titans.AxeTitan;
 import gamercoder215.smpcore.utils.entities.arena_titans.CrossbowTitan;
 import gamercoder215.smpcore.utils.entities.arena_titans.FireTitan;
+import gamercoder215.smpcore.utils.entities.arena_titans.KnockbackTitan;
 import gamercoder215.smpcore.utils.entities.arena_titans.MagicalTitan;
+import gamercoder215.smpcore.utils.entities.arena_titans.PotionTitan;
 import gamercoder215.smpcore.utils.fetcher.ItemFetcher;
 import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 import net.minecraft.server.level.WorldServer;
 
 public class GUIManagers implements Listener {
-   private Main plugin;
+   protected Main plugin;
 
    public EntityType getEntityByName(String name) {
        for (EntityType type : EntityType.values()) {
@@ -1314,6 +1317,15 @@ public class GUIManagers implements Listener {
     		  ((LivingEntity) c.getBukkitEntity()).getEquipment().setItemInMainHandDropChance(0.0005f);
     		  
     		  ws.addEntity(c);
+    	  } else if (type.equals(Material.NETHERITE_AXE)) {
+    		  AxeTitan a = new AxeTitan(bossLoc);
+    		  ws.addEntity(a);
+    	  } else if (type.equals(Material.STICK)) {
+    		  KnockbackTitan k = new KnockbackTitan(bossLoc);
+    		  ws.addEntity(k);
+    	  } else if (type == Material.POTION) {
+    		  PotionTitan po = new PotionTitan(bossLoc);
+    		  ws.addEntity(po);
     	  }
     	  
     	  p.playSound(bossLoc, Sound.ENTITY_ENDER_DRAGON_GROWL, 3F, 1F);

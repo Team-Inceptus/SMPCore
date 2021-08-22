@@ -4,24 +4,36 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.MagmaCube;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Zoglin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.utils.AdvancementMessages;
+import gamercoder215.smpcore.utils.GeneralUtils;
 import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 
 public class ArenaTitanAbilities implements Listener {
@@ -105,12 +117,76 @@ public class ArenaTitanAbilities implements Listener {
 			}
 		} else if (e.getEntityType() == EntityType.PILLAGER) {
 			if (r.nextInt(100) < 10) {
-				en.teleport(den.getLocation().subtract(den.getLocation().getDirection().multiply(-3)));
+				Block b = en.getWorld().getBlockAt(den.getLocation().subtract(den.getLocation().getDirection().multiply(-3)));
+				
+				if (b.isPassable()) {
+					en.teleport(den.getLocation().subtract(den.getLocation().getDirection().multiply(-3)));
+				}
 				den.damage(100, en);
 			}
 			
 			if (r.nextInt(100) < 25) {
 				en.getWorld().spawnEntity(en.getLocation(), EntityType.RAVAGER);
+			}
+		} else if (e.getEntityType() == EntityType.VINDICATOR) {
+			if (r.nextInt(100) < 75) {
+				Skeleton s = (Skeleton) en.getWorld().spawnEntity(en.getLocation(), EntityType.SKELETON);
+				
+				s.setCustomNameVisible(true);
+				s.setCustomName(ChatColor.BLUE + "Axe Skeleton");
+				
+				s.getEquipment().setHelmet(TitanFetcher.getAxeHelmet());
+				s.getEquipment().setHelmetDropChance(0.0005f);
+				
+				s.getEquipment().setItemInMainHand(new ItemStack(Material.NETHERITE_AXE, 1));
+				s.getEquipment().setItemInMainHandDropChance(0f);
+				
+				s.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(250000);
+				s.setHealth(250000);
+				s.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(0.2);
+				s.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.7);
+				
+				s.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 1, true, false, false));
+			}
+			
+			
+		} else if (e.getEntityType() == EntityType.HOGLIN) {
+			if (r.nextInt(100) < 40) {
+				den.setVelocity(den.getVelocity().multiply(-5));
+				
+				announceDialogue(en, "Goodbye!");
+			}
+			
+			if (r.nextInt(100) < 25) {
+				Zoglin z = (Zoglin) en.getWorld().spawnEntity(en.getLocation(), EntityType.ZOGLIN);
+				
+				z.setCustomNameVisible(true);
+				z.setCustomName(ChatColor.RED + "Zombified Knockback Hoglin");
+				
+				z.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK).setBaseValue(5);
+				z.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(300000);
+			}
+		} else if (e.getEntityType() == EntityType.WITCH) {
+			PotionEffectType[] types = {
+				PotionEffectType.POISON,
+				PotionEffectType.WITHER,
+				PotionEffectType.CONFUSION,
+				PotionEffectType.HARM,
+				PotionEffectType.SLOW,
+				PotionEffectType.WEAKNESS,
+				PotionEffectType.UNLUCK,
+				PotionEffectType.HUNGER,
+				PotionEffectType.BLINDNESS
+			};
+			
+			if (r.nextBoolean() == true) {
+				den.addPotionEffect(new PotionEffect(types[r.nextInt(types.length)], 20 * 120, r.nextInt(14 - 4) + 4, false, true, true));
+			}
+			
+			en.getWorld().spawnEntity(en.getLocation(), EntityType.WITCH);
+			
+			if (r.nextInt(100) < 25) {
+				en.getWorld().spawnEntity(en.getLocation(), EntityType.EVOKER);
 			}
 		}
 		
@@ -135,6 +211,21 @@ public class ArenaTitanAbilities implements Listener {
 			if (r.nextBoolean() == true) {
 				target.getWorld().createExplosion(target.getLocation(), 4, false, false, en);
 			}
+		} else if (en.getType() == EntityType.VINDICATOR) {
+			if (target.getEquipment().getItemInOffHand().getType() == Material.SHIELD) {
+				if (target.getEquipment().getItemInOffHand().getItemMeta().isUnbreakable()) {
+					ItemStack newShield = target.getEquipment().getItemInOffHand().clone();
+					ItemMeta sMeta = newShield.getItemMeta();
+					sMeta.setUnbreakable(false);
+					newShield.setItemMeta(sMeta);
+					
+					target.getEquipment().setItemInOffHand(newShield);
+					
+					announceDialogue(en, "I can make unbreakable shields breakable again! Nice try...");
+				}
+			}
+		} else if (en.getType() == EntityType.HOGLIN) {
+			target.setVelocity(target.getVelocity().multiply(3));
 		}
 	}
 	
@@ -175,6 +266,54 @@ public class ArenaTitanAbilities implements Listener {
 			arrows.setAmount(r.nextInt(32 - 4) + 4);
 			
 			en.getWorld().dropItemNaturally(en.getLocation(), arrows);
+		} else if (e.getEntityType() == EntityType.VINDICATOR) {
+			if (r.nextInt(100) < 10) {
+				en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getClades());
+			}
+			
+			
+		} else if (e.getEntityType() == EntityType.HOGLIN) {
+			ItemStack pork = TitanFetcher.getTitanPorkchop();
+			pork.setAmount(r.nextInt(64 - 16) + 16);
+			
+			en.getWorld().dropItemNaturally(en.getLocation(), pork);
+			
+			if (r.nextInt(100) < 10) {
+				ItemStack punchStick = new ItemStack(Material.BONE, 1);
+				ItemMeta pMeta = punchStick.getItemMeta();
+				
+				pMeta.setDisplayName(ChatColor.RED + "Punch Stick");
+				pMeta.addEnchant(Enchantment.KNOCKBACK, 700, true);
+				pMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+				
+				punchStick.setItemMeta(pMeta);
+				
+				en.getWorld().dropItemNaturally(en.getLocation(), punchStick);
+			}
+		} else if (e.getEntityType() == EntityType.WITCH) {
+			int chance = r.nextInt(100);
+			try {
+				ItemStack titanPot = GeneralUtils.itemFromNBT("{id: \"minecraft:potion\", tag: {display: {Name: '{\"text\":\"Potion of Titans\",\"color\":\"blue\",\"bold\":true,\"italic\":false}'}, Enchantments: [{id: \"minecraft:protection\", lvl: 1s}], CustomPotionEffects: [{ShowParticles: 1b, Id: 1b, Duration: 6000, ShowIcon: 1b, Amplifier: 2b, Ambient: 0b}, {ShowParticles: 1b, Id: 5b, Duration: 6000, ShowIcon: 1b, Amplifier: 6b, Ambient: 0b}, {ShowParticles: 1b, Id: 8b, Duration: 6000, ShowIcon: 1b, Amplifier: 2b, Ambient: 0b}, {ShowParticles: 1b, Id: 11b, Duration: 6000, ShowIcon: 1b, Amplifier: 3b, Ambient: 0b}, {ShowParticles: 1b, Id: 12b, Duration: 6000, ShowIcon: 1b, Amplifier: 2b, Ambient: 0b}, {ShowParticles: 1b, Id: 13b, Duration: 6000, ShowIcon: 1b, Amplifier: 1b, Ambient: 0b}, {ShowParticles: 1b, Id: 16b, Duration: 6000, ShowIcon: 1b, Amplifier: 1b, Ambient: 0b}, {ShowParticles: 1b, Id: 22b, Duration: 6000, ShowIcon: 1b, Amplifier: 6b, Ambient: 0b}, {ShowParticles: 1b, Id: 23b, Duration: 6000, ShowIcon: 1b, Amplifier: 1b, Ambient: 0b}, {ShowParticles: 1b, Id: 26b, Duration: 6000, ShowIcon: 1b, Amplifier: 3b, Ambient: 0b}, {ShowParticles: 1b, Id: 28b, Duration: 6000, ShowIcon: 1b, Amplifier: 2b, Ambient: 0b}], HideFlags: 1, CustomPotionColor: 39423, Potion: \"minecraft:empty\"}, Count: 1b}");
+				en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
+				
+				if (chance < 60) {
+					en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
+				}
+				
+				if (chance < 30) {
+					en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
+				}
+				
+				if (chance < 15) {
+					en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
+				}
+				
+				if (chance < 5) {
+					en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
+				}
+			} catch (CommandSyntaxException err) {
+				err.printStackTrace();
+			}
 		}
 		
 		if (en.getKiller() == null) return;

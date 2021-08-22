@@ -714,6 +714,7 @@ public class TitanFetcher {
 	public static ItemStack getIndeses() {
 		ItemStack indeses = new ItemStack(Material.NETHERITE_AXE);
 		ItemMeta iMeta = indeses.getItemMeta();
+		iMeta.setUnbreakable(true);
 		iMeta.setDisplayName(ChatColor.DARK_BLUE + "" + ChatColor.BOLD + "Indeses");
 		iMeta.addEnchant(Enchantment.DIG_SPEED, 350, true);
 		iMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 125, true);
@@ -1317,5 +1318,48 @@ public class TitanFetcher {
 		}
 		
 		return null;
+	}
+	
+	public static ItemStack getAxeHelmet() {
+		ItemStack axeHelmet = new ItemStack(Material.DIAMOND_HELMET, 1);
+		ItemMeta aMeta = axeHelmet.getItemMeta();
+		
+		aMeta.setDisplayName(ChatColor.DARK_BLUE + "Axe Helmet");
+		
+		aMeta.setUnbreakable(true);
+		aMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 625, true);
+		aMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 32767, true);
+		
+		aMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+		
+		aMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 24, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HEAD));
+		aMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 625, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+		
+		
+		axeHelmet.setItemMeta(aMeta);
+		
+		return axeHelmet;
+	}
+	
+	public static ItemStack getClades() {
+		ItemStack clades = new ItemStack(Material.NETHERITE_AXE, 1);
+		ItemMeta cMeta = clades.getItemMeta();
+		cMeta.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Clades");
+		cMeta.setUnbreakable(true);
+		cMeta.addEnchant(Enchantment.DAMAGE_ALL, 600, true);
+		cMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 450, true);
+		cMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, 450, true);
+		cMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+		
+		cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 9500, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+		cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 9500, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
+		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", -0.75, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", -0.75, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.OFF_HAND));
+		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", -0.75, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", -0.75, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.OFF_HAND));
+		
+		clades.setItemMeta(cMeta);
+		
+		return clades;
 	}
 }
