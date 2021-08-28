@@ -75,6 +75,39 @@ public class ArenaTitanAbilities implements Listener {
 	
 	
 	@EventHandler
+	public void onSpawn(EntitySpawnEvent e) {
+		if (!(e.getEntity().getWorld().getName().equalsIgnoreCase("world_titan_end"))) return;
+		if (e.getEntity() instanceof HumanEntity) return;
+		if (!(e.getEntity() instanceof LivingEntity)) return;
+		if (e.getEntity().getCustomName() == null) return;
+		if (!(e.getEntity().getCustomName().contains("Titan"))) return;
+
+		LivingEntity en = (LivingEntity) e.getEntity();
+
+		if (e.getEntityType() == EntityType.CREEPER) {
+			new BukkitRunnable() {
+				public void run() {
+					if (e.getEntity().isDead()) cancel();
+
+					en.getNearbyEntities(50, 50, 50).forEach(target -> {
+						if (!(target instanceof LivingEntity)) return;
+						LivingEntity ten = (LivingEntity) target;
+
+						ten.sendMessage(ChatColor.RED + "The Explosion Titan is preparing its Explosive Aura!")
+						new BukkitRunnable() {
+							public void run() {
+								ten.getWorld().createExplosion(ten.getEyeLocation(), 5, false, false, en);
+							}
+						}.runTaskLater(plugin, 20 * 5);
+						
+						
+ 					});
+				}
+			}.runTaskTimer(plugin, 0, 20 * 10);
+		}
+	}
+
+	@EventHandler
 	public void onDamageDefensive(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity().getWorld().getName().equalsIgnoreCase("world_titan_end"))) return;
 		if (e.getEntity() instanceof HumanEntity) return;
@@ -188,8 +221,150 @@ public class ArenaTitanAbilities implements Listener {
 			if (r.nextInt(100) < 25) {
 				en.getWorld().spawnEntity(en.getLocation(), EntityType.EVOKER);
 			}
+		} else if (e.getEntityType() == EntityType.CREEPER) {
+			if (r.nextInt(100) < 75) {
+				en.getWorld().createExplosion(en.getLocation(), r.nextInt(14 - 8) + 8, false, false, en);
+			}
+
+			en.getWorld().spawnEntity(en.getLocation(), EntityType.CREEPER);
+			en.getWorld().spawnEntity(en.getLocation(), EntityType.CREEPER);
+			en.getWorld().spawnEntity(en.getLocation(), EntityType.CREEPER);
+
+			if (r.nextBoolean() == true) {
+				Fireball f = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
+
+				f.setYield(1);
+				f.setDirection(new Vector(0, 180, 0));
+				
+				f.setIsIncendiary(true);
+
+				if (r.nextBoolean()) {
+					Fireball f = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
+
+					f.setYield(1);
+					f.setDirection(new Vector(0, 180, 0));
+					
+					f.setIsIncendiary(true);
+
+					if (r.nextBoolean()) {
+						Fireball f = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
+
+						f.setYield(1);
+						f.setDirection(new Vector(0, 180, 0));
+						
+						f.setIsIncendiary(true);
+						if (r.nextBoolean()) {
+							Fireball f = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
+
+							f.setYield(1);
+							f.setDirection(new Vector(0, 180, 0));
+							
+							f.setIsIncendiary(true);
+
+							if (r.nextBoolean()) {
+								Fireball f = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
+
+								f.setYield(1);
+								f.setDirection(new Vector(0, 180, 0));
+								
+								f.setIsIncendiary(true);
+								if (r.nextBoolean()) {
+									Fireball f = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
+
+									f.setYield(1);
+									f.setDirection(new Vector(0, 180, 0));
+									
+									f.setIsIncendiary(true);
+								}		
+							}
+						}
+					}
+				}
+			}
+		} else if (e.getEntityType() == EntityType.IRON_GOLEM) {
+			if (r.nexBoolean() == true) {
+				Skeleton s = en.getWorld().spawnEntity(en.getLocation(), EntityType.SKELETON);
+
+				ItemStack titanFerrum = new ItemStack(Material.IRON_BLOCK);
+				ItemMeta tMeta = titanFerrum.getItemMeta();
+				tMeta.setDisplayName(ChatColor.WHITE + "" + ChatColor.BOLD + "Titan Ferrum");
+				tMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 500, true);
+				tMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+				titanFerrum.setItemMeta(rMeta);
+
+				s.getEquipment().setItemInMainHand(Material.AIR);
+				s.getEquipment().setHelmet(titanFerrum);
+				s.getEquipment().setHelmetDropChance(0.0000001);
+
+				ItemStack chestplate = new ItemStack(Material.IRON_CHESTPLATE);
+				ItemMeta chestplateMeta = chestplate.getItemMeta();
+				chestplateMeta.setUnbreakable(true);
+				chestplate.setItemMeta(chestplateMeta);
+
+				s.getEquipment().setChestplate(chestplate);
+				s.getEquipment().setChestplateDropChance(0);
+
+				ItemStack leggings = new ItemStack(Material.IRON_LEGGINGS);
+				ItemMeta leggingsMeta = leggings.getItemMeta();
+				leggingsMeta.setUnbreakable(true);
+				leggings.setItemMeta(leggingsMeta);
+
+				s.getEquipment().setLeggings(leggings);
+				s.getEquipment().setLeggingsDropChance(0);
+
+				ItemStack boots = new ItemStack(Material.IRON_BOOTS);
+				ItemMeta bootsMeta = boots.getItemMeta();
+				bootsMeta.setUnbreakable(true);
+				boots.setItemMeta(bootsMeta);
+
+				s.getEquipment().setBoots(boots);
+				s.getEquipment().setBootsDropChance(0);
+
+
+				s.setCustomName(ChatColor.WHITE + "Iron Skeleton");
+				s.setCustomNameVisible(true);
+
+				s.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(r.nextInt(700 - 500) + 500);
+				s.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).setBaseValue(r.nextInt(600 - 450) + 450);
+				s.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(750000);
+				s.setHealth(750000);
+				s.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(5);
+				s.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK).setBaseValue(5);
+				s.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(r.nextInt(550 - 300) + 300);
+
+
+			}
+
+
 		}
 		
+		if (r.nextInt(100) < 10) {
+			Location fireworkLoc = den.getLocation().add(0, 10, 0);
+			fireworkLoc.setDirection(0, 180, 0);
+
+			Firework f = (Firework) en.getWorld().spawnEntity(fireworkLoc, EntityType.FIREWORK);
+
+			FireworkMeta fMeta = f.getFireworkMeta();
+
+			fMeta.setPower(r.nextInt(20 - 12) + 12);
+
+			FireworkEffect effect = new FireworkEffect().buildder().withTrail().trail(true).with(FireworkEffect.Type.CREEPER).withColor(Color.GREEN).withFade(Color.fromRGB(15, 120, 0)).build();
+
+			fMeta.addEffect(effect);
+			fMeta.setShotAtAngle(true);
+
+
+			f.setFireworkMeta(fMeta);
+
+			f.setVisualFire(true);
+			f.setVelocity(0, -1.5, 0);
+			
+			new BukkitRunnable() {
+				public void run() {
+					f.detonate();
+				}
+			}.runTaskLater(plugin, 20 * 1.5);
+		}
 	}
 	
 	@EventHandler
@@ -226,6 +401,31 @@ public class ArenaTitanAbilities implements Listener {
 			}
 		} else if (en.getType() == EntityType.HOGLIN) {
 			target.setVelocity(target.getVelocity().multiply(3));
+		} else if (en.getType() == EntityType.IRON_GOLEM) {
+			if (r.nextInt(100) < 10) {
+				boolean chance = r.nextBoolean();
+
+				if (chance) {
+					target.setVelocity(target.getVelocity().getX() * 1.25, 2.5, target.getVelocity().getZ() * 1.25)
+				} else {
+					target.setVelocity(target.getVelocity().getX(), 3, target.getVelocity().getZ());
+				}
+			}
+
+			if (r.nextBoolean()) target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 10, 4, false, false, true));
+			
+			if (r.nextInt(100) < 15) {
+				for (int count = ;count < 20; count++) {
+					new BukkitRunnable() {
+						public void run() {
+							target.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.WHITE + "Iron Poison - " + Integer.toSting(count) + "/20 Hits"));
+							target.damage(25);
+						}
+					}.runTaskLater(plugin, 5L);
+				}
+			}
+
+
 		}
 	}
 	
@@ -314,13 +514,34 @@ public class ArenaTitanAbilities implements Listener {
 			} catch (CommandSyntaxException err) {
 				err.printStackTrace();
 			}
+		} else if (e.getEntityType() == EntityType.IRON_GOLEM) {
+			int max = r.nextInt(40 - 15) + 15;
+
+			for (int count = 0; count < max; count++) {
+				en.getWorld().dropItemNaturally(en.getLoction(), new ItemStack(Material.IRON_BLOCK, 64));
+			}
+
+			ItemStack ferrumStack = TitanFetcher.getFerrumBlock();
+			ferrumStack.setAmount(64);
+
+			en.getWorld().dropItemNaturally(en.getLocation(), ferrumStack);
+
+			if (r.nextInt(100) < 15) {
+				en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getFerrumCore());
+			}
+
+			if (r.nextInt(1000) < 5) {
+				Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Crazy Rare Drop!" + ChatColor.WHITE + " Titan Essence" + ChatColor.GRAY + " dropped by " + ChatColor.WHITE + "Iron Titan" + ChatColor.GRAY + "!");
+
+				en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getTitanEssence());
+			}
 		}
 		
 		if (en.getKiller() == null) return;
 		Player p = en.getKiller();
 		
 		plugin.saveConfig();
-		
+
 		plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("titan_kills", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills") + 1);
 		
 	   	 int titanKills = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills");

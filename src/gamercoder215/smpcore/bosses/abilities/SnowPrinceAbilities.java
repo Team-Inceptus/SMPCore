@@ -76,18 +76,4 @@ public class SnowPrinceAbilities implements Listener {
 		}
 		
 	}
-	
-	@EventHandler
-	public void onWeatherChange(WeatherChangeEvent e) {
-		World w = e.getWorld();
-		
-		if (!(w.getName().equals("world"))) return;
-		
-		if (!(w.isClearWeather()) && snowPrinceExists(w.getEntities())) {
-			w.setClearWeatherDuration(1000000);
-			for (Player pl : w.getPlayers()) {
-				pl.sendMessage(ChatColor.DARK_AQUA + "The Snow Prince has cancelled the bad weather!");
-			}
-		}
-	}
 }

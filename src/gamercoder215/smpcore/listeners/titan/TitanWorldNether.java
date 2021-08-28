@@ -88,7 +88,7 @@ public class TitanWorldNether implements Listener {
 		} else if (type.equals(Material.CRIMSON_HYPHAE)) {
 			int chance = r.nextInt(1000);
 			
-			if (chance < 5) {
+			if (chance < 3) {
 				b.getWorld().dropItemNaturally(b.getLocation(), TitanFetcher.getMitisEssence());
 				p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_AMBIENT, 3F, 1F);
 				Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Crazy Rare Drop!" + ChatColor.DARK_AQUA + " Mitis Essence" + ChatColor.GRAY + " mined by " + p.getName() + "!");

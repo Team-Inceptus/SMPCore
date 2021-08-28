@@ -82,6 +82,9 @@ public class GetCustomItem implements CommandExecutor {
 				case "essence_enchanted_nether":
 					p.getInventory().addItem(ItemFetcher.getEnchantedNetherEssence());
 					break;
+				case "ferrum_core":
+					p.getInventory().addItem(TitanFetcher.getFerrumCore());
+					break;
 				case "wand":
 					if (args.length < 2) p.sendMessage(ChatColor.RED + "You need to provide a wand type!");
 					else {

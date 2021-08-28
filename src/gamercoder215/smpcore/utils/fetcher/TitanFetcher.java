@@ -1362,4 +1362,57 @@ public class TitanFetcher {
 		
 		return clades;
 	}
+
+	public static ItemStack getExplosionHeads(int tier) {
+		if (tier > 6) tier = 6;
+		if (tier < 1) tier = 1;
+
+		try {
+			if (tier == 1) {
+				ItemStack explosionFragment1 = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"T1 Explosion Fragment\",\"color\":\"red\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1031853657,919423726,-2059367205,1418649205],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2FmNTk3NzZmMmYwMzQxMmM3YjU5NDdhNjNhMGNmMjgzZDUxZmU2NWFjNmRmN2YyZjg4MmUwODM0NDU2NWU5In19fQ==\"}]}}}}");
+
+				return explosionFragment1;
+			} else if (tier == 2) {
+				ItemStack explosionFragment2 = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"T2 Explosion Fragment\",\"color\":\"#FF6F00\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1014255629,1171278060,-2058471159,-1461211901],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODAyMjQ2ZmY4YjZjNjE3MTY4ZWRhZWMzOTY2MDYxMmU3MmE1NGFiMmVhY2MyN2M1ZTgxNWU0YWM3MDIzOWUzYSJ9fX0=\"}]}}}}");
+
+				return explosionFragment2;
+			} else if (tier == 3) {
+				ItemStack explosionFragment3 = GEneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"T3 Explosion Fragment\",\"color\":\"green\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1472624348,-432782946,-1938919542,-1670585879],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmI2YTk3YmEyNzkzZmUxZmM4M2ZkMjYxZTZkZThhYzMyOTlmOWY2NDZmMzIyYmI4ZDQwNTU0YmFhZWNmZiJ9fX0=\"}]}}}}");
+
+				return explosionFragment3;
+			} else if (tier == 4) {
+
+			} else if (tier == 5) {
+
+			} else if (tier == 6) {
+
+			} else getExplosionHeads(1);
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static ItemStack getFerrumCore() {
+		try {
+			ItemStack ferrumCore = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Ferrum Core\",\"color\":\"white\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1838584329,1763920353,-1789367321,1902106177],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzhhNDY1MGVlM2I3NDU5NDExMjQyNjAwNDI0NmRmNTMxZTJjNjhiNmNhNDdjYWI4ZmUyMzIzYjk3OTBhMWE1ZSJ9fX0=\"}]}}}}");
+
+			return ferrumCore;
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public static ItemStack getTitanEssence() {
+		try {
+			ItemStack titanEssence = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'[{\"text\":\"T\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false},{\"text\":\"i\",\"color\":\"red\",\"bold\":true,\"italic\":false},{\"text\":\"t\",\"color\":\"#FFA200\",\"bold\":true,\"italic\":false},{\"text\":\"a\",\"color\":\"yellow\",\"bold\":true,\"italic\":false},{\"text\":\"n\",\"color\":\"green\",\"bold\":true,\"italic\":false},{\"text\":\" E\",\"color\":\"dark_green\",\"bold\":true,\"italic\":false},{\"text\":\"s\",\"color\":\"blue\",\"bold\":true,\"italic\":false},{\"text\":\"s\",\"color\":\"dark_blue\",\"bold\":true,\"italic\":false},{\"text\":\"e\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false},{\"text\":\"n\",\"color\":\"light_purple\",\"bold\":true,\"italic\":false},{\"text\":\"c\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false},{\"text\":\"e\",\"color\":\"red\",\"bold\":true,\"italic\":false}]'},SkullOwner:{Id:[I;-167457212,-1082375449,-1113432311,-881891383],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2E1YTA3MTVjNjIxMjJkZWQ2NWFmNGVhZTA5NjlmMjNmNTcxYjBhZmE1MGNmOTNmYzllZTJhZjRjN2IzNGUxMiJ9fX0=\"}]}}}}");
+
+			return titanEssence;
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 }

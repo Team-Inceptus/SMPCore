@@ -1301,8 +1301,8 @@ public class GUIManagers implements Listener {
     	  
     	  WorldServer ws = ((CraftWorld) Bukkit.getWorld("world_titan_end")).getHandle();
     	  
-		  p.closeInventory();
-		  p.teleport(playerLoc, TeleportCause.PLUGIN);
+		  	p.closeInventory();
+		  	p.teleport(playerLoc, TeleportCause.PLUGIN);
 		  
     	  if (type.equals(Material.BLAZE_ROD)) {
     		  FireTitan b = new FireTitan(bossLoc);
@@ -1317,7 +1317,7 @@ public class GUIManagers implements Listener {
     		  ((LivingEntity) c.getBukkitEntity()).getEquipment().setItemInMainHandDropChance(0.0005f);
     		  
     		  ws.addEntity(c);
-    	  } else if (type.equals(Material.NETHERITE_AXE)) {
+    	  } else if (type == Material.NETHERITE_AXE) {
     		  AxeTitan a = new AxeTitan(bossLoc);
     		  ws.addEntity(a);
     	  } else if (type.equals(Material.STICK)) {
@@ -1326,7 +1326,13 @@ public class GUIManagers implements Listener {
     	  } else if (type == Material.POTION) {
     		  PotionTitan po = new PotionTitan(bossLoc);
     		  ws.addEntity(po);
-    	  }
+    	  } else if (type == Material.TNT) {
+					ExplosionTitan t = new ExplosionTitan(bossLoc);
+					ws.addEntity(t);
+				} else if (type == Material.IRON_BLOCK) {
+					IronTitan i = new IronTitan(bossLoc, p);
+					ws.addEntity(i);
+				}
     	  
     	  p.playSound(bossLoc, Sound.ENTITY_ENDER_DRAGON_GROWL, 3F, 1F);
     	  

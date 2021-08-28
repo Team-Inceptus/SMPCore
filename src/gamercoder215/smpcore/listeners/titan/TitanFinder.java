@@ -68,7 +68,7 @@ public class TitanFinder {
 	}
 	
 	public static Inventory getTitanFinder(Main plugin, Player p) {
-		Inventory titanFinder = GUIManagers.generateGUI(45, ChatColor.GRAY + "" + ChatColor.BOLD + "Titan Finder");
+		Inventory titanFinder = GUIManagers.generateGUI(36, ChatColor.GRAY + "" + ChatColor.BOLD + "Titan Finder");
 		
 		ItemStack later = comingLater();
 		
@@ -168,11 +168,22 @@ public class TitanFinder {
 		pLore.add("");
 		pLore.add(ChatColor.GREEN + "Good Luck Soldier!");
 		
-		
 		ItemStack potTitan = generateTitanItem(Material.POTION, ChatColor.DARK_PURPLE + "Potion Titan", 2.1);
 		ItemMeta pMeta = potTitan.getItemMeta();
 		pMeta.setLore(pLore);
 		potTitan.setItemMeta(pMeta);
+
+		List<String> cLore = new ArrayList<>();
+		cLore.add(ChatColor.GRAY + "Explosions will seemingly appear");
+		cLore.add(ChatColor.GRAY + "every second or so, prepare youself");
+		cLore.add(ChatColor.GRAY + "and your sound settings.");
+		cLore.add("");
+		cLore.add(ChatColor.GREEN + "Good Luck Soldier!");
+
+		ItemStack explosiveTitan = generateTitanItem(Material.TNT, ChatColor.DARK_GREEN + "Explosive Titan", 2.25);
+		ItemMeta eMeta = explosiveTitan.getItemMeta();
+		eMeta.setLore(cLore);
+		explosiveTitan.setItemMeta(eMeta);
 		
 		// Setting
 		titanFinder.setItem(10, (hasUnlocked(plugin, p, 40) ? fireTitan : notUnlocked(40)));

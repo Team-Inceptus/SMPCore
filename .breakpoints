@@ -1,0 +1,26 @@
+{
+  "files": {
+    "src/gamercoder215/smpcore/bosses/abilities/ArenaTitanAbilities.java": [
+      {
+        "id": "98551d4d-25c9-4350-b6b7-0aa1013a8f30",
+        "line": 235,
+        "version": 6570,
+        "index": 8697
+      },
+      {
+        "id": "61152c5e-ef4d-4593-92de-c2a1b0606f8e",
+        "line": 519,
+        "version": 6570,
+        "index": 19868
+      }
+    ],
+    "src/gamercoder215/smpcore/listeners/GUIManagers.java": [
+      {
+        "id": "0f33c8f4-c942-44fd-a21f-c1a547eb3849",
+        "line": 1328,
+        "version": 164,
+        "index": 174457
+      }
+    ]
+  }
+}
