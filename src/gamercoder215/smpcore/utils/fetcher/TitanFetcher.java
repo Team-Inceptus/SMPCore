@@ -1377,7 +1377,7 @@ public class TitanFetcher {
 
 				return explosionFragment2;
 			} else if (tier == 3) {
-				ItemStack explosionFragment3 = GEneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"T3 Explosion Fragment\",\"color\":\"green\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1472624348,-432782946,-1938919542,-1670585879],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmI2YTk3YmEyNzkzZmUxZmM4M2ZkMjYxZTZkZThhYzMyOTlmOWY2NDZmMzIyYmI4ZDQwNTU0YmFhZWNmZiJ9fX0=\"}]}}}}");
+				ItemStack explosionFragment3 = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"T3 Explosion Fragment\",\"color\":\"green\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1472624348,-432782946,-1938919542,-1670585879],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmI2YTk3YmEyNzkzZmUxZmM4M2ZkMjYxZTZkZThhYzMyOTlmOWY2NDZmMzIyYmI4ZDQwNTU0YmFhZWNmZiJ9fX0=\"}]}}}}");
 
 				return explosionFragment3;
 			} else if (tier == 4) {
@@ -1390,6 +1390,8 @@ public class TitanFetcher {
 		} catch (CommandSyntaxException e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 
 	public static ItemStack getFerrumCore() {

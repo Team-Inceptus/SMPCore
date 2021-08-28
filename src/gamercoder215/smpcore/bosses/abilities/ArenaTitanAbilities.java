@@ -4,12 +4,17 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.MagmaCube;
@@ -22,11 +27,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -93,7 +101,7 @@ public class ArenaTitanAbilities implements Listener {
 						if (!(target instanceof LivingEntity)) return;
 						LivingEntity ten = (LivingEntity) target;
 
-						ten.sendMessage(ChatColor.RED + "The Explosion Titan is preparing its Explosive Aura!")
+						ten.sendMessage(ChatColor.RED + "The Explosion Titan is preparing its Explosive Aura!");
 						new BukkitRunnable() {
 							public void run() {
 								ten.getWorld().createExplosion(ten.getEyeLocation(), 5, false, false, en);
@@ -239,42 +247,42 @@ public class ArenaTitanAbilities implements Listener {
 				f.setIsIncendiary(true);
 
 				if (r.nextBoolean()) {
-					Fireball f = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
+					Fireball f1 = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
 
-					f.setYield(1);
-					f.setDirection(new Vector(0, 180, 0));
+					f1.setYield(1);
+					f1.setDirection(new Vector(0, 180, 0));
 					
-					f.setIsIncendiary(true);
+					f1.setIsIncendiary(true);
 
 					if (r.nextBoolean()) {
-						Fireball f = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
+						Fireball f2 = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
 
-						f.setYield(1);
-						f.setDirection(new Vector(0, 180, 0));
+						f2.setYield(1);
+						f2.setDirection(new Vector(0, 180, 0));
 						
-						f.setIsIncendiary(true);
+						f2.setIsIncendiary(true);
 						if (r.nextBoolean()) {
-							Fireball f = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
+							Fireball f3 = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
 
-							f.setYield(1);
-							f.setDirection(new Vector(0, 180, 0));
+							f3.setYield(1);
+							f3.setDirection(new Vector(0, 180, 0));
 							
-							f.setIsIncendiary(true);
+							f3.setIsIncendiary(true);
 
 							if (r.nextBoolean()) {
-								Fireball f = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
+								Fireball f4 = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
 
-								f.setYield(1);
-								f.setDirection(new Vector(0, 180, 0));
+								f4.setYield(1);
+								f4.setDirection(new Vector(0, 180, 0));
 								
-								f.setIsIncendiary(true);
+								f4.setIsIncendiary(true);
 								if (r.nextBoolean()) {
-									Fireball f = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
+									Fireball f5 = (Fireball) den.getWorld().spawnEntity(en.getLocation().add(0, 10, 0), EntityType.FIREBALL);
 
-									f.setYield(1);
-									f.setDirection(new Vector(0, 180, 0));
+									f5.setYield(1);
+									f5.setDirection(new Vector(0, 180, 0));
 									
-									f.setIsIncendiary(true);
+									f5.setIsIncendiary(true);
 								}		
 							}
 						}
@@ -282,19 +290,19 @@ public class ArenaTitanAbilities implements Listener {
 				}
 			}
 		} else if (e.getEntityType() == EntityType.IRON_GOLEM) {
-			if (r.nexBoolean() == true) {
-				Skeleton s = en.getWorld().spawnEntity(en.getLocation(), EntityType.SKELETON);
+			if (r.nextBoolean() == true) {
+				Skeleton s = (Skeleton) en.getWorld().spawnEntity(en.getLocation(), EntityType.SKELETON);
 
 				ItemStack titanFerrum = new ItemStack(Material.IRON_BLOCK);
 				ItemMeta tMeta = titanFerrum.getItemMeta();
 				tMeta.setDisplayName(ChatColor.WHITE + "" + ChatColor.BOLD + "Titan Ferrum");
 				tMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 500, true);
 				tMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
-				titanFerrum.setItemMeta(rMeta);
+				titanFerrum.setItemMeta(tMeta);
 
-				s.getEquipment().setItemInMainHand(Material.AIR);
+				s.getEquipment().setItemInMainHand(new ItemStack(Material.AIR));
 				s.getEquipment().setHelmet(titanFerrum);
-				s.getEquipment().setHelmetDropChance(0.0000001);
+				s.getEquipment().setHelmetDropChance(0.0000001f);
 
 				ItemStack chestplate = new ItemStack(Material.IRON_CHESTPLATE);
 				ItemMeta chestplateMeta = chestplate.getItemMeta();
@@ -340,7 +348,7 @@ public class ArenaTitanAbilities implements Listener {
 		
 		if (r.nextInt(100) < 10) {
 			Location fireworkLoc = den.getLocation().add(0, 10, 0);
-			fireworkLoc.setDirection(0, 180, 0);
+			fireworkLoc.setDirection(new Vector(0, 180, 0));
 
 			Firework f = (Firework) en.getWorld().spawnEntity(fireworkLoc, EntityType.FIREWORK);
 
@@ -348,22 +356,22 @@ public class ArenaTitanAbilities implements Listener {
 
 			fMeta.setPower(r.nextInt(20 - 12) + 12);
 
-			FireworkEffect effect = new FireworkEffect().buildder().withTrail().trail(true).with(FireworkEffect.Type.CREEPER).withColor(Color.GREEN).withFade(Color.fromRGB(15, 120, 0)).build();
+			FireworkEffect effect = FireworkEffect.builder().withTrail().trail(true).with(FireworkEffect.Type.CREEPER).withColor(Color.GREEN).withFade(Color.fromRGB(15, 120, 0)).build();
 
 			fMeta.addEffect(effect);
-			fMeta.setShotAtAngle(true);
+			f.setShotAtAngle(true);
 
 
 			f.setFireworkMeta(fMeta);
 
 			f.setVisualFire(true);
-			f.setVelocity(0, -1.5, 0);
+			f.setVelocity(new Vector(0, -1.5, 0));
 			
 			new BukkitRunnable() {
 				public void run() {
 					f.detonate();
 				}
-			}.runTaskLater(plugin, 20 * 1.5);
+			}.runTaskLater(plugin, 30);
 		}
 	}
 	
@@ -406,19 +414,18 @@ public class ArenaTitanAbilities implements Listener {
 				boolean chance = r.nextBoolean();
 
 				if (chance) {
-					target.setVelocity(target.getVelocity().getX() * 1.25, 2.5, target.getVelocity().getZ() * 1.25)
+					target.setVelocity(new Vector(target.getVelocity().getX() * 1.25, 2.5, target.getVelocity().getZ() * 1.25));
 				} else {
-					target.setVelocity(target.getVelocity().getX(), 3, target.getVelocity().getZ());
+					target.setVelocity(new Vector(target.getVelocity().getX(), 3, target.getVelocity().getZ()));
 				}
 			}
 
 			if (r.nextBoolean()) target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 10, 4, false, false, true));
 			
 			if (r.nextInt(100) < 15) {
-				for (int count = ;count < 20; count++) {
+				for (int count = 0;count < 20; count++) {
 					new BukkitRunnable() {
 						public void run() {
-							target.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.WHITE + "Iron Poison - " + Integer.toSting(count) + "/20 Hits"));
 							target.damage(25);
 						}
 					}.runTaskLater(plugin, 5L);
@@ -518,7 +525,7 @@ public class ArenaTitanAbilities implements Listener {
 			int max = r.nextInt(40 - 15) + 15;
 
 			for (int count = 0; count < max; count++) {
-				en.getWorld().dropItemNaturally(en.getLoction(), new ItemStack(Material.IRON_BLOCK, 64));
+				en.getWorld().dropItemNaturally(en.getLocation(), new ItemStack(Material.IRON_BLOCK, 64));
 			}
 
 			ItemStack ferrumStack = TitanFetcher.getFerrumBlock();
