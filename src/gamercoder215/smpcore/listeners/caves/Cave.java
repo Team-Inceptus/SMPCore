@@ -6,6 +6,8 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -49,7 +51,6 @@ public abstract class Cave implements Listener {
 		}.runTaskLater(plugin, 20 * replenishTime);
 	}
 
-
 	
 	@EventHandler
 	public void onBreak(BlockBreakEvent e) {
@@ -67,6 +68,9 @@ public abstract class Cave implements Listener {
 			
 			if (r.nextInt(100) < chance) {
 				e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
+				ExperienceOrb exporb = (ExperienceOrb) e.getBlock().getWorld().spawnEntity(e.getBlock().getLocation(), EntityType.EXPERIENCE_ORB);
+				
+				exporb.setExperience(r.nextInt((exp + 20) - (exp - 20)) + (exp - 20));
 				
 				if (e.getBlock().getWorld().getName().equalsIgnoreCase("world_caves_delta")) {
 					replenish(e.getBlock(), r.nextInt(5 - 3) + 3);
