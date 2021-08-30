@@ -13,6 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import gamercoder215.smpcore.Main;
+import gamercoder215.smpcore.listeners.caves.AlphaCave;
+import gamercoder215.smpcore.listeners.caves.DeltaCave;
+import gamercoder215.smpcore.listeners.caves.TitanCave;
 import gamercoder215.smpcore.utils.fetcher.ItemFetcher;
 import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 import gamercoder215.smpcore.utils.fetcher.WandFetcher;
@@ -144,6 +147,23 @@ public class GetCustomItem implements CommandExecutor {
 					}
 					
 					p.openInventory(v3inv2);
+					break;
+				case "v3items3":
+					Inventory v3inv3 = Bukkit.createInventory(null, 54);
+					
+					for (ItemStack i : DeltaCave.getItems()) {
+						v3inv3.addItem(i);
+					}
+					
+					for (ItemStack i : AlphaCave.getItems()) {
+						v3inv3.addItem(i);
+					}
+					
+					for (ItemStack i : TitanCave.getItems()) {
+						v3inv3.addItem(i);
+					}
+					
+					p.openInventory(v3inv3);
 					break;
 			}
 		}

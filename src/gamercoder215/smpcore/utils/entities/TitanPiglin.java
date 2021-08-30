@@ -1,10 +1,12 @@
 package gamercoder215.smpcore.utils.entities;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 
+import net.minecraft.network.chat.ChatComponentText;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.goal.PathfinderGoalAvoidTarget;
 import net.minecraft.world.entity.ai.goal.PathfinderGoalLookAtPlayer;
@@ -23,15 +25,19 @@ public class TitanPiglin extends EntityPiglin {
 		super(EntityTypes.ao, ((CraftWorld) loc.getWorld()).getHandle());
 		this.setImmuneToZombification(true);
 		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
-
+		this.setCustomNameVisible(true);
+		this.setCustomName(new ChatComponentText(ChatColor.RED + "Titan Piglin"));
+		
 		if (isBaby) {
 			this.setBaby(true);
 		}
 		
 		LivingEntity en = (LivingEntity) this.getBukkitEntity();
 		
-		en.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(1000f);
-		en.setHealth(1000f);
+		en.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(4000f);
+		en.setHealth(4000f);
+		
+		en.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(100);
 		
 	}
 	
