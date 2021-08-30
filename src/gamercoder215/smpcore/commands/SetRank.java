@@ -42,6 +42,8 @@ public class SetRank implements CommandExecutor{
 			Player p = Bukkit.getPlayer(args[0]);
 			if (args.length < 2) sender.sendMessage(ChatColor.RED + "Please provide a rank.");
 			else {
+				
+				plugin.saveConfig();
 				plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("rank", args[1]);
 				
 				String newRank = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getString("rank");
@@ -86,6 +88,8 @@ public class SetRank implements CommandExecutor{
 				   p.setDisplayName(ChatColor.BLUE + "Idea Man " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
 				   p.setPlayerListName(ChatColor.BLUE + "[IDEAS] " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
 			   }
+			   
+			   plugin.saveConfig();
 			}
 		}
 		
