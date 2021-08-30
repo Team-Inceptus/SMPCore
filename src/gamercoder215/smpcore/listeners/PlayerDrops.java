@@ -6,17 +6,20 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import gamercoder215.smpcore.Main;
-import gamercoder215.smpcore.utils.fetcher.ItemFetcher;
 
 public class PlayerDrops implements Listener {
 	
@@ -26,9 +29,8 @@ public class PlayerDrops implements Listener {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
-	/*
 	private String parseDamageCause(DamageCause dmg, Entity killer) {
-		if (killer == null) return " died";
+		
 		
 		
 		if (dmg.equals(DamageCause.CONTACT)) return " was killed by something he touched";
@@ -53,16 +55,29 @@ public class PlayerDrops implements Listener {
 		else if (dmg.equals(DamageCause.THORNS)) return " was prickled to death";
 		else if (dmg.equals(DamageCause.VOID)) return " was consumed by the physical endless void";
 		else if (dmg.equals(DamageCause.WITHER)) return " withered to death";
-		else if (dmg.equals(DamageCause.BLOCK_EXPLOSION) || dmg.equals(DamageCause.ENTITY_EXPLOSION)) return " got bombed by " + (killer.getCustomName() != null ? killer.getCustomName() : killer.getName());
+		else if (dmg.equals(DamageCause.BLOCK_EXPLOSION) || dmg.equals(DamageCause.ENTITY_EXPLOSION)) return " exploded";
+		else if (dmg.equals(DamageCause.FALLING_BLOCK)) return " was squished by a falling object";
+		
+		if (killer == null) return " died";
+		
 		else if (dmg.equals(DamageCause.ENTITY_ATTACK)) return " was killed by " + (killer.getCustomName() != null ? killer.getCustomName() : killer.getName());
 		else if (dmg.equals(DamageCause.ENTITY_SWEEP_ATTACK)) return " was killed by " + (killer.getCustomName() != null ? killer.getCustomName() : killer.getName());
-		else if (dmg.equals(DamageCause.FALLING_BLOCK)) return " was squished by " + (killer.getCustomName() != null ? killer.getCustomName() : killer.getName());
 		else if (dmg.equals(DamageCause.PROJECTILE)) return " was killed by " + ( ( (Entity) ( (Projectile) killer).getShooter()).getCustomName() != null ? ((Entity) ((Projectile) killer).getShooter()).getCustomName() : ((Entity) ((Projectile) killer).getShooter()).getName());
 		else return " died";
 	}
-	*/
 	
-	public void initiateDeathItems(Player p) {
+	ArrayList<UUID> teleporters = new ArrayList<UUID>();
+	
+	@EventHandler
+	public void onDeathAnimationKiller(PlayerDeathEvent e) {
+		Player p = e.getEntity();
+		
+		if (p.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+			e.setDeathMessage(p.getDisplayName() + ChatColor.GREEN + parseDamageCause(((EntityDamageByEntityEvent) p.getLastDamageCause()).getCause(), ((EntityDamageByEntityEvent) p.getLastDamageCause()).getDamager()));
+		} else {
+			e.setDeathMessage(p.getDisplayName() + ChatColor.GREEN + parseDamageCause(p.getLastDamageCause().getCause(), null));
+		}
+		
 		// Drop Head
 		ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD, 1);
 		SkullMeta playerHeadMeta = (SkullMeta) playerHead.getItemMeta();
@@ -80,79 +95,5 @@ public class PlayerDrops implements Listener {
 		// Drop Actual XP
 		ExperienceOrb exp = (ExperienceOrb) p.getWorld().spawnEntity(p.getLocation(), EntityType.EXPERIENCE_ORB);
 		exp.setExperience(p.getTotalExperience());
-	}
-	
-	ArrayList<UUID> teleporters = new ArrayList<UUID>();
-	
-	/*@EventHandler
-   public void onDeathAnimation(EntityDamageEvent e) {
-		if (!(e.getEntity().getType().equals(EntityType.PLAYER))) return;
-		
-		Player p = (Player) e.getEntity();
-		Location damageLoc = p.getLocation();
-		GameMode gm = p.getGameMode();
-		
-		if (p.getHealth() - e.getDamage() < 1) {
-			e.setCancelled(true);
-			initiateDeathItems(p, e.getCause());
-			if (p.getInventory().containsAtLeast(ItemFetcher.getInventoryCore(), 1)) {
-				p.getInventory().removeItem(ItemFetcher.getInventoryCore());
-				Bukkit.broadcastMessage(ChatColor.GREEN + parseDamageCause(e.getCause(), null) + ", but their items were saved!");
-				p.sendMessage(ChatColor.GREEN + "Your Inventory Core saved your inventory and levels!");
-			} else {
-				for (ItemStack i : p.getInventory()) {
-					p.getWorld().dropItemNaturally(p.getLocation(), i);
-				}
-				
-				p.getInventory().clear();
-				initiateDeathItems(p, e.getCause());
-			}
-			
-			
-			p.setGameMode(GameMode.SPECTATOR);
-			
-			new BukkitRunnable() {
-				public void run() {
-					p.sendTitle(ChatColor.RED + "3", null, 10, 70, 20);
-					p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 3F, 0F);
-					new BukkitRunnable() {
-						public void run() {
-							p.sendTitle(ChatColor.YELLOW + "2", null, 10, 70, 20);
-							p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 3F, 0.75F);
-							new BukkitRunnable() {
-								public void run() {
-									p.sendTitle(ChatColor.GREEN + "1", null, 10, 70, 20);
-									p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 3F, 1F);
-									new BukkitRunnable() {
-										public void run() {
-											p.resetTitle();
-											p.teleport(damageLoc, TeleportCause.PLUGIN);
-											p.setGameMode(gm);
-										}
-									}.runTaskLater(plugin, 20);
-								}
-							}.runTaskLater(plugin, 20);							
-						}
-					}.runTaskLater(plugin, 20);
-				}
-			}.runTaskLater(plugin, 40);
-		}
-	}
-	*/
-	
-	@EventHandler
-	public void onDeathAnimationKiller(PlayerDeathEvent e) {
-		Player p = e.getEntity();
-		e.setDeathMessage(ChatColor.GREEN + e.getDeathMessage());
-		
-		if (p.getInventory().containsAtLeast(ItemFetcher.getInventoryCore(), 1)) {
-			p.getInventory().removeItem(ItemFetcher.getInventoryCore());
-			e.setKeepInventory(true);
-			e.setKeepLevel(true);
-			e.setDeathMessage(ChatColor.GREEN + e.getDeathMessage() + ", but their items were saved!");
-			p.sendMessage(ChatColor.GREEN + "Your Inventory Core saved your inventory and levels!");
-		} else {
-			initiateDeathItems(p);
-		}
 	}
 }

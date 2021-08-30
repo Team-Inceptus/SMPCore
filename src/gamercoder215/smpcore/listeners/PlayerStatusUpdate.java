@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemSpawnEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -87,16 +86,6 @@ public class PlayerStatusUpdate implements Listener {
 	   } else if (rank.equalsIgnoreCase("idea-man")) {
 		   p.setDisplayName(ChatColor.BLUE + "Idea Man " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
 		   p.setPlayerListName(ChatColor.BLUE + "[IDEAS] " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
-	   }
-   }
-   
-   @EventHandler
-   public void onDeath(PlayerDeathEvent e) {
-	   Player p = e.getEntity();
-	   
-	   if (p.getKiller() != null) {
-		   e.setKeepInventory(true);
-		   e.setKeepLevel(true);
 	   }
    }
    
