@@ -144,6 +144,18 @@ public class GUIManagers implements Listener {
         	 Bukkit.dispatchCommand(p, "bed");
          } else if (clickedItem.getType().equals(Material.ALLIUM)) {
         	 Bukkit.dispatchCommand(p, "abilities");
+         } else if (clickedItem.getType() == Material.NETHERRACK) {
+        	 if (p.getStatistic(Statistic.KILL_ENTITY, EntityType.WITHER) < 1) {
+        		 p.sendMessage(ChatColor.RED + "You need to kill a wither to unlock the Delta Caves!");
+        	 } else {
+        		 p.teleport(new Location(Bukkit.getWorld("world_caves_delta"), 92, 43, 46, p.getLocation().getYaw(), p.getLocation().getPitch()));
+        	 }
+         } else if (clickedItem.getType() == Material.END_STONE) {
+        	 if (p.getStatistic(Statistic.KILL_ENTITY, EntityType.WITHER) < 5) {
+        		 p.sendMessage(ChatColor.RED + "You need to kill 5 withers to unlock the Alpha Caves!");
+        	 } else {
+        		 p.teleport(new Location(Bukkit.getWorld("world_caves_alpha"), 79, 34, 27, p.getLocation().getYaw(), p.getLocation().getPitch()));
+        	 }
          }
       }	else if (inv.getTitle().contains("Wand Info")) {
     	  e.setCancelled(true);

@@ -118,6 +118,20 @@ public class Menu implements CommandExecutor {
       
       gui.setItem(39, abilities);
       
+      ItemStack deltaCaves = new ItemStack(Material.NETHERRACK, 1);
+      ItemMeta dMeta = deltaCaves.getItemMeta();
+      dMeta.setDisplayName(ChatColor.RED + "Delta Caves");
+      deltaCaves.setItemMeta(dMeta);
+      
+      gui.setItem(40, deltaCaves);
+      
+      ItemStack alphaCaves = new ItemStack(Material.END_STONE, 1);
+      ItemMeta alMeta = alphaCaves.getItemMeta();
+      alMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Alpha Caves");
+      alphaCaves.setItemMeta(alMeta);
+      
+      gui.setItem(41, alphaCaves);
+      
       p.openInventory(gui);
       return false;
    }
