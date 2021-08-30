@@ -30,10 +30,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.advancements.TitanAdvancements;
 import gamercoder215.smpcore.listeners.GUIManagers;
-import gamercoder215.smpcore.listeners.titan.TitanEnchantment.Item;
 import gamercoder215.smpcore.listeners.titan.TitanEnchantment.TitanEnchant;
 import gamercoder215.smpcore.utils.GeneralUtils;
-import gamercoder215.smpcore.utils.enums.TitanType;
 import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanEnchants implements Listener {
@@ -84,28 +82,12 @@ public class TitanEnchants implements Listener {
 				notEligible(p);
 				return;
 			}
-			if (!(titanEtable.getItem(49)).hasItemMeta()) {
-				notEligible(p);
-				return;
-			}
 			TitanEnchantment enchant = TitanEnchantment.fromItemStack(currentItem);
 			TitanEnchant ench = TitanEnchantment.parseString(currentItem.getItemMeta().getLore().get(0));
 			int level = p.getLevel();
 			String notEnoughLevels = ChatColor.RED + "You don't have enough XP Levels to enchant this item!";
 			String notEnoughMats = ChatColor.RED + "You don't have the required materials to enchant this item!";
 			List<String> itemLore = itemToEnchant.getItemMeta().hasLore() ? itemToEnchant.getItemMeta().getLore() : new ArrayList<String>();
-			
-			// Checks
-			if (enchant.type.equals(Item.WEAPON) && !(TitanFetcher.isTitanItem(itemToEnchant, TitanType.WEAPON))) {
-				notEligible(p);
-				return;
-			} else if (enchant.type.equals(Item.ARMOR) && !(TitanFetcher.isTitanItem(itemToEnchant, TitanType.ARMOR))) {
-				notEligible(p);
-				return;
-			} else if (enchant.type.equals(Item.TOOL) && !(TitanFetcher.isTitanItem(itemToEnchant, TitanType.TOOL))) {
-				notEligible(p);
-				return;
-			}
 			
 			String conflict = ChatColor.RED + "You have a conflicting enchantment!";
 			// Conflicting/Duplicate Enchants

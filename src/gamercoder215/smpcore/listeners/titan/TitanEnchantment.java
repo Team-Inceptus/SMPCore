@@ -70,23 +70,6 @@ public class TitanEnchantment {
 		this.cost = formattedCost;
 	}
 	
-	/* Titan Enchants Check:
-	 * Hide Dye (HIDE_DYE)
-	 * Blast Protection 4519
-	*/
-	
-	public static boolean isTitanEnchant(ItemStack i) {
-		if (!(i.getType().equals(Material.ENCHANTED_BOOK))) return false;
-		if (!(i.hasItemMeta())) return false;
-		if (!(i.getItemMeta().hasDisplayName())) return false;
-		if (!(i.getItemMeta().getDisplayName().equalsIgnoreCase("Titan Enchantment"))) return false;
-		if (!(i.getItemMeta().getEnchantLevel(Enchantment.PROTECTION_EXPLOSIONS) == 4519)) return false;
-		if (!(i.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS))) return false;
-		if (!(i.getItemMeta().hasItemFlag(ItemFlag.HIDE_DYE)));
-		
-		return true;
-	}
-	
 	public static TitanEnchant parseString(String arg0) {
 		String enchant = ChatColor.stripColor(arg0).toLowerCase().replaceAll("\\s", "_");
 		
