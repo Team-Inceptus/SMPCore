@@ -80,29 +80,22 @@ import gamercoder215.smpcore.creatures.CreaturesGuide;
 import gamercoder215.smpcore.listeners.GUIManagers;
 import gamercoder215.smpcore.listeners.PlayerDrops;
 import gamercoder215.smpcore.listeners.PlayerStatusUpdate;
+import gamercoder215.smpcore.listeners.caves.AlphaCave;
+import gamercoder215.smpcore.listeners.caves.DeltaCave;
+import gamercoder215.smpcore.listeners.caves.TitanCave;
 import gamercoder215.smpcore.listeners.titan.TitanEnchants;
 import gamercoder215.smpcore.listeners.titan.TitanNPCs;
 import gamercoder215.smpcore.listeners.titan.TitanWorld;
 import gamercoder215.smpcore.listeners.titan.TitanWorldEnd;
 import gamercoder215.smpcore.listeners.titan.TitanWorldNether;
+import gamercoder215.smpcore.utils.GeneralUtils;
 import gamercoder215.smpcore.utils.InventoryUtils;
 
 public class Main extends JavaPlugin {
 	
 	public ProtocolManager pm;
 	
-	String[] infoMessages = {
-			ChatColor.RED + "Subscribe to GamerCoder215 for Updates, Feed, and Quality Content! https://bit.ly/sub2gamer",
-			ChatColor.AQUA + "You can chat with other players in your world only by doing /wc <message>.",
-			ChatColor.DARK_RED + "Hacking or Duping are bannable offenses! Remember to play fair!",
-			ChatColor.GREEN + "You can use /trades to barter.",
-			ChatColor.DARK_AQUA + "Use /menu for statistics and shortcuts!",
-			ChatColor.BLUE + "You can use /cguide to find unique creatures!",
-			ChatColor.RED + "We are not an anarchy server! Stealing and Griefing are not allowed.",
-			ChatColor.BLUE + "Join the Discord to Updates & A Friendly Community - https://discord.io/thenoobygods",
-			ChatColor.LIGHT_PURPLE + "You can use /recipes to see the custom recipes!"
-			
-	};
+
 	
 	Random r = new Random();
    public void onEnable() {
@@ -111,6 +104,19 @@ public class Main extends JavaPlugin {
 	  // Info Messages
 	  new BukkitRunnable() {
 		  public void run() {
+				String[] infoMessages = {
+						ChatColor.RED + "Subscribe to GamerCoder215 for Updates, Feed, and Quality Content! https://bit.ly/sub2gamer",
+						ChatColor.AQUA + "You can chat with other players in your world only by doing /wc <message>.",
+						ChatColor.DARK_RED + "Hacking or Duping are bannable offenses! Remember to play fair!",
+						ChatColor.GREEN + "You can use /trades to barter.",
+						ChatColor.DARK_AQUA + "Use /menu for statistics and shortcuts!",
+						ChatColor.BLUE + "You can use /cguide to find unique creatures!",
+						ChatColor.RED + "We are not an anarchy server! Stealing and Griefing are not allowed.",
+						ChatColor.BLUE + "Join the Discord to Updates & A Friendly Community - https://discord.io/thenoobygods",
+						ChatColor.LIGHT_PURPLE + "You can use /recipes to see the custom recipes!",
+						ChatColor.GOLD + "You are currently playing on " + ChatColor.GREEN + "TheNoobyGodsSMP" + ChatColor.GOLD + " with " + ChatColor.GREEN + GeneralUtils.thousandSeparator(Bukkit.getOfflinePlayers().length + Bukkit.getOnlinePlayers().size(), ",") + ChatColor.GOLD + " members!",
+				};
+			  
 			  Bukkit.broadcastMessage(infoMessages[r.nextInt(infoMessages.length)]);
 		  }
 	  }.runTaskTimer(this, 20 * (r.nextInt(60 - 30) + 30), 20 * (r.nextInt(60 - 30) + 30));
@@ -125,6 +131,15 @@ public class Main extends JavaPlugin {
 	  WorldCreator titanWorldEnd = new WorldCreator("world_titan_end");
 	  Bukkit.createWorld(titanWorldEnd);
 	  
+	  WorldCreator deltaCave = new WorldCreator("world_caves_delta");
+	  Bukkit.createWorld(deltaCave);
+	  
+	  WorldCreator alphaCave = new WorldCreator("world_caves_alpha");
+	  Bukkit.createWorld(alphaCave);
+	  
+	  WorldCreator titanCave = new WorldCreator("world_caves_titan");
+	  Bukkit.createWorld(titanCave);
+	  
 	  // World-Specific Modifications
 	  new BukkitRunnable() {
 		  public void run() {
@@ -136,6 +151,22 @@ public class Main extends JavaPlugin {
 				  
 				  if (p.getWorld().getName().equalsIgnoreCase("world_titan_end") || p.getWorld().getName().equalsIgnoreCase("world_titan_nether")) {
 					  p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 4, 3, true, false, false));
+				  }
+				  
+				  if (p.getWorld().getName().contains("caves")) {
+					  p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 4, 1, true, false, false));
+				  }
+				  
+				  if (p.getWorld().getName().equalsIgnoreCase("world_caves_delta")) {
+					  p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 4, 0, true, false, false));
+				  }
+				  
+				  if (p.getWorld().getName().equalsIgnoreCase("world_caves_alpha")) {
+					  p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 4, 3, true, false, false));
+				  }
+				  
+				  if (p.getWorld().getName().equalsIgnoreCase("world_caves_titan")) {
+					  p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 4, 6, true, false, false));
 				  }
 			  });
 		  }
@@ -188,6 +219,10 @@ public class Main extends JavaPlugin {
       new TitanNPCs(this);
       
       new InventoryUtils(this);
+      
+      new DeltaCave(this);
+      new AlphaCave(this);
+      new TitanCave(this);
       // Abilities
       new WorldAbilities(this);
       new InfiniBlocks(this);
