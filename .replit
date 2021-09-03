@@ -1,2 +1,2 @@
-language = "java10"
-run = "java -Xmx1024M -jar BuildTools.jar --rev 1.17.1 --generate-docs"
+language = "java11"
+run = "java -Xmx2048M -jar BuildTools.jar --rev 1.17.1 --generate-docs --dev"

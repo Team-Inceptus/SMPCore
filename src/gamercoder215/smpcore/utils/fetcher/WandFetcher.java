@@ -16,8 +16,6 @@ import gamercoder215.smpcore.utils.enums.WandType;
 
 public class WandFetcher {
 	
-	
-	
 	public static Wand getExplosionWand(Player p, Main plugin) {
 		
 		ArrayList<String> explosionDesc = new ArrayList<String>();
@@ -171,4 +169,21 @@ public class WandFetcher {
 		return damageWand;
 	}
 
+	public static Wand getVoidWand(Player p, Main plugin) {
+		ArrayList<String> voidDesc = new ArrayList<String>();
+		voidDesc.add("Pulls in all entities");
+		voidDesc.add("within a 25x25x25");
+		voidDesc.add("radius.");
+		
+		ArrayList<String> void2Desc = new ArrayList<String>();
+		void2Desc.add("Summon an enderman bodyguard.");
+		void2Desc.add("240s Cooldown.");
+		
+		PrimarySpell vortex = new PrimarySpell(ChatColor.DARK_PURPLE + "Vortex", voidDesc, SpellType.AREA_EFFECT, SpellActivationType.WAND, Particle.PORTAL);
+		SecondarySpell bodyguard = new SecondarySpell(ChatColor.LIGHT_PURPLE + "Ender Protection", void2Desc, SpellType.POTION_EFFECT);
+		
+		Wand voidWand = new Wand(plugin, ChatColor.RED + "Void Wand", p, WandType.STICK, vortex, bodyguard);
+		
+		return voidWand;
+	}
 }

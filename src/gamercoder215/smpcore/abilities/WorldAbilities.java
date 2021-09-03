@@ -641,6 +641,34 @@ public class WorldAbilities implements Listener {
 		}
 	}
 
+	@EventHandler
+	public void onDamageDefenseChestplateProjectile(ProjectileHitEvent e) {
+		if (e.getHitEntity() == null) return;
+		if (!(e.getHitEntity() instanceof Player)) return;
+
+		Player p = (Player) e.getHitEntity();
+
+		if (p.getInventory().getChestplate() == null) return;
+		ItemStack chestplate = p.getInventory().getChestplate();
+
+		if (chestplate.isSimilar(AlphaCave.getLapisSet().get(EquipmentSlot.CHEST))) {
+			e.setCancelled(true);
+
+			Projectile pr = e.getEntity();
+			Vector direction = pr.getDirection().multiply(-1);
+
+			Vector velocity = new Vector(pr.getVelocity() * -1.2, pr.getVelocity() * 1.2, pr.getVelocity() * -1.2);
+
+			Projectile newProj = p.getWorld().spawnEntity(pr.getLocation(), pr.getType());
+			newProj.setVelocity(velocity);
+			
+			Location loc = newProj.getLocation();
+			loc.setDirection(direction);
+
+			newProj.teleport(loc);
+		}
+	}
+
 	
 	@EventHandler
 	public void onDamagePlayer(EntityDamageByEntityEvent e) {

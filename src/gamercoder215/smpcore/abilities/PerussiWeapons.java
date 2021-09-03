@@ -56,6 +56,8 @@ public class PerussiWeapons implements Listener {
 			} else if (e.getEntity().getType().equals(EntityType.ENDERMAN)) {
 				e.setDamage(e.getDamage() + 300);
 			}
+		} else if (handMeta.getDisplayName().contains("Titan Perussi") && mainhand.getType().equals(Material.NETHERITE_AXE)) {
+			
 		}
 	}
 

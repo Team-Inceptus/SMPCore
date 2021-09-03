@@ -23,6 +23,15 @@ public class GeneralUtils {
 	
 	public static HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 	
+	public void static moveToward(Entity entity, Location to, double speed){
+		Location loc = entity.getLocation();
+		double x = loc.getX() - to.getX();
+		double y = loc.getY() - to.getY();
+		double z = loc.getZ() - to.getZ();
+		Vector velocity = new Vector(x, y, z).normalize().multiply(-speed);
+		entity.setVelocity(velocity);   
+	}
+
 	public static String withSuffix(double count) {
 	    if (count < 1000) return "" + count;
 	    int exp = (int) (Math.log(count) / Math.log(1000));

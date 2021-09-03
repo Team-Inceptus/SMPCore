@@ -163,4 +163,28 @@ public class ItemFetcher {
 		
 		return teleportationHook;
 	}
+
+	public static ItemStack getAlphaHoe() {
+		ItemStack alHoe = new ItemStack(Material.NETHERITE_HOE);
+		ItemMeta aMeta = alHoe.getItemMeta();
+		aMeta.setDisplayName(ChatColor.GREEN + "Alpha Hoe");
+
+		List<String> lore = new ArrayList<>();
+		lore.add(ChatColor.GRAY + "Insta-breaks any and");
+		lore.add(ChatColor.GRAY + "all crops. Cannot break");
+		lore.add(ChatColor.GRAY + "farmland and logs.");
+
+		aMeta.setLore(lore);
+		aMeta.addEnchant(Enchantment.DIG_SPEED, 125, true);
+		aMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), "GENERIC_MOVEMENT_SPEED", 4, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		aMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), "GENERIC_MOVEMENT_SPEED", 4, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.OFF_HAND));
+		aMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		aMeta.setUnbreakable(true);
+
+		alHoe.setItemMeta(aMeta);
+
+		return alHoe;
+	}
+
+	
  }

@@ -101,8 +101,26 @@ public class SuperPickaxes implements Listener {
 		if (handMeta.getDisplayName().contains("Telekinetic Pickaxe") && handMeta.isUnbreakable() && handMeta.hasLore() && handMeta.getEnchantLevel(Enchantment.DIG_SPEED) == 35 && handMeta.hasAttributeModifiers()) {
 			e.setDropItems(false);
 			for (ItemStack i : b.getDrops()) {
-				p.getInventory().addItem(i);
+				if (p.getInventory().firstEmpty() > -1) {
+					p.getInventory().addItem(i);
+				} else {
+					p.getWorld().dropItemNaturally(e.getLocation(), i);
+				}
 			}
+		}
+	}
+
+	@EventHandler
+	public void onBlockDamage(BlockDamageEvent e) {
+		Player p = e.getPlayer();
+		ItemStack mainhand = e.getItemInHand();
+		Block b = e.getBlock();
+		Material mat = b.getType();
+
+		if (mainhand.isSimilar(ItemFetcher.getAlphaHoe())) {
+			if (mat == Material.CACTUS || mat == Material.BEETROOTS || mat == CARVED_PUMPKIN || mat == Material.KELP_PLANT || mat == Material.PUMPKIN || mat == Material.MELON || mat == Material.WHEAT || mat == Material.CARROTS || mat == Material.POTATOES || mat == Material.COCOA) e.setInstaBreak(true);
+
+			if (mat == Material.FARMLAND || mat == Material.OAK_LOG || mat == Material.JUNGLE_LOG || mat == Material.ACACIA_LOG || mat == Material.SPRUCE_LOG || mat == Material.DARK_OAK_LOG || mat == Material.BIRCH_LOG || mat == STRIPPED_OAK_LOG || mat == Material.STRIPPED_JUNGLE_LOG || mat == Material.STRIPPED_ACACIA_LOG || mat == Material.STRIPPED_SPRUCE_LOG || mat == Material.STRIPPED_DARK_OAK_LOG || mat == Material.STRIPPED_BIRCH_LOG || mat == STRIPPED_SPRUCE_LOG || mat == OAK_WOOD || mat == Material.JUNGLE_WOOD || mat == Material.ACACIA_WOOD || mat == Material.SPRUCE_WOOD || mat == Material.DARK_OAK_WOOD || mat == Material.BIRCH_WOOD) e.setCancelled(true);
 		}
 	}
 }

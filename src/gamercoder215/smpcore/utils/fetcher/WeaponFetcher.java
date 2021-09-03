@@ -16,16 +16,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class WeaponFetcher {
 	
-	/* TODO 
-	 * 
-	 * Make Perussis:
-	 * Nether / End Perussi
-	 * Raider Perussi
-	 * Player Perussi
-	 * Dragon Perussi
-	 * 
-	 */
-	
 	// Perussis
 	public static ItemStack getWitherCounter() {
 		ItemStack witherCounter = new ItemStack(Material.NETHERITE_AXE);
@@ -159,4 +149,6 @@ public class WeaponFetcher {
 		
 		return dragonCounter;
 	}
+
+			
 }

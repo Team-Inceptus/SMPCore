@@ -31,18 +31,6 @@ import gamercoder215.smpcore.utils.GeneralUtils;
 import gamercoder215.smpcore.utils.enums.TitanType;
 
 public class TitanFetcher {
-	/* Titan Checks:
-	 * Unbreaking 30126 (DURABILITY)
-	 * Hide CanPlaceOn (HIDE_PLACED_ON)
-	 * 
-	 * Titan Misc Checks:
-	 * Protection 26105 (PROTECTION_ENVIRONMENTAL)
-	 * Hide Unbreakable (HIDE_UNBREAKABLE)
-	 * 
-	 * Titan Armor Checks:
-	 * Mending 29 (MENDING)
-	 * Hide CanDestroy (HIDE_DESTROYS)
-	 */
 	
 	public static Inventory getTitanWarps() {
 		Inventory inv = GUIManagers.generateGUI(45, ChatColor.DARK_AQUA + "Titan Warps");
@@ -1416,5 +1404,56 @@ public class TitanFetcher {
 		}
 
 		return null;
+	}
+
+	public static ItemStack getTitanPerussi() {
+		ItemStack tPerussi = new ItemStack(Material.NETHERITE_AXE, 1);
+		ItemMeta tMeta = tPerussi.getItemMeta();
+
+		tMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "~ Titan Perussi ~");
+
+		tMeta.addEnchant(Enchantment.DAMAGE_ALL, 725, true);
+		tMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 650, true);
+		tMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, 650, true);
+		tMeta.addEnchant(Enchantment.FIRE_ASPECT, 250, true);
+		tMeta.addEnchant(Enchantment.EFFICIENCY, 100, true);
+		tMeta.addEnchant(Enchantment.KNOCKBACK, 175, true);
+		tMeta.addEnchant(Enchantment.LOOT_BONUS_MOBS, 225, true);
+		tMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 125, true);
+		tMeta.addEnchant(Enchantment.LUCK, 200, true);
+
+		tMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+
+		tMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 10500, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+		tMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 10500, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
+		tMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 51, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		tMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 51, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.OFF_HAND));
+		tMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 51, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		tMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 51, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.OFF_HAND));
+
+		tMeta.setUnbreakable(true);
+
+		tPerussi.setItemMeta(tMeta);
+
+		return tPerussi;
+	}
+
+	public static ItemStack getPlasmaPickaxe() {
+		ItemStack plasmaPick = new ItemStack(Material.GOLDEN_PICKAXE, 1);
+		ItemMeta pMeta = plasmaPick.getItemMeta();
+		pMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Plasma Pickaxe");
+		pMeta.addEnchant(Enchantment.DIG_SPEED, 800, true);
+		pMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 300, true);
+		pMeta.addEnchant(Enchantment.DAMAGE_ALL, 125, true);
+		pMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+		
+		pMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_SPEED", 24, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		pMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_SPEED", 24, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.OFF_HAND));
+		pMeta.addAttributeModifier(Attribute.GENERIC_LUCK, new AttributeModifier(UUID.randomUUID(), "GENERIC_LUCK", 14, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		pMeta.addAttributeModifier(Attribute.GENERIC_LUCK, new AttributeModifier(UUID.randomUUID(), "GENERIC_LUCK", 14, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.OFF_HAND));
+
+		plasmaPick.setItemMeta(pMeta);
+
+		return plasmaPick;
 	}
 }

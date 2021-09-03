@@ -183,6 +183,11 @@ public class AlphaCave implements Listener {
 		items.add(getAlphaLapis());
 		
 		items.add(getAlphaSword());
+		items.add(getLapisSet().get(EquipmentSlot.HAND));
+		items.add(getLapisSet().get(EquipmentSlot.CHEST));
+		items.add(getLapisSet().get(EquipmentSlot.LEGS));
+		items.add(getLapisSet().get(EquipmentSlot.FEET));
+		items.add(getSlimeSword());
 		return items;
 	}
 	
@@ -199,4 +204,111 @@ public class AlphaCave implements Listener {
 		aSword.setItemMeta(aMeta);
 		return aSword;
 	}
+
+	public static Map<EquipmentSlot, ItemStack> getLapisSet() {
+		Map<EquipmentSlot, ItemStack> lapisSet = new HashMap<>();
+
+		ItemStack lapisAxe = new ItemStack(Material.DIAMOND_AXE, 1);
+		ItemMeta lMeta = lapisAxe.getItemMeta();
+
+		lMeta.setDisplayName(ChatColor.BLUE + "" + ChatColor.BOLD + "Lapis Axe");
+		lMeta.addEnchant(Enchantment.DIG_SPEED, 55, true);
+		lMeta.addEnchant(Enchantment.DAMAGE_ALL, 75, true);
+		lMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 125, true);
+		lMeta.addEnchant(Enchantment.DAMAGE_ARTHROPOD, 50, true);
+
+		lMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+		List<String> lore = new ArrayList<>();
+		lore.add(ChatColor.GRAY + "When a block is broken,");
+		lore.add(ChatColor.GRAY + "there is a " + ChatColor.GREEN + "65%" + ChatColor.GRAY + " chance");
+		lore.add(ChatColor.GRAY + "that it will drop a " + ChatColor.BLUE + "Block");
+		lore.add(ChatColor.BLUE + "of Lazuli Lazuli" + ChatColor.GRAY + ".");
+		lMeta.setLore(lore);
+		
+		lMeta.setUnbreakable(true);
+
+		lMeta.addAttributeModifier(Attribute.GENERIC_LUCK, new AttributeModifier(UUID.randomUUID(), "GENERIC_LUCK", 8.5, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+
+		lapisAxe.setItemMeta(lMeta);
+		lapisSet.put(EquipmentSlot.HAND, lapisAxe);
+
+
+		ItemStack lapisChestplate = new ItemStack(Material.DIAMOND_CHESTPLATE, 1);
+		ItemMeta cMeta = lapisChestplate.getItemMeta();
+
+		cMeta.setDisplayName(ChatColor.BLUE + "Lapis Chestplate");
+
+		List<String> lore = new ArrayList<>();
+		lore.add(ChatColor.GRAY + "All projectiles will");
+		lore.add(ChatColor.GRAY + "be deflected off of this");
+		lore.add(ChatColor.GRAY + "chestplate.");
+
+		cMeta.setLore(lore);
+
+		cMeta.setUnbreakable(true);
+		cMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+		cMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 100, true);
+		cMeta.addEnchant(Enchantment.PROTECTION_FIRE, 32767, true);
+
+		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 40, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
+		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 35, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
+		cMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), "GENERIC_KNOCKBACK_RESISTANCE", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));	
+
+		lapisChestplate.setItemMeta(cMeta);
+
+		lapisSet.put(EquipmentSlot.CHEST, lapisChestplate);
+
+		ItemStack lapisLeggings = new ItemStack(Material.DIAMOND_LEGGINGS, 1);
+		ItemMeta legMeta = lapisLeggings.getItemMeta();
+
+		legMeta.setDisplayName(ChatColor.BLUE + "Lapis Leggings");
+		legMeta.setUnbreakable(true);
+		legMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 100, true);
+		legMeta.addEnchant(Enchantment.PROTECTION_FIRE, 32767, true);
+		legMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		legMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 35, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+		legMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 30, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+		legMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), "GENERIC_KNOCKBACK_RESISTANCE", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+
+		lapisLeggings.setItemMeta(legMeta);
+		lapisSet.put(EquipmentSlot.LEGS, lapisLeggings);
+
+		ItemStack lapisBoots = new ItemStack(Material.DIAMOND_BOOTS, 1);
+		ItemMeta legMeta = lapisBoots.getItemMeta();
+
+		legMeta.setDisplayName(ChatColor.BLUE + "Lapis Boots");
+		legMeta.setUnbreakable(true);
+		legMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 100, true);
+		legMeta.addEnchant(Enchantment.PROTECTION_FIRE, 32767, true);
+		legMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		legMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 20, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+		legMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 15, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+		legMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), "GENERIC_KNOCKBACK_RESISTANCE", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+
+		lapisBoots.setItemMeta(legMeta);
+		lapisSet.put(EquipmentSlot.FEET, lapisBoots);
+		return lapisSet;
+	}
+
+	public static ItemStack getSlimeSword() {
+		ItemStack slimeSword = new ItemStack(Material.GOLD_SWORD);
+		ItemMeta sMeta = slimeSword.getItemMeta();
+		sMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Slime Sword");
+		sMeta.addEnchant(Enchantment.KNOCKBACK, 250, true);
+		sMeta.addEnchant(Enchantment.DAMAGE_ALL, 150, true);
+		sMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 100, true);
+		sMeta.addEnchant(Enchantment.DAMAGE_ARTHROPOD, 100, true);
+		sMeta.setUnbreakable(true);
+		sMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		sMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_KNOCKBACK", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+		sMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_KNOCKBACK", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
+
+		slimeSword.setItemMeta(sMeta);
+
+		return slimeSword;
+	}
+
+	
 }
