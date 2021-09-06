@@ -5,12 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -22,9 +26,11 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityPortalEnterEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -168,7 +174,17 @@ public class TitanCave implements Listener {
 		items.add(getCaldus());
 		items.add(getRasa());
 		items.add(getPlasma());
-		
+		items.add(getQuantumnSet().get(EquipmentSlot.HEAD));
+		items.add(getQuantumnSet().get(EquipmentSlot.CHEST));
+		items.add(getQuantumnSet().get(EquipmentSlot.LEGS));
+		items.add(getQuantumnSet().get(EquipmentSlot.FEET));
+		items.add(getQuantumnSet().get(EquipmentSlot.HAND));	
+		items.add(getMatter("raw"));
+		items.add(getMatter("dark"));
+		items.add(getMatter("quantumn"));
+		items.add(getMatter("quark_plasma"));
+		items.add(getMatter("fermionic"));
+		items.add(getMatter("degenerative"));
 		return items;
 	}
 
@@ -216,12 +232,14 @@ public class TitanCave implements Listener {
 
 		sMeta.addEnchant(Enchantment.DAMAGE_ALL, 800, true);
 		sMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 650, true);
-		sMeta.addEnchant(Enchantment.DAMAGE_ARTHROPOD, 650, true);
+		sMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, 650, true);
 		sMeta.addEnchant(Enchantment.LOOT_BONUS_MOBS, 250, true);
 		sMeta.addEnchant(Enchantment.KNOCKBACK, 25, true);
 		sMeta.addEnchant(Enchantment.FIRE_ASPECT, 200, true);
 
 		sMeta.setUnbreakable(true);
+		
+		sMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
 		sMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 11250, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
 		sMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 11250, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
@@ -233,7 +251,94 @@ public class TitanCave implements Listener {
 		quantumnSword.setItemMeta(sMeta);
 
 		quantumnSet.put(EquipmentSlot.HAND, quantumnSword);
-
+		
+		try {
+			ItemStack quantumnHelmet = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Quantumn Helmet\",\"color\":\"light_purple\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1216197870,1232357966,-1142916173,-1472087353],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTU5N2EwOTE3YjI1ZWM2MzEzY2JmODExYjllNjI2NzdlNzlmMWJhNTEwMTAwZjIwMGQ0NWFlZWM2MDIwYTU3MiJ9fX0=\"}]}}}}");
+			ItemMeta hMeta = quantumnHelmet.getItemMeta();
+			
+			hMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 750, true);
+			hMeta.addEnchant(Enchantment.OXYGEN, 450, true);
+			hMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 32767, true);
+			hMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 32767, true);
+			
+			hMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+			
+			hMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 550, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+			hMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 500, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+			hMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 50, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HEAD));
+			
+			quantumnHelmet.setItemMeta(hMeta);
+			
+			quantumnSet.put(EquipmentSlot.HEAD, quantumnHelmet);
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		
+		ItemStack quantumnChestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+		LeatherArmorMeta cMeta = (LeatherArmorMeta) quantumnChestplate.getItemMeta();
+		cMeta.setColor(Color.fromRGB(190, 148, 221));
+		
+		cMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Quantumn Chestplate");
+		
+		cMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 750, true);
+		cMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 32767, true);
+		cMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 32767, true);
+		
+		cMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_DYE);
+		cMeta.setUnbreakable(true);
+		
+		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 880, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
+		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 800, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
+		cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 50, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
+		
+		quantumnChestplate.setItemMeta(cMeta);
+		
+		quantumnSet.put(EquipmentSlot.CHEST, quantumnChestplate);
+		
+		
+		ItemStack quantumnLeggings = new ItemStack(Material.LEATHER_LEGGINGS, 1);
+		LeatherArmorMeta lMeta = (LeatherArmorMeta) quantumnLeggings.getItemMeta();
+		lMeta.setColor(Color.fromRGB(190, 148, 221));
+		
+		lMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Quantumn Leggings");
+		
+		lMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 750, true);
+		lMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 32767, true);
+		lMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 32767, true);
+		
+		lMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_DYE);
+		lMeta.setUnbreakable(true);
+		
+		lMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 770, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+		lMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 700, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+		lMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 50, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
+		
+		quantumnLeggings.setItemMeta(lMeta);
+		
+		quantumnSet.put(EquipmentSlot.LEGS, quantumnLeggings);
+		
+		
+		ItemStack quantumnBoots = new ItemStack(Material.LEATHER_BOOTS, 1);
+		LeatherArmorMeta bMeta = (LeatherArmorMeta) quantumnBoots.getItemMeta();
+		bMeta.setColor(Color.fromRGB(190, 148, 221));
+		
+		bMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Quantumn Boots");
+		
+		bMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 750, true);
+		bMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 32767, true);
+		bMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 32767, true);
+		
+		bMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_DYE);
+		bMeta.setUnbreakable(true);
+		
+		bMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 440, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+		bMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 400, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+		bMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 50, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+		
+		quantumnBoots.setItemMeta(bMeta);
+		
+		quantumnSet.put(EquipmentSlot.FEET, quantumnBoots);
+		
 		return quantumnSet;
 	}
 	

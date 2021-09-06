@@ -22,6 +22,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.entity.SpectralArrow;
 import org.bukkit.entity.ThrownExpBottle;
 import org.bukkit.event.EventHandler;
@@ -44,6 +45,7 @@ import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -56,6 +58,7 @@ import org.bukkit.util.Vector;
 
 import gamercoder215.smpcore.Main;
 import gamercoder215.smpcore.listeners.GUIManagers;
+import gamercoder215.smpcore.listeners.caves.AlphaCave;
 import gamercoder215.smpcore.utils.fetcher.TitanFetcher;
 
 public class WorldAbilities implements Listener {
@@ -655,11 +658,11 @@ public class WorldAbilities implements Listener {
 			e.setCancelled(true);
 
 			Projectile pr = e.getEntity();
-			Vector direction = pr.getDirection().multiply(-1);
+			Vector direction = pr.getLocation().getDirection().multiply(-1);
 
-			Vector velocity = new Vector(pr.getVelocity() * -1.2, pr.getVelocity() * 1.2, pr.getVelocity() * -1.2);
+			Vector velocity = new Vector(pr.getVelocity().getX() * -1.2, pr.getVelocity().getY() * 1.2, pr.getVelocity() .getZ()* -1.2);
 
-			Projectile newProj = p.getWorld().spawnEntity(pr.getLocation(), pr.getType());
+			Projectile newProj = (Projectile) p.getWorld().spawnEntity(pr.getLocation(), pr.getType());
 			newProj.setVelocity(velocity);
 			
 			Location loc = newProj.getLocation();

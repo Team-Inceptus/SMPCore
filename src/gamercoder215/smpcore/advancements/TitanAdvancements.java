@@ -30,7 +30,7 @@ public class TitanAdvancements implements Listener {
 		
 		// Adding Advancements
 		// Goals and Challenges are swapped
-		AdvancementDisplay rootD = new AdvancementDisplay(Material.NETHERITE_BLOCK, "The Titan Dimension", "The dimension for the strongest of us", AdvancementFrame.TASK, false, false, AdvancementVisibility.ALWAYS);
+		AdvancementDisplay rootD = new AdvancementDisplay(Material.NETHERITE_BLOCK, "The Titan Dimension", "The dimension for the strongest of us", AdvancementFrame.TASK, false, false, AdvancementVisibility.HIDDEN);
 		rootD.setBackgroundTexture("textures/block/deepslate.png");
 		Advancement root = new Advancement(null, new NameKey("titan", "root"), rootD);
 		

@@ -1416,7 +1416,7 @@ public class TitanFetcher {
 		tMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 650, true);
 		tMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, 650, true);
 		tMeta.addEnchant(Enchantment.FIRE_ASPECT, 250, true);
-		tMeta.addEnchant(Enchantment.EFFICIENCY, 100, true);
+		tMeta.addEnchant(Enchantment.DIG_SPEED, 100, true);
 		tMeta.addEnchant(Enchantment.KNOCKBACK, 175, true);
 		tMeta.addEnchant(Enchantment.LOOT_BONUS_MOBS, 225, true);
 		tMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 125, true);

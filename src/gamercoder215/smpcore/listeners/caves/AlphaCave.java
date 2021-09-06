@@ -215,7 +215,7 @@ public class AlphaCave implements Listener {
 		lMeta.addEnchant(Enchantment.DIG_SPEED, 55, true);
 		lMeta.addEnchant(Enchantment.DAMAGE_ALL, 75, true);
 		lMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 125, true);
-		lMeta.addEnchant(Enchantment.DAMAGE_ARTHROPOD, 50, true);
+		lMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, 50, true);
 
 		lMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
@@ -239,12 +239,12 @@ public class AlphaCave implements Listener {
 
 		cMeta.setDisplayName(ChatColor.BLUE + "Lapis Chestplate");
 
-		List<String> lore = new ArrayList<>();
-		lore.add(ChatColor.GRAY + "All projectiles will");
-		lore.add(ChatColor.GRAY + "be deflected off of this");
-		lore.add(ChatColor.GRAY + "chestplate.");
+		List<String> lore2 = new ArrayList<>();
+		lore2.add(ChatColor.GRAY + "All projectiles will");
+		lore2.add(ChatColor.GRAY + "be deflected off of this");
+		lore2.add(ChatColor.GRAY + "chestplate.");
 
-		cMeta.setLore(lore);
+		cMeta.setLore(lore2);
 
 		cMeta.setUnbreakable(true);
 		cMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -276,30 +276,30 @@ public class AlphaCave implements Listener {
 		lapisSet.put(EquipmentSlot.LEGS, lapisLeggings);
 
 		ItemStack lapisBoots = new ItemStack(Material.DIAMOND_BOOTS, 1);
-		ItemMeta legMeta = lapisBoots.getItemMeta();
+		ItemMeta bMeta = lapisBoots.getItemMeta();
 
-		legMeta.setDisplayName(ChatColor.BLUE + "Lapis Boots");
-		legMeta.setUnbreakable(true);
-		legMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 100, true);
-		legMeta.addEnchant(Enchantment.PROTECTION_FIRE, 32767, true);
-		legMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		legMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 20, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
-		legMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 15, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
-		legMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), "GENERIC_KNOCKBACK_RESISTANCE", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+		bMeta.setDisplayName(ChatColor.BLUE + "Lapis Boots");
+		bMeta.setUnbreakable(true);
+		bMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 100, true);
+		bMeta.addEnchant(Enchantment.PROTECTION_FIRE, 32767, true);
+		bMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		bMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 20, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+		bMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 15, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+		bMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), "GENERIC_KNOCKBACK_RESISTANCE", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
 
-		lapisBoots.setItemMeta(legMeta);
+		lapisBoots.setItemMeta(bMeta);
 		lapisSet.put(EquipmentSlot.FEET, lapisBoots);
 		return lapisSet;
 	}
 
 	public static ItemStack getSlimeSword() {
-		ItemStack slimeSword = new ItemStack(Material.GOLD_SWORD);
+		ItemStack slimeSword = new ItemStack(Material.GOLDEN_SWORD);
 		ItemMeta sMeta = slimeSword.getItemMeta();
 		sMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Slime Sword");
 		sMeta.addEnchant(Enchantment.KNOCKBACK, 250, true);
 		sMeta.addEnchant(Enchantment.DAMAGE_ALL, 150, true);
 		sMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 100, true);
-		sMeta.addEnchant(Enchantment.DAMAGE_ARTHROPOD, 100, true);
+		sMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, 100, true);
 		sMeta.setUnbreakable(true);
 		sMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		sMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_KNOCKBACK", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));

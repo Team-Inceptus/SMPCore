@@ -8,8 +8,11 @@ import java.util.TreeMap;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
+import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
@@ -23,7 +26,7 @@ public class GeneralUtils {
 	
 	public static HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 	
-	public void static moveToward(Entity entity, Location to, double speed){
+	public static void moveToward(Entity entity, Location to, double speed){
 		Location loc = entity.getLocation();
 		double x = loc.getX() - to.getX();
 		double y = loc.getY() - to.getY();

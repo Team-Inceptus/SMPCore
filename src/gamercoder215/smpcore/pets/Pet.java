@@ -56,7 +56,8 @@ public enum Pet {
 	
 	public static Pet fromTier(int tier, Pet.Type type) {
 		if (type.equals(Type.DAMAGE)) {
-			if (tier == 1) return Pet.FURNICA;
+			if (tier == 1) return FURNICA;
+			else if (tier == 2) return RATONII;
 			
 			else return null;
 		}
@@ -98,8 +99,8 @@ public enum Pet {
 	
 	public static double[] getModifier(double defense, double health, Pet p) {
 		if (p.equals(ZBOR)) return (new double[]{health + 2, defense + 1});
-		else if (p.equals(CARTITA)) return (new double[]{3, 1.5});
-		else if (p.equals(SOARECI)) return (new double[]{4.5, 3});
+		else if (p.equals(CARTITA)) return (new double[]{health + 3, defense + 1.5});
+		else if (p.equals(SOARECI)) return (new double[]{health + 4.5, defense + 3});
 		else return (new double[]{0, 0});
 	}
 	

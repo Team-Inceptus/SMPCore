@@ -35,6 +35,12 @@ public class DamageCalculation implements Listener  {
 		Player target = (Player) e.getEntity();
 		Player p = (Player) e.getDamager();
 		
+		int worldNerf = 1;
+		
+		if (p.getWorld().getName().equalsIgnoreCase("world") || p.getWorld().getName().equalsIgnoreCase("world_nether") || p.getWorld().getName().equalsIgnoreCase("world_the_end")) worldNerf = 1;
+		else if (p.getWorld().getName().contains("titan") && !(p.getWorld().getName().contains("caves"))) worldNerf = 10000;
+		else if (p.getWorld().getName().contains("caves")) worldNerf = 5000;
+		
 		Pet dmgPet = Pet.fromTier(plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("pet_damage"), Pet.Type.DAMAGE);
 		
 		Pet defensePet = Pet.fromTier(plugin.getConfig().getConfigurationSection(target.getUniqueId().toString()).getInt("pet_defense"), Pet.Type.DEFENSE);
@@ -62,8 +68,8 @@ public class DamageCalculation implements Listener  {
 		double newDefense = Pet.getModifier(targetDefense, target.getHealth(), defensePet)[1];
 		
 		
-		e.setDamage((Pet.getModifier(dmg, dmgPet, Type.DAMAGE) + Math.floor(p.getStatistic(Statistic.MOB_KILLS) / 100)) /
-				newDefense);
+		e.setDamage(((Pet.getModifier(dmg, dmgPet, Type.DAMAGE) + Math.floor(p.getStatistic(Statistic.MOB_KILLS) / 200)) /
+				newDefense) + (p.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() / worldNerf));
 		
 	}
 	

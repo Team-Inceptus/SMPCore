@@ -165,6 +165,15 @@ public class GetCustomItem implements CommandExecutor {
 					
 					p.openInventory(v3inv3);
 					break;
+				case "matter":
+					if (args.length < 2) {
+						p.sendMessage(ChatColor.RED + "You need to provide a valid type of matter!");
+						return false;
+					} else {
+						p.getInventory().addItem(TitanCave.getMatter(args[1]));
+					}
+					break;
+				
 			}
 		}
 		return false;
