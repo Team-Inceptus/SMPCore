@@ -92,6 +92,9 @@ public enum Pet {
 			else if (p.equals(DUMNEZU)) return (original * 10);
 			
 			else return original;
+		} else if (type == Type.SPEED) {
+			if (p == LENES) return (original + 0.1d);
+			else return original;
 		}
 		
 		else return original;
