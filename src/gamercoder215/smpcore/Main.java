@@ -90,6 +90,7 @@ import gamercoder215.smpcore.listeners.titan.TitanWorldEnd;
 import gamercoder215.smpcore.listeners.titan.TitanWorldNether;
 import gamercoder215.smpcore.utils.GeneralUtils;
 import gamercoder215.smpcore.utils.InventoryUtils;
+import gamercoder215.smpcore.utils.calculation.DamageCalculation;
 
 public class Main extends JavaPlugin {
 	
@@ -206,6 +207,7 @@ public class Main extends JavaPlugin {
       new PlayerStatusUpdate(this);
       new GUIManagers(this);
       new PlayerDrops(this);
+      new DamageCalculation(this);
       
       new Spells(this);
       new PlayerAbilities(this);
