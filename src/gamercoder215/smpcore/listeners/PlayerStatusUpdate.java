@@ -196,8 +196,6 @@ public class PlayerStatusUpdate implements Listener {
       for (Player pl : Bukkit.getServer().getOnlinePlayers()) {
     	  pl.setPlayerListFooter(ChatColor.GOLD + Integer.toString(onlinePlayers) + " / " + Integer.toString(maxPlayers) + ChatColor.GREEN + " Online Players");
       }
-      
-      p.removeAttachment(PermissionUtils.getAttachments().get(p.getUniqueId()));
    }
    
    @EventHandler
