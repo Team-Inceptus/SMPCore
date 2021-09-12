@@ -40,6 +40,7 @@ public class DamageCalculation implements Listener  {
 		if (p.getWorld().getName().equalsIgnoreCase("world") || p.getWorld().getName().equalsIgnoreCase("world_nether") || p.getWorld().getName().equalsIgnoreCase("world_the_end")) worldNerf = 1;
 		else if (p.getWorld().getName().contains("titan") && !(p.getWorld().getName().contains("caves"))) worldNerf = 10000;
 		else if (p.getWorld().getName().contains("caves")) worldNerf = 5000;
+		else if (p.getWorld().getName().contains("")) worldNerf = 1000000;
 		
 		Pet dmgPet = Pet.fromTier(plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("pet_damage"), Pet.Type.DAMAGE);
 		
