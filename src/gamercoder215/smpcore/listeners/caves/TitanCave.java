@@ -98,7 +98,9 @@ public class TitanCave implements Listener {
 		if (e.getBlock() == null) return;
 		if (!(e.getBlock().getWorld().getName().equalsIgnoreCase("world_caves_titan"))) return;
 		
-		e.setDropItems(false);
+		for (ItemStack i : getItems()) {
+			if (i.getType() == e.getBlock().getType()) e.setDropItems(false);
+		}
 		e.setExpToDrop(0);
 		
 		if (drops.containsKey(e.getBlock().getType())) {

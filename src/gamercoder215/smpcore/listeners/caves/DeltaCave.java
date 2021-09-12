@@ -192,7 +192,9 @@ public class DeltaCave implements Listener {
 		if (e.getBlock() == null) return;
 		if (!(e.getBlock().getWorld().getName().equalsIgnoreCase("world_caves_delta"))) return;
 		
-		e.setDropItems(false);
+		for (ItemStack i : getItems()) {
+			if (i.getType() == e.getBlock().getType()) e.setDropItems(false);
+		}
 		e.setExpToDrop(0);
 		
 		if (drops.containsKey(e.getBlock().getType())) {
