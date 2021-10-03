@@ -374,7 +374,6 @@ public class TitanWorld implements Listener {
 	}
 	
 
-	
 	@EventHandler
 	public void onInteractInventory(InventoryClickEvent e) {
 		if (e.getWhoClicked() == null) return;
@@ -472,7 +471,7 @@ public class TitanWorld implements Listener {
 		}
 		
 	}
-	
+
 	@EventHandler
 	public void onHarvest(PlayerHarvestBlockEvent e) {
 		Player p = e.getPlayer();

@@ -194,13 +194,13 @@ public class TitanFinder {
 		titanFinder.setItem(15, (hasUnlocked(plugin, p, 90) ? potTitan : notUnlocked(90)));
 		
 		// Later
-		titanFinder.setItem(37, later);
-		titanFinder.setItem(38, later);
-		titanFinder.setItem(39, later);
-		titanFinder.setItem(40, later);
-		titanFinder.setItem(41, later);
-		titanFinder.setItem(42, later);
-		titanFinder.setItem(43, later);
+		titanFinder.setItem(28, later);
+		titanFinder.setItem(29, later);
+		titanFinder.setItem(30, later);
+		titanFinder.setItem(31, later);
+		titanFinder.setItem(32, later);
+		titanFinder.setItem(33, later);
+		titanFinder.setItem(34, later);
 		
 		
 		return titanFinder;

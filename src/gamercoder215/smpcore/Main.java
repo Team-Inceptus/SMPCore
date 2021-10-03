@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -100,6 +101,8 @@ public class Main extends JavaPlugin {
 	
 	Random r = new Random();
    public void onEnable() {
+	   
+	  Main main = this;
 	  pm = ProtocolLibrary.getProtocolManager();
 	   
 	  // Info Messages
@@ -150,7 +153,7 @@ public class Main extends JavaPlugin {
 					  p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 4, 1, true, false, false));
 				  }
 				  
-				  if (p.getWorld().getName().equalsIgnoreCase("world_titan_end") || p.getWorld().getName().equalsIgnoreCase("world_titan_nether")) {
+				  if (p.getWorld().getName().equalsIgnoreCase("world_titan_nether") || p.getWorld().getName().equalsIgnoreCase("world_titan_nether")) {
 					  p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 4, 3, true, false, false));
 				  }
 				  
@@ -170,8 +173,68 @@ public class Main extends JavaPlugin {
 					  p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 4, 6, true, false, false));
 				  }
 			  });
+			 
 		  }
 	  }.runTaskTimer(this, 0, 2);
+	  
+	  new BukkitRunnable() {
+		  public void run() {
+			  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "deleteallclaimsinworld world_titan_end");
+			  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "deleteallclaimsinworld world_titan_nether");
+			  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "deleteallclaimsinworld world_titan");
+			  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "deleteallclaimsinworld world_caves_delta");
+			  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "deleteallclaimsinworld world_caves_titan");
+			  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "deleteallclaimsinworld world_caves_alpha");
+			  
+			  
+			  for (Player p : Bukkit.getOnlinePlayers()) {
+			      String uuid = p.getUniqueId().toString();
+			      
+			      if (main.getConfig().getConfigurationSection(uuid) == null) {
+			    	  main.getConfig().createSection(uuid);
+			      }
+			      
+			      if (main.getConfig().getConfigurationSection(uuid).get("titan_summons") == null) {
+			    	  main.getConfig().getConfigurationSection(uuid).set("titan_summons", 0);
+			      }
+			      
+			      if (main.getConfig().getConfigurationSection(uuid).get("titan_kills") == null) {
+			    	  main.getConfig().getConfigurationSection(uuid).set("titan_kills", 0);
+			      }
+			      
+			      if (main.getConfig().getConfigurationSection(uuid).get("boss_summons") == null) {
+			    	  main.getConfig().getConfigurationSection(uuid).set("boss_summons", 0);
+			      }
+			      
+			      if (main.getConfig().getConfigurationSection(uuid).get("rank") == null) {
+			    	  main.getConfig().getConfigurationSection(uuid).set("rank", "default");
+			      }
+			 
+			      
+			      if (main.getConfig().getConfigurationSection(uuid).get("pet_damage") == null) {
+			    	  main.getConfig().getConfigurationSection(uuid).set("pet_damage", 0);
+			      }
+			      if (main.getConfig().getConfigurationSection(uuid).get("pet_defense") == null) {
+			    	  main.getConfig().getConfigurationSection(uuid).set("pet_defense", 0);
+			      }
+			      if (main.getConfig().getConfigurationSection(uuid).get("pet_speed") == null) {
+			    	  main.getConfig().getConfigurationSection(uuid).set("pet_speed", 0);
+			      }
+			      
+			      // NPCs
+			      
+			      if (main.getConfig().getConfigurationSection(uuid).get("npc_talks") == null) {
+			    	  main.getConfig().getConfigurationSection(uuid).createSection("npc_talks");
+			      }
+			      
+			      if (main.getConfig().getConfigurationSection(uuid).getConfigurationSection("npc_talks").get("bellator") == null) {
+			    	  main.getConfig().getConfigurationSection(uuid).getConfigurationSection("npc_talks").set("bellator", false);;
+			      }
+			      
+			      main.saveConfig();
+			  }
+		  }
+	  }.runTaskTimer(this, 100, 100);
 
 	  
 	  // Regular Commands

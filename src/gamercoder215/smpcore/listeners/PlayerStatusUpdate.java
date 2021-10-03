@@ -96,51 +96,6 @@ public class PlayerStatusUpdate implements Listener {
 	  
       Player p = e.getPlayer();
       
-      
-      String uuid = p.getUniqueId().toString();
-      
-      if (plugin.getConfig().getConfigurationSection(uuid) == null) {
-    	  plugin.getConfig().createSection(uuid);
-      }
-      
-      if (plugin.getConfig().getConfigurationSection(uuid).get("titan_summons") == null) {
-    	  plugin.getConfig().getConfigurationSection(uuid).set("titan_summons", 0);
-      }
-      
-      if (plugin.getConfig().getConfigurationSection(uuid).get("titan_kills") == null) {
-    	  plugin.getConfig().getConfigurationSection(uuid).set("titan_kills", 0);
-      }
-      
-      if (plugin.getConfig().getConfigurationSection(uuid).get("boss_summons") == null) {
-    	  plugin.getConfig().getConfigurationSection(uuid).set("boss_summons", 0);
-      }
-      
-      if (plugin.getConfig().getConfigurationSection(uuid).get("rank") == null) {
-    	  plugin.getConfig().getConfigurationSection(uuid).set("rank", "default");
-      }
- 
-      
-      if (plugin.getConfig().getConfigurationSection(uuid).get("pet_damage") == null) {
-    	  plugin.getConfig().getConfigurationSection(uuid).set("pet_damage", 0);
-      }
-      if (plugin.getConfig().getConfigurationSection(uuid).get("pet_defense") == null) {
-    	  plugin.getConfig().getConfigurationSection(uuid).set("pet_defense", 0);
-      }
-      if (plugin.getConfig().getConfigurationSection(uuid).get("pet_speed") == null) {
-    	  plugin.getConfig().getConfigurationSection(uuid).set("pet_speed", 0);
-      }
-      
-      // NPCs
-      
-      if (plugin.getConfig().getConfigurationSection(uuid).get("npc_talks") == null) {
-    	  plugin.getConfig().getConfigurationSection(uuid).createSection("npc_talks");
-      }
-      
-      if (plugin.getConfig().getConfigurationSection(uuid).getConfigurationSection("npc_talks").get("bellator") == null) {
-    	  plugin.getConfig().getConfigurationSection(uuid).getConfigurationSection("npc_talks").set("bellator", false);;
-      }
-      
-      plugin.saveConfig();
       setRank(p);
       e.setJoinMessage(ChatColor.DARK_GREEN + p.getDisplayName() + ChatColor.GREEN + " joined the game");
       p.setPlayerListHeader(ChatColor.GOLD + "\n You are playing on " + ChatColor.GREEN + "noobygodssmp.apexmc.co \n" + ChatColor.BLUE + "\n discord.io/thenoobygods \n" + ChatColor.RED + "reddit.com/r/TheNoobyGods\n\n" + ChatColor.GOLD + "Version " + ChatColor.GREEN + "v" + plugin.getDescription().getVersion());

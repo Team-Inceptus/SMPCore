@@ -77,12 +77,12 @@ public class TitanNPCs implements Listener {
 				bellatorTalking = true;
 				
 				for (int i = 0; i < bd.size(); i++) {
-					p.sendMessage(ChatColor.BLUE + "[Bellator] " + ChatColor.WHITE + bd.get(i));
 					new BukkitRunnable() {
 						public void run() {
 							e.hashCode();
 						}
 					}.runTaskLater(plugin, r.nextInt(100 - 40) + 40);
+					p.sendMessage(ChatColor.BLUE + "[Bellator] " + ChatColor.WHITE + bd.get(i));
 				}
 				
 				p.openInventory(TitanFinder.getTitanFinder(plugin, p));
