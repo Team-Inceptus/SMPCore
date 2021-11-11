@@ -102,6 +102,7 @@ public class SuperPickaxes implements Listener {
 		
 		if (!(handMeta.hasDisplayName())) return;
 		if (handMeta.getDisplayName().contains("Telekinetic Pickaxe") && handMeta.isUnbreakable() && handMeta.hasLore() && handMeta.getEnchantLevel(Enchantment.DIG_SPEED) == 35 && handMeta.hasAttributeModifiers()) {
+			if (e.isCancelled()) return;
 			e.setDropItems(false);
 			for (ItemStack i : b.getDrops()) {
 				if (p.getInventory().firstEmpty() > -1) {

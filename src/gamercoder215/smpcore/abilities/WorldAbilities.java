@@ -813,6 +813,11 @@ public class WorldAbilities implements Listener {
 			} else if (chosen == Attribute.GENERIC_LUCK) {
 				p.sendMessage(ChatColor.GREEN + "The attribute \"" + ChatColor.DARK_GREEN + "Luck" + ChatColor.GREEN + "\" has been upgraded!");
 			}
+		} else if (e.getItem().getItemMeta().getDisplayName().contains("Claim Apple")) {
+			e.setCancelled(true);
+			p.getInventory().removeItem(e.getItem());
+			
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "adjustbonusclaimblocks " + e.getPlayer().getName() + " 100");
 		}
 	}
 	

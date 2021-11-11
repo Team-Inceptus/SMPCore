@@ -33,6 +33,7 @@ import gamercoder215.smpcore.bosses.abilities.EnergyGuardianAbilities;
 import gamercoder215.smpcore.bosses.abilities.GoldenShulkerAbilities;
 import gamercoder215.smpcore.bosses.abilities.GolemKingAbilities;
 import gamercoder215.smpcore.bosses.abilities.PhantomKingAbilities;
+import gamercoder215.smpcore.bosses.abilities.SculkWitchAbilities;
 import gamercoder215.smpcore.bosses.abilities.SnowPrinceAbilities;
 import gamercoder215.smpcore.bosses.abilities.SpiderQueenAbilities;
 import gamercoder215.smpcore.bosses.abilities.TitanAbilities;
@@ -97,8 +98,6 @@ public class Main extends JavaPlugin {
 	
 	public ProtocolManager pm;
 	
-
-	
 	Random r = new Random();
    public void onEnable() {
 	   
@@ -111,11 +110,11 @@ public class Main extends JavaPlugin {
 				String[] infoMessages = {
 						ChatColor.RED + "Subscribe to GamerCoder215 for Updates, Feed, and Quality Content! https://bit.ly/sub2gamer",
 						ChatColor.AQUA + "You can chat with other players in your world only by doing /wc <message>.",
-						ChatColor.DARK_RED + "Hacking or Duping are bannable offenses! Remember to play fair!",
+						ChatColor.DARK_RED + "Hacking or Duping are bannable offenses! Remember that we are semi-anarchy!",
 						ChatColor.GREEN + "You can use /trades to barter.",
 						ChatColor.DARK_AQUA + "Use /menu for statistics and shortcuts!",
 						ChatColor.BLUE + "You can use /cguide to find unique creatures!",
-						ChatColor.RED + "We are not an anarchy server! Stealing and Griefing are not allowed.",
+						ChatColor.RED + "We are not a full anarchy server! Stealing and Griefing are allowed, but no hacking.",
 						ChatColor.BLUE + "Join the Discord to Updates & A Friendly Community - https://discord.io/thenoobygods",
 						ChatColor.LIGHT_PURPLE + "You can use /recipes to see the custom recipes!",
 						ChatColor.GOLD + "You are currently playing on " + ChatColor.GREEN + "TheNoobyGodsSMP" + ChatColor.GOLD + " with " + ChatColor.GREEN + GeneralUtils.thousandSeparator(Bukkit.getOfflinePlayers().length + Bukkit.getOnlinePlayers().size(), ",") + ChatColor.GOLD + " members!",
@@ -179,14 +178,6 @@ public class Main extends JavaPlugin {
 	  
 	  new BukkitRunnable() {
 		  public void run() {
-			  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "deleteallclaimsinworld world_titan_end");
-			  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "deleteallclaimsinworld world_titan_nether");
-			  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "deleteallclaimsinworld world_titan");
-			  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "deleteallclaimsinworld world_caves_delta");
-			  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "deleteallclaimsinworld world_caves_titan");
-			  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "deleteallclaimsinworld world_caves_alpha");
-			  
-			  
 			  for (Player p : Bukkit.getOnlinePlayers()) {
 			      String uuid = p.getUniqueId().toString();
 			      
@@ -315,6 +306,8 @@ public class Main extends JavaPlugin {
       new ZombieKingDrops(this);
       
       new MinorBossDrops(this);
+      
+      new SculkWitchAbilities(this);
       
       new DimensionGuardAbilities(this);
       new DimensionGuardDrops(this);

@@ -1,6 +1,7 @@
 package gamercoder215.smpcore.commands;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -507,7 +508,7 @@ public class Boss implements CommandExecutor {
 		}
 		Player p = (Player) sender;
 		
-		ItemStack comingSoon = getComingSoon();
+		// ItemStack comingSoon = getComingSoon();
 		
 		Inventory bossGUI = GUIManagers.generateGUI(54, ChatColor.BOLD + "" + ChatColor.AQUA + "SMP Bosses Menu");
 		
@@ -1044,10 +1045,11 @@ public class Boss implements CommandExecutor {
 		
 		ItemStack zking = generateItem(Material.BAKED_POTATO, ChatColor.BOLD + "Zombie King", ChatColor.DARK_RED, 4);
 		
-		ArrayList<String> zkingLore = new ArrayList<String>();
+		List<String> zkingLore = new ArrayList<
+				>();
 		
 		zkingLore.add("");
-		zkingLore.add(ChatColor.RESET + "" + ChatColor.RED + "10,000 HP (50 Horse HP; 10,000 Regular HP)");
+		zkingLore.add(ChatColor.RESET + "" + ChatColor.RED + "10,050 HP (50 Horse HP; 10,000 Regular HP)");
 		zkingLore.add("");
 		zkingLore.add(ChatColor.RESET + "" + ChatColor.GRAY + "A wicked and cruel monarch,");
 		zkingLore.add(ChatColor.RESET + "" + ChatColor.GRAY + "forged the strongest and deadliest");
@@ -1077,7 +1079,7 @@ public class Boss implements CommandExecutor {
 		zkingLore.add("");
 		zkingLore.add(ChatColor.RESET + "- " + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Confugiat" + ChatColor.RESET + "" + ChatColor.DARK_GRAY + " x1" + ChatColor.GRAY + " (0.5%)");
 		zkingLore.add(ChatColor.RESET + "- " + ChatColor.WHITE + "Rotten Flesh" + ChatColor.DARK_GRAY + " x256" + ChatColor.GRAY + " (100%)");
-		zkingLore.add(ChatColor.RESET + "- " + ChatColor.WHITE + "Bone" + ChatColor.DARK_GRAY + " x128" + ChatColor.GRAY + "(100%)");
+		zkingLore.add(ChatColor.RESET + "- " + ChatColor.WHITE + "Bone" + ChatColor.DARK_GRAY + " x128" + ChatColor.GRAY + " (100%)");
 		zkingLore.add(ChatColor.RESET + "- " + ChatColor.YELLOW + "Baked Potato" + ChatColor.DARK_GRAY + " x96" + ChatColor.GRAY + " (100%)");
 		zkingLore.add(ChatColor.RESET + "- " + ChatColor.WHITE + "Iron Ingot" + ChatColor.DARK_GRAY + " x64" + ChatColor.GRAY + " (100%)");
 		
@@ -1085,6 +1087,36 @@ public class Boss implements CommandExecutor {
 		zkingMeta.setLore(zkingLore);
 		zking.setItemMeta(zkingMeta);
 		
+		ItemStack sculkWitch = generateItem(Material.SCULK_SENSOR, ChatColor.BOLD + "The Sculk Witch", ChatColor.DARK_AQUA, 4);
+		
+		List<String> sculkWitchLore = new ArrayList<>();
+		sculkWitchLore.add("");
+		sculkWitchLore.add(ChatColor.RED + "7,000 HP");
+		sculkWitchLore.add("");
+		sculkWitchLore.add(ChatColor.GRAY + "A mysterious witch, seemingly from the future.");
+		sculkWitchLore.add(ChatColor.GRAY + "Her abilities are glitched and are not ready yet for");
+		sculkWitchLore.add(ChatColor.GRAY + "the inferior minds of 1.17 players. Perhaps 1.18 or even");
+		sculkWitchLore.add(ChatColor.GRAY + "1.19 will fix this...");
+		sculkWitchLore.add("");
+		sculkWitchLore.add(ChatColor.RESET + "" + ChatColor.DARK_GRAY + "" + ChatColor.UNDERLINE + "Spawn Cost");
+		sculkWitchLore.add("");
+		sculkWitchLore.add(ChatColor.RESET + "- " + ChatColor.DARK_GRAY + "Rotten Flesh" + ChatColor.DARK_GRAY + " x160");
+		sculkWitchLore.add("");
+		sculkWitchLore.add(ChatColor.DARK_GRAY + "" + ChatColor.UNDERLINE + "Abilities");
+		sculkWitchLore.add("");
+		sculkWitchLore.add(ChatColor.GREEN + "Organic Hands");
+		sculkWitchLore.add(ChatColor.GRAY + "Summons 1-4 Zombies as defense.");
+		sculkWitchLore.add("");
+		sculkWitchLore.add("");
+		sculkWitchLore.add(ChatColor.DARK_GRAY + "" + ChatColor.UNDERLINE + "Drops");
+		sculkWitchLore.add("");
+		sculkWitchLore.add(ChatColor.RESET + "- " + ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Sculk Helmet" + ChatColor.DARK_GRAY + " x1" + ChatColor.GRAY + " (0.3%)");
+		sculkWitchLore.add(ChatColor.RESET + "- " + ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Sculk Chestplate" + ChatColor.DARK_GRAY + " x1" + ChatColor.GRAY + " (0.05%)");
+		sculkWitchLore.add(ChatColor.RESET + "- " + ChatColor.DARK_AQUA + "Sculk Sensor" + ChatColor.DARK_GRAY + " x96" + ChatColor.GRAY + " (64x 100%, 96x 50%)");
+		
+		ItemMeta sculkWitchMeta = sculkWitch.getItemMeta();
+		sculkWitchMeta.setLore(sculkWitchLore);
+		sculkWitch.setItemMeta(sculkWitchMeta);
 		// T1 Sets
 		bossGUI.setItem(10, superSniper);
 		bossGUI.setItem(11, rottenPrivate);
@@ -1105,8 +1137,7 @@ public class Boss implements CommandExecutor {
 		bossGUI.setItem(37, snowPrince);
 		bossGUI.setItem(38, dimGuard);
 		bossGUI.setItem(39, zking);
-		// bossGUI.setItem(40, someNewBoss);
-		bossGUI.setItem(40, comingSoon);
+		bossGUI.setItem(40, sculkWitch);
 		
 		ItemStack t5Bosses = new ItemStack(Material.ARROW, 1);
 		ItemMeta lockedBossMeta = t5Bosses.getItemMeta();

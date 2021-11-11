@@ -775,6 +775,39 @@ public class GUIManagers implements Listener {
             		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
             	 }
         	 }
+         } else if (clickedItem.getItemMeta().getDisplayName().contains("The Sculk Witch")) {
+        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.ROTTEN_FLESH), 160))) {
+        		 p.sendMessage(notEnoughMats);
+        	 } else {
+        		 p.getInventory().removeItem(new ItemStack(Material.ROTTEN_FLESH, 64), new ItemStack(Material.ROTTEN_FLESH, 64), new ItemStack(Material.ROTTEN_FLESH, 32));
+        		 p.sendMessage(ChatColor.DARK_AQUA + "A Sculk Witch has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.DARK_AQUA + "Rotten Flesh!");
+        		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon witch ~ ~ ~ {Health:7000f,PatrolLeader:1b,HasRaidGoal:1b,CanJoinRaid:1b,CustomName:'{\"text\":\"The Sculk Witch\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}',HandItems:[{id:\"minecraft:sculk_sensor\",Count:64b},{id:\"minecraft:sculk_sensor\",Count:32b}],HandDropChances:[1.000F,0.250F],ArmorItems:[{},{},{id:\"minecraft:leather_chestplate\",Count:1b,tag:{display:{Name:'{\"text\":\"Sculk Chestplate\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}'},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:protection\",lvl:255s},{id:\"minecraft:fire_protection\",lvl:255s},{id:\"minecraft:blast_protection\",lvl:255s},{id:\"minecraft:thorns\",lvl:25s}]}},{id:\"minecraft:netherite_helmet\",Count:1b,tag:{display:{Name:'{\"text\":\"Sculk Helmet\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}',Lore:['{\"text\":\"An aura so strong,\",\"color\":\"gray\",\"italic\":false}','{\"text\":\"zombies and skeletons will\",\"color\":\"gray\",\"italic\":false}','{\"text\":\"ignore you.\",\"color\":\"gray\",\"italic\":false}']},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:protection\",lvl:200s},{id:\"minecraft:blast_protection\",lvl:255s},{id:\"minecraft:projectile_protection\",lvl:255s},{id:\"minecraft:respiration\",lvl:250s}],AttributeModifiers:[{AttributeName:\"generic.luck\",Name:\"generic.luck\",Amount:3,Operation:2,UUID:[I;-1483853205,1593395797,-2094303794,98091408],Slot:\"head\"}]}}],ArmorDropChances:[0.085F,0.085F,0.001F,0.003F],Attributes:[{Name:generic.max_health,Base:7000},{Name:generic.attack_damage,Base:150}]}");
+        	 
+                 int bossSummons = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons");
+                 
+            	 if (bossSummons == 1) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(1, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 5) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(2, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 15) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(3, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 30) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(4, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 55) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(5, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 70) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(6, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 125) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(7, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 }
+        	 }
          }
          // T5 Bosses Spawn
          else if (clickedItem.getItemMeta().getDisplayName().contains("Golden Shulker")) {

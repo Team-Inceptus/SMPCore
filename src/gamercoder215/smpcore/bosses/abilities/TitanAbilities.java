@@ -43,6 +43,7 @@ public class TitanAbilities implements Listener {
 	
 	@EventHandler
 	public void onDamage(EntityDamageEvent e) {
+		if (e.getCause() == DamageCause.VOID) return;
 		if (e.getEntity().getCustomName() == null) return;
 		if (!(e.getEntityType().equals(EntityType.WITHER)) && !(e.getEntityType().equals(EntityType.MAGMA_CUBE)) && !(e.getEntityType().equals(EntityType.ENDER_DRAGON))) return;
 		if (!(e.getEntity().getCustomName().contains("Titan"))) return;
@@ -74,6 +75,7 @@ public class TitanAbilities implements Listener {
 	
 	@EventHandler
 	public void onProjectileHit(EntityDamageByEntityEvent e) {
+		if (e.getCause() == DamageCause.VOID) return;
 		if (e.getEntity() == null) return;
 		if (e.getEntity().getCustomName() == null) return;
 		if (!(e.getEntity().getType().equals(EntityType.WITHER)) && !(e.getEntityType().equals(EntityType.MAGMA_CUBE)) && !(e.getEntityType().equals(EntityType.ENDER_DRAGON)) && !(e.getEntityType().equals(EntityType.ZOMBIE)) && !(e.getEntityType().equals(EntityType.SKELETON))) return;
@@ -91,6 +93,7 @@ public class TitanAbilities implements Listener {
 	
 	@EventHandler
 	public void onDamageDefensive(EntityDamageByEntityEvent e) {
+		if (e.getCause() == DamageCause.VOID) return;
 		if (e.getEntity().getCustomName() == null) return;
 		if (!(e.getEntityType().equals(EntityType.WITHER)) && !(e.getEntityType().equals(EntityType.MAGMA_CUBE)) && !(e.getEntityType().equals(EntityType.ENDER_DRAGON)) && !(e.getEntityType().equals(EntityType.ZOMBIE)) && !(e.getEntityType().equals(EntityType.SKELETON))) return;
 		if (!(e.getEntity().getCustomName().contains("Titan"))) return;
@@ -228,6 +231,7 @@ public class TitanAbilities implements Listener {
 	
 	@EventHandler
 	public void onDamageOffensive(EntityDamageByEntityEvent e) {
+		if (e.getCause() == DamageCause.VOID) return;
 		if (e.getDamager().getCustomName() == null) return;
 		if (!(e.getEntityType().equals(EntityType.PLAYER))) return;
 		if (!(e.getDamager().getCustomName().contains("Titan"))) return;

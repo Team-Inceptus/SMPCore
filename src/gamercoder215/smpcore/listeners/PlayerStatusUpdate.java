@@ -28,6 +28,14 @@ public class PlayerStatusUpdate implements Listener {
    double speedVal = 0;
    
    public void setRank(Player p) {
+	   if (plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()) == null) {
+		   plugin.getConfig().createSection(p.getUniqueId().toString());
+	   }
+	   
+	   if (plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).get("rank") == null) {
+		   plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("rank", "default");
+	   }
+	   
 	   if (!(plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).get("rank") instanceof String)) plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("rank", "default");
 	   String rank = (String) plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).get("rank");
 	   
@@ -86,6 +94,13 @@ public class PlayerStatusUpdate implements Listener {
 	   } else if (rank.equalsIgnoreCase("idea-man")) {
 		   p.setDisplayName(ChatColor.BLUE + "Idea Man " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
 		   p.setPlayerListName(ChatColor.BLUE + "[IDEAS] " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
+
+		   PermissionUtils.giveDefaultPermissions(plugin, p);
+	   } else if (rank.equalsIgnoreCase("booster")) {
+		   p.setDisplayName(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Booster " + ChatColor.DARK_PURPLE + p.getName() + ChatColor.RESET);
+		   p.setPlayerListName(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "[BOOSTER] " + ChatColor.DARK_PURPLE + p.getName() + ChatColor.RESET);
+	   
+		   PermissionUtils.giveDefaultPermissions(plugin, p);
 	   }
    }
    
