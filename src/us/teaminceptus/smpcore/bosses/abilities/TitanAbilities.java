@@ -96,6 +96,7 @@ public class TitanAbilities implements Listener {
 		if (e.getCause() == DamageCause.VOID) return;
 		if (e.getEntity().getCustomName() == null) return;
 		if (!(e.getEntityType().equals(EntityType.WITHER)) && !(e.getEntityType().equals(EntityType.MAGMA_CUBE)) && !(e.getEntityType().equals(EntityType.ENDER_DRAGON)) && !(e.getEntityType().equals(EntityType.ZOMBIE)) && !(e.getEntityType().equals(EntityType.SKELETON))) return;
+		if (e.getEntity().getCustomName().contains("Wild")) return;
 		if (!(e.getEntity().getCustomName().contains("Titan"))) return;
 		Random r = new Random();
 		
@@ -194,6 +195,10 @@ public class TitanAbilities implements Listener {
 				}
 			}
 		} else if (e.getEntity().getCustomName().contains("Golden Titan")) {
+			if (e.getCause() == DamageCause.PROJECTILE) e.setCancelled(true);;
+			if (e.getCause() == DamageCause.BLOCK_EXPLOSION || e.getCause() == DamageCause.ENTITY_EXPLOSION) e.setCancelled(true);
+			if (e.getCause() == DamageCause.LAVA || e.getCause() == DamageCause.FIRE || e.getCause() == DamageCause.FIRE_TICK) e.setCancelled(true);
+			if (e.getCause() == DamageCause.LIGHTNING) e.setCancelled(true);
 			if (displayName.contains("Chrysos Blade") && weapon.getItemMeta().getLore().get(0).contains("The only blade with enough pure")) e.setDamage(300);
 			else e.setCancelled(true);
 			
@@ -236,6 +241,8 @@ public class TitanAbilities implements Listener {
 		if (!(e.getEntityType().equals(EntityType.PLAYER))) return;
 		if (!(e.getDamager().getCustomName().contains("Titan"))) return;
 		if (!(e.getDamager().isCustomNameVisible())) return;
+		if (e.getEntity().getCustomName() == null) return;
+		if (e.getEntity().getCustomName().contains("Wild")) return;
 		if (!(e.getEntityType().equals(EntityType.WITHER))  && !(e.getEntityType().equals(EntityType.MAGMA_CUBE)) && !(e.getEntityType().equals(EntityType.ENDER_DRAGON)) && !(e.getEntityType().equals(EntityType.ZOMBIE)) && !(e.getEntityType().equals(EntityType.SKELETON)) && !(e.getEntityType().equals(EntityType.ARROW))) return;
 
 		Random r = new Random();
@@ -287,10 +294,12 @@ public class TitanAbilities implements Listener {
 	
 	@EventHandler
 	public void onDeath(EntityDeathEvent e) {
+		if (e.getEntity().getLastDamageCause().getCause() == DamageCause.VOID) return;
 		if (e.getEntity().getCustomName() == null) return;
 		if (!(e.getEntityType().equals(EntityType.WITHER))  && !(e.getEntityType().equals(EntityType.MAGMA_CUBE)) && !(e.getEntityType().equals(EntityType.ENDER_DRAGON))  && !(e.getEntityType().equals(EntityType.ZOMBIE)) && !(e.getEntityType().equals(EntityType.SKELETON))) return;
 		if (!(e.getEntity().getCustomName().contains("Titan"))) return;
 		if (!(e.getEntity().isCustomNameVisible())) return;
+		
 		
 		// Random r = new Random();
 		
