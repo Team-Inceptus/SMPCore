@@ -18,6 +18,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.nbt.MojangsonParser;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.entity.EntityTypes;
 import us.teaminceptus.smpcore.Main;
 
 public class GeneralUtils {
@@ -61,6 +62,117 @@ public class GeneralUtils {
 		org.bukkit.inventory.ItemStack item = CraftItemStack.asBukkitCopy(nmsItem);
 		
 		return item;
+	}
+	
+	public static EntityTypes<?> matchEntityType(String oldname) {
+		String name = oldname.replaceAll("minecraft:", "");
+		
+		if (name.equalsIgnoreCase("silverfish")) return EntityTypes.aA;
+		else if (name.equalsIgnoreCase("slime")) return EntityTypes.aD;
+		else if (name.equalsIgnoreCase("chest_minecart")) return EntityTypes.aa;
+		else if (name.equalsIgnoreCase("skeleton")) return EntityTypes.aB;
+		else if (name.equalsIgnoreCase("command_block_minecart")) return EntityTypes.ab;
+		else if (name.equalsIgnoreCase("skeleton_horse")) return EntityTypes.aC;
+		else if (name.equalsIgnoreCase("furnace_minecart")) return EntityTypes.ac;
+		else if (name.equalsIgnoreCase("hopper_minecart")) return EntityTypes.ad;
+		else if (name.equalsIgnoreCase("small_fireball")) return EntityTypes.aE;
+		else if (name.equalsIgnoreCase("spawner_minecart")) return EntityTypes.ae;
+		else if (name.equalsIgnoreCase("snow_golem")) return EntityTypes.aF;
+		else if (name.equalsIgnoreCase("tnt_minecart")) return EntityTypes.af;
+		else if (name.equalsIgnoreCase("mule")) return EntityTypes.ag;
+		else if (name.equalsIgnoreCase("snowball")) return EntityTypes.aG;
+		else if (name.equalsIgnoreCase("mooshroom")) return EntityTypes.ah;
+		else if (name.equalsIgnoreCase("spectral_arrow")) return EntityTypes.aH;
+		else if (name.equalsIgnoreCase("ocelot")) return EntityTypes.ai;
+		else if (name.equalsIgnoreCase("spider")) return EntityTypes.aI;
+		else if (name.equalsIgnoreCase("squid")) return EntityTypes.aJ;
+		else if (name.equalsIgnoreCase("panda")) return EntityTypes.ak;
+		else if (name.equalsIgnoreCase("stray")) return EntityTypes.aK;
+		else if (name.equalsIgnoreCase("parrot")) return EntityTypes.al;
+		else if (name.equalsIgnoreCase("strider")) return EntityTypes.aL;
+		else if (name.equalsIgnoreCase("phantom")) return EntityTypes.am;
+		else if (name.equalsIgnoreCase("egg")) return EntityTypes.aM;
+		else if (name.equalsIgnoreCase("pig")) return EntityTypes.an;
+		else if (name.equalsIgnoreCase("ender_pearl")) return EntityTypes.aN;
+		else if (name.equalsIgnoreCase("piglin")) return EntityTypes.ao;
+		else if (name.equalsIgnoreCase("experience_bottle")) return EntityTypes.aO;
+		else if (name.equalsIgnoreCase("piglin_brute")) return EntityTypes.ap;
+		else if (name.equalsIgnoreCase("potion")) return EntityTypes.aP;
+		else if (name.equalsIgnoreCase("pillager")) return EntityTypes.aq;
+		else if (name.equalsIgnoreCase("trident")) return EntityTypes.aQ;
+		else if (name.equalsIgnoreCase("polar_bear")) return EntityTypes.ar;
+		else if (name.equalsIgnoreCase("trader_llama")) return EntityTypes.aR;
+		else if (name.equalsIgnoreCase("tnt")) return EntityTypes.as;
+		else if (name.equalsIgnoreCase("tropical_fish")) return EntityTypes.aS;
+		else if (name.equalsIgnoreCase("pufferfish")) return EntityTypes.at;
+		else if (name.equalsIgnoreCase("turtle")) return EntityTypes.aT;
+		else if (name.equalsIgnoreCase("rabbit")) return EntityTypes.au;
+		else if (name.equalsIgnoreCase("vex")) return EntityTypes.aU;
+		else if (name.equalsIgnoreCase("ravager")) return EntityTypes.av;
+		else if (name.equalsIgnoreCase("villager")) return EntityTypes.aV;
+		else if (name.equalsIgnoreCase("salmon")) return EntityTypes.aw;
+		else if (name.equalsIgnoreCase("vindicator")) return EntityTypes.aW;
+		else if (name.equalsIgnoreCase("sheep")) return EntityTypes.ax;
+		else if (name.equalsIgnoreCase("wandering_trader")) return EntityTypes.aX;
+		else if (name.equalsIgnoreCase("shulker")) return EntityTypes.ay;
+		else if (name.equalsIgnoreCase("witch")) return EntityTypes.aY;
+		else if (name.equalsIgnoreCase("shulker_bullet")) return EntityTypes.az;
+		else if (name.equalsIgnoreCase("wither")) return EntityTypes.aZ;
+		else if (name.equalsIgnoreCase("wither_skeleton")) return EntityTypes.ba;
+		else if (name.equalsIgnoreCase("wither_skull")) return EntityTypes.bb;
+		else if (name.equalsIgnoreCase("wolf")) return EntityTypes.bc;
+		else if (name.equalsIgnoreCase("zoglin")) return EntityTypes.bd;
+		else if (name.equalsIgnoreCase("zombie")) return EntityTypes.be;
+		else if (name.equalsIgnoreCase("zombie_horse")) return EntityTypes.bf;
+		else if (name.equalsIgnoreCase("zombie_villager")) return EntityTypes.bg;
+		else if (name.equalsIgnoreCase("zombie_piglin")) return EntityTypes.bh;
+		else if (name.equalsIgnoreCase("area_affect_cloud")) return EntityTypes.b;
+		else if (name.equalsIgnoreCase("eye_of_ender")) return EntityTypes.B;
+		else if (name.equalsIgnoreCase("armor_stand")) return EntityTypes.c;
+		else if (name.equalsIgnoreCase("falling_block")) return EntityTypes.C;
+		else if (name.equalsIgnoreCase("axolotl")) return EntityTypes.e;
+		else if (name.equalsIgnoreCase("fox")) return EntityTypes.E;
+		else if (name.equalsIgnoreCase("bat")) return EntityTypes.f;
+		else if (name.equalsIgnoreCase("ghast")) return EntityTypes.F;
+		else if (name.equalsIgnoreCase("bee")) return EntityTypes.g;
+		else if (name.equalsIgnoreCase("giant")) return EntityTypes.G;
+		else if (name.equalsIgnoreCase("blaze")) return EntityTypes.h;
+		else if (name.equalsIgnoreCase("glow_item_frame")) return EntityTypes.H;
+		else if (name.equalsIgnoreCase("boat")) return EntityTypes.i;
+		else if (name.equalsIgnoreCase("glow_squid")) return EntityTypes.I;
+		else if (name.equalsIgnoreCase("cat")) return EntityTypes.j;
+		else if (name.equalsIgnoreCase("goat")) return EntityTypes.J;
+		else if (name.equalsIgnoreCase("cave_spider")) return EntityTypes.k;
+		else if (name.equalsIgnoreCase("guardian")) return EntityTypes.K;
+		else if (name.equalsIgnoreCase("chicken")) return EntityTypes.l;
+		else if (name.equalsIgnoreCase("hoglin")) return EntityTypes.L;
+		else if (name.equalsIgnoreCase("cod")) return EntityTypes.m;
+		else if (name.equalsIgnoreCase("horse")) return EntityTypes.M;
+		else if (name.equalsIgnoreCase("cow")) return EntityTypes.n;
+		else if (name.equalsIgnoreCase("husk")) return EntityTypes.N;
+		else if (name.equalsIgnoreCase("creeper")) return EntityTypes.o;
+		else if (name.equalsIgnoreCase("illusioner")) return EntityTypes.O;
+		else if (name.equalsIgnoreCase("dolphin")) return EntityTypes.p;
+		else if (name.equalsIgnoreCase("iron_golem")) return EntityTypes.P;
+		else if (name.equalsIgnoreCase("donkey")) return EntityTypes.q;
+		else if (name.equalsIgnoreCase("item")) return EntityTypes.Q;
+		else if (name.equalsIgnoreCase("dragon_fireball")) return EntityTypes.r;
+		else if (name.equalsIgnoreCase("item_frame")) return EntityTypes.R;
+		else if (name.equalsIgnoreCase("drowned")) return EntityTypes.s;
+		else if (name.equalsIgnoreCase("fireball")) return EntityTypes.S;
+		else if (name.equalsIgnoreCase("elder_guardian")) return EntityTypes.t;
+		else if (name.equalsIgnoreCase("end_crystal")) return EntityTypes.u;
+		else if (name.equalsIgnoreCase("lightning")) return EntityTypes.U;
+		else if (name.equalsIgnoreCase("ender_dragon")) return EntityTypes.v;
+		else if (name.equalsIgnoreCase("llama")) return EntityTypes.V;
+		else if (name.equalsIgnoreCase("enderman")) return EntityTypes.w;
+		else if (name.equalsIgnoreCase("llama_spit")) return EntityTypes.W;
+		else if (name.equalsIgnoreCase("endermite")) return EntityTypes.x;
+		else if (name.equalsIgnoreCase("magma_cube")) return EntityTypes.X;
+		else if (name.equalsIgnoreCase("evoker")) return EntityTypes.y;
+		else if (name.equalsIgnoreCase("evoker_fangs")) return EntityTypes.z;
+		else if (name.equalsIgnoreCase("minecart")) return EntityTypes.Z;
+		else return null;
 	}
 
     public final static String toRoman(int number) {
