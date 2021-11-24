@@ -53,14 +53,17 @@ public class DamageCalculation implements Listener  {
 		
 		if (target.getInventory().getArmorContents() != null) {
 			for (ItemStack i : target.getInventory().getArmorContents()) {
+				if (i.getItemMeta() == null) continue;
 				Collection<AttributeModifier> armor = i.getItemMeta().getAttributeModifiers(Attribute.GENERIC_ARMOR);
 				
 				Collection<AttributeModifier> armorToughness = i.getItemMeta().getAttributeModifiers(Attribute.GENERIC_ARMOR_TOUGHNESS);
 				
+				if (armor != null)
 				armor.forEach(at -> {
 					targetDefense += at.getAmount();
 				});
 				
+				if (armorToughness != null)
 				armorToughness.forEach(at -> {
 					targetDefense += (at.getAmount() * 2);
 				});
