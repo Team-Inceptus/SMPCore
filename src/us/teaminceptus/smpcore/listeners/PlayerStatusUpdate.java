@@ -36,7 +36,7 @@ public class PlayerStatusUpdate implements Listener {
 		   plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("rank", "default");
 	   }
 	   
-	   if (!(plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).get("rank") instanceof String)) plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("rank", "default");
+	   if (!(plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).isString("rank"))) plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("rank", "default");
 	   String rank = (String) plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).get("rank");
 	   
 	   if (rank.equalsIgnoreCase("default")) {
@@ -106,7 +106,6 @@ public class PlayerStatusUpdate implements Listener {
    
    @EventHandler
    public void onJoin(PlayerJoinEvent e) {
-	  
 	  plugin.saveConfig();
 	  
       Player p = e.getPlayer();
@@ -126,6 +125,56 @@ public class PlayerStatusUpdate implements Listener {
       if (!(p.hasPlayedBefore())) {
     	  p.teleport(spawns[r.nextInt(spawns.length)]);
       }
+      
+      String uuid = p.getUniqueId().toString();
+      
+      if (plugin.getConfig().getConfigurationSection(uuid) == null) {
+    	  plugin.getConfig().createSection(uuid);
+      }
+      
+      if (!(plugin.getConfig().getConfigurationSection(uuid).isString("rank"))) {
+    	  plugin.getConfig().getConfigurationSection(uuid).set("rank", "default");
+      }
+      
+      if (plugin.getConfig().getConfigurationSection(uuid).get("titan_summons") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).set("titan_summons", 0);
+      }
+      
+      if (plugin.getConfig().getConfigurationSection(uuid).get("titan_kills") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).set("titan_kills", 0);
+      }
+      
+      if (plugin.getConfig().getConfigurationSection(uuid).get("boss_summons") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).set("boss_summons", 0);
+      }
+      
+      if (!(plugin.getConfig().getConfigurationSection(uuid).isBoolean("killed_dimguard"))) {
+    	  plugin.getConfig().getConfigurationSection(uuid).set("killed_dimguard", false);
+      }
+      
+      if (plugin.getConfig().getConfigurationSection(uuid).get("pet_damage") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).set("pet_damage", 0);
+      }
+      if (plugin.getConfig().getConfigurationSection(uuid).get("pet_defense") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).set("pet_defense", 0);
+      }
+      if (plugin.getConfig().getConfigurationSection(uuid).get("pet_speed") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).set("pet_speed", 0);
+      }
+      
+      // NPCs
+      
+      if (plugin.getConfig().getConfigurationSection(uuid).get("npc_talks") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).createSection("npc_talks");
+      }
+      
+      if (plugin.getConfig().getConfigurationSection(uuid).getConfigurationSection("npc_talks").get("bellator") == null) {
+    	  plugin.getConfig().getConfigurationSection(uuid).getConfigurationSection("npc_talks").set("bellator", false);;
+      }
+      
+      plugin.saveConfig();
+      
+      plugin.saveConfig();
    }
    
    Location[] spawns = {

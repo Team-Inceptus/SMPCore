@@ -91,8 +91,6 @@ public class SuperPickaxes implements Listener {
 	
 	@EventHandler
 	public void onBreak(BlockBreakEvent e) {
-		
-		
 		Player p = e.getPlayer();
 		Block b = e.getBlock();
 		if (p.getInventory().getItemInMainHand() == null) return;

@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
@@ -17,8 +18,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockCookEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
@@ -358,6 +361,21 @@ public class TitanWorld implements Listener {
 		}
 		
 		replenish(p, b);
+	}
+	
+	@EventHandler
+	public void onExplode(EntityExplodeEvent e) {
+		Entity en = e.getEntity();
+		if (!(en.getWorld().getName().contains("world_titan"))) return;
+		e.setYield(0);
+		e.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onBreak(EntityChangeBlockEvent e) {
+		Block b = e.getBlock();
+		if (!(b.getWorld().getName().contains("world_titan"))) return;
+		e.setCancelled(true);
 	}
 	
 	@EventHandler
