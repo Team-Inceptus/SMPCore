@@ -130,7 +130,7 @@ public class GUIManagers implements Listener {
          ItemStack clickedItem = e.getCurrentItem();
          if (clickedItem.getType() == Material.BOOK) {
             Bukkit.dispatchCommand(e.getWhoClicked(), "recipes");
-         } else if (clickedItem.getType() == Material.PLAYER_HEAD) {
+         } else if (clickedItem.getType() == Material.PLAYER_HEAD && clickedItem.getItemMeta().hasLore()) {
             p.sendMessage("" + ChatColor.DARK_GREEN + ChatColor.UNDERLINE + p.getName() + "'s Statistics\n\n" + ChatColor.GOLD + p.getStatistic(Statistic.DAMAGE_DEALT) + ChatColor.GREEN + " Damage Dealt\n" + ChatColor.GOLD + p.getStatistic(Statistic.MOB_KILLS) + ChatColor.GREEN + " Kills\n" + ChatColor.GOLD + p.getStatistic(Statistic.DEATHS) + ChatColor.GREEN + " Deaths\n" + ChatColor.GOLD + (p.getStatistic(Statistic.LEAVE_GAME) + 1) + ChatColor.GREEN + " Times Played");
          } else if (clickedItem.getType().equals(Material.BONE)) {
         	 Bukkit.dispatchCommand(p, "boss");
@@ -155,6 +155,13 @@ public class GUIManagers implements Listener {
         		 p.sendMessage(ChatColor.RED + "You need to kill 5 withers to unlock the Alpha Caves!");
         	 } else {
         		 p.teleport(new Location(Bukkit.getWorld("world_caves_alpha"), 79, 34, 27, p.getLocation().getYaw(), p.getLocation().getPitch()));
+        	 }
+         } else if (clickedItem.getType() == Material.PLAYER_HEAD && !(clickedItem.getItemMeta().hasLore())) {
+        	 if (p.getStatistic(Statistic.KILL_ENTITY, EntityType.ENDER_DRAGON) < 5 && !(p.isOp())) {
+        		 p.sendMessage(ChatColor.RED + "You need to kill 5 ender dragons to unlock Planatae Hub!");
+        	 } else {
+        		 if (p.isOp()) p.sendMessage(ChatColor.GREEN + "Operator Bypass.");
+        		 p.teleport(new Location(Bukkit.getWorld("world_planatae_hub"), 0.5, 226.0625, 0.5, 0, 90));
         	 }
          }
       }	else if (inv.getTitle().contains("Wand Info")) {
