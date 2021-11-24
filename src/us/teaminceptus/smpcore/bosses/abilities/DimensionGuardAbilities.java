@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -64,7 +65,20 @@ public class DimensionGuardAbilities implements Listener {
 			p.sendMessage(ChatColor.DARK_RED + "The Dimensional Guard has frozen you!");
 		}
 		
+	}
+	
+	@EventHandler
+	public void onDeath(EntityDeathEvent e) {
+		if (!(e.getEntityType() == EntityType.WITHER)) return;
+		if (!(e.getEntity().getCustomName().contains("Dimensional Guard"))) return;
+		if (!(e.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent e2)) return;
+		if (e2.getDamager() == null) return;
+		if (!(e2.getDamager() instanceof Player p)) return;
 		
+		if (plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getBoolean("killed_dimguard") == false) {
+			plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("killed_dimguard", true);
+			plugin.saveConfig();
+		}
 	}
 	
 }
