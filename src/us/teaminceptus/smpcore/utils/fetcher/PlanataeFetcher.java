@@ -3,10 +3,14 @@ package us.teaminceptus.smpcore.utils.fetcher;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -586,6 +590,25 @@ public class PlanataeFetcher {
 		lS.setItemMeta(lMeta);
 		
 		return lS;
+	}
+	
+	// Weapons
+	
+	public static ItemStack getChalcBow() {
+		ItemStack cB = new ItemStack(Material.BOW);
+		ItemMeta cMeta = cB.getItemMeta();
+		cMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Chalc Bow");
+		cMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		cMeta.addEnchant(Enchantment.ARROW_DAMAGE, 600, true);
+		cMeta.addEnchant(Enchantment.ARROW_KNOCKBACK, 250, true);
+		cMeta.addEnchant(Enchantment.ARROW_FIRE, 1, true);
+		cMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+		cMeta.addEnchant(Enchantment.LOOT_BONUS_MOBS, 150, true);
+		cMeta.setUnbreakable(true);
+		cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 33, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		cB.setItemMeta(cMeta);
+		
+		return cB;
 	}
 	
 }
