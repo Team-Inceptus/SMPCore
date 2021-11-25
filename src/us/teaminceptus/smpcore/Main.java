@@ -115,10 +115,10 @@ public class Main extends JavaPlugin {
 	  new BukkitRunnable() {
 		  public void run() {
 				String[] infoMessages = {
-						ChatColor.RED + "Subscribe to GamerCoder215 for Updates, Feed, and Quality Content! https://bit.ly/sub2gamer",
 						ChatColor.AQUA + "You can chat with other players in your world only by doing /wc <message>.",
 						ChatColor.DARK_RED + "Hacking or Duping are bannable offenses! Remember that we are semi-anarchy!",
 						ChatColor.GREEN + "You can use /trades to barter.",
+						ChatColor.YELLOW + "Remember to play fair and have fun!",
 						ChatColor.DARK_AQUA + "Use /menu for statistics and shortcuts!",
 						ChatColor.BLUE + "You can use /cguide to find unique creatures!",
 						ChatColor.RED + "We are not a full anarchy server! Stealing and Griefing are allowed, but no hacking.",
