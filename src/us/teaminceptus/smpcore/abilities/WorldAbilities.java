@@ -1,7 +1,10 @@
 package us.teaminceptus.smpcore.abilities;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -21,6 +24,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.SpectralArrow;
@@ -59,6 +63,8 @@ import org.bukkit.util.Vector;
 import us.teaminceptus.smpcore.Main;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.listeners.caves.AlphaCave;
+import us.teaminceptus.smpcore.utils.GeneralUtils;
+import us.teaminceptus.smpcore.utils.fetcher.ArenaTitanFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class WorldAbilities implements Listener {
@@ -604,6 +610,26 @@ public class WorldAbilities implements Listener {
 	
 	
 	@EventHandler
+	public void onDamageGeneral(EntityDamageEvent e) {
+		if (!(e.getEntity() instanceof Player p)) return;
+		if (e.getCause() == DamageCause.VOID || e.getCause() == DamageCause.FALL || e.getCause() == DamageCause.FALLING_BLOCK
+				|| e.getCause() == DamageCause.FREEZE || e.getCause() == DamageCause.LAVA || e.getCause() == DamageCause.FIRE
+				|| e.getCause() == DamageCause.FIRE_TICK || e.getCause() == DamageCause.STARVATION || e.getCause() == DamageCause.POISON
+				|| e.getCause() == DamageCause.SUFFOCATION || e.getCause() == DamageCause.HOT_FLOOR) return;
+		
+		for (ItemStack i : p.getInventory()) {
+			if (i.isSimilar(ArenaTitanFetcher.getTitanNetheriteSet().get(EquipmentSlot.OFF_HAND))) {
+				p.playSound(p.getLocation(), Sound.ITEM_SHIELD_BLOCK, 4F, 0.2F);
+				p.sendMessage(ChatColor.GREEN + "Your Netherite Totem blocked the attack!");
+				if (e instanceof EntityDamageByEntityEvent e2) {
+					e2.getDamager().sendMessage(ChatColor.DARK_RED + "The Netherite Totem blocekd the attack!");
+				}
+				break;
+			}
+		}
+	}
+	
+	@EventHandler
 	public void onDamageBoots(EntityDamageEvent e) {
 		if (!(e.getEntity() instanceof Player)) return;
 		
@@ -732,8 +758,7 @@ public class WorldAbilities implements Listener {
 	
 	@EventHandler
 	public void onBowShoot(EntityShootBowEvent e) {
-		if (!(e.getEntity() instanceof Player)) return;
-		
+		if (!(e.getEntity() instanceof Player p)) return;
 		ItemStack consumed = e.getConsumable();
 		
 		if (consumed.isSimilar(TitanFetcher.getVelocityArrow())) {
@@ -745,11 +770,29 @@ public class WorldAbilities implements Listener {
 			arrow.setShotFromCrossbow(true);
 			arrow.setPierceLevel(15);
 		}
+		
+		ItemStack bow = e.getBow();
+		if (!(bow.hasItemMeta())) return;
+		if (!(bow.getItemMeta().hasDisplayName())) return;
+		if (bow.getItemMeta().getDisplayName().contains("Chalc Bow")) {
+			Arrow arrow = (Arrow) e.getProjectile();
+			List<Entity> nearbyEntities = arrow.getNearbyEntities(30, 15, 30).stream().filter(en -> en instanceof Mob target && !(target.getUniqueId().equals(p.getUniqueId()))).toList();
+			if (nearbyEntities.size() < 1) return;
+			Map<Double, Entity> nearestEntities = new HashMap<>();
+			for (Entity en : nearbyEntities) nearestEntities.put(en.getLocation().distanceSquared(arrow.getLocation()), en);
+			Entity target = (nearestEntities.keySet().size() < 1 || Collections.min(nearestEntities.keySet()) == null ? nearbyEntities.get(0) : nearestEntities.get(Collections.min(nearestEntities.keySet())));
+			new BukkitRunnable() {
+				public void run() {
+					if (arrow.isInBlock() || arrow.isDead() || arrow.getLocation().distanceSquared(p.getLocation()) >= 2500) cancel();
+					if (nearbyEntities.size() > 0) {
+						GeneralUtils.moveToward(arrow, (target instanceof LivingEntity ltarget ? ltarget.getEyeLocation() : target.getLocation()), (e.getForce() > 1 ? e.getForce() : 1));
+					}
+				}
+			}.runTaskTimer(plugin, 1, 1);
+		}
 	}
 	
 	ArrayList<UUID> gappleCooldown = new ArrayList<UUID>();
-	
-	
 	
 	@EventHandler
 	public void onConsume(PlayerItemConsumeEvent e) {
@@ -877,6 +920,7 @@ public class WorldAbilities implements Listener {
 			e.getEntity().setFireTicks(0);
 		}
 	}
+	
 	
 	@EventHandler
 	public void onCombust(EntityDamageEvent e) {
