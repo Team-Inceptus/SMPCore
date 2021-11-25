@@ -16,6 +16,7 @@ import us.teaminceptus.smpcore.Main;
 import us.teaminceptus.smpcore.listeners.caves.AlphaCave;
 import us.teaminceptus.smpcore.listeners.caves.DeltaCave;
 import us.teaminceptus.smpcore.listeners.caves.TitanCave;
+import us.teaminceptus.smpcore.utils.fetcher.ArenaTitanFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.ItemFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.PlanataeFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
@@ -182,6 +183,20 @@ public class GetCustomItem implements CommandExecutor {
 					}
 					
 					p.openInventory(items);
+					break;
+				}
+				case "titan_essence": {
+					p.getInventory().addItem(TitanFetcher.getTitanEssence());
+					break;
+				}
+				case "arena_sets": {
+					Inventory inv = Bukkit.createInventory(null, 54);
+					for (ItemStack i : ArenaTitanFetcher.getItems()) {
+						if (inv.getSize() == 54) break;
+						inv.addItem(i);
+					}
+					
+					p.openInventory(inv);
 					break;
 				}
 				
