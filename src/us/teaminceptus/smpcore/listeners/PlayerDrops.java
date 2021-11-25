@@ -31,8 +31,6 @@ public class PlayerDrops implements Listener {
 	}
 	private String parseDamageCause(DamageCause dmg, Entity killer) {
 		
-		
-		
 		if (dmg.equals(DamageCause.CONTACT)) return " was killed by something he touched";
 		else if (dmg.equals(DamageCause.CRAMMING)) return " was squished too much";
 		else if (dmg.equals(DamageCause.DRAGON_BREATH)) return " was killed by the Dragon's Breath";
@@ -58,7 +56,8 @@ public class PlayerDrops implements Listener {
 		else if (dmg.equals(DamageCause.BLOCK_EXPLOSION) || dmg.equals(DamageCause.ENTITY_EXPLOSION)) return " exploded";
 		else if (dmg.equals(DamageCause.FALLING_BLOCK)) return " was squished by a falling object";
 		
-		if (killer == null) return " died";
+		else if (killer == null) return " died";
+		else if (killer instanceof Projectile p && p.getShooter() == null) return " died";
 		
 		else if (dmg.equals(DamageCause.ENTITY_ATTACK)) return " was killed by " + (killer.getCustomName() != null ? killer.getCustomName() : killer.getName());
 		else if (dmg.equals(DamageCause.ENTITY_SWEEP_ATTACK)) return " was killed by " + (killer.getCustomName() != null ? killer.getCustomName() : killer.getName());
