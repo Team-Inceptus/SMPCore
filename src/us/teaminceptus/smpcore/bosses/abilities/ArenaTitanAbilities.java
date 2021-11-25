@@ -1,6 +1,9 @@
 package us.teaminceptus.smpcore.bosses.abilities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,15 +14,19 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftHusk;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Husk;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.MagmaCube;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.SizedFireball;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zoglin;
 import org.bukkit.event.EventHandler;
@@ -28,6 +35,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -39,9 +47,14 @@ import org.bukkit.util.Vector;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
+import net.minecraft.server.level.WorldServer;
+import net.minecraft.world.entity.ai.attributes.GenericAttributes;
 import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.entities.arena_titans.IceBear;
 import us.teaminceptus.smpcore.utils.AdvancementMessages;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
+import us.teaminceptus.smpcore.utils.fetcher.ArenaTitanFetcher;
+import us.teaminceptus.smpcore.utils.fetcher.PlanataeFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class ArenaTitanAbilities implements Listener {
@@ -61,6 +74,8 @@ public class ArenaTitanAbilities implements Listener {
 			p.sendMessage(ChatColor.RED + "[" + customName + ChatColor.RED + "] " + ChatColor.WHITE + dialogue);
 		});
 	}
+	
+	List<UUID> nullified = new ArrayList<>();
 	
 	@EventHandler
 	public void onBowShoot(EntityShootBowEvent e) {
@@ -95,7 +110,7 @@ public class ArenaTitanAbilities implements Listener {
 		if (e.getEntityType() == EntityType.CREEPER) {
 			new BukkitRunnable() {
 				public void run() {
-					if (e.getEntity().isDead()) cancel();
+					if (en.isDead()) cancel();
 
 					en.getNearbyEntities(50, 50, 50).forEach(target -> {
 						if (!(target instanceof LivingEntity)) return;
@@ -112,6 +127,17 @@ public class ArenaTitanAbilities implements Listener {
  					});
 				}
 			}.runTaskTimer(plugin, 0, 20 * 10);
+		} else if (e.getEntityType() == EntityType.SNOWMAN) {
+			new BukkitRunnable() {
+				public void run() {
+					if (en.isDead()) cancel();
+					
+					SizedFireball fb = (SizedFireball) en.getWorld().spawnEntity(en.getLocation().add(en.getEyeLocation().getDirection()), EntityType.FIREBALL);
+					fb.setDirection(en.getEyeLocation().getDirection());
+					fb.setDisplayItem(new ItemStack(Material.ICE));
+					
+				}
+			}.runTaskTimer(plugin, 0, 20 * (r.nextInt(2) + 3));
 		}
 	}
 
@@ -125,9 +151,16 @@ public class ArenaTitanAbilities implements Listener {
 		
 		LivingEntity en = (LivingEntity) e.getEntity();
 		LivingEntity den = (LivingEntity) (e.getDamager() instanceof Projectile ? ((Projectile) e.getDamager()).getShooter() : e.getDamager());
+		WorldServer ws = ((CraftWorld) en.getWorld()).getHandle();
 		
 		if (r.nextInt(100) < 7) {
 			den.sendMessage(ChatColor.RED + "A mysterious energy blocked your attack...!");
+		}
+		
+		if (nullified.contains(den.getUniqueId())) {
+			den.sendMessage(ChatColor.DARK_RED + "Your attacks have been nullified! Wait for it to come back to you...");
+			e.setCancelled(true);
+			return;
 		}
 		
 		if (e.getEntityType() == EntityType.BLAZE) {
@@ -344,6 +377,74 @@ public class ArenaTitanAbilities implements Listener {
 			}
 
 
+		} else if (e.getEntityType() == EntityType.HUSK) {
+			if (r.nextBoolean()) {
+				Husk s = (Husk) en.getWorld().spawnEntity(en.getLocation(), EntityType.HUSK);
+				
+				s.getEquipment().setHelmet(new ItemStack(Material.SAND, 16));
+				s.getEquipment().setHelmetDropChance(0.5f);
+				
+				CraftHusk nmsEntity = (CraftHusk) s;
+				nmsEntity.getHandle().getAttributeMap().b(GenericAttributes.g);
+				
+				s.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK).setBaseValue(10);
+				s.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(600);
+			}
+			
+
+		} else if (e.getEntityType() == EntityType.STRAY) {
+			en.getWorld().spawnEntity(en.getLocation(), EntityType.VEX);
+			
+			if (r.nextInt(100) < 75) {
+				en.getWorld().spawnEntity(en.getLocation(), EntityType.VEX);
+				
+				if (r.nextBoolean()) {
+					en.getWorld().spawnEntity(en.getLocation(), EntityType.VEX);
+					
+					if (r.nextInt(100) < 25) {
+						en.getWorld().spawnEntity(en.getLocation(), EntityType.VEX);
+						
+						if (r.nextInt(100) < 10) {
+							en.getWorld().spawnEntity(en.getLocation(), EntityType.VEX);
+						}
+					}
+				}
+			}
+		} else if (e.getEntityType() == EntityType.SNOWMAN) {
+			if (r.nextInt(100) < 25) {
+				den.sendMessage(ChatColor.AQUA + "You have been frozen!");
+				den.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 255, true, false, false));
+			}
+			
+			if (r.nextInt(100) < 75) {
+				IceBear b = new IceBear(en.getLocation(), den);
+				ws.addEntity(b);
+			}
+			
+		} else if (e.getEntityType() == EntityType.ZOMBIE) {
+			if (r.nextInt(100) < 75 && den instanceof Player p) {
+				 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon zombie ~ ~ ~ {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,Health:200f,CustomName:'{\"text\":\"Amethyst Zombie\",\"color\":\"light_purple\",\"italic\":false}',HandItems:[{id:\"minecraft:amethyst_shard\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Amethyst Shard\",\"color\":\"dark_purple\",\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:sharpness\",lvl:15s},{id:\"minecraft:smite\",lvl:10s},{id:\"minecraft:bane_of_arthropods\",lvl:10s},{id:\"minecraft:looting\",lvl:10s},{id:\"minecraft:sweeping\",lvl:25s}],AttributeModifiers:[{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:5,Operation:0,UUID:[I;-909321703,1930970078,-2108694589,370468640],Slot:\"mainhand\"},{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:5,Operation:0,UUID:[I;114330334,-1037156303,-1388268589,-1427227550],Slot:\"offhand\"}]}},{}],HandDropChances:[0.063F,0.085F],ArmorItems:[{id:\"minecraft:leather_boots\",Count:1b,tag:{display:{Name:'{\"text\":\"Amethyst Boots\",\"color\":\"light_purple\",\"italic\":false}',color:12517548},HideFlags:65,Enchantments:[{id:\"minecraft:protection\",lvl:15s},{id:\"minecraft:fire_protection\",lvl:7s},{id:\"minecraft:blast_protection\",lvl:7s},{id:\"minecraft:projectile_protection\",lvl:7s},{id:\"minecraft:thorns\",lvl:2s},{id:\"minecraft:unbreaking\",lvl:25s}],AttributeModifiers:[{AttributeName:\"generic.armor\",Name:\"generic.armor\",Amount:4,Operation:0,UUID:[I;243299349,-30981221,-1852776914,208967007],Slot:\"feet\"}]}},{id:\"minecraft:leather_leggings\",Count:1b,tag:{display:{Name:'{\"text\":\"Amethyst Leggings\",\"color\":\"light_purple\",\"italic\":false}',color:12517548},HideFlags:65,Enchantments:[{id:\"minecraft:protection\",lvl:15s},{id:\"minecraft:fire_protection\",lvl:7s},{id:\"minecraft:blast_protection\",lvl:7s},{id:\"minecraft:projectile_protection\",lvl:7s},{id:\"minecraft:thorns\",lvl:2s},{id:\"minecraft:unbreaking\",lvl:25s}],AttributeModifiers:[{AttributeName:\"generic.armor\",Name:\"generic.armor\",Amount:7,Operation:0,UUID:[I;243299349,-30981221,-1852776914,208967007],Slot:\"legs\"}]}},{id:\"minecraft:leather_chestplate\",Count:1b,tag:{display:{Name:'{\"text\":\"Amethyst Chestplate\",\"color\":\"light_purple\",\"italic\":false}',color:12517548},HideFlags:65,Enchantments:[{id:\"minecraft:protection\",lvl:15s},{id:\"minecraft:fire_protection\",lvl:7s},{id:\"minecraft:blast_protection\",lvl:7s},{id:\"minecraft:projectile_protection\",lvl:7s},{id:\"minecraft:thorns\",lvl:2s},{id:\"minecraft:unbreaking\",lvl:25s}],AttributeModifiers:[{AttributeName:\"generic.armor\",Name:\"generic.armor\",Amount:8,Operation:0,UUID:[I;243299349,-30981221,-1852776914,208967007],Slot:\"chest\"}]}},{id:\"minecraft:amethyst_block\",Count:16b}],ArmorDropChances:[0.125F,125.000F,0.125F,1.000F],ActiveEffects:[{Id:1b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:3b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:200},{Name:generic.knockback_resistance,Base:1},{Name:generic.movement_speed,Base:0.2},{Name:generic.attack_damage,Base:10},{Name:generic.armor,Base:15},{Name:generic.armor_toughness,Base:10},{Name:generic.attack_knockback,Base:4},{Name:zombie.spawn_reinforcements,Base:1}]}");
+			}
+			
+			if (r.nextInt(100) < 15) {
+				den.sendMessage(ChatColor.RED + "Blocked Attack!");
+				e.setCancelled(true);
+			}
+		} else if (e.getEntityType() == EntityType.WITHER_SKELETON) {
+			if (r.nextInt(100) < 80 && den instanceof Player p) {
+				 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon wither_skeleton %x% %y% %z% {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,PortalCooldown:200000,PersistenceRequired:0b,NoAI:0b,CanPickUpLoot:0b,Health:20f,CustomName:'{\"text\":\"Netherite Skeleton\",\"color\":\"#542D05\",\"italic\":false}',HandItems:[{id:\"minecraft:netherite_sword\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Netherite Sword\",\"italic\":false}'},Enchantments:[{id:\"minecraft:sharpness\",lvl:10s},{id:\"minecraft:smite\",lvl:5s},{id:\"minecraft:bane_of_arthropods\",lvl:5s},{id:\"minecraft:knockback\",lvl:4s}]}},{id:\"minecraft:netherite_block\",Count:2b}],HandDropChances:[15.000F,5.000F],ArmorItems:[{id:\"minecraft:netherite_boots\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Netherite Boots\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:10s}]}},{id:\"minecraft:netherite_leggings\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Netherite Leggings\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:10s}]}},{id:\"minecraft:netherite_chestplate\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Netherite Chestplate\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:10s}]}},{id:\"minecraft:netherite_helmet\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Netherite Helmet\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:10s}]}}],ArmorDropChances:[0.085F,0.085F,10.000F,10.000F],ActiveEffects:[{Id:5b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:8b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:10b,Amplifier:0b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:20}]}");
+			}
+			
+			if (r.nextInt(100) < 10) {
+				den.sendMessage(ChatColor.RED + "Your attacks have been nullified! Wait for it to come back to you...");
+				nullified.add(den.getUniqueId());
+				new BukkitRunnable() {
+					public void run() {
+						den.sendMessage(ChatColor.GREEN + "Your attack power has been restored!");
+						nullified.remove(den.getUniqueId());
+					}
+				}.runTaskLater(plugin, 20 * (r.nextInt(15) + 5));
+			}
 		}
 		
 		if (r.nextInt(100) < 10) {
@@ -360,7 +461,6 @@ public class ArenaTitanAbilities implements Listener {
 
 			fMeta.addEffect(effect);
 			f.setShotAtAngle(true);
-
 
 			f.setFireworkMeta(fMeta);
 
@@ -426,13 +526,56 @@ public class ArenaTitanAbilities implements Listener {
 				for (int count = 0;count < 20; count++) {
 					new BukkitRunnable() {
 						public void run() {
-							target.damage(25);
+							target.damage(25, en);
 						}
 					}.runTaskLater(plugin, 5L);
 				}
 			}
 
 
+		} else if (en.getType() == EntityType.HUSK) {
+			if (r.nextInt(100) < 75) {
+				target.sendMessage(ChatColor.YELLOW + "You've been blinded!");
+				target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 2, true, false, false));
+			}
+			
+			if (r.nextInt(100) < 10) {
+				target.sendMessage(ChatColor.GREEN + "Whoosh!");
+				target.setVelocity(target.getVelocity().multiply(-7));
+			}
+		} else if (en.getType() == EntityType.STRAY) {
+			if (r.nextInt(100) < 50) {
+				target.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "BOO!");
+				target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 500, 3, true, false, false));
+				target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 500, 2, true, false, false));
+				target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 500, 4, true, false, false));
+			}
+		} else if (en.getType() == EntityType.SNOWMAN) {
+			if (r.nextInt(100) < 10) {
+				target.sendMessage(ChatColor.AQUA + "DOUBLE DAMAGE!");
+				target.damage(e.getFinalDamage(), en);
+			}
+		} else if (en.getType() == EntityType.ZOMBIE) {
+			if (r.nextInt(100) < 25) {
+				announceDialogue(en, "Amethyst PUNCH!");
+				target.setVelocity(target.getVelocity().multiply(-5.5));
+			}
+			
+			if (r.nextInt(100) < 10) {
+				target.sendMessage(ChatColor.DARK_RED + "You got impaled!");
+				target.damage(110, en);
+			}
+		} else if (en.getType() == EntityType.WITHER_SKELETON) {
+			if (r.nextInt(100) < 10) {
+				announceDialogue(en, "Say goodbye to you Legs!");
+				target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 255, true, false, false));
+				target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 255, true, false, false));
+			}
+			
+			if (r.nextInt(100) < 5) {
+				announceDialogue(en, "*Yeets into the Sun*");
+				target.setVelocity(new Vector(target.getVelocity().getX(), 4, target.getVelocity().getZ()));
+			}
 		}
 	}
 	
@@ -541,6 +684,135 @@ public class ArenaTitanAbilities implements Listener {
 				Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Crazy Rare Drop!" + ChatColor.WHITE + " Titan Essence" + ChatColor.GRAY + " dropped by " + ChatColor.WHITE + "Iron Titan" + ChatColor.GRAY + "!");
 
 				en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getTitanEssence());
+			}
+		} else if (e.getEntityType() == EntityType.HUSK) {
+			ItemStack clade = PlanataeFetcher.getClade();
+			clade.setAmount(r.nextInt(16) + 16);
+			en.getWorld().dropItemNaturally(en.getLocation(), clade);
+			
+			
+			if (r.nextInt(1000) < 8) {
+				Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Crazy Rare Drop!" + ChatColor.WHITE + " Titan Essence" + ChatColor.GRAY + " dropped by " + ChatColor.GOLD + "Sand Titan" + ChatColor.GRAY + "!");
+
+				en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getTitanEssence());
+			}
+		} else if (e.getEntityType() == EntityType.STRAY) {
+			if (r.nextBoolean()) en.getWorld().dropItemNaturally(en.getLocation(), PlanataeFetcher.getOmegaStar());
+			
+			if (r.nextInt(100) < 1) {
+				Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Crazy Rare Drop!" + ChatColor.WHITE + " Titan Essence" + ChatColor.GRAY + " dropped by " + ChatColor.GRAY + "Ghost Titan" + ChatColor.GRAY + "!");
+
+				en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getTitanEssence());
+			}
+		} else if (e.getEntityType() == EntityType.SNOWMAN) {
+			int maxPacked = r.nextInt(16) + 16;
+			int maxBlue = r.nextInt(8) + 8;
+			int maxGamma = r.nextInt(4) + 2;
+			
+			for (int count = 0; count < maxPacked; count++) {
+				en.getWorld().dropItemNaturally(en.getLocation(), new ItemStack(Material.PACKED_ICE, 64));
+			}
+			
+			for (int count = 0; count < maxBlue; count++) {
+				en.getWorld().dropItemNaturally(en.getLocation(), new ItemStack(Material.BLUE_ICE, 64));
+			}
+			
+			ItemStack gamma = PlanataeFetcher.getGammaIce();
+			gamma.setAmount(64);
+			
+			for (int count = 0; count < maxGamma; count++) {
+				en.getWorld().dropItemNaturally(en.getLocation(), gamma);
+			}
+			
+			if (r.nextInt(100) < 2) {
+				Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Crazy Rare Drop!" + ChatColor.WHITE + " Titan Essence" + ChatColor.GRAY + " dropped by " + ChatColor.AQUA + "Ice Titan" + ChatColor.GRAY + "!");
+
+				en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getTitanEssence());
+			}
+		} else if (e.getEntityType() == EntityType.ZOMBIE) {
+			int max = r.nextInt(6) + 4;
+			int maxGamma = r.nextInt(4) + 1;
+			
+			for (int count = 0; count < max; count++) {
+				en.getWorld().dropItemNaturally(en.getLocation(), new ItemStack(Material.AMETHYST_BLOCK, 64));
+			}
+			
+			ItemStack gammaA = PlanataeFetcher.getGammaAmethyst();
+			gammaA.setAmount(64);
+
+			for (int i = 0; i < maxGamma; i++) {
+				en.getWorld().dropItemNaturally(en.getLocation(), gammaA);
+			}
+			
+			if (r.nextInt(100) < 10) {
+				en.getWorld().dropItemNaturally(en.getLocation(), ArenaTitanFetcher.getTitanAmethystusSet().get(EquipmentSlot.HAND));
+			}
+			
+			if (r.nextInt(100) < 5) {
+				Bukkit.broadcastMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "Rare Drop!" + ChatColor.DARK_PURPLE + " Titan Amethysts Boots");
+				en.getWorld().dropItemNaturally(en.getLocation(), ArenaTitanFetcher.getTitanAmethystusSet().get(EquipmentSlot.FEET));
+			}
+			
+			if (r.nextInt(100) < 1) {
+				Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Crazy Rare Drop!" + ChatColor.DARK_PURPLE + " Titan Amethysts Helmet");
+				en.getWorld().dropItemNaturally(en.getLocation(), ArenaTitanFetcher.getTitanAmethystusSet().get(EquipmentSlot.HEAD));
+			}
+			
+			if (r.nextInt(1000) < 1) {
+				Bukkit.broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "Legendary Drop!" + ChatColor.DARK_PURPLE + " Titan Amethysts Leggings");
+				en.getWorld().dropItemNaturally(en.getLocation(), ArenaTitanFetcher.getTitanAmethystusSet().get(EquipmentSlot.LEGS));
+			}
+			
+			if (r.nextInt(10000) < 1) {
+				Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Mythic Drop!" + ChatColor.DARK_PURPLE + " Titan Amethysts Chestplate");
+				en.getWorld().dropItemNaturally(en.getLocation(), ArenaTitanFetcher.getTitanAmethystusSet().get(EquipmentSlot.CHEST));
+			}
+			
+			if (r.nextInt(100) < 2) {
+				Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Crazy Rare Drop!" + ChatColor.WHITE + " Titan Essence" + ChatColor.GRAY + " dropped by " + ChatColor.AQUA + "Ice Titan" + ChatColor.GRAY + "!");
+
+				en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getTitanEssence());
+			}
+		} else if (e.getEntityType() == EntityType.WITHER_SKELETON) {
+			int max = r.nextInt(2) + 1;
+			
+			for (int i = 0; i < max; i++) {
+				en.getWorld().dropItemNaturally(en.getLocation(), new ItemStack(Material.NETHERITE_INGOT, 64));
+			}
+			
+			if (r.nextInt(100) < 3) {
+				Bukkit.broadcastMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "Rare Drop!" + ChatColor.WHITE + " Titan Essence" + ChatColor.GRAY + " dropped by " + ChatColor.AQUA + "Ice Titan" + ChatColor.GRAY + "!");
+
+				en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getTitanEssence());
+			}
+			
+			if (r.nextInt(100) < 5) {
+				Bukkit.broadcastMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "Rare Drop!" + ChatColor.GRAY + " Netherite Totem");
+				en.getWorld().dropItemNaturally(en.getLocation(), ArenaTitanFetcher.getTitanAmethystusSet().get(EquipmentSlot.OFF_HAND));
+			}
+			
+			if (r.nextInt(100) < 10) {
+				en.getWorld().dropItemNaturally(en.getLocation(), ArenaTitanFetcher.getTitanAmethystusSet().get(EquipmentSlot.HAND));
+			}
+			
+			if (r.nextInt(100) < 3) {
+				Bukkit.broadcastMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "Rare Drop!" + ChatColor.DARK_GRAY + " Titan Netherite Boots");
+				en.getWorld().dropItemNaturally(en.getLocation(), ArenaTitanFetcher.getTitanNetheriteSet().get(EquipmentSlot.FEET));
+			}
+			
+			if (r.nextInt(1000) < 2) {
+				Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Crazy Rare Drop!" + ChatColor.DARK_GRAY + " Titan Netherite Helmet");
+				en.getWorld().dropItemNaturally(en.getLocation(), ArenaTitanFetcher.getTitanNetheriteSet().get(EquipmentSlot.HEAD));
+			}
+			
+			if (r.nextInt(10000) < 5) {
+				Bukkit.broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "Legendary Drop!" + ChatColor.DARK_GRAY + " Titan Netherite Leggings");
+				en.getWorld().dropItemNaturally(en.getLocation(), ArenaTitanFetcher.getTitanNetheriteSet().get(EquipmentSlot.LEGS));
+			}
+			
+			if (r.nextInt(100000) < 4) {
+				Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Mythic Drop!" + ChatColor.DARK_GRAY + " Titan Netherite Chestplate");
+				en.getWorld().dropItemNaturally(en.getLocation(), ArenaTitanFetcher.getTitanNetheriteSet().get(EquipmentSlot.CHEST));
 			}
 		}
 		

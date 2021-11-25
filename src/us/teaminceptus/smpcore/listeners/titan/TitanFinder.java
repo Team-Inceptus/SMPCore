@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import us.teaminceptus.smpcore.Main;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
+import us.teaminceptus.smpcore.utils.GeneralUtils;
 
 public class TitanFinder {
 	
@@ -180,10 +181,75 @@ public class TitanFinder {
 		cLore.add("");
 		cLore.add(ChatColor.GREEN + "Good Luck Soldier!");
 
-		ItemStack explosiveTitan = generateTitanItem(Material.TNT, ChatColor.DARK_GREEN + "Explosive Titan", 2.25);
+		ItemStack explosiveTitan = generateTitanItem(Material.TNT, ChatColor.DARK_GREEN + "Explosive Titan", 2.4);
 		ItemMeta eMeta = explosiveTitan.getItemMeta();
 		eMeta.setLore(cLore);
 		explosiveTitan.setItemMeta(eMeta);
+		
+		// T2
+		List<String> iLore = new ArrayList<>();
+		iLore.add(ChatColor.GRAY + "The titan made");
+		iLore.add(ChatColor.GRAY + "of pure iron. Get");
+		iLore.add(ChatColor.GRAY + "ready for a good");
+		iLore.add(ChatColor.GRAY + "fight!");
+		
+		ItemStack ironTitan = generateTitanItem(Material.IRON_BLOCK, ChatColor.WHITE + "" + ChatColor.BOLD + "Iron Titan", 2.85);
+		ItemMeta irMeta = ironTitan.getItemMeta();
+		irMeta.setLore(iLore);
+		ironTitan.setItemMeta(irMeta);
+		
+		List<String> sLore = new ArrayList<>();
+		sLore.add(ChatColor.GRAY + "A weak but tactical");
+		sLore.add(ChatColor.GRAY + "titan, this one uses");
+		sLore.add(ChatColor.GRAY + "" + ChatColor.BOLD + "special methods" + ChatColor.GRAY + ".");
+		
+		ItemStack sandTitan = generateTitanItem(Material.SAND, ChatColor.GOLD + "" + ChatColor.BOLD + "Sand Titan", 3);
+		ItemMeta sMeta = sandTitan.getItemMeta();
+		sMeta.setLore(sLore);
+		sandTitan.setItemMeta(sMeta);
+		
+		List<String> gLore = new ArrayList<>();
+		gLore.add(ChatColor.GRAY + "Spooky and mysterious,");
+		gLore.add(ChatColor.GRAY + "this titan is even older than");
+		gLore.add(ChatColor.GRAY + "the king! Watch out for the vexes!");
+		
+		ItemStack ghostTitan = generateTitanItem(Material.SOUL_SAND, ChatColor.GRAY + "" + ChatColor.BOLD + "Ghost Titan", 3.25);
+		ItemMeta gMeta = ghostTitan.getItemMeta();
+		gMeta.setLore(gLore);
+		ghostTitan.setItemMeta(gMeta);
+		
+		List<String> icLore = new ArrayList<>();
+		icLore.add(ChatColor.GRAY + "Buff but inexperienced,");
+		icLore.add(ChatColor.GRAY + "this titan has a range of");
+		icLore.add(ChatColor.GRAY + "attacks that are just WONDERFUL!");
+		
+		ItemStack iceTitan = generateTitanItem(Material.ICE, ChatColor.AQUA + "" + ChatColor.BOLD + "Ice Titan", 3.5);
+		ItemMeta icMeta = iceTitan.getItemMeta();
+		icMeta.setLore(icLore);
+		iceTitan.setItemMeta(icMeta);
+		
+		List<String> aLore = new ArrayList<>();
+		aLore.add(ChatColor.GRAY + "Tactical and spiky,");
+		aLore.add(ChatColor.GRAY + "this titan relies on");
+		aLore.add(ChatColor.GRAY + "its subjects and your");
+		aLore.add(ChatColor.GRAY + "faults. Truly one of the");
+		aLore.add(ChatColor.GRAY + "smartest rogues out there.");
+		
+		ItemStack ameTitan = generateTitanItem(Material.AMETHYST_BLOCK, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Amethyst Titan", 3.8);
+		ItemMeta amMeta = ameTitan.getItemMeta();
+		amMeta.setLore(aLore);
+		ameTitan.setItemMeta(amMeta);
+		
+		List<String> nLore = new ArrayList<>();
+		nLore.add(ChatColor.GRAY + "This titan is as hard");
+		nLore.add(ChatColor.GRAY + "as bedrock, if there weren't");
+		nLore.add(ChatColor.GRAY + "all those tutorials on how to ");
+		nLore.add(ChatColor.GRAY + "break it. One of the tank brothers.");
+		
+		ItemStack nTitan = generateTitanItem(Material.NETHERITE_INGOT, GeneralUtils.hexToChat("392c2d", ChatColor.BOLD + "Netherite Titan"), 4.15);
+		ItemMeta nMeta = nTitan.getItemMeta();
+		nMeta.setLore(nLore);
+		nTitan.setItemMeta(nMeta);
 		
 		// Setting
 		titanFinder.setItem(10, (hasUnlocked(plugin, p, 40) ? fireTitan : notUnlocked(40)));
@@ -192,6 +258,14 @@ public class TitanFinder {
 		titanFinder.setItem(13, (hasUnlocked(plugin, p, 65) ? axeTitan : notUnlocked(65)));
 		titanFinder.setItem(14, (hasUnlocked(plugin, p, 80) ? knockbackTitan : notUnlocked(80)));
 		titanFinder.setItem(15, (hasUnlocked(plugin, p, 90) ? potTitan : notUnlocked(90)));
+		titanFinder.setItem(16, (hasUnlocked(plugin, p, 105) ? explosiveTitan : notUnlocked(105)));
+		
+		titanFinder.setItem(19, (hasUnlocked(plugin, p, 120) ? ironTitan : notUnlocked(120)));
+		titanFinder.setItem(20, (hasUnlocked(plugin, p, 145) ? sandTitan : notUnlocked(145)));
+		titanFinder.setItem(21, (hasUnlocked(plugin, p, 170) ? ghostTitan : notUnlocked(170)));
+		titanFinder.setItem(22, (hasUnlocked(plugin, p, 200) ? iceTitan : notUnlocked(200)));
+		titanFinder.setItem(23, (hasUnlocked(plugin, p, 225) ? ameTitan : notUnlocked(225)));
+		titanFinder.setItem(24, (hasUnlocked(plugin, p, 255) ? nTitan : notUnlocked(255)));
 		
 		// Later
 		titanFinder.setItem(28, later);

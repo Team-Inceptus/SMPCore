@@ -34,14 +34,19 @@ import us.teaminceptus.smpcore.bosses.abilities.TitanAbilities;
 import us.teaminceptus.smpcore.bosses.abilities.ZombieKingAbilities;
 import us.teaminceptus.smpcore.commands.Boss;
 import us.teaminceptus.smpcore.entities.Witherman;
+import us.teaminceptus.smpcore.entities.arena_titans.AmethystTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.AxeTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.CrossbowTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.ExplosionTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.FireTitan;
+import us.teaminceptus.smpcore.entities.arena_titans.GhostTitan;
+import us.teaminceptus.smpcore.entities.arena_titans.IceTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.IronTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.KnockbackTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.MagicalTitan;
+import us.teaminceptus.smpcore.entities.arena_titans.NetheriteTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.PotionTitan;
+import us.teaminceptus.smpcore.entities.arena_titans.SandTitan;
 import us.teaminceptus.smpcore.utils.AdvancementMessages;
 import us.teaminceptus.smpcore.utils.TradeInventories;
 import us.teaminceptus.smpcore.utils.TradeParser;
@@ -510,12 +515,20 @@ public class GUIManagers implements Listener {
             	 }
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Dimensional Guard")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.NETHERITE_SWORD, 1), 3))) {
+        	 if (!(p.getInventory().contains(Material.NETHERITE_SWORD, 3))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.NETHERITE_SWORD, 1));
-        		 p.getInventory().removeItem(new ItemStack(Material.NETHERITE_SWORD, 1));
-        		 p.getInventory().removeItem(new ItemStack(Material.NETHERITE_SWORD, 1));
+        		 int count = 0;
+        		 for (ItemStack i : p.getInventory()) {
+        			 if (count == 2) break;
+        			 if (i.getEnchantments().size() > 0) continue;
+        			 if (i.getType() == Material.NETHERITE_SWORD) {
+        				 p.getInventory().removeItem(i);
+        				 count++;
+        				 continue;
+        			 }
+        		 }
+        		 
         		 p.sendMessage(ChatColor.AQUA + "A Dimensional Guard has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.AQUA + "Netherite!");
         		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon wither %x% %y% %z% {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,PersistenceRequired:1b,NoAI:0b,CanPickUpLoot:1b,Health:3000f,Invul:60,Passengers:[{id:\"minecraft:ghast\",Silent:1b,Invulnerable:0b,Glowing:1b,CustomNameVisible:0b,PersistenceRequired:0b,NoAI:0b,CanPickUpLoot:0b,Health:2000f,CustomName:'{\"text\":\"Guard\\'s Energy Field\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}',HandItems:[{id:\"minecraft:netherite_sword\",Count:1b,tag:{Enchantments:[{id:\"minecraft:sharpness\",lvl:10s},{id:\"minecraft:smite\",lvl:20s},{id:\"minecraft:knockback\",lvl:5s},{id:\"minecraft:fire_aspect\",lvl:4s}]}},{}],HandDropChances:[0.000F,0.085F],ArmorItems:[{},{},{id:\"minecraft:netherite_chestplate\",Count:1b,tag:{Enchantments:[{id:\"minecraft:blast_protection\",lvl:32767s},{id:\"minecraft:projectile_protection\",lvl:100s}]}},{}],ArmorDropChances:[0.085F,0.085F,0.000F,0.085F],ActiveEffects:[{Id:14b,Amplifier:255b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:2000},{Name:generic.attack_damage,Base:20},{Name:generic.attack_knockback,Base:0}]}],CustomName:'{\"text\":\"Dimensional Guard\",\"color\":\"aqua\",\"bold\":true,\"italic\":false}',ActiveEffects:[{Id:5b,Amplifier:9b,Duration:200000,ShowParticles:0b},{Id:10b,Amplifier:3b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:3000},{Name:generic.follow_range,Base:200},{Name:generic.knockback_resistance,Base:1}]}"
         				 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY())).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
@@ -1357,7 +1370,6 @@ public class GUIManagers implements Listener {
     	  
 		  	p.closeInventory();
 		  	p.teleport(playerLoc, TeleportCause.PLUGIN);
-		  
     	  if (type.equals(Material.BLAZE_ROD)) {
     		  FireTitan b = new FireTitan(bossLoc);
     		  ws.addEntity(b);
@@ -1381,17 +1393,31 @@ public class GUIManagers implements Listener {
     		  PotionTitan po = new PotionTitan(bossLoc);
     		  ws.addEntity(po);
     	  } else if (type == Material.TNT) {
-					ExplosionTitan t = new ExplosionTitan(bossLoc);
-					ws.addEntity(t);
-				} else if (type == Material.IRON_BLOCK) {
-					IronTitan i = new IronTitan(bossLoc, p);
-					ws.addEntity(i);
-				}
+    		  ExplosionTitan t = new ExplosionTitan(bossLoc);
+    		  ws.addEntity(t);
+    	  } else if (type == Material.IRON_BLOCK) {
+    		  IronTitan i = new IronTitan(bossLoc, p);
+    		  ws.addEntity(i);
+    	  } else if (type == Material.SAND) {
+    		  SandTitan s = new SandTitan(bossLoc);
+    		  ws.addEntity(s);
+    	  } else if (type == Material.SOUL_SAND) {
+    		  GhostTitan g = new GhostTitan(bossLoc);
+    		  ws.addEntity(g);
+    	  } else if (type == Material.ICE) {
+    		  IceTitan i = new IceTitan(bossLoc);
+    		  ws.addEntity(i);
+    	  } else if (type == Material.AMETHYST_BLOCK) {
+    		  AmethystTitan a = new AmethystTitan(bossLoc);
+    		  ws.addEntity(a);
+    	  } else if (type == Material.NETHERITE_BLOCK) {
+    		  NetheriteTitan n = new NetheriteTitan(bossLoc);
+    		  ws.addEntity(n);
+    	  }
     	  
     	  p.playSound(bossLoc, Sound.ENTITY_ENDER_DRAGON_GROWL, 3F, 1F);
     	  
 		  if (!(p.isOp())) {
-	    	  
 			  finderCooldown.add(p.getUniqueId());
 			  
 			  new BukkitRunnable() {
@@ -1402,7 +1428,6 @@ public class GUIManagers implements Listener {
 			  }.runTaskLater(plugin, 20 * 60 * 20);
 		  }
       }
-
    }
    
    
