@@ -1,6 +1,5 @@
 package us.teaminceptus.smpcore.utils.fetcher;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,31 +20,18 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import us.teaminceptus.smpcore.utils.GeneralUtils;
 
-// Fetcher for items related to Arena Titans, mostly T2 and above
 public class ArenaTitanFetcher {
 	
 	public static List<ItemStack> getItems() {
 		List<ItemStack> items = new ArrayList<>();
-		try {
-			for (Method m : PlanataeFetcher.class.getDeclaredMethods()) {
-				if (m.isDefault()) continue;
-				if (m.getName().equalsIgnoreCase("getItems")) continue;
-				
-				Object feedback = m.invoke(null);
-				
-				if (feedback instanceof Map<?, ?> l) {
-					l.forEach((slot, item) -> {
-						if (item instanceof ItemStack i) items.add(i);
-						else return;
-					});
-				}
-				else if (feedback instanceof ItemStack item) items.add(item);
-				else continue;
-			}
-			return items;
-		} catch (Exception e) {	
-			return items;
+		items.add(getArcherHelmet());
+		
+		for (EquipmentSlot s : EquipmentSlot.values()) {
+			if (getTitanAmethystusSet().get(s) != null) items.add(getTitanAmethystusSet().get(s));
+			if (getTitanNetheriteSet().get(s) != null) items.add(getTitanNetheriteSet().get(s));
 		}
+		
+		return items;
 	}
 	
 	public static Map<EquipmentSlot, ItemStack> getTitanAmethystusSet() {
@@ -155,6 +141,7 @@ public class ArenaTitanFetcher {
 		aMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, 500, true);
 		aMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 500, true);
 		aMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		aMeta.setLocalizedName("netherite_totem");
 		aMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR.name(), 30, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
 		aMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR_TOUGHNESS.name(), 24, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
 		aMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_KNOCKBACK_RESISTANCE.name(), 28, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
@@ -229,6 +216,24 @@ public class ArenaTitanFetcher {
 
 		set.put(EquipmentSlot.FEET, nBoots);
 		return set;
+	}
+	
+	public static ItemStack getArcherHelmet() {
+		ItemStack aH = new ItemStack(Material.NETHERITE_HELMET);
+		ItemMeta aMeta = aH.getItemMeta();
+		aMeta.setDisplayName(ChatColor.DARK_BLUE + "" + ChatColor.BOLD + "Archer's Helmet");
+		aMeta.setUnbreakable(true);
+		aMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		aMeta.setLocalizedName("archer_helmet");
+		aMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 32767, true);
+		aMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 875, true);
+		aMeta.addEnchant(Enchantment.OXYGEN, 300, true);
+		List<String> lore = new ArrayList<>();
+		lore.add(ChatColor.BLUE + "+400% Arrow Damage");
+		aMeta.setLore(lore);
+		aMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_MOVEMENT_SPEED.name(), 5.5, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HEAD));
+		aH.setItemMeta(aMeta);
+		return aH;
 	}
 	
 }
