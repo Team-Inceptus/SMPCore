@@ -78,6 +78,7 @@ import us.teaminceptus.smpcore.commands.TitanWarps;
 import us.teaminceptus.smpcore.commands.TradesMenu;
 import us.teaminceptus.smpcore.commands.WandInfo;
 import us.teaminceptus.smpcore.commands.WorldChat;
+import us.teaminceptus.smpcore.commands.Yeet;
 import us.teaminceptus.smpcore.creatures.CreatureAbilities;
 import us.teaminceptus.smpcore.creatures.CreatureGUI;
 import us.teaminceptus.smpcore.creatures.CreaturesGuide;
@@ -400,6 +401,7 @@ public class Main extends JavaPlugin {
       new EditPlayer(this);
       new CoderTest(this);
       new Ban(this);
+      new Yeet(this);
       new Banlist(this);
       new Suspend(this);
       new Suspendlist(this);

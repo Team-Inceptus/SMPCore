@@ -111,6 +111,11 @@ commands:
     aliases: [slist, sl, suspendl]
     permission: core.admin.suspend
     permission-message: You do not have permission to use this command.
+  yeet:
+    description: Yeet someone into the sun.
+    aliases: [yt, yeetintoactualsun, yeetintoactualblackhole]
+    permission: core.admin.gamemodebypass
+    permission-message: You do not have permission to use this command.
   
   
 permissions:
