@@ -39,9 +39,12 @@ commands:
   wandinfo:
     description: Get information about a wand.
     aliases: [winfo, wi, wandi, spellinfo, spelli, sinfo, si]
-  emojilist:
-    description: List emojis.
-    aliases: [emojil, el, listemojis, elist, liste, le]
+  hat:
+    description: Set an item as your hat
+    aliases: [ht, sethat]
+  rankup:
+    description: Rankup Players
+    aliase: [checkrank, crank, rup, ru]
   # Admin
   invsee:
     description: Look at a player's inventory.
