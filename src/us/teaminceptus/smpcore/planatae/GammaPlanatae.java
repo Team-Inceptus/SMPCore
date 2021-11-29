@@ -219,7 +219,7 @@ public class GammaPlanatae implements Listener {
 	
 	@EventHandler
 	public void onBurn(FurnaceBurnEvent e) {
-		Furnace block = (Furnace) e.getBlock();
+		if (!(e.getBlock() instanceof Furnace block)) return;
 		FurnaceInventory inv = block.getInventory();
 		
 		if (e.getFuel().isSimilar(PlanataeFetcher.getIotaLava())) {
