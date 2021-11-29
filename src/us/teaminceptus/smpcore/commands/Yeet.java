@@ -38,7 +38,7 @@ public class Yeet implements CommandExecutor {
 			if (args.length < 4) {
 				target.setVelocity(new Vector(target.getVelocity().getX(), 5, target.getVelocity().getZ()));
 			} else {
-				target.setVelocity(new Vector(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])));
+				target.setVelocity(new Vector(Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3])));
 			}
 		} else {
 			target.sendMessage(ChatColor.BLUE + "You got yeeted into the sun by " + sender.getName() + "!");
