@@ -63,7 +63,7 @@ public class GhostTitan extends EntitySkeletonStray {
 		en.getEquipment().setLeggings(ghostPants);
 		en.getEquipment().setLeggingsDropChance(0.001f);
 		
-		FinderUtils.setAttributes(en, 12.5);
+		FinderUtils.setAttributes(en, 15);
 		FinderUtils.addTitanEffects(2, en);
 	}
 

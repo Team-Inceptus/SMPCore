@@ -39,15 +39,17 @@ public class FinderUtils {
 	public static void setAttributes(LivingEntity en, double hpMil) {
 		en.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(hpMil * Math.pow(10, 6));
 		en.setHealth(hpMil * Math.pow(10, 6));
-
-		en.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(hpMil * 200);
-		en.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).setBaseValue(hpMil * 100);
 		
-		en.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(hpMil * 150);
-		en.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK).setBaseValue(3);
+		en.setRemoveWhenFarAway(false);
 		
-		en.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
-		en.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(2048);
+		if (en.getAttribute(Attribute.GENERIC_ARMOR) != null) en.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(hpMil * 200);
+		if (en.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS) != null) en.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).setBaseValue(hpMil * 100);
+		
+		if (en.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) != null) en.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(hpMil * 150);
+		if (en.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK) != null) en.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK).setBaseValue(3);
+		
+		if (en.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE) != null) en.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+		if (en.getAttribute(Attribute.GENERIC_FOLLOW_RANGE) != null) en.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(2048);
 		
 		if (en instanceof Zombie) {
 			en.getAttribute(Attribute.ZOMBIE_SPAWN_REINFORCEMENTS).setBaseValue(1);

@@ -43,7 +43,7 @@ public class AmethystTitan extends EntityZombie {
 		en.getEquipment().setBoots(ArenaTitanFetcher.getTitanAmethystusSet().get(EquipmentSlot.FEET));
 		en.getEquipment().setBootsDropChance(0f);
 		
-		FinderUtils.setAttributes(en, 21.5);
+		FinderUtils.setAttributes(en, 25);
 		FinderUtils.addTitanEffects(2, en);
 	}
 
