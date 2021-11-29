@@ -339,7 +339,7 @@ public class Wand {
 			}
 		} else if (displayName.contains("Teleporter")) {
 			if (p.getWorld().getBlockAt(p.getLocation().add(p.getEyeLocation().getDirection().multiply(15))).isPassable()) {
-				p.teleport(p.getLocation().add(p.getEyeLocation().getDirection().multiply(15)), TeleportCause.ENDER_PEARL);
+				p.teleport(p.getLocation().add(p.getEyeLocation().getDirection().multiply(15)), TeleportCause.PLUGIN);
 				p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 3F, 1.5F);
 			} else {
 				p.sendMessage(ChatColor.RED + "There are blocks in the way!");
