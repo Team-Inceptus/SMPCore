@@ -28,6 +28,7 @@ public class PlayerStatusUpdate implements Listener {
    double speedVal = 0;
    
    public void setRank(Player p) {
+	   
 	   if (plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()) == null) {
 		   plugin.getConfig().createSection(p.getUniqueId().toString());
 	   }
@@ -112,6 +113,9 @@ public class PlayerStatusUpdate implements Listener {
       
       setRank(p);
       e.setJoinMessage(ChatColor.DARK_GREEN + p.getDisplayName() + ChatColor.GREEN + " joined the game");
+      if (!(p.hasPlayedBefore())) {
+    	  Bukkit.broadcastMessage(ChatColor.YELLOW + "This guy is new! Give him a warm welcome!");
+      }
       p.setPlayerListHeader(ChatColor.GOLD + "\n You are playing on " + ChatColor.GREEN + "noobygodssmp.apexmc.co \n" + ChatColor.BLUE + "\n discord.io/thenoobygods \n" + ChatColor.RED + "reddit.com/r/TheNoobyGods\n\n" + ChatColor.GOLD + "Version " + ChatColor.GREEN + "v" + plugin.getDescription().getVersion());
       
       int onlinePlayers = p.getServer().getOnlinePlayers().size();
