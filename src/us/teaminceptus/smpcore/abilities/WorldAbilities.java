@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -24,11 +25,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.SpectralArrow;
-import org.bukkit.entity.ThrownExpBottle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -41,7 +40,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.entity.ExpBottleEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerFishEvent;
@@ -64,7 +62,6 @@ import us.teaminceptus.smpcore.Main;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.listeners.caves.AlphaCave;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
-import us.teaminceptus.smpcore.utils.fetcher.ArenaTitanFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class WorldAbilities implements Listener {
@@ -557,23 +554,10 @@ public class WorldAbilities implements Listener {
 			e.setCancelled(true);
 		} else if (itemMeta.getDisplayName().contains("Protector")) {
 			e.setCancelled(true);
-		}
-	}
-	
-	@EventHandler
-	public void onExpBottle(ExpBottleEvent e) {
-		ThrownExpBottle bot = e.getEntity();
-		if (!(bot.getItem().hasItemMeta())) return;
-		if (bot.getCustomName().contains("A Bigger Bottle o' Enchanting & Experience")) {
-			e.setExperience(r.nextInt(100 - 50) + 50);
-		} else if (bot.getCustomName().contains("A Much Bigger Bottle o' Enchanting & Experience")) {
-			e.setExperience(r.nextInt(300 - 250) + 250);
-		} else if (bot.getCustomName().contains("A Humongous Bottle o' Enchanting & Experience")) {
-			e.setExperience(r.nextInt(550 - 400) + 400);
-		} else if (bot.getCustomName().contains("A Gigantic Bottle o' Enchanting & Experience")) {
-			e.setExperience(r.nextInt(800 - 650) + 650);
-		} else if (bot.getCustomName().contains("A Preposterous Bottle o' Enchanting & Experience")) {
-			e.setExperience(r.nextInt(1000 - 900) + 900);
+		} else if (itemMeta.hasLocalizedName()) {
+			e.setCancelled(true);
+		} else if (itemMeta.getDisplayName().contains(ChatColor.BOLD + "")) {
+			e.setCancelled(true);
 		}
 	}
 	
@@ -618,13 +602,34 @@ public class WorldAbilities implements Listener {
 				|| e.getCause() == DamageCause.SUFFOCATION || e.getCause() == DamageCause.HOT_FLOOR) return;
 		
 		for (ItemStack i : p.getInventory()) {
-			if (i.isSimilar(ArenaTitanFetcher.getTitanNetheriteSet().get(EquipmentSlot.OFF_HAND))) {
+			if (i == null) continue;
+			if (!(i.hasItemMeta())) continue;
+			if (!(i.getItemMeta().hasLocalizedName())) continue;
+			if (i.getItemMeta().getLocalizedName().equalsIgnoreCase("netherite_totem")) {
 				p.playSound(p.getLocation(), Sound.ITEM_SHIELD_BLOCK, 4F, 0.2F);
 				p.sendMessage(ChatColor.GREEN + "Your Netherite Totem blocked the attack!");
 				if (e instanceof EntityDamageByEntityEvent e2) {
 					e2.getDamager().sendMessage(ChatColor.DARK_RED + "The Netherite Totem blocekd the attack!");
 				}
 				break;
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onDamageOffensiveHand(EntityDamageByEntityEvent e) {
+		if (!(e.getDamager() instanceof Player p)) return;
+		if (!(e.getEntity() instanceof LivingEntity target)) return;
+		if (p.getEquipment().getItemInMainHand() == null && p.getEquipment().getItemInOffHand() == null) return;
+		
+		ItemStack hand = p.getEquipment().getItemInMainHand() == null ? p.getEquipment().getItemInOffHand() : p.getEquipment().getItemInMainHand();
+		
+		if (!(hand.hasItemMeta())) return;
+		if (!(hand.getItemMeta().hasLocalizedName())) return;
+		
+		if (hand.getItemMeta().getLocalizedName().equalsIgnoreCase("wither_scythe")) {
+			if (r.nextInt(100) < 25) {
+				target.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 150, 2, true, false, true));
 			}
 		}
 	}
@@ -697,6 +702,25 @@ public class WorldAbilities implements Listener {
 			newProj.teleport(loc);
 		}
 	}
+	
+	@EventHandler
+	public void onDamageOffensiveHelmetProjectile(EntityDamageByEntityEvent e) {
+		if (e.getCause() != DamageCause.PROJECTILE) return;
+		if (!(e.getEntity() instanceof LivingEntity en)) return;
+		if (!(e.getDamager() instanceof Projectile proj)) return;
+		if (proj.getShooter() == null) return;
+		if (!(proj.getShooter() instanceof Player p)) return;
+		
+		if (p.getInventory().getHelmet() == null) return;
+		ItemStack helmet = p.getInventory().getHelmet();
+		if (!(helmet.hasItemMeta())) return;
+		if (!(helmet.getItemMeta().hasDisplayName())) return;
+		if (!(helmet.getItemMeta().hasLocalizedName())) return;
+		
+		if (helmet.getItemMeta().getLocalizedName().equalsIgnoreCase("archer_helmet")) {
+			en.damage(e.getFinalDamage() * 4, p);
+		}
+	}
 
 	
 	@EventHandler
@@ -758,7 +782,7 @@ public class WorldAbilities implements Listener {
 	
 	@EventHandler
 	public void onBowShoot(EntityShootBowEvent e) {
-		if (!(e.getEntity() instanceof Player p)) return;
+		LivingEntity p = e.getEntity();
 		ItemStack consumed = e.getConsumable();
 		
 		if (consumed.isSimilar(TitanFetcher.getVelocityArrow())) {
@@ -775,15 +799,17 @@ public class WorldAbilities implements Listener {
 		if (!(bow.hasItemMeta())) return;
 		if (!(bow.getItemMeta().hasDisplayName())) return;
 		if (bow.getItemMeta().getDisplayName().contains("Chalc Bow")) {
-			Arrow arrow = (Arrow) e.getProjectile();
-			List<Entity> nearbyEntities = arrow.getNearbyEntities(30, 15, 30).stream().filter(en -> en instanceof Mob target && !(target.getUniqueId().equals(p.getUniqueId()))).toList();
+			Projectile arrow = (Projectile) e.getProjectile();
+			List<Entity> nearbyEntities = arrow.getNearbyEntities(30, 15, 30).stream().filter(en -> en instanceof LivingEntity target && !(en instanceof ArmorStand) && !(target.getUniqueId().equals(p.getUniqueId()))).toList();
 			if (nearbyEntities.size() < 1) return;
 			Map<Double, Entity> nearestEntities = new HashMap<>();
 			for (Entity en : nearbyEntities) nearestEntities.put(en.getLocation().distanceSquared(arrow.getLocation()), en);
 			Entity target = (nearestEntities.keySet().size() < 1 || Collections.min(nearestEntities.keySet()) == null ? nearbyEntities.get(0) : nearestEntities.get(Collections.min(nearestEntities.keySet())));
 			new BukkitRunnable() {
 				public void run() {
-					if (arrow.isInBlock() || arrow.isDead() || arrow.getLocation().distanceSquared(p.getLocation()) >= 2500) cancel();
+					if (target.isDead()) cancel();
+					if (target instanceof Player p && (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR)) cancel();
+					if ((arrow instanceof Arrow arr && arr.isInBlock()) || arrow.isDead() || arrow.getLocation().distanceSquared(p.getLocation()) >= 2500) cancel();
 					if (nearbyEntities.size() > 0) {
 						GeneralUtils.moveToward(arrow, (target instanceof LivingEntity ltarget ? ltarget.getEyeLocation() : target.getLocation()), (e.getForce() > 1 ? e.getForce() : 1));
 					}
@@ -798,6 +824,8 @@ public class WorldAbilities implements Listener {
 	public void onConsume(PlayerItemConsumeEvent e) {
 		Player p = e.getPlayer();
 		if (e.getItem() == null) return;
+		if (!(e.getItem().hasItemMeta())) return;
+		
 		
 		if (e.getItem().isSimilar(TitanFetcher.getTitanPorkchop())) {
 			p.setFoodLevel(20);
@@ -840,7 +868,8 @@ public class WorldAbilities implements Listener {
 				Attribute.GENERIC_ARMOR,
 				Attribute.GENERIC_ARMOR_TOUGHNESS,
 				Attribute.GENERIC_ATTACK_DAMAGE,
-				Attribute.GENERIC_LUCK
+				Attribute.GENERIC_LUCK,
+				Attribute.GENERIC_KNOCKBACK_RESISTANCE,
 			};
 			
 			Attribute chosen = attributes[r.nextInt(attributes.length)];
@@ -855,12 +884,43 @@ public class WorldAbilities implements Listener {
 				p.sendMessage(ChatColor.GREEN + "The attribute \"" + ChatColor.RED + "Attack Damage" + ChatColor.GREEN + "\" has been upgraded!");
 			} else if (chosen == Attribute.GENERIC_LUCK) {
 				p.sendMessage(ChatColor.GREEN + "The attribute \"" + ChatColor.DARK_GREEN + "Luck" + ChatColor.GREEN + "\" has been upgraded!");
+			} else if (chosen == Attribute.GENERIC_KNOCKBACK_RESISTANCE) {
+				p.sendMessage(ChatColor.GREEN + "The attribute \"" + ChatColor.YELLOW + "Knockback Resistance" + ChatColor.GREEN + "\" has been upgraded!");
 			}
 		} else if (e.getItem().getItemMeta().getDisplayName().contains("Claim Apple")) {
 			e.setCancelled(true);
 			p.getInventory().removeItem(e.getItem());
 			
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "adjustbonusclaimblocks " + e.getPlayer().getName() + " 100");
+		}
+		
+		// Localized Ones (3.3.0+)
+		if (!(e.getItem().getItemMeta().hasLocalizedName())) return;
+		
+		if (e.getItem().getItemMeta().getLocalizedName().equalsIgnoreCase("protection_potato")) {
+			Attribute[] attributes = {
+					Attribute.GENERIC_ARMOR,
+					Attribute.GENERIC_ARMOR_TOUGHNESS,
+					Attribute.GENERIC_KNOCKBACK_RESISTANCE
+			};
+			
+			Attribute chosen = attributes[r.nextInt(attributes.length)];
+			
+			p.getAttribute(chosen).setBaseValue(p.getAttribute(chosen).getBaseValue() * 1.03);
+			
+			String[] parts = chosen.name().toLowerCase().replaceAll("generic_", "").replaceAll("_", " ").split(" ");
+			
+			String readable = "";
+			
+			for (int i = 0; i < parts.length; i++) {
+				if (i == 0) {
+					readable += parts[i].substring(0, 1).toUpperCase() + parts[i].substring(1);
+				} else {
+					readable += " " + parts[i].substring(0, 1).toUpperCase() + parts[i].substring(1);
+				}
+			}
+			
+			p.sendMessage(ChatColor.GREEN + "The attribute \"" + ChatColor.BLUE + readable + ChatColor.GREEN + " has been upgraded!");
 		}
 	}
 	
