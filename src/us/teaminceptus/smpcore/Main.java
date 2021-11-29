@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 
+import us.teaminceptus.smpcore.abilities.Cosmetics;
 import us.teaminceptus.smpcore.abilities.InfiniBlocks;
 import us.teaminceptus.smpcore.abilities.PerussiWeapons;
 import us.teaminceptus.smpcore.abilities.PlayerAbilities;
@@ -60,15 +62,16 @@ import us.teaminceptus.smpcore.commands.Boss;
 import us.teaminceptus.smpcore.commands.CoderTest;
 import us.teaminceptus.smpcore.commands.Craft;
 import us.teaminceptus.smpcore.commands.EditPlayer;
-import us.teaminceptus.smpcore.commands.Emojilist;
 import us.teaminceptus.smpcore.commands.Enderchest;
 import us.teaminceptus.smpcore.commands.EnderchestSee;
 import us.teaminceptus.smpcore.commands.FlySpeed;
 import us.teaminceptus.smpcore.commands.GetCustomItem;
 import us.teaminceptus.smpcore.commands.GetStatistic;
+import us.teaminceptus.smpcore.commands.Hat;
 import us.teaminceptus.smpcore.commands.Help;
 import us.teaminceptus.smpcore.commands.InvSee;
 import us.teaminceptus.smpcore.commands.Menu;
+import us.teaminceptus.smpcore.commands.RankUp;
 import us.teaminceptus.smpcore.commands.Rejoin;
 import us.teaminceptus.smpcore.commands.SetRank;
 import us.teaminceptus.smpcore.commands.SpawnCustomEntity;
@@ -389,7 +392,8 @@ public class Main extends JavaPlugin {
       new WorldChat(this);
       new WandInfo(this);
       new TitanWarps(this);
-      new Emojilist(this);
+      new Hat(this);
+      new RankUp(this);
       // Admin Commands
       new InvSee(this);
       new FlySpeed(this);
@@ -409,6 +413,7 @@ public class Main extends JavaPlugin {
       new SetRank(this);
       // Listeners & Utils
       new PlayerStatusUpdate(this);
+      new Cosmetics(this);
       new GUIManagers(this);
       new PlayerDrops(this);
       new DamageCalculation(this);
