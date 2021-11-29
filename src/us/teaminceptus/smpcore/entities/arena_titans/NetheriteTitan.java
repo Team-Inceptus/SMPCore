@@ -54,7 +54,7 @@ public class NetheriteTitan extends EntitySkeletonWither {
 		en.getEquipment().setBootsDropChance(0f);
 		
 		FinderUtils.addTitanEffects(2, en);
-		FinderUtils.setAttributes(en, 28);
+		FinderUtils.setAttributes(en, 32);
 	}
 	
 	protected void initPathfinder() {
