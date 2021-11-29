@@ -35,6 +35,7 @@ import us.teaminceptus.smpcore.bosses.abilities.ZombieKingAbilities;
 import us.teaminceptus.smpcore.commands.Boss;
 import us.teaminceptus.smpcore.entities.Witherman;
 import us.teaminceptus.smpcore.entities.arena_titans.AmethystTitan;
+import us.teaminceptus.smpcore.entities.arena_titans.ArcheryTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.AxeTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.CrossbowTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.ExplosionTitan;
@@ -1298,7 +1299,6 @@ public class GUIManagers implements Listener {
       } else if (inv.getTitle().contains("Titan Warps")) {
     	  e.setCancelled(true);
     	  
-    	  
     	  if (e.getCurrentItem() == null) return;
     	  ItemStack clickedItem = e.getCurrentItem();
     	  
@@ -1413,6 +1413,9 @@ public class GUIManagers implements Listener {
     	  } else if (type == Material.NETHERITE_BLOCK) {
     		  NetheriteTitan n = new NetheriteTitan(bossLoc);
     		  ws.addEntity(n);
+    	  } else if (type == Material.BOW) {
+    		  ArcheryTitan a = new ArcheryTitan(bossLoc);
+    		  ws.addEntity(a);
     	  }
     	  
     	  p.playSound(bossLoc, Sound.ENTITY_ENDER_DRAGON_GROWL, 3F, 1F);
