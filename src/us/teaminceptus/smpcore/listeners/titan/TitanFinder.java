@@ -251,6 +251,16 @@ public class TitanFinder {
 		nMeta.setLore(nLore);
 		nTitan.setItemMeta(nMeta);
 		
+		List<String> arLore = new ArrayList<>();
+		arLore.add(ChatColor.GRAY + "Skilled with bows,");
+		arLore.add(ChatColor.GRAY + "its arrows almost never");
+		arLore.add(ChatColor.GRAY + "miss. Good luck!");
+		
+		ItemStack archTitan = generateTitanItem(Material.BOW, ChatColor.RED + "" + ChatColor.BOLD + "Archery Titan", 4.5);
+		ItemMeta arMeta = archTitan.getItemMeta();
+		arMeta.setLore(arLore);
+		archTitan.setItemMeta(arMeta);
+		
 		// Setting
 		titanFinder.setItem(10, (hasUnlocked(plugin, p, 40) ? fireTitan : notUnlocked(40)));
 		titanFinder.setItem(11, (hasUnlocked(plugin, p, 45) ? magicTitan : notUnlocked(45)));
@@ -266,6 +276,7 @@ public class TitanFinder {
 		titanFinder.setItem(22, (hasUnlocked(plugin, p, 200) ? iceTitan : notUnlocked(200)));
 		titanFinder.setItem(23, (hasUnlocked(plugin, p, 225) ? ameTitan : notUnlocked(225)));
 		titanFinder.setItem(24, (hasUnlocked(plugin, p, 255) ? nTitan : notUnlocked(255)));
+		titanFinder.setItem(25, (hasUnlocked(plugin, p, 290) ? archTitan : notUnlocked(290)));
 		
 		// Later
 		titanFinder.setItem(28, later);

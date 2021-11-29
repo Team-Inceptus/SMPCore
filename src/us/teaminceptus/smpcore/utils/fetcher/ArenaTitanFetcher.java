@@ -22,18 +22,6 @@ import us.teaminceptus.smpcore.utils.GeneralUtils;
 
 public class ArenaTitanFetcher {
 	
-	public static List<ItemStack> getItems() {
-		List<ItemStack> items = new ArrayList<>();
-		items.add(getArcherHelmet());
-		
-		for (EquipmentSlot s : EquipmentSlot.values()) {
-			if (getTitanAmethystusSet().get(s) != null) items.add(getTitanAmethystusSet().get(s));
-			if (getTitanNetheriteSet().get(s) != null) items.add(getTitanNetheriteSet().get(s));
-		}
-		
-		return items;
-	}
-	
 	public static Map<EquipmentSlot, ItemStack> getTitanAmethystusSet() {
 		Map<EquipmentSlot, ItemStack> set = new HashMap<>();
 		
@@ -72,7 +60,7 @@ public class ArenaTitanFetcher {
 		cMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 800, true);
 		cMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 32767, true);
 		cMeta.addEnchant(Enchantment.PROTECTION_FIRE, 32767, true);
-		cMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		cMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_DYE);
 		cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 6.5, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
 		cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_SPEED", 4, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
 		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 4, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
@@ -89,7 +77,7 @@ public class ArenaTitanFetcher {
 		lMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 800, true);
 		lMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 32767, true);
 		lMeta.addEnchant(Enchantment.PROTECTION_FIRE, 32767, true);
-		lMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		lMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_DYE);
 		lMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 6.5, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
 		lMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_SPEED", 4, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
 		lMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 4, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
@@ -106,7 +94,7 @@ public class ArenaTitanFetcher {
 		boMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 800, true);
 		boMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 32767, true);
 		boMeta.addEnchant(Enchantment.PROTECTION_FIRE, 32767, true);
-		boMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		boMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_DYE);
 		boMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 6.5, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
 		boMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_SPEED", 4, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
 		boMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 4, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
@@ -129,6 +117,9 @@ public class ArenaTitanFetcher {
 		lore.add(ChatColor.GRAY + "when in ANY slot from your inventory.");
 		lore.add(ChatColor.GRAY + "Can also save you from death.");
 		nMeta.setLore(lore);
+		nMeta.setLocalizedName("netherite_totem");
+		nMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+		nMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		nTotem.setItemMeta(nMeta);
 		
 		set.put(EquipmentSlot.OFF_HAND, nTotem);
@@ -141,7 +132,7 @@ public class ArenaTitanFetcher {
 		aMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, 500, true);
 		aMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 500, true);
 		aMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		aMeta.setLocalizedName("netherite_totem");
+		aMeta.setLocalizedName("axe_netherite_titan");
 		aMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR.name(), 30, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
 		aMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR_TOUGHNESS.name(), 24, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
 		aMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_KNOCKBACK_RESISTANCE.name(), 28, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
@@ -166,6 +157,7 @@ public class ArenaTitanFetcher {
 		cMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 32767, true);
 		cMeta.addEnchant(Enchantment.OXYGEN, 200, true);
 		cMeta.addEnchant(Enchantment.THORNS, 250, true);
+		cMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_DAMAGE.name(), 3, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
 		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR.name(), 42, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
 		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR_TOUGHNESS.name(), 37, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
@@ -184,8 +176,8 @@ public class ArenaTitanFetcher {
 		lMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 900, true);
 		lMeta.addEnchant(Enchantment.PROTECTION_FIRE, 32767, true);
 		lMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 32767, true);
-		lMeta.addEnchant(Enchantment.OXYGEN, 200, true);
 		lMeta.addEnchant(Enchantment.THORNS, 250, true);
+		lMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		lMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_DAMAGE.name(), 3, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
 		lMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR.name(), 42, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
 		lMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR_TOUGHNESS.name(), 37, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
@@ -204,8 +196,8 @@ public class ArenaTitanFetcher {
 		bMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 900, true);
 		bMeta.addEnchant(Enchantment.PROTECTION_FIRE, 32767, true);
 		bMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 32767, true);
-		bMeta.addEnchant(Enchantment.OXYGEN, 200, true);
 		bMeta.addEnchant(Enchantment.THORNS, 250, true);
+		bMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		bMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_DAMAGE.name(), 3, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
 		bMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR.name(), 42, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
 		bMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR_TOUGHNESS.name(), 37, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
@@ -234,6 +226,110 @@ public class ArenaTitanFetcher {
 		aMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_MOVEMENT_SPEED.name(), 5.5, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HEAD));
 		aH.setItemMeta(aMeta);
 		return aH;
+	}
+	
+	public static Map<EquipmentSlot, ItemStack> getPlasmaArmor() {
+		Map<EquipmentSlot, ItemStack> set = new HashMap<>();
+		
+		try {
+			ItemStack pHelmet = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Plasma Helmet\",\"color\":\"gold\",\"bold\":true,\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1100s},{id:\"minecraft:blast_protection\",lvl:950s},{id:\"minecraft:projectile_protection\",lvl:950s},{id:\"minecraft:respiration\",lvl:300s},{id:\"minecraft:thorns\",lvl:400s}],AttributeModifiers:[{AttributeName:\"generic.armor\",Name:\"generic.armor\",Amount:50,Operation:2,UUID:[I;-121327002,571228413,-1549857384,717145752],Slot:\"head\"},{AttributeName:\"generic.armor_toughness\",Name:\"generic.armor_toughness\",Amount:45,Operation:2,UUID:[I;723002238,1330333119,-1993329393,113890733],Slot:\"head\"},{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:8,Operation:2,UUID:[I;-716202217,-2116663682,-1155718300,388806540],Slot:\"head\"},{AttributeName:\"generic.knockback_resistance\",Name:\"generic.knockback_resistance\",Amount:67,Operation:2,UUID:[I;-64067257,-2141894122,-1207609201,82685403],Slot:\"head\"},{AttributeName:\"generic.max_health\",Name:\"generic.max_health\",Amount:5,Operation:0,UUID:[I;219480626,-397717923,-1968370094,753688513],Slot:\"head\"}],SkullOwner:{Id:[I;921572127,1665680068,-1816382702,751612658],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDU4NWJjNzU3ZGY1MDhhN2MyZWY3MDU1ZmY0ZDliYmQ2OWIxYmE4MGIzNTRjOWUzOWJjNTUyY2VjYmQ3ZTVjIn19fQ==\"}]}}}}");
+			set.put(EquipmentSlot.HEAD, pHelmet);
+		} catch (Exception e) {
+			set.put(EquipmentSlot.HEAD, null);
+		}
+		
+		ItemStack pChest = new ItemStack(Material.GOLDEN_CHESTPLATE);
+		ItemMeta cMeta = pChest.getItemMeta();
+		cMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Plasma Chestplate");
+		cMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1100, true);
+		cMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 950, true);
+		cMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 950, true);
+		cMeta.addEnchant(Enchantment.THORNS, 400, true);
+		cMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		cMeta.setUnbreakable(true);
+		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR.name(), 50, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
+		cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR_TOUGHNESS.name(), 45, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
+		cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_DAMAGE.name(), 8, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
+		cMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_KNOCKBACK_RESISTANCE.name(), 67, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
+		cMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_KNOCKBACK_RESISTANCE.name(), 8, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
+		pChest.setItemMeta(cMeta);
+		
+		set.put(EquipmentSlot.CHEST, pChest);
+		
+		ItemStack pLegs = new ItemStack(Material.GOLDEN_LEGGINGS);
+		ItemMeta lMeta = pLegs.getItemMeta();
+		lMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Plasma Leggings");
+		lMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1100, true);
+		lMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 950, true);
+		lMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 950, true);
+		lMeta.addEnchant(Enchantment.THORNS, 400, true);
+		lMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		lMeta.setUnbreakable(true);
+		lMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR.name(), 50, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
+		lMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR_TOUGHNESS.name(), 45, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
+		lMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_DAMAGE.name(), 8, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
+		lMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_KNOCKBACK_RESISTANCE.name(), 67, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
+		lMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_KNOCKBACK_RESISTANCE.name(), 7, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+		pLegs.setItemMeta(lMeta);
+		
+		set.put(EquipmentSlot.LEGS, pLegs);
+		
+		ItemStack pBoots = new ItemStack(Material.GOLDEN_BOOTS);
+		ItemMeta bMeta = pBoots.getItemMeta();
+		bMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Plasma Boots");
+		bMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1100, true);
+		bMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 950, true);
+		bMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 950, true);
+		bMeta.addEnchant(Enchantment.THORNS, 400, true);
+		bMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		bMeta.setUnbreakable(true);
+		bMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR.name(), 50, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+		bMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR_TOUGHNESS.name(), 45, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+		bMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_DAMAGE.name(), 8, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+		bMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_KNOCKBACK_RESISTANCE.name(), 67, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+		bMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_KNOCKBACK_RESISTANCE.name(), 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+		pBoots.setItemMeta(bMeta);
+		
+		set.put(EquipmentSlot.FEET, pBoots);
+		
+		return set;
+	}
+	
+	public static ItemStack getProtectionPotato() {
+		// No Jokes, k?
+		ItemStack pPo = new ItemStack(Material.POTATO);
+		ItemMeta pMeta = pPo.getItemMeta();
+		pMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+		pMeta.setLocalizedName("protection_potato");
+		pMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		pMeta.setDisplayName(ChatColor.GOLD + "Protection Potato");
+		List<String> lore = new ArrayList<>();
+		lore.add(ChatColor.GRAY + "When consumed, armor,");
+		lore.add(ChatColor.GRAY + "armor toughness, or knockback");
+		lore.add(ChatColor.GRAY + "resistance will be buffed by");
+		lore.add(ChatColor.GREEN + "5%" + ChatColor.GRAY + ".");
+		pMeta.setLore(lore);
+		pPo.setItemMeta(pMeta);
+		return pPo;
+	}
+	
+	public static ItemStack getWitherScythe() {
+		ItemStack wS = new ItemStack(Material.NETHERITE_HOE);
+		ItemMeta wMeta = wS.getItemMeta();
+		wMeta.setDisplayName(ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Wither Scythe");
+		wMeta.setLocalizedName("wither_scythe");
+		wMeta.addEnchant(Enchantment.DAMAGE_ALL, 1300, true);
+		wMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 1000, true);
+		wMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, 1000, true);
+		wMeta.addEnchant(Enchantment.KNOCKBACK, 25, true);
+		wMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		wMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR.name(), 75, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		wMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR_TOUGHNESS.name(), 67, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		wMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_DAMAGE.name(), 52, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		wMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_KNOCKBACK_RESISTANCE.name(), 40, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+		wS.setItemMeta(wMeta);
+		
+		return wS;
 	}
 	
 }

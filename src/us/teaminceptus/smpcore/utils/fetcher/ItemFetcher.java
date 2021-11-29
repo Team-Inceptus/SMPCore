@@ -190,6 +190,14 @@ public class ItemFetcher {
 
 		return alHoe;
 	}
+	
+	public static ItemStack getWitherMaterial() {
+		try {
+			return GeneralUtils.itemFromNBT("{id: \"minecraft:charcoal\", tag: {display: {Name: '{\"text\":\"Wither Material\",\"color\":\"black\",\"italic\":false}'}, HideFlags: 1, Enchantments: [{id: \"minecraft:protection\", lvl: 1s}]}, Count: 1b}");
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	
  }
