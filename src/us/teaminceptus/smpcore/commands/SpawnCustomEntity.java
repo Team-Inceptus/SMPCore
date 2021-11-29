@@ -12,6 +12,8 @@ import us.teaminceptus.smpcore.Main;
 import us.teaminceptus.smpcore.entities.PathfindingTest;
 import us.teaminceptus.smpcore.entities.TitanEnderman;
 import us.teaminceptus.smpcore.entities.TitanPiglin;
+import us.teaminceptus.smpcore.entities.arena_titans.GroundTitan;
+import us.teaminceptus.smpcore.entities.arena_titans.IceTitan;
 
 public class SpawnCustomEntity implements CommandExecutor{
 	
@@ -44,6 +46,12 @@ public class SpawnCustomEntity implements CommandExecutor{
 			} else if (args[0].contains("titan_piglin")) {
 				TitanPiglin titanp = new TitanPiglin(p.getLocation(), false);
 				wrld.addEntity(titanp);
+			} else if (args[0].contains("ice_titan")) {
+				IceTitan i = new IceTitan(p.getLocation());
+				wrld.addEntity(i);
+			} else if (args[0].contains("ground_titan")) {
+				GroundTitan g = new GroundTitan(p.getLocation());
+				wrld.addEntity(g);
 			}
 		}
 		
