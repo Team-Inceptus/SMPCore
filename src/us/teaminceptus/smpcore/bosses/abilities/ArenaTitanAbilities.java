@@ -210,6 +210,7 @@ public class ArenaTitanAbilities implements Listener {
 			List<Location> crystalList = Arrays.asList(crystalCoords);
 			new BukkitRunnable() {
 				public void run() {
+          if (en.isDead()) cancel();
 					List<Location> validLocs = new ArrayList<>();
 					List<EnderCrystal> crystals = Arrays.asList(world.getEntitiesByClass(EnderCrystal.class).toArray(new EnderCrystal[] {}));
 					for (int i = 0; i < crystals.size(); i++) {
@@ -224,9 +225,85 @@ public class ArenaTitanAbilities implements Listener {
 			
 			new BukkitRunnable() {
 				public void run() {
+          if (en.isDead()) cancel();
 					Collection<EnderCrystal> crystals = world.getEntitiesByClass(EnderCrystal.class);
+
+          crystals.forEach(crystal -> {
+            crystal.getWorld().playSound(crystal.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 6F, 1F);
+            
+            Location fb1L = crystal.getLocation();
+            fb1L.setYaw(45);
+            fb1L.setPitch(20);
+            crystal.getWorld().spawnEntity(fb1L, EntityType.DRAGON_FIREBALL);
+
+            Location fb2L = crystal.getLocation();
+            fb2L.setYaw(90);
+            fb2L.setPitch(20);
+            crystal.getWorld().spawnEntity(fb2L, EntityType.DRAGON_FIREBALL);
+
+            Location fb3L = crystal.getLocation();
+            fb3L.setYaw(135);
+            fb3L.setPitch(20);
+            crystal.getWorld().spawnEntity(fb3L, EntityType.DRAGON_FIREBALL);
+
+            Location fb4L = crystal.getLocation();
+            fb4L.setYaw(180);
+            fb4L.setPitch(20);
+            crystal.getWorld().spawnEntity(fb4L, EntityType.DRAGON_FIREBALL);
+
+            Location fb5L = crystal.getLocation();
+            fb5L.setYaw(225);
+            fb5L.setPitch(20);
+            crystal.getWorld().spawnEntity(fb5L, EntityType.DRAGON_FIREBALL);
+
+            Location fb6L = crystal.getLocation();
+            fb6L.setYaw(270);
+            fb6L.setPitch(20);
+            crystal.getWorld().spawnEntity(fb6L, EntityType.DRAGON_FIREBALL);
+
+            Location fb7L = crystal.getLocation();
+            fb7L.setYaw(315);
+            fb7L.setPitch(20);
+            crystal.getWorld().spawnEntity(fb7L, EntityType.DRAGON_FIREBALL);
+
+            Location fb8L = crystal.getLocation();
+            fb8L.setYaw(360);
+            fb8L.setPitch(20);
+            crystal.getWorld().spawnEntity(fb8L, EntityType.DRAGON_FIREBALL);
+          });
 				}
-			}.runTaskTimer(plugin, 100, 0);
+			}.runTaskTimer(plugin, 100, 20 * (r.nextInt(5) + 5));
+
+      new BukkitRunnable() {
+        public void run() {
+          if (en.isDead()) cancel();
+          if (en.getPassengers().size() < 1) {
+            EnderCrystal dragonBeam = (EnderCrystal) en.getWorld().spawnEntity(en.getLocation(), EntityType.ENDER_CRYSTAL);
+
+            dragonBeam.setCustomName(ChatColor.LIGHT_PURPLE + "Dragon Beam");
+            dragonBeam.setCustomNameVisible(true);
+
+            en.addPassenger(dragonBeam);
+          }
+        }
+      }.runTaskTimer(plugin, 100, 20 * (r.nextInt(15) + 15));
+
+      new BukkitRunnable() {
+        public void run() {
+          if (en.isDead()) cancel();
+          EnderCrystal dragonBeam = world.getEntitiesByClass(EnderCrystal.class).stream().filter(crystal -> crystal.isCustomNameVisible()).findFirst();
+          
+          Player target = world.getPlayers().stream().filter(p -> p.getLocation().distanceSquared(dragonBeam.getLocation()) <= 10000).toList().get(0);
+
+          if (dragonBeam != null && target != null) {
+            dragonBeam.setBeamTarget(target.getLocation());
+
+            if (r.nextInt(100) < 4) {
+              target.damage(5, dragonBeam);
+            }
+          }
+        }
+      }.runTaskTimer(plugin, 0, 1);
 		}
 	}
 
@@ -656,7 +733,11 @@ public class ArenaTitanAbilities implements Listener {
 					en.getWorld().spawnEntity(en.getLocation(), EntityType.WITHER);
 				}
 			}
-		}
+		} else if (e.getEntityType() == EntityType.ENDER_DRAGON) {
+      if (r.nextBoolean()) {
+        den.getWorld().createExplosion(den.getLocation(), 5F, false, false, en);
+      }
+    }
 	}
 	
 	@EventHandler

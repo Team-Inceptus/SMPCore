@@ -1,2 +1,2 @@
-language = "java11"
-run = "java -Xmx2048M -jar BuildTools.jar --rev 1.17.1 --generate-docs --dev"
+language = "java10"
+run = "echo keep going nerd"

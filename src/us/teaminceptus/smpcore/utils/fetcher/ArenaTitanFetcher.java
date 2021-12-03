@@ -331,5 +331,17 @@ public class ArenaTitanFetcher {
 		
 		return wS;
 	}
-	
+
+  public static Map<EquipmentSlot, ItemStack> getHydraSet() {
+    Map<EquipmentSlot, ItemStack> set = new HashMap<>();
+
+    try {
+      ItemStack helmet = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Hydra Helmet\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:3000s},{id:\"minecraft:fire_protection\",lvl:2500s},{id:\"minecraft:blast_protection\",lvl:2500s},{id:\"minecraft:projectile_protection\",lvl:2500s},{id:\"minecraft:respiration\",lvl:300s},{id:\"minecraft:thorns\",lvl:50s}],AttributeModifiers:[{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:90,Operation:2,UUID:[I;926565534,-1001370761,-1518815121,93068847],Slot:\"head\"},{AttributeName:\"generic.knockback_resistance\",Name:\"generic.knockback_resistance\",Amount:120,Operation:2,UUID:[I;670019754,-255835484,-1525204091,-387250670],Slot:\"head\"},{AttributeName:\"generic.armor\",Name:\"generic.armor\",Amount:110,Operation:2,UUID:[I;-1363572109,459293619,-2129402186,1881795696],Slot:\"head\"},{AttributeName:\"generic.armor_toughness\",Name:\"generic.armor_toughness\",Amount:95,Operation:2,UUID:[I;-501317485,-1974712709,-1240764910,-1625564670],Slot:\"head\"},{AttributeName:\"generic.luck\",Name:\"generic.luck\",Amount:60,Operation:2,UUID:[I;-1134933296,1482440848,-1683491317,-1580489677],Slot:\"head\"},{AttributeName:\"generic.movement_speed\",Name:\"generic.movement_speed\",Amount:2,Operation:2,UUID:[I;1775200696,1831355822,-1161373750,-772849071],Slot:\"head\"},{AttributeName:\"generic.attack_speed\",Name:\"generic.attack_speed\",Amount:25,Operation:2,UUID:[I;1461735467,1311195423,-1572823321,757955705],Slot:\"head\"}],SkullOwner:{Id:[I;1185748012,1572095227,-1360977709,1907579260],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWFkN2RjYmU5MzQwMWIzZDNiNGU1MjIyZWY4MDk3YWVmNDQzMWY0ODA2NGQwYTA1MzFmYTA5NTJjMjExZTBlNiJ9fX0=\"}]}}}}");
+      set.put(EquipmentSlot.HEAD, helmet);
+    } catch (Exception e) {
+      set.put(EquipmentSlot.HEAD, null);
+    }
+
+    return set;
+  }	
 }
