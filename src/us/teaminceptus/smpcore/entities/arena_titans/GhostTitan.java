@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Stray;
 import org.bukkit.inventory.EquipmentSlot;
@@ -24,12 +24,12 @@ public class GhostTitan extends EntitySkeletonStray {
 	public GhostTitan(Location loc) {
 		super(EntityTypes.aK, ((CraftWorld) loc.getWorld()).getHandle());
 		
-		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
+		this.b(loc.getX(), loc.getY(), loc.getZ()); // Position
 		
-		this.setCanPickupLoot(false);
-		this.setAggressive(true);
-		this.setCustomNameVisible(true);
-		this.setCustomName(new ChatComponentText(ChatColor.GRAY + "" + ChatColor.BOLD + "Ghost Titan"));
+		this.r(false); // Can Pick up Loot
+		this.u(true); // Aggressive
+		this.n(true); // Custom Name Visible
+		this.a(new ChatComponentText(ChatColor.GRAY + "" + ChatColor.BOLD + "Ghost Titan"));
 		
 		Stray en = (Stray) this.getBukkitEntity();
 		

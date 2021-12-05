@@ -8,7 +8,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
@@ -38,6 +38,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import eu.endercentral.crazy_advancements.NameKey;
+import eu.endercentral.crazy_advancements.advancement.Advancement;
 import eu.endercentral.crazy_advancements.manager.AdvancementManager;
 import net.minecraft.server.level.WorldServer;
 import us.teaminceptus.smpcore.Main;
@@ -187,7 +188,7 @@ public class TitanWorld implements Listener {
 	
 	private void replenish(Player p, Block b) {
 		if (b.getType().equals(Material.DEEPSLATE)) {
-			if (!(m.getAdvancement(new NameKey("titan", "mine-ossum")).isDone(p))) {
+			if (!(m.getAdvancement(new NameKey("titan", "mine-ossum")).getProgress(p).isDone())) {
 				m.grantAdvancement(p, m.getAdvancement(new NameKey("titan", "mine-ossum")));
 			}
 			int chance = r.nextInt(100);
@@ -202,7 +203,7 @@ public class TitanWorld implements Listener {
 				}.runTaskLater(plugin, 20 * (r.nextInt(10 - 3) + 3));
 			}
 		} else if (b.getType().equals(Material.DEEPSLATE_COPPER_ORE)) {
-			if (!(m.getAdvancement(new NameKey("titan", "mine-iabesium")).isDone(p))) {
+			if (!(m.getAdvancement(new NameKey("titan", "mine-iabesium")).getProgress(p).isDone())) {
 				m.grantAdvancement(p, m.getAdvancement(new NameKey("titan", "mine-iabesium")));
 			}
 			b.getWorld().getBlockAt(b.getLocation()).setType(Material.BEDROCK);
@@ -212,7 +213,7 @@ public class TitanWorld implements Listener {
 				}
 			}.runTaskLater(plugin, 20 * (r.nextInt(10 - 3) + 3));
 		} else if (b.getType().equals(Material.RAW_IRON_BLOCK)) {
-			if (!(m.getAdvancement(new NameKey("titan", "mine-ferrum")).isDone(p))) {
+			if (!(m.getAdvancement(new NameKey("titan", "mine-ferrum")).getProgress(p).isDone())) {
 				m.grantAdvancement(p, m.getAdvancement(new NameKey("titan", "mine-ferrum")));
 			}
 			int chance = r.nextInt(100);
@@ -257,7 +258,7 @@ public class TitanWorld implements Listener {
 				}
 			}.runTaskLater(plugin, 20 * (r.nextInt(90 - 60) + 60));
 		} else if (b.getType().equals(Material.WARPED_FUNGUS)) {
-			if (!(m.getAdvancement(new NameKey("titan", "farm-praefortis")).isDone(p))) {
+			if (!(m.getAdvancement(new NameKey("titan", "farm-praefortis")).getProgress(p).isDone())) {
 				m.grantAdvancement(p, m.getAdvancement(new NameKey("titan", "farm-praefortis")));
 			}
 			b.setType(Material.AIR);
@@ -274,7 +275,7 @@ public class TitanWorld implements Listener {
 				}
 			}.runTaskLater(plugin, 20 * (r.nextInt(10 - 3) + 3));
 		} else if (b.getType().equals(Material.SHROOMLIGHT)) {
-			if (!(m.getAdvancement(new NameKey("titan", "mine-clarus")).isDone(p))) {
+			if (!(m.getAdvancement(new NameKey("titan", "mine-clarus")).getProgress(p).isDone())) {
 				m.grantAdvancement(p, m.getAdvancement(new NameKey("titan", "mine-clarus")));
 			}
 			b.setType(Material.AIR);
@@ -326,7 +327,7 @@ public class TitanWorld implements Listener {
 				}
 			}.runTaskLater(plugin, 20 * (r.nextInt(15 - 5) + 5));
 		}
-		m.saveProgress(p, "titan");
+		m.saveProgress(p, m.getAdvancements().toArray(new Advancement[]{}));
 	}
 	
 	@EventHandler
@@ -594,14 +595,14 @@ public class TitanWorld implements Listener {
 			
 			if (r.nextInt(100) < 10) {
 				TitanEnderman en = new TitanEnderman(e.getLocation());
-				wrld.addEntity(en);
+				wrld.e(en);
 			}
 		} else if (e.getEntityType().equals(EntityType.PIGLIN)) {
 			e.setCancelled(true);
 			
 			if (r.nextInt(100) < 10) {
 				TitanPiglin en = new TitanPiglin(e.getLocation(), r.nextBoolean());
-				wrld.addEntity(en);
+				wrld.e(en);
 			}
 		}
 	}

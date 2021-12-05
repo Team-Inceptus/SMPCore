@@ -4,7 +4,7 @@ import java.util.EnumSet;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.Wither;
 
 import net.minecraft.network.chat.ChatComponentText;
@@ -24,10 +24,12 @@ public class WitherTitan extends EntityWither {
 	public WitherTitan(Location loc) {
 		super(EntityTypes.aZ, ((CraftWorld) loc.getWorld()).getHandle());
 		
-		this.setCanPickupLoot(false);
-		this.setAggressive(true);
-		this.setCustomNameVisible(true);
-		this.setCustomName(new ChatComponentText(ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Wither Titan"));
+		this.b(loc.getX(), loc.getY(), loc.getZ()); // Position
+		
+		this.r(false); // Can Pick up Loot
+		this.u(true); // Aggressive
+		this.n(true); // Custom Name Visible
+		this.a(new ChatComponentText(ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Wither Titan")); // Custom Name
 		
 		Wither en = (Wither) this.getBukkitEntity();
 		
@@ -35,14 +37,14 @@ public class WitherTitan extends EntityWither {
 		FinderUtils.setAttributes(en, 120);
 	}
 	
-	protected void initPathfinder() {
-		this.bP.a(0, new WitherTitan.WitherGoal());
-		this.bP.a(2, new PathfinderGoalArrowAttack(this, 1.0D, 40, 20.0F));
-		this.bP.a(5, new PathfinderGoalRandomStrollLand(this, 1.0D));
-		this.bP.a(6, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
-		this.bP.a(7, new PathfinderGoalRandomLookaround(this));
-		this.bQ.a(1, new PathfinderGoalHurtByTarget(this, new Class[0]));
-		this.bQ.a(0, new PathfinderGoalNearestAttackableTarget<EntityHuman>(this, EntityHuman.class, false, false));
+	protected void u() {
+		this.bR.a(0, new WitherTitan.WitherGoal());
+		this.bR.a(2, new PathfinderGoalArrowAttack(this, 1.0D, 40, 20.0F));
+		this.bR.a(5, new PathfinderGoalRandomStrollLand(this, 1.0D));
+		this.bR.a(6, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
+		this.bR.a(7, new PathfinderGoalRandomLookaround(this));
+		this.bS.a(1, new PathfinderGoalHurtByTarget(this, new Class[0]));
+		this.bS.a(0, new PathfinderGoalNearestAttackableTarget<EntityHuman>(this, EntityHuman.class, false, false));
 	}
 
 	private class WitherGoal extends PathfinderGoal {
@@ -51,7 +53,7 @@ public class WitherTitan extends EntityWither {
 		}
 
 		public boolean a() {
-			return WitherTitan.this.getInvul() > 0;
+			return WitherTitan.this.t() > 0; // Get Invul Ticks
 		}
 	}
 	

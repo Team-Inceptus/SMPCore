@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,8 +24,8 @@ public class WildSpeedTitan extends EntityZombie {
 		super((EntityTypes<? extends EntityZombie>) GeneralUtils.matchEntityType("zombie"), ((CraftWorld) loc.getWorld()).getHandle());
 		
 		this.setPersistenceRequired(false);
-		this.setBaby(true);
-		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
+		this.a(true); // Set Baby
+		this.b(loc.getX(), loc.getY(), loc.getZ()); // Position
 		
 		Zombie w = (Zombie) this.getBukkitEntity();
 		w.setHealth(8000);

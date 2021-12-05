@@ -8,7 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.EquipmentSlot;
@@ -30,7 +30,10 @@ public class WildGoldenTitan extends EntitySkeleton {
 		super((EntityTypes<? extends EntitySkeleton>) GeneralUtils.matchEntityType("skeleton"), ((CraftWorld) loc.getWorld()).getHandle());
 		
 		this.setPersistenceRequired(false);
-		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
+		this.b(loc.getX(), loc.getY(), loc.getZ()); // Position
+		this.r(false); // Can Pick up Loot
+		this.u(true); // Aggressive
+		this.n(true); // Custom Name Visible
 		
 		Skeleton w = (Skeleton) this.getBukkitEntity();
 		w.setHealth(8000);

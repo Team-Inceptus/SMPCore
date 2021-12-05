@@ -9,7 +9,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
@@ -245,21 +245,21 @@ public class TitanPlanatae implements Listener {
 			case DIRT: {
 				if (r.nextInt(100) < 2) {
 					WildSpeedTitan t = new WildSpeedTitan(b.getLocation());
-					ws.addEntity(t);
+					ws.e(t);
 				}
 				return;
 			}
 			case GOLD_BLOCK: {
 				if (r.nextInt(100) < 1) {
 					WildGoldenTitan t = new WildGoldenTitan(b.getLocation());
-					ws.addEntity(t);
+					ws.e(t);
 				}
 				return;
 			}
 			case RAW_GOLD_BLOCK: {
 				if (r.nextInt(1000) < 5) {
 					WildGoldenTitan t = new WildGoldenTitan(b.getLocation());
-					ws.addEntity(t);
+					ws.e(t);
 				}
 				return;
 			}
@@ -267,14 +267,14 @@ public class TitanPlanatae implements Listener {
 			case NETHER_BRICKS: {
 				if (r.nextInt(100) < 3) {
 					WildNetherTitan t = new WildNetherTitan(b.getLocation());
-					ws.addEntity(t);
+					ws.e(t);
 				}
 				return;
 			}
 			case NETHERITE_BLOCK: {
 				if (r.nextInt(100) < 1) {
 					WildDamageTitan t = new WildDamageTitan(b.getLocation());
-					ws.addEntity(t);
+					ws.e(t);
 				}
 				return;
 			}

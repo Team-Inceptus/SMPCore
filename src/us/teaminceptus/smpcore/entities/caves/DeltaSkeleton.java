@@ -3,7 +3,7 @@ package us.teaminceptus.smpcore.entities.caves;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 
@@ -17,10 +17,12 @@ public class DeltaSkeleton extends EntitySkeleton {
 	public DeltaSkeleton(Location loc) {
 		super(EntityTypes.aB, ((CraftWorld) loc.getWorld()).getHandle());
 		
-		this.setAggressive(true);
-		this.setCustomNameVisible(true);
-		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
-		this.setCustomName(new ChatComponentText(ChatColor.WHITE + "Delta Skeleton"));
+		this.b(loc.getX(), loc.getY(), loc.getZ()); // Position
+		
+		this.r(false); // Can Pick up Loot
+		this.u(true); // Aggressive
+		this.n(true); // Custom Name Visible
+		this.a(new ChatComponentText(ChatColor.WHITE + "Delta Skeleton"));
 		
 		LivingEntity en = (LivingEntity) this.getBukkitEntity();
 

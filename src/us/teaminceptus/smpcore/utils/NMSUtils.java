@@ -1,7 +1,7 @@
 package us.teaminceptus.smpcore.utils;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,7 +35,7 @@ public class NMSUtils implements Listener {
 		
 		new BukkitRunnable() {
 			public void run() {
-				cp.getHandle().b.sendPacket(packet1);
+				cp.getHandle().b.a(packet1);
 			}
 		}.runTask(plugin);
 	}
@@ -54,7 +54,7 @@ public class NMSUtils implements Listener {
 		
 		new BukkitRunnable() {
 			public void run() {
-				cp.getHandle().b.sendPacket(packet1);
+				cp.getHandle().b.a(packet1);
 			}
 		}.runTask(plugin);
 	}

@@ -3,8 +3,8 @@ package us.teaminceptus.smpcore.planatae.entities;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
 import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -20,9 +20,12 @@ public class ChalcGolem extends EntityGolem {
 	public ChalcGolem(Player target, Location loc) {
 		super((EntityTypes<? extends EntityGolem>) GeneralUtils.matchEntityType("iron_golem"), ((CraftWorld) loc.getWorld()).getHandle());
 		
-		this.setAggressive(true);
-		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
-		this.setGoalTarget(((CraftPlayer) target).getHandle());
+		this.b(loc.getX(), loc.getY(), loc.getZ()); // Position
+		
+		this.r(false); // Can Pick up Loot
+		this.u(true); // Aggressive
+		this.n(true); // Custom Name Visible
+		this.h(((CraftPlayer) target).getHandle()); // Target
 		
 		IronGolem golem = (IronGolem) this.getBukkitEntity();
 		golem.setTarget(target);
@@ -30,7 +33,7 @@ public class ChalcGolem extends EntityGolem {
 		golem.setCustomName(GeneralUtils.hexToChat("5e4200", ChatColor.BOLD + "Chalc Golem"));
 		golem.setCustomNameVisible(true);
 		golem.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(2500);
-		this.setHealth(2500);
+		this.c(2500); // Set Health
 		golem.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(50);
 		golem.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).setBaseValue(50);
 		

@@ -15,7 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -122,7 +122,7 @@ public class TitanCave implements Listener {
 		
 		if (r.nextInt(100) < 15) {
 			TitanPiglin p = new TitanPiglin(e.getPlayer().getLocation(), (r.nextInt(100) < 25));
-			((CraftWorld) e.getBlock().getWorld()).getHandle().addEntity(p);
+			((CraftWorld) e.getBlock().getWorld()).getHandle().e(p);
 		}
 	}
 	

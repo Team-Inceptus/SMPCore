@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -57,7 +57,7 @@ public class GeneralUtils {
 	}
 	
 	public static ItemStack itemFromNBT(String nbtStr) throws CommandSyntaxException {
-		NBTTagCompound nbt =  MojangsonParser.parse(nbtStr);
+		NBTTagCompound nbt =  MojangsonParser.a(nbtStr);
 		net.minecraft.world.item.ItemStack nmsItem = net.minecraft.world.item.ItemStack.a(nbt);
 		org.bukkit.inventory.ItemStack item = CraftItemStack.asBukkitCopy(nmsItem);
 		

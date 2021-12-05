@@ -2,12 +2,13 @@ package us.teaminceptus.smpcore.entities.arena_titans;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.EquipmentSlot;
 
 import net.minecraft.network.chat.ChatComponentText;
 import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.ai.attributes.AttributeModifiable;
 import net.minecraft.world.entity.ai.attributes.GenericAttributes;
 import net.minecraft.world.entity.monster.EntityZombie;
 import us.teaminceptus.smpcore.utils.fetcher.ArenaTitanFetcher;
@@ -17,16 +18,16 @@ public class AmethystTitan extends EntityZombie {
 	public AmethystTitan(Location loc) {
 		super(EntityTypes.be, ((CraftWorld) loc.getWorld()).getHandle());
 		
-		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
+		this.b(loc.getX(), loc.getY(), loc.getZ()); // Position
 		
-		this.setCanPickupLoot(false);
-		this.setAggressive(true);
-		this.setCustomNameVisible(true);
-		this.setCustomName(new ChatComponentText(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Amethyst Titan"));
+		this.r(false); // Can Pick up Loot
+		this.u(true); // Aggressive
+		this.n(true); // Custom Name Visible
+		this.a(new ChatComponentText(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Amethyst Titan"));
 		
 		Zombie en = (Zombie) this.getBukkitEntity();
 		
-		this.getAttributeMap().b(GenericAttributes.g);
+		this.ep().b().add(new AttributeModifiable(GenericAttributes.g, e -> e.a(1d)));
 		// Pure Chance in Drops
 		en.getEquipment().setItemInMainHand(ArenaTitanFetcher.getTitanAmethystusSet().get(EquipmentSlot.HAND));
 		en.getEquipment().setItemInMainHandDropChance(0f);

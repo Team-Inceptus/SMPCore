@@ -2,7 +2,7 @@ package us.teaminceptus.smpcore.entities.arena_titans;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.WitherSkeleton;
 import org.bukkit.inventory.EquipmentSlot;
 
@@ -25,12 +25,12 @@ public class NetheriteTitan extends EntitySkeletonWither {
 	public NetheriteTitan(Location loc) {
 		super(EntityTypes.ba, ((CraftWorld) loc.getWorld()).getHandle());
 		
-		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
+		this.b(loc.getX(), loc.getY(), loc.getZ()); // Position
 		
-		this.setCanPickupLoot(false);
-		this.setAggressive(true);
-		this.setCustomNameVisible(true);
-		this.setCustomName(new ChatComponentText(ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Netherite Titan"));
+		this.r(false); // Can Pick up Loot
+		this.u(true); // Aggressive
+		this.n(true); // Custom Name Visible
+		this.a(new ChatComponentText(ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Netherite Titan"));
 		
 		WitherSkeleton en = (WitherSkeleton) this.getBukkitEntity();
 		
@@ -57,15 +57,15 @@ public class NetheriteTitan extends EntitySkeletonWither {
 		FinderUtils.setAttributes(en, 32);
 	}
 	
-	protected void initPathfinder() {
-		this.bP.a(0, new PathfinderGoalFloat(this));
-		this.bP.a(0, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
-		this.bP.a(0, new PathfinderGoalNearestAttackableTarget<EntityHuman>(this, EntityHuman.class, true, false));
-		this.bP.a(1, new PathfinderGoalNearestAttackableTarget<EntityWolf>(this, EntityWolf.class, true, false));
-		this.bP.a(1, new PathfinderGoalMeleeAttack(this, 1.0D, false));
-		this.bP.a(2, new PathfinderGoalHurtByTarget(this, new Class[0]));
-		this.bP.a(3, new PathfinderGoalRandomStrollLand(this, 1.0D, 0.0F));
-		this.bP.a(3, new PathfinderGoalRandomLookaround(this));
+	protected void u() {
+		this.bR.a(0, new PathfinderGoalFloat(this));
+		this.bR.a(0, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
+		this.bR.a(0, new PathfinderGoalNearestAttackableTarget<EntityHuman>(this, EntityHuman.class, true, false));
+		this.bR.a(1, new PathfinderGoalNearestAttackableTarget<EntityWolf>(this, EntityWolf.class, true, false));
+		this.bR.a(1, new PathfinderGoalMeleeAttack(this, 1.0D, false));
+		this.bR.a(2, new PathfinderGoalHurtByTarget(this, new Class[0]));
+		this.bR.a(3, new PathfinderGoalRandomStrollLand(this, 1.0D, 0.0F));
+		this.bR.a(3, new PathfinderGoalRandomLookaround(this));
 	}
 
 }

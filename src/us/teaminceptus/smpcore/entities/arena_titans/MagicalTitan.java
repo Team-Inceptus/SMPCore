@@ -8,7 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
@@ -27,12 +27,12 @@ public class MagicalTitan extends EntityIllagerIllusioner {
 	public MagicalTitan(Location loc) {
 		super(EntityTypes.O, ((CraftWorld) loc.getWorld()).getHandle());
 		
-		this.setCanJoinRaid(false);
-		this.setCanPickupLoot(false);
-		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
-		this.setAggressive(true);
-		this.setCustomNameVisible(true);
-		this.setCustomName(new ChatComponentText(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Magical Titan"));
+		this.y(false); // Can Join Raid
+		this.b(loc.getX(), loc.getY(), loc.getZ()); // Position
+		this.r(false); // Can Pick up Loot
+		this.u(true); // Aggressive
+		this.n(true); // Custom Name Visible
+		this.a(new ChatComponentText(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Magical Titan"));
 		
 		LivingEntity en = (LivingEntity) this.getBukkitEntity();
 		

@@ -11,7 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Statistic;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -485,7 +485,7 @@ public class GUIManagers implements Listener {
         		 
         		 p.sendMessage(ChatColor.DARK_AQUA + "A Witherman has spawned from " + ChatColor.GRAY + p.getName() + "'s " + ChatColor.DARK_AQUA + "Pearls!");
         		 Witherman witherman = new Witherman(p.getLocation());
-        		 wServer.addEntity(witherman);
+        		 wServer.e(witherman);
         		 
         		 
                  plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
@@ -1372,50 +1372,50 @@ public class GUIManagers implements Listener {
 		  	p.teleport(playerLoc, TeleportCause.PLUGIN);
     	  if (type.equals(Material.BLAZE_ROD)) {
     		  FireTitan b = new FireTitan(bossLoc);
-    		  ws.addEntity(b);
+    		  ws.e(b);
     	  } else if (type.equals(Material.AMETHYST_SHARD)) {
     		  MagicalTitan m = new MagicalTitan(bossLoc);
-    		  ws.addEntity(m);
+    		  ws.e(m);
     	  } else if (type.equals(Material.CROSSBOW)) {
     		  CrossbowTitan c = new CrossbowTitan(bossLoc);
     		  
     		  ((LivingEntity) c.getBukkitEntity()).getEquipment().setItemInMainHand(TitanFetcher.getRectus());
     		  ((LivingEntity) c.getBukkitEntity()).getEquipment().setItemInMainHandDropChance(0.0005f);
     		  
-    		  ws.addEntity(c);
+    		  ws.e(c);
     	  } else if (type == Material.NETHERITE_AXE) {
     		  AxeTitan a = new AxeTitan(bossLoc);
-    		  ws.addEntity(a);
+    		  ws.e(a);
     	  } else if (type.equals(Material.STICK)) {
     		  KnockbackTitan k = new KnockbackTitan(bossLoc);
-    		  ws.addEntity(k);
+    		  ws.e(k);
     	  } else if (type == Material.POTION) {
     		  PotionTitan po = new PotionTitan(bossLoc);
-    		  ws.addEntity(po);
+    		  ws.e(po);
     	  } else if (type == Material.TNT) {
     		  ExplosionTitan t = new ExplosionTitan(bossLoc);
-    		  ws.addEntity(t);
+    		  ws.e(t);
     	  } else if (type == Material.IRON_BLOCK) {
     		  IronTitan i = new IronTitan(bossLoc, p);
-    		  ws.addEntity(i);
+    		  ws.e(i);
     	  } else if (type == Material.SAND) {
     		  SandTitan s = new SandTitan(bossLoc);
-    		  ws.addEntity(s);
+    		  ws.e(s);
     	  } else if (type == Material.SOUL_SAND) {
     		  GhostTitan g = new GhostTitan(bossLoc);
-    		  ws.addEntity(g);
+    		  ws.e(g);
     	  } else if (type == Material.ICE) {
     		  IceTitan i = new IceTitan(bossLoc);
-    		  ws.addEntity(i);
+    		  ws.e(i);
     	  } else if (type == Material.AMETHYST_BLOCK) {
     		  AmethystTitan a = new AmethystTitan(bossLoc);
-    		  ws.addEntity(a);
+    		  ws.e(a);
     	  } else if (type == Material.NETHERITE_BLOCK) {
     		  NetheriteTitan n = new NetheriteTitan(bossLoc);
-    		  ws.addEntity(n);
+    		  ws.e(n);
     	  } else if (type == Material.BOW) {
     		  ArcheryTitan a = new ArcheryTitan(bossLoc);
-    		  ws.addEntity(a);
+    		  ws.e(a);
     	  }
     	  
     	  p.playSound(bossLoc, Sound.ENTITY_ENDER_DRAGON_GROWL, 3F, 1F);

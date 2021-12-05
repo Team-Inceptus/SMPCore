@@ -9,7 +9,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
@@ -153,14 +153,14 @@ public class OmegaPlanatae implements Listener {
 			case END_STONE: {
 				if (r.nextInt(100) < 1) {
 					Witherman w = new Witherman(b.getLocation().add(0, 1, 0));
-					ws.addEntity(w);
+					ws.e(w);
 				}
 				return;
 			}
 			case EMERALD_BLOCK: {
 				if (r.nextInt(100) < 6) {
 					Witherman w = new Witherman(b.getLocation().add(0, 1, 0));
-					ws.addEntity(w);
+					ws.e(w);
 				}
 				return;
 			}
@@ -170,7 +170,7 @@ public class OmegaPlanatae implements Listener {
 			case OXIDIZED_COPPER: {
 				if (r.nextInt(100) < 4) {
 					ChalcGolem c = new ChalcGolem(p, b.getLocation().add(0, 1, 0));
-					ws.addEntity(c);
+					ws.e(c);
 				}
 				return;
 			}

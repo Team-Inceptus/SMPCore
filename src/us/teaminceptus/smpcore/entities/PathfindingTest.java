@@ -1,7 +1,7 @@
 package us.teaminceptus.smpcore.entities;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.monster.EntityZombie;
@@ -12,6 +12,6 @@ public class PathfindingTest extends EntityZombie {
     {
         super(EntityTypes.be, ((CraftWorld) loc.getWorld()).getHandle());
         
-        this.setPosition(loc.getX(), loc.getY(), loc.getZ());
+		this.b(loc.getX(), loc.getY(), loc.getZ()); // Position
     }
 }

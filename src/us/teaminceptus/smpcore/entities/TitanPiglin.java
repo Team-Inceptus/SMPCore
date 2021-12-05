@@ -3,7 +3,7 @@ package us.teaminceptus.smpcore.entities;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 
 import net.minecraft.network.chat.ChatComponentText;
@@ -23,13 +23,16 @@ public class TitanPiglin extends EntityPiglin {
 
 	public TitanPiglin(Location loc, boolean isBaby) {
 		super(EntityTypes.ao, ((CraftWorld) loc.getWorld()).getHandle());
-		this.setImmuneToZombification(true);
-		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
-		this.setCustomNameVisible(true);
-		this.setCustomName(new ChatComponentText(ChatColor.RED + "Titan Piglin"));
+		this.v(true); // Immune to Zombification
+		this.b(loc.getX(), loc.getY(), loc.getZ()); // Position
+		
+		this.r(false); // Can Pick up Loot
+		this.u(true); // Aggressive
+		this.n(true); // Custom Name Visible
+		this.a(new ChatComponentText(ChatColor.RED + "Titan Piglin")); // Custom Name
 		
 		if (isBaby) {
-			this.setBaby(true);
+			this.a(true); // Set Baby
 		}
 		
 		LivingEntity en = (LivingEntity) this.getBukkitEntity();
@@ -41,14 +44,14 @@ public class TitanPiglin extends EntityPiglin {
 		
 	}
 	
-	public void initPathfinder() {
-	   this.bP.a(0, new PathfinderGoalAvoidTarget<EntitySkeleton>(this, EntitySkeleton.class, 6f, 1d, 1.2d));
-	   this.bP.a(1, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
-       this.bP.a(1, new PathfinderGoalNearestAttackableTarget<EntityHuman>(this, EntityHuman.class, true, false));
-	   this.bP.a(2, new PathfinderGoalMeleeAttack(this, 1.0D, false));
-	   this.bP.a(3, new PathfinderGoalRandomStrollLand(this, 1.0D, 0.0F));
-	   this.bP.a(3, new PathfinderGoalRandomLookaround(this));
-	   this.bP.a(4, new PathfinderGoalHurtByTarget(this, new Class[0]));
+	public void u() {
+	   this.bR.a(0, new PathfinderGoalAvoidTarget<EntitySkeleton>(this, EntitySkeleton.class, 6f, 1d, 1.2d));
+	   this.bR.a(1, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
+       this.bR.a(1, new PathfinderGoalNearestAttackableTarget<EntityHuman>(this, EntityHuman.class, true, false));
+	   this.bR.a(2, new PathfinderGoalMeleeAttack(this, 1.0D, false));
+	   this.bR.a(3, new PathfinderGoalRandomStrollLand(this, 1.0D, 0.0F));
+	   this.bR.a(3, new PathfinderGoalRandomLookaround(this));
+	   this.bR.a(4, new PathfinderGoalHurtByTarget(this, new Class[0]));
 	}
 	
 	

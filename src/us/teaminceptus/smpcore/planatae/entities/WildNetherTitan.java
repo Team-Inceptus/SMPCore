@@ -5,7 +5,7 @@ import java.util.Random;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.MagmaCube;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,7 +23,11 @@ public class WildNetherTitan extends EntityMagmaCube {
 		super((EntityTypes<? extends EntityMagmaCube>) GeneralUtils.matchEntityType("magma_cube"), ((CraftWorld) loc.getWorld()).getHandle());
 		
 		this.setPersistenceRequired(false);
-		this.setPosition(loc.getX(), loc.getY(), loc.getZ());
+		this.b(loc.getX(), loc.getY(), loc.getZ()); // Position
+		
+		this.r(false); // Can Pick up Loot
+		this.u(true); // Aggressive
+		this.n(true); // Custom Name Visible
 		
 		MagmaCube w = (MagmaCube) this.getBukkitEntity();
 		w.setHealth(8000);

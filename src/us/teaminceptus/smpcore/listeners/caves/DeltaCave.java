@@ -14,7 +14,7 @@ import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -98,7 +98,7 @@ public class DeltaCave implements Listener {
 		if (b.getType() == Material.STONE) {
 			if (r.nextInt(100) < 10) {			
 				DeltaSkeleton s = new DeltaSkeleton(p.getLocation());
-				w.addEntity(s);
+				w.e(s); // Add Entity
 			}
 		}
 	}
