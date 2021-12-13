@@ -192,12 +192,14 @@ public class GetCustomItem implements CommandExecutor {
 				case "arena_sets": {
 					Inventory inv = Bukkit.createInventory(null, 54);
 					
-					inv.addItem(ArenaTitanFetcher.getArcherHelmet());
-					inv.addItem(ArenaTitanFetcher.getArcherHelmet());
-					
 					inv.addItem(ArenaTitanFetcher.getTitanAmethystusSet().values().toArray(new ItemStack[] {}));
 					inv.addItem(ArenaTitanFetcher.getTitanNetheriteSet().values().toArray(new ItemStack[] {}));
 					inv.addItem(ArenaTitanFetcher.getPlasmaArmor().values().toArray(new ItemStack[] {}));
+					inv.addItem(ArenaTitanFetcher.getHydraSet().values().toArray(new ItemStack[] {}));
+					
+					inv.addItem(ArenaTitanFetcher.getArcherHelmet());
+					inv.addItem(ArenaTitanFetcher.getWitherScythe());
+					inv.addItem(ArenaTitanFetcher.getProtectionPotato());
 					
 					p.openInventory(inv);
 					break;

@@ -128,6 +128,7 @@ public class Main extends JavaPlugin {
 						ChatColor.BLUE + "Join the Discord to Updates & A Friendly Community - https://discord.io/thenoobygods",
 						ChatColor.LIGHT_PURPLE + "You can use /recipes to see the custom recipes!",
 						ChatColor.GOLD + "You are currently playing on " + ChatColor.GREEN + "TheNoobyGodsSMP" + ChatColor.GOLD + " with " + ChatColor.GREEN + GeneralUtils.thousandSeparator(Bukkit.getOfflinePlayers().length + Bukkit.getOnlinePlayers().size(), ",") + ChatColor.GOLD + " members!",
+						ChatColor.DARK_BLUE + "You can apply for staff in the Discord.",
 				};
 			  
 			  Bukkit.broadcastMessage(infoMessages[r.nextInt(infoMessages.length)]);

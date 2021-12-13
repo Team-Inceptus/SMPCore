@@ -10,6 +10,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -41,6 +43,18 @@ public class PlanataeHub implements Listener {
 		if (en.getCustomName().contains("Tractus")) {
 			e.getPlayer().openInventory(getPlanataeMenu(e.getPlayer()));
 		}
+	}
+	
+	@EventHandler
+	public void onBreak(BlockBreakEvent e) {
+		if (!(e.getBlock().getWorld().getName().equalsIgnoreCase("world_planatae_hub"))) return;
+		e.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onPlace(BlockPlaceEvent e) {
+		if (!(e.getBlock().getWorld().getName().equalsIgnoreCase("world_planatae_hub"))) return;
+		e.setCancelled(true);
 	}
 	
 	@EventHandler

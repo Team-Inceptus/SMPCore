@@ -341,7 +341,72 @@ public class ArenaTitanFetcher {
     } catch (Exception e) {
       set.put(EquipmentSlot.HEAD, null);
     }
-
+    
+    ItemStack hChest = new ItemStack(Material.NETHERITE_CHESTPLATE);
+    ItemMeta cMeta = hChest.getItemMeta();
+    cMeta.setDisplayName(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Hydra Chestplate");
+    cMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3000, true);
+    cMeta.addEnchant(Enchantment.PROTECTION_FIRE, 2500, true);
+    cMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 2500, true);
+    cMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 2500, true);
+    cMeta.addEnchant(Enchantment.THORNS, 50, true);
+    cMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+    cMeta.setUnbreakable(true);
+    cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_DAMAGE.name(), 90, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
+    cMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_KNOCKBACK_RESISTANCE.name(), 120, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
+    cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR.name(), 110, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
+    cMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR_TOUGHNESS.name(), 95, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
+    cMeta.addAttributeModifier(Attribute.GENERIC_LUCK, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_LUCK.name(), 60, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
+    cMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_MOVEMENT_SPEED.name(), 2, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
+    cMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_SPEED.name(), 25, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.CHEST));
+    
+    hChest.setItemMeta(cMeta);
+    
+    set.put(EquipmentSlot.CHEST, hChest);
+    
+    ItemStack hLegs = new ItemStack(Material.NETHERITE_LEGGINGS);
+    ItemMeta lMeta = hLegs.getItemMeta();
+    lMeta.setDisplayName(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Hydra Leggings");
+    lMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3000, true);
+    lMeta.addEnchant(Enchantment.PROTECTION_FIRE, 2500, true);
+    lMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 2500, true);
+    lMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 2500, true);
+    lMeta.addEnchant(Enchantment.THORNS, 50, true);
+    lMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+    lMeta.setUnbreakable(true);
+    lMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_DAMAGE.name(), 90, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
+    lMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_KNOCKBACK_RESISTANCE.name(), 120, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
+    lMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR.name(), 110, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
+    lMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR_TOUGHNESS.name(), 95, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
+    lMeta.addAttributeModifier(Attribute.GENERIC_LUCK, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_LUCK.name(), 60, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
+    lMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_MOVEMENT_SPEED.name(), 2, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
+    lMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_SPEED.name(), 25, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.LEGS));
+    
+    hLegs.setItemMeta(lMeta);
+    
+    set.put(EquipmentSlot.LEGS, hLegs);
+    
+    ItemStack hBoots = new ItemStack(Material.NETHERITE_BOOTS);
+    ItemMeta bMeta = hBoots.getItemMeta();
+    bMeta.setDisplayName(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Hydra Boots");
+    bMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3000, true);
+    bMeta.addEnchant(Enchantment.PROTECTION_FIRE, 2500, true);
+    bMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 2500, true);
+    bMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 2500, true);
+    bMeta.addEnchant(Enchantment.THORNS, 50, true);
+    bMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+    bMeta.setUnbreakable(true);
+    bMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_DAMAGE.name(), 90, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+    bMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_KNOCKBACK_RESISTANCE.name(), 120, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+    bMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR.name(), 110, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+    bMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ARMOR_TOUGHNESS.name(), 95, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+    bMeta.addAttributeModifier(Attribute.GENERIC_LUCK, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_LUCK.name(), 60, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+    bMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_MOVEMENT_SPEED.name(), 2, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+    bMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), Attribute.GENERIC_ATTACK_SPEED.name(), 25, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+    
+    hBoots.setItemMeta(bMeta);
+    
+    set.put(EquipmentSlot.FEET, hBoots);
     return set;
   }	
 }

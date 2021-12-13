@@ -611,6 +611,7 @@ public class WorldAbilities implements Listener {
 				if (e instanceof EntityDamageByEntityEvent e2) {
 					e2.getDamager().sendMessage(ChatColor.DARK_RED + "The Netherite Totem blocekd the attack!");
 				}
+				e.setCancelled(true);
 				break;
 			}
 		}
