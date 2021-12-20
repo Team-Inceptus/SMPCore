@@ -25,6 +25,7 @@ import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.caves.AlphaCave;
 import us.teaminceptus.smpcore.listeners.caves.DeltaCave;
 import us.teaminceptus.smpcore.listeners.caves.TitanCave;
+import us.teaminceptus.smpcore.utils.GeneralUtils;
 import us.teaminceptus.smpcore.utils.fetcher.PlanataeFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
@@ -346,25 +347,64 @@ public class Value implements CommandExecutor, Listener {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!(sender instanceof Player p)) return false;
 		
-		if (p.getInventory().getItemInMainHand() == null) {
-			p.sendMessage(ChatColor.RED + "Please put an item to value in your hand!");
-			return false;
+		if (args.length < 1) {
+			if (!(sender instanceof Player p)) return false;
+			if (p.getInventory().getItemInMainHand() == null) {
+				p.sendMessage(ChatColor.RED + "Please put an item to value in your hand!");
+				return false;
+			}
+			
+			ItemStack item = p.getInventory().getItemInMainHand();
+			p.sendMessage(ChatColor.GREEN + "Calculating...");
+			
+			Rarity rarity = getRarity(item);
+			long score = getScore(item);
+			double value = score * rarity.getMultiplier();
+			p.sendMessage(ChatColor.GREEN + "Item Score: " + Long.toString(score));
+			p.sendMessage(ChatColor.GREEN + "Rarity: " + rarity.nameColor());
+			p.sendMessage(ChatColor.GREEN + "Rarity Multiplier: x" + Double.toString(rarity.getMultiplier()));
+			p.sendMessage(ChatColor.DARK_GREEN + "\nNoobucks Value: " + ChatColor.GOLD + GeneralUtils.withSuffix(value));
+		} else if (args[0].equalsIgnoreCase("all")) {
+			if (args.length < 2) {
+			if (!(sender instanceof Player p)) return false;
+			p.sendMessage(ChatColor.GREEN + "Calculating Networth...");
+			double echestValue = 0;
+			for (ItemStack i : p.getEnderChest()) {
+				echestValue += getScore(i) * getRarity(i).getMultiplier();
+			}
+			
+			double invValue = 0;
+			for (ItemStack i : p.getInventory()) {
+				invValue += getScore(i) * getRarity(i).getMultiplier();
+			}
+			p.sendMessage(ChatColor.DARK_GREEN + "Ender Chest Value - " + Double.toString(Math.floor(echestValue * 100) / 100));
+			p.sendMessage(ChatColor.DARK_GREEN + "Inventory Value - " + Double.toString(Math.floor(invValue * 100) / 100));
+			p.sendMessage(ChatColor.GREEN + "\nTotal Networth: " + ChatColor.GOLD + GeneralUtils.withSuffix(invValue + echestValue) + " Noobucks");
+			
+			} else {
+				if (Bukkit.getPlayer(args[1]) == null) {
+					sender.sendMessage(ChatColor.GREEN + "This player does not exist!");
+				}
+				
+				Player target = Bukkit.getPlayer(args[1]);
+				double echestValue = 0;
+				for (ItemStack i : target.getEnderChest()) {
+					echestValue += getScore(i) * getRarity(i).getMultiplier();
+				}
+				
+				double invValue = 0;
+				for (ItemStack i : target.getInventory()) {
+					invValue += getScore(i) * getRarity(i).getMultiplier();
+				}
+				sender.sendMessage(ChatColor.DARK_GREEN + "Ender Chest Value - " + Double.toString(Math.floor(echestValue * 100) / 100));
+				sender.sendMessage(ChatColor.DARK_GREEN + "Inventory Value - " + Double.toString(Math.floor(invValue * 100) / 100));
+				sender.sendMessage(ChatColor.GREEN + "\n" + target.getName() + "'s Total Networth: " + ChatColor.GOLD + GeneralUtils.withSuffix(invValue + echestValue) + " Noobucks");
+				
+			}
 		}
-		
-		ItemStack item = p.getInventory().getItemInMainHand();
-		p.sendMessage(ChatColor.GREEN + "Calculating...");
-		
-		Rarity rarity = getRarity(item);
-		long score = getScore(item);
-		double value = score * rarity.getMultiplier();
-		String valueString = Double.toString(Math.floor(value * 100) / 100);
-		p.sendMessage(ChatColor.GREEN + "Item Score: " + Long.toString(score));
-		p.sendMessage(ChatColor.GREEN + "Rarity: " + rarity.nameColor());
-		p.sendMessage(ChatColor.GREEN + "Rarity Multiplier: x" + Double.toString(rarity.getMultiplier()));
-		p.sendMessage(ChatColor.DARK_GREEN + "\nNoobucks Value: " + ChatColor.GOLD + valueString);
 		return true;
+		
 	}
 	
 	public static boolean containsRarity(ItemStack i) {
@@ -377,6 +417,46 @@ public class Value implements CommandExecutor, Listener {
 		}
 		
 		return false;
+	}
+	
+	public static ItemStack validate(ItemStack i) {
+		if (!(i.hasItemMeta())) return i;
+		if (!(i.getItemMeta().hasLore())) return i;
+		List<String> lore = i.getItemMeta().getLore();
+		int occurences = 0;
+		for (Rarity r : Rarity.values()) {
+			if (lore.contains(r.nameColor())) {
+				occurences++;
+			}
+		}
+		
+		if (occurences > 1) {
+			for (String s : lore) {
+				for (Rarity r : Rarity.values()) {
+					if (s.equalsIgnoreCase(r.nameColor())) lore.remove(r.nameColor());
+				}
+			}
+			int target = (i.getItemMeta().hasLore() ? i.getItemMeta().getLore().size() : 0);
+			ItemMeta newMeta = i.getItemMeta();
+			lore.add(target, getRarity(i).nameColor());
+			newMeta.setLore(lore);
+			i.setItemMeta(newMeta);
+			return i;
+		}
+		
+		try {
+			if (getRarity(i) != Rarity.valueOf(ChatColor.stripColor(lore.get(lore.size() - 1)))) {
+				ItemMeta newMeta = i.getItemMeta();
+				lore.set(lore.size() - 1, getRarity(i).nameColor());
+				newMeta.setLore(lore);
+				i.setItemMeta(newMeta);
+				return i;
+			}
+		} catch (IllegalArgumentException e) {
+			// Do Nothing, Item is outside of plugin (ex. CraftEnhance turn page)
+		}
+		
+		return i;
 	}
 	
 
