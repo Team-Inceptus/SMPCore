@@ -7,13 +7,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class Hat implements CommandExecutor {
 
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public Hat(Main plugin) {
+	public Hat(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("hat").setExecutor(this);;
 	}

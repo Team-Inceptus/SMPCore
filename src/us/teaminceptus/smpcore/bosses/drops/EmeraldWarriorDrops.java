@@ -11,14 +11,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.bosses.abilities.EmeraldWarriorAbilities;
 
 public class EmeraldWarriorDrops implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public EmeraldWarriorDrops(Main plugin) {
+	public EmeraldWarriorDrops(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

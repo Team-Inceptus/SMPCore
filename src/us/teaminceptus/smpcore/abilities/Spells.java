@@ -9,15 +9,15 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.classes.Wand;
 import us.teaminceptus.smpcore.utils.fetcher.WandFetcher;
 
 	public class Spells implements Listener {
 	
-	private Main plugin;
+	private SMPCore plugin;
 	
-	public Spells(Main plugin) {
+	public Spells(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

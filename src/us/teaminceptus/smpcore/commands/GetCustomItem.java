@@ -12,7 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.caves.AlphaCave;
 import us.teaminceptus.smpcore.listeners.caves.DeltaCave;
 import us.teaminceptus.smpcore.listeners.caves.TitanCave;
@@ -25,9 +25,9 @@ import us.teaminceptus.smpcore.utils.fetcher.WeaponFetcher;
 
 public class GetCustomItem implements CommandExecutor {
 	
-	private Main plugin;
+	private SMPCore plugin;
 	
-	public GetCustomItem(Main plugin) {
+	public GetCustomItem(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("getcustomitem").setExecutor(this);
 	}

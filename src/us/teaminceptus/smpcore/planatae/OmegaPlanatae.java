@@ -21,16 +21,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.minecraft.server.level.WorldServer;
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.entities.Witherman;
 import us.teaminceptus.smpcore.planatae.entities.ChalcGolem;
 import us.teaminceptus.smpcore.utils.fetcher.PlanataeFetcher;
 
 public class OmegaPlanatae implements Listener {
 
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public OmegaPlanatae(Main plugin) {
+	public OmegaPlanatae(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

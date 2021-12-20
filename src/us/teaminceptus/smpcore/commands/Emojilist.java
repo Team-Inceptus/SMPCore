@@ -5,13 +5,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class Emojilist implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public Emojilist(Main plugin) {
+	public Emojilist(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("emojilist").setExecutor(this);
 	}

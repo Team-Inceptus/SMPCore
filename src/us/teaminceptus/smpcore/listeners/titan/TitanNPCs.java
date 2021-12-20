@@ -13,14 +13,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanNPCs implements Listener {
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public TitanNPCs(Main plugin) {
+	public TitanNPCs(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

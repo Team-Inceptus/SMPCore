@@ -11,13 +11,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class AraneaDrops implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public AraneaDrops(Main plugin) {
+	public AraneaDrops(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

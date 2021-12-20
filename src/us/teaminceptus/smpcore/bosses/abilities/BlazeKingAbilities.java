@@ -11,13 +11,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffectType;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class BlazeKingAbilities implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public BlazeKingAbilities(Main plugin) {
+	public BlazeKingAbilities(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

@@ -17,14 +17,14 @@ import eu.endercentral.crazy_advancements.advancement.AdvancementDisplay;
 import eu.endercentral.crazy_advancements.advancement.AdvancementDisplay.AdvancementFrame;
 import eu.endercentral.crazy_advancements.advancement.AdvancementVisibility;
 import eu.endercentral.crazy_advancements.manager.AdvancementManager;
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class TitanAdvancements implements Listener {
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	public static AdvancementManager m = new AdvancementManager(new NameKey("titan"));
 	
-	public TitanAdvancements(Main plugin) {
+	public TitanAdvancements(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 		

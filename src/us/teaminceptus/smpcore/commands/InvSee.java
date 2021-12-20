@@ -8,12 +8,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class InvSee implements CommandExecutor {
-   public Main plugin;
+   public SMPCore plugin;
 
-   public InvSee(Main plugin) {
+   public InvSee(SMPCore plugin) {
       this.plugin = plugin;
       plugin.getCommand("invsee").setExecutor(this);
    }

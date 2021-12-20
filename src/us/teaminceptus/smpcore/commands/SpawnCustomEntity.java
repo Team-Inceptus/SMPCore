@@ -8,7 +8,7 @@ import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.Player;
 
 import net.minecraft.server.level.WorldServer;
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.entities.TitanEnderman;
 import us.teaminceptus.smpcore.entities.TitanPiglin;
 import us.teaminceptus.smpcore.entities.arena_titans.GroundTitan;
@@ -16,9 +16,9 @@ import us.teaminceptus.smpcore.entities.arena_titans.IceTitan;
 
 public class SpawnCustomEntity implements CommandExecutor{
 	
-	public Main plugin;
+	public SMPCore plugin;
 
-	public SpawnCustomEntity(Main plugin) {
+	public SpawnCustomEntity(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("spawncustomentity").setExecutor(this);
 	}

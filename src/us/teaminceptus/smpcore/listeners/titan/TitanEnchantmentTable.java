@@ -9,14 +9,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.utils.fetcher.EnchantmentFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanEnchantmentTable {
 	
-	public static boolean hasUnlocked(Main plugin, Player p) {
+	public static boolean hasUnlocked(SMPCore plugin, Player p) {
 		return (plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills") >= 30);
 	}
 	

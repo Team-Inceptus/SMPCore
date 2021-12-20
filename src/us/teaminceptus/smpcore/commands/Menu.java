@@ -17,14 +17,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
 
 public class Menu implements CommandExecutor {
-   public Main plugin;
+   public SMPCore plugin;
 
-   public Menu(Main plugin) {
+   public Menu(SMPCore plugin) {
       this.plugin = plugin;
       plugin.getCommand("menu").setExecutor(this);
    }

@@ -17,13 +17,13 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class EnergyGuardianAbilities implements Listener {
 	
-	public static Main plugin;
+	public static SMPCore plugin;
 	
-	public EnergyGuardianAbilities(Main plugin) {
+	public EnergyGuardianAbilities(SMPCore plugin) {
 		EnergyGuardianAbilities.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

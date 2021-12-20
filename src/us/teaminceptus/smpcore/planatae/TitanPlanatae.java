@@ -21,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.minecraft.server.level.WorldServer;
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.planatae.entities.WildDamageTitan;
 import us.teaminceptus.smpcore.planatae.entities.WildGoldenTitan;
 import us.teaminceptus.smpcore.planatae.entities.WildNetherTitan;
@@ -30,9 +30,9 @@ import us.teaminceptus.smpcore.utils.fetcher.PlanataeFetcher;
 
 public class TitanPlanatae implements Listener {
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public TitanPlanatae(Main plugin) {
+	public TitanPlanatae(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

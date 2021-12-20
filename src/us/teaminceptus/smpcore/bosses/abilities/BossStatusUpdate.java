@@ -14,14 +14,14 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
 
 public class BossStatusUpdate implements Listener {
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public BossStatusUpdate(Main plugin) {
+	public BossStatusUpdate(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

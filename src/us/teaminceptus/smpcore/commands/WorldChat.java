@@ -6,13 +6,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class WorldChat implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public WorldChat(Main plugin) {
+	public WorldChat(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("worldchat").setExecutor(this);
 	}

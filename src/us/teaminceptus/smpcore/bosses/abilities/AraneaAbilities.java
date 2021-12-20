@@ -12,13 +12,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class AraneaAbilities implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public AraneaAbilities(Main plugin) {
+	public AraneaAbilities(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

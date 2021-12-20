@@ -19,7 +19,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
 
@@ -27,9 +27,9 @@ public class PlanataeHub implements Listener {
 	
 	// Global Cave Modifications are stored in GAMMA, NOT HERE
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public PlanataeHub(Main plugin) {
+	public PlanataeHub(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
@@ -102,7 +102,7 @@ public class PlanataeHub implements Listener {
 	}
 	
 	public static Inventory getPlanataeMenu(Player p) {
-		Main plugin = JavaPlugin.getPlugin(Main.class);
+		SMPCore plugin = JavaPlugin.getPlugin(SMPCore.class);
 		try {
 			Inventory menu = GUIManagers.generateGUI(27, ChatColor.DARK_BLUE + "Planatae Menu");
 			ItemStack locked = GeneralUtils.itemFromNBT("{id: \"minecraft:bedrock\", tag: {display: {Name: '{\"text\":\"Locked!\",\"color\":\"dark_red\",\"italic\":false}'}}, Count: 1b}");

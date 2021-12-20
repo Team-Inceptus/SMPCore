@@ -11,15 +11,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.utils.CreatureUtils;
 
 public class CreaturesGuide implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public CreaturesGuide(Main plugin) {
+	public CreaturesGuide(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("creaturesguide").setExecutor(this);
 	}

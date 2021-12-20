@@ -14,16 +14,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.utils.classes.PlayerAbility;
 import us.teaminceptus.smpcore.utils.enums.AbilityType;
 
 public class Abilities implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public Abilities(Main plugin) {
+	public Abilities(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("abilities").setExecutor(this);
 	}

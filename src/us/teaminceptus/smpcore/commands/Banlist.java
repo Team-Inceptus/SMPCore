@@ -12,13 +12,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class Banlist implements CommandExecutor {
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public Banlist(Main plugin) {
+	public Banlist(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("banlist").setExecutor(this);
 	}

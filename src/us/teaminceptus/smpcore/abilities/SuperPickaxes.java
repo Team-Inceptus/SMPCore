@@ -22,14 +22,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.fetcher.ItemFetcher;
 
 public class SuperPickaxes implements Listener {
 	
-	private Main plugin;
+	private SMPCore plugin;
 	
-	public SuperPickaxes(Main plugin) {
+	public SuperPickaxes(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

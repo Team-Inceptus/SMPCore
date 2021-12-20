@@ -61,7 +61,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.server.level.WorldServer;
 import net.minecraft.world.entity.ai.attributes.AttributeModifiable;
 import net.minecraft.world.entity.ai.attributes.GenericAttributes;
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.entities.arena_titans.IceBear;
 import us.teaminceptus.smpcore.utils.AdvancementMessages;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
@@ -72,9 +72,9 @@ import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class ArenaTitanAbilities implements Listener {
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public ArenaTitanAbilities(Main plugin) {
+	public ArenaTitanAbilities(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

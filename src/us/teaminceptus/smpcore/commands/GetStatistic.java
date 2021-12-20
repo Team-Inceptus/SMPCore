@@ -8,14 +8,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.CommandTabCompleter;
 
 public class GetStatistic implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public GetStatistic(Main plugin) {
+	public GetStatistic(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("getstatistic").setExecutor(this);
 		plugin.getCommand("getstatistic").setTabCompleter(new CommandTabCompleter());

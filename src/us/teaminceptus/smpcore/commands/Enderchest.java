@@ -8,13 +8,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class Enderchest implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public Enderchest(Main plugin) {
+	public Enderchest(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("enderchest").setExecutor(this);
 	}

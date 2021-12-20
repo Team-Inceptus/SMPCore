@@ -6,14 +6,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 
 public class FlySpeed implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public FlySpeed(Main plugin) {
+	public FlySpeed(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("flyspeed").setExecutor(this);
 	}

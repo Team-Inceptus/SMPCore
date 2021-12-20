@@ -25,13 +25,13 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.WandCooldowns;
 import us.teaminceptus.smpcore.utils.enums.WandType;
 
 public class Wand {
 	
-	private Main plugin;
+	private SMPCore plugin;
 	
 	public String wandName;
 	public WandType wandType;
@@ -57,7 +57,7 @@ public class Wand {
 		else return new ItemStack(Material.STICK, 1);
 	}
 	
-	public Wand(Main plugin, String wandName, Player p, WandType type, PrimarySpell primary, SecondarySpell secondary) {
+	public Wand(SMPCore plugin, String wandName, Player p, WandType type, PrimarySpell primary, SecondarySpell secondary) {
 		this.wandName = wandName;
 		this.plugin = plugin;
 		this.wandType = type;

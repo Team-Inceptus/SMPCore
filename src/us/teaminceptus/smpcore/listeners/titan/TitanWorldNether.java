@@ -16,14 +16,14 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanWorldNether implements Listener {
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public TitanWorldNether(Main plugin) {
+	public TitanWorldNether(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

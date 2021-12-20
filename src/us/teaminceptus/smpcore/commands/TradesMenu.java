@@ -9,14 +9,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.TradeInventories;
 
 public class TradesMenu implements CommandExecutor {
 
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public TradesMenu(Main plugin) {
+	public TradesMenu(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("trades").setExecutor(this);
 	}

@@ -26,13 +26,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.minecraft.server.level.WorldServer;
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.entities.caves.DeltaSkeleton;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
 
 public class DeltaCave implements Listener {
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	protected Map<Material, ItemStack> drops;
 	protected Map<Material, Integer> dropChance;
 	protected Map<Material, Integer> exp;
@@ -78,7 +78,7 @@ public class DeltaCave implements Listener {
 	
 	static Random r = new Random();
 	
-	public DeltaCave(Main plugin) {
+	public DeltaCave(SMPCore plugin) {
 		this.plugin = plugin;
 		this.drops = getDrops();
 		this.exp = getExp();

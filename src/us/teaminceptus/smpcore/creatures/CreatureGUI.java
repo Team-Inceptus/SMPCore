@@ -14,14 +14,14 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.CreatureUtils;
 
 public class CreatureGUI implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public CreatureGUI(Main plugin) {
+	public CreatureGUI(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

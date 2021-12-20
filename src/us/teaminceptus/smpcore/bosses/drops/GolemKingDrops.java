@@ -11,13 +11,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class GolemKingDrops implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public GolemKingDrops(Main plugin) {
+	public GolemKingDrops(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

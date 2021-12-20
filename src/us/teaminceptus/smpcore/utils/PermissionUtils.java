@@ -7,13 +7,13 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class PermissionUtils {
 	
 	private static Map<UUID, PermissionAttachment> attachments = new HashMap<>();
 	
-	public static PermissionAttachment giveDefaultPermissions(Main plugin, Player p) {
+	public static PermissionAttachment giveDefaultPermissions(SMPCore plugin, Player p) {
 		PermissionAttachment a = p.addAttachment(plugin);
 		attachments.put(p.getUniqueId(), a);
 		
@@ -43,7 +43,7 @@ public class PermissionUtils {
 		return attachments;
 	}
 	
-	public static PermissionAttachment giveTrialModPermissions(Main plugin, Player p) {
+	public static PermissionAttachment giveTrialModPermissions(SMPCore plugin, Player p) {
 		PermissionAttachment a = giveDefaultPermissions(plugin, p);
 		
 		a.setPermission("coreprotect.inspect", true);
@@ -80,7 +80,7 @@ public class PermissionUtils {
 		return a;
 	}
 	
-	public static PermissionAttachment giveJrModPermissions(Main plugin, Player p) {
+	public static PermissionAttachment giveJrModPermissions(SMPCore plugin, Player p) {
 		PermissionAttachment a = giveTrialModPermissions(plugin, p);
 		
 		a.setPermission("coreprotect.inspect", true);
@@ -138,7 +138,7 @@ public class PermissionUtils {
 		return a;
 	}
 	
-	public static PermissionAttachment giveModPermissions(Main plugin, Player p) {
+	public static PermissionAttachment giveModPermissions(SMPCore plugin, Player p) {
 		PermissionAttachment a = giveJrModPermissions(plugin, p);
 		
 		a.setPermission("coreprotect.inspect", true);

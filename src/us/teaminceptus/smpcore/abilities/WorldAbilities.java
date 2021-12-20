@@ -58,7 +58,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.listeners.caves.AlphaCave;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
@@ -66,9 +66,9 @@ import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class WorldAbilities implements Listener {
 	
-	private Main plugin;
+	private SMPCore plugin;
 	
-	public WorldAbilities(Main plugin) {
+	public WorldAbilities(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

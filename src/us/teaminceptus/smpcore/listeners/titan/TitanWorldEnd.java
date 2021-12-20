@@ -18,15 +18,15 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanWorldEnd implements Listener {
 	
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public TitanWorldEnd(Main plugin) {
+	public TitanWorldEnd(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

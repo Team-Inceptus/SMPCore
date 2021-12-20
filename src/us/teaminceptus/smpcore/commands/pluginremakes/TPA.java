@@ -10,14 +10,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class TPA implements CommandExecutor {
 
-	public Main plugin;
+	public SMPCore plugin;
 	public HashMap<Player, Player> tpa;
 	
-	public TPA(Main plugin) {
+	public TPA(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("tpa").setExecutor(this);
 	}

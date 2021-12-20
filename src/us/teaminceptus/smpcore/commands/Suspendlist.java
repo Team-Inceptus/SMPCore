@@ -12,13 +12,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class Suspendlist implements CommandExecutor {
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public Suspendlist(Main plugin) {
+	public Suspendlist(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("suspendlist").setExecutor(this);
 	}

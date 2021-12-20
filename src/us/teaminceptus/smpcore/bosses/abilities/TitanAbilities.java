@@ -24,15 +24,15 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.AdvancementMessages;
 import us.teaminceptus.smpcore.utils.fetcher.ItemFetcher;
 
 public class TitanAbilities implements Listener {
 	
-	private Main plugin;
+	private SMPCore plugin;
 	
-	public TitanAbilities(Main plugin) {
+	public TitanAbilities(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

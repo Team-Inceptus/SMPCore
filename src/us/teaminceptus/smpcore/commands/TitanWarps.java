@@ -6,15 +6,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.titan.TitanEnchantmentTable;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanWarps implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public TitanWarps(Main plugin) {
+	public TitanWarps(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("titanwarps").setExecutor(this);
 	}

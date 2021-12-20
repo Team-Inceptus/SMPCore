@@ -7,14 +7,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.PermissionUtils;
 
 public class SetRank implements CommandExecutor{
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public SetRank(Main plugin) {
+	public SetRank(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("setrank").setExecutor(this);
 	}

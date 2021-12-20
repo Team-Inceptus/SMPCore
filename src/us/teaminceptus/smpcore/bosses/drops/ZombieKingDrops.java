@@ -11,14 +11,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.bosses.abilities.ZombieKingAbilities;
 
 public class ZombieKingDrops implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public ZombieKingDrops(Main plugin) {
+	public ZombieKingDrops(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

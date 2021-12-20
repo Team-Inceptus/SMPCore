@@ -16,12 +16,12 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class SnowPrinceDrops implements Listener {
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public SnowPrinceDrops(Main plugin) {
+	public SnowPrinceDrops(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

@@ -10,13 +10,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class Bed implements CommandExecutor {
    ArrayList<UUID> list = new ArrayList<UUID>();
-   private Main plugin;
+   private SMPCore plugin;
 
-   public Bed(Main plugin) {
+   public Bed(SMPCore plugin) {
       this.plugin = plugin;
       plugin.getCommand("bed").setExecutor(this);
    }

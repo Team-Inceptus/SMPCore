@@ -14,13 +14,13 @@ import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class GoldenShulkerAbilities implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public GoldenShulkerAbilities(Main plugin) {
+	public GoldenShulkerAbilities(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

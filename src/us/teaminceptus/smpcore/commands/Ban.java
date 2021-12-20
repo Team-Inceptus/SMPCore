@@ -14,15 +14,15 @@ import org.bukkit.command.CommandSender;
 
 import com.google.gson.Gson;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
 import us.teaminceptus.smpcore.utils.classes.APIPlayer;
 
 public class Ban implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public Ban(Main plugin) {
+	public Ban(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("ban").setExecutor(this);
 	}
@@ -33,7 +33,6 @@ public class Ban implements CommandExecutor {
 		if (args.length < 1) {
 			sender.sendMessage(ChatColor.RED + "Please provide a target.");
 		} else {
-			
 			if (GeneralUtils.sendGETRequestStatusCode("https://api.mojang.com/users/profiles/minecraft/" + args[0]) != 200) {
 				sender.sendMessage(ChatColor.RED + "This player does not exist.");
 				return false;

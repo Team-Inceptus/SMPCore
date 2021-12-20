@@ -28,14 +28,14 @@ import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.fetcher.PlanataeFetcher;
 
 public class GammaPlanatae implements Listener { 
 
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public GammaPlanatae(Main plugin) {
+	public GammaPlanatae(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

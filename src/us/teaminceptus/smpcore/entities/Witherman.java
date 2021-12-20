@@ -51,6 +51,5 @@ public class Witherman extends EntityEnderman {
 	   this.bR.a(3, new PathfinderGoalHurtByTarget(this, new Class[0]));
 	   this.bR.a(4, new PathfinderGoalRandomStrollLand(this, 1.0D, 0.0F));
 	   this.bR.a(4, new PathfinderGoalRandomLookaround(this));
-	   
     }
 }

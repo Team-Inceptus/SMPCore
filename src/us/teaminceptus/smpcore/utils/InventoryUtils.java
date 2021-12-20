@@ -9,13 +9,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.AnvilInventory;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class InventoryUtils implements Listener {
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public InventoryUtils(Main plugin) {
+	public InventoryUtils(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

@@ -10,13 +10,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class InfiniBlocks implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public InfiniBlocks(Main plugin) {
+	public InfiniBlocks(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

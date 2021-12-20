@@ -36,13 +36,13 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.entities.TitanPiglin;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
 
 public class TitanCave implements Listener {
 
-	protected Main plugin;
+	protected SMPCore plugin;
 	protected Map<Material, ItemStack> drops;
 	protected Map<Material, Integer> dropChance;
 	protected Map<Material, Integer> exp;
@@ -85,7 +85,7 @@ public class TitanCave implements Listener {
 	
 	static Random r = new Random();
 	
-	public TitanCave(Main plugin) {
+	public TitanCave(SMPCore plugin) {
 		this.plugin = plugin;
 		this.drops = getDrops();
 		this.exp = getExp();

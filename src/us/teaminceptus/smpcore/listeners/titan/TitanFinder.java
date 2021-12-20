@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
 
@@ -48,7 +48,7 @@ public class TitanFinder {
 		return notUnlocked;
 	}
 	
-	protected static boolean hasUnlocked(Main plugin, Player p, int amountReq) {
+	protected static boolean hasUnlocked(SMPCore plugin, Player p, int amountReq) {
 		return (plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills") >= amountReq);
 	}
 	
@@ -68,7 +68,7 @@ public class TitanFinder {
 		return item;
 	}
 	
-	public static Inventory getTitanFinder(Main plugin, Player p) {
+	public static Inventory getTitanFinder(SMPCore plugin, Player p) {
 		Inventory titanFinder = GUIManagers.generateGUI(36, ChatColor.GRAY + "" + ChatColor.BOLD + "Titan Finder");
 		
 		ItemStack later = comingLater();

@@ -27,7 +27,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.advancements.TitanAdvancements;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.listeners.titan.TitanEnchantment.TitanEnchant;
@@ -36,9 +36,9 @@ import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanEnchants implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public TitanEnchants(Main plugin) {
+	public TitanEnchants(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

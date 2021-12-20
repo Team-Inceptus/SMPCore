@@ -8,13 +8,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class CreatureAbilities implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public CreatureAbilities(Main plugin) {
+	public CreatureAbilities(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

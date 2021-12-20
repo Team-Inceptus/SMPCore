@@ -19,13 +19,13 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class PlayerDrops implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public PlayerDrops(Main plugin) {
+	public PlayerDrops(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

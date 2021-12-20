@@ -41,7 +41,7 @@ import eu.endercentral.crazy_advancements.NameKey;
 import eu.endercentral.crazy_advancements.advancement.Advancement;
 import eu.endercentral.crazy_advancements.manager.AdvancementManager;
 import net.minecraft.server.level.WorldServer;
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.advancements.TitanAdvancements;
 import us.teaminceptus.smpcore.entities.TitanEnderman;
 import us.teaminceptus.smpcore.entities.TitanPiglin;
@@ -49,11 +49,11 @@ import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class TitanWorld implements Listener {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	private static AdvancementManager m = TitanAdvancements.m;
 	
 	
-	public TitanWorld(Main plugin) {
+	public TitanWorld(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

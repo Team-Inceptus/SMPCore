@@ -12,13 +12,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class DamageCalculation implements Listener  {
 	
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public DamageCalculation(Main plugin) {
+	public DamageCalculation(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

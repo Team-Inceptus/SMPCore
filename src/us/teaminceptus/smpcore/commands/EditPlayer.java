@@ -7,13 +7,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class EditPlayer implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public EditPlayer(Main plugin) {
+	public EditPlayer(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("editplayer").setExecutor(this);
 	}

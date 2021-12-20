@@ -12,13 +12,13 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class Cosmetics implements Listener {
 
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public Cosmetics(Main plugin) {
+	public Cosmetics(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

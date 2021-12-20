@@ -8,13 +8,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class Yeet implements CommandExecutor {
 
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public Yeet(Main plugin) {
+	public Yeet(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("yeet").setExecutor(this);
 	}

@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.utils.classes.PrimarySpell;
 import us.teaminceptus.smpcore.utils.classes.SecondarySpell;
@@ -18,9 +18,9 @@ import us.teaminceptus.smpcore.utils.fetcher.WandFetcher;
 
 public class WandInfo implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public WandInfo(Main plugin) {
+	public WandInfo(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("wandinfo").setExecutor(this);
 	}

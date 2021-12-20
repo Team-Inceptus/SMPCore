@@ -14,15 +14,15 @@ import org.bukkit.command.CommandSender;
 
 import com.google.gson.Gson;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
 import us.teaminceptus.smpcore.utils.classes.APIPlayer;
 
 public class Suspend implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public Suspend(Main plugin) {
+	public Suspend(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("suspend").setExecutor(this);
 	}
@@ -31,7 +31,7 @@ public class Suspend implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		String bumper = org.apache.commons.lang.StringUtils.repeat("\n", 35);
 		try {
-			if (sender.isOp()) {
+			if (sender.hasPermission("core.admin.suspend")) {
 				if (args.length < 1) {
 					sender.sendMessage(ChatColor.RED + "Please provide a target.");
 				} else {
@@ -66,7 +66,7 @@ public class Suspend implements CommandExecutor {
 					}
 				}
 			} else {
-				sender.sendMessage(ChatColor.RED + "You need to be an OP to ban someone!");
+				sender.sendMessage(ChatColor.RED + "You do not have permission to do this!");
 			}
 		} catch (NumberFormatException e) {
 			sender.sendMessage(ChatColor.RED + "Please provide a valid date, in days. For example: /suspend <target> 7 <reason> (7 days)");

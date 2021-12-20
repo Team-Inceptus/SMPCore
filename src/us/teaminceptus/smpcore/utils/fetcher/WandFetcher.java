@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.classes.PrimarySpell;
 import us.teaminceptus.smpcore.utils.classes.SecondarySpell;
 import us.teaminceptus.smpcore.utils.classes.Wand;
@@ -16,7 +16,7 @@ import us.teaminceptus.smpcore.utils.enums.WandType;
 
 public class WandFetcher {
 	
-	public static Wand getExplosionWand(Player p, Main plugin) {
+	public static Wand getExplosionWand(Player p, SMPCore plugin) {
 		
 		ArrayList<String> explosionDesc = new ArrayList<String>();
 		explosionDesc.add("Creates a very large");
@@ -34,7 +34,7 @@ public class WandFetcher {
 		return explosionWand;
 	}
 	
-	public static Wand getHealingWand(Player p, Main plugin) {
+	public static Wand getHealingWand(Player p, SMPCore plugin) {
 		
 		ArrayList<String> healingDesc = new ArrayList<String>();
 		healingDesc.add("Heals 1 HP.");
@@ -51,7 +51,7 @@ public class WandFetcher {
 		return healingWand;
 	}
 	
-	public static Wand getLightningWand(Player p, Main plugin) {
+	public static Wand getLightningWand(Player p, SMPCore plugin) {
 		
 		ArrayList<String> lightningDesc = new ArrayList<String>();
 		lightningDesc.add("Summons a lightning bolt");
@@ -72,7 +72,7 @@ public class WandFetcher {
 		return lightningWand;
 	}
 	
-	public static Wand getEnderWand(Player p, Main plugin) {
+	public static Wand getEnderWand(Player p, SMPCore plugin) {
 		
 		ArrayList<String> endDesc = new ArrayList<String>();
 		endDesc.add("Kills all non-boss enderman, endermites,");
@@ -91,7 +91,7 @@ public class WandFetcher {
 		return endWand;
 	}
 	
-	public static Wand getImmutoWand(Player p, Main plugin) {
+	public static Wand getImmutoWand(Player p, SMPCore plugin) {
 		
 		ArrayList<String> changeDesc = new ArrayList<String>();
 		changeDesc.add("Haste IV for 30 seconds.");
@@ -111,7 +111,7 @@ public class WandFetcher {
 		return immutoWand;
 	}
 	
-	public static Wand getInfernoWand(Player p, Main plugin) {
+	public static Wand getInfernoWand(Player p, SMPCore plugin) {
 		
 		ArrayList<String> infernoDesc = new ArrayList<String>();
 		infernoDesc.add("Summon 8 small fireballs");
@@ -132,7 +132,7 @@ public class WandFetcher {
 		return infernoWand;
 	}
 	
-	public static Wand getWithermeal(Player p, Main plugin) {
+	public static Wand getWithermeal(Player p, SMPCore plugin) {
 		
 		ArrayList<String> witherDesc = new ArrayList<String>();
 		witherDesc.add("Suck up 50% health of all non-boss");
@@ -151,7 +151,7 @@ public class WandFetcher {
 		return withermealWand;
 	}
 	
-	public static Wand getDamageWand(Player p, Main plugin) {
+	public static Wand getDamageWand(Player p, SMPCore plugin) {
 		
 		ArrayList<String> damageDesc = new ArrayList<String>();
 		damageDesc.add("All non-boss entities within a");
@@ -169,7 +169,7 @@ public class WandFetcher {
 		return damageWand;
 	}
 
-	public static Wand getVoidWand(Player p, Main plugin) {
+	public static Wand getVoidWand(Player p, SMPCore plugin) {
 		ArrayList<String> voidDesc = new ArrayList<String>();
 		voidDesc.add("Pulls in all entities");
 		voidDesc.add("within a 25x25x25");

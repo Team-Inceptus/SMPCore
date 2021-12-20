@@ -18,14 +18,14 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 
 public class Boss implements CommandExecutor {
 	
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public Boss(Main plugin) {
+	public Boss(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("boss").setExecutor(this);
 	}

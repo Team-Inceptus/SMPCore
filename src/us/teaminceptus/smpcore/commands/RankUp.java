@@ -8,20 +8,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.utils.PermissionUtils;
 
 public class RankUp implements CommandExecutor {
 
-	protected Main plugin;
+	protected SMPCore plugin;
 	
-	public RankUp(Main plugin) {
+	public RankUp(SMPCore plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("rankup").setExecutor(this);
 	}
 	
 	public static void setRank(Player p, String rank) {
-		Main plugin = JavaPlugin.getPlugin(Main.class);
+		SMPCore plugin = JavaPlugin.getPlugin(SMPCore.class);
 		
 		plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("rank", rank);
 		

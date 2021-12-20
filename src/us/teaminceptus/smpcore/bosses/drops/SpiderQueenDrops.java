@@ -15,12 +15,12 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 
 public class SpiderQueenDrops implements Listener {
-	public Main plugin;
+	public SMPCore plugin;
 	
-	public SpiderQueenDrops(Main plugin) {
+	public SpiderQueenDrops(SMPCore plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
