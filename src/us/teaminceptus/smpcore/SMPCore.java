@@ -1,5 +1,7 @@
 package us.teaminceptus.smpcore;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -8,6 +10,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -78,6 +83,7 @@ import us.teaminceptus.smpcore.commands.Suspend;
 import us.teaminceptus.smpcore.commands.Suspendlist;
 import us.teaminceptus.smpcore.commands.TitanWarps;
 import us.teaminceptus.smpcore.commands.TradesMenu;
+import us.teaminceptus.smpcore.commands.Value;
 import us.teaminceptus.smpcore.commands.WandInfo;
 import us.teaminceptus.smpcore.commands.WorldChat;
 import us.teaminceptus.smpcore.commands.Yeet;
@@ -103,14 +109,14 @@ import us.teaminceptus.smpcore.utils.GeneralUtils;
 import us.teaminceptus.smpcore.utils.InventoryUtils;
 import us.teaminceptus.smpcore.utils.calculation.DamageCalculation;
 
-public class Main extends JavaPlugin {
+public class SMPCore extends JavaPlugin {
 	
-	public ProtocolManager pm;
+	public static ProtocolManager pm;
 	
 	Random r = new Random();
    public void onEnable() {
 	   
-	  Main main = this;
+	  SMPCore main = this;
 	  pm = ProtocolLibrary.getProtocolManager();
 	  
 	  
@@ -323,6 +329,30 @@ public class Main extends JavaPlugin {
 		  }
 	  }.runTaskTimer(this, 0, 20 * (r.nextInt(30) + 7));
 	  
+	  // Update Player Inventory (Rarity)
+	  new BukkitRunnable() {
+		  public void run() {
+			  for (Player p : Bukkit.getOnlinePlayers()) {
+				  	PlayerInventory inv = p.getInventory();
+					for (byte index = 0; index < 40; index++) {
+						ItemStack i = inv.getItem(index);
+						if (i == null) continue;
+						if (Value.containsRarity(i)) continue;
+						ItemStack newItem = i;
+						ItemMeta newItemMeta = newItem.getItemMeta();
+						List<String> lore = (newItemMeta.hasLore() ? newItemMeta.getLore() : new ArrayList<>());
+						int target = (i.getItemMeta().hasLore() ? i.getItemMeta().getLore().size() : 0);
+						lore.add(target, Value.getRarity(i).nameColor());
+						newItemMeta.setLore(lore);
+						newItem.setItemMeta(newItemMeta);
+						
+						inv.setItem(index, newItem);
+					}
+			  }
+		  }
+	  }.runTaskTimer(main, 0, 2);
+	  
+	  
 	  // Config Update
 	  new BukkitRunnable() {
 		  public void run() {
@@ -380,7 +410,7 @@ public class Main extends JavaPlugin {
 	  }.runTaskTimer(this, 100, 100);
 
 	  
-	  // Regular Commands
+	  //Â Regular Commands
       new Help(this);
       new Bed(this);
       new Menu(this);
@@ -394,6 +424,7 @@ public class Main extends JavaPlugin {
       new TitanWarps(this);
       new Hat(this);
       new RankUp(this);
+      new Value(this);
       // Admin Commands
       new InvSee(this);
       new FlySpeed(this);

@@ -13,12 +13,21 @@ import org.bukkit.Sound;
 import org.bukkit.Statistic;
 import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
@@ -27,12 +36,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.minecraft.server.level.WorldServer;
-import us.teaminceptus.smpcore.Main;
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.bosses.abilities.CreeperKingAbilities;
 import us.teaminceptus.smpcore.bosses.abilities.EmeraldWarriorAbilities;
 import us.teaminceptus.smpcore.bosses.abilities.TitanAbilities;
 import us.teaminceptus.smpcore.bosses.abilities.ZombieKingAbilities;
 import us.teaminceptus.smpcore.commands.Boss;
+import us.teaminceptus.smpcore.commands.Value;
 import us.teaminceptus.smpcore.entities.Witherman;
 import us.teaminceptus.smpcore.entities.arena_titans.AmethystTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.ArcheryTitan;
@@ -55,7 +65,7 @@ import us.teaminceptus.smpcore.utils.fetcher.ItemFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
 public class GUIManagers implements Listener {
-   protected Main plugin;
+   protected SMPCore plugin;
 
    public EntityType getEntityByName(String name) {
        for (EntityType type : EntityType.values()) {
@@ -112,7 +122,7 @@ public class GUIManagers implements Listener {
    }
     
    
-   public GUIManagers(Main plugin) {
+   public GUIManagers(SMPCore plugin) {
       this.plugin = plugin;
       Bukkit.getPluginManager().registerEvents(this, plugin);
    }
@@ -134,6 +144,7 @@ public class GUIManagers implements Listener {
       if (inv.getTitle().contains("SMP Player Menu")) {
          e.setCancelled(true);
          ItemStack clickedItem = e.getCurrentItem();
+         if (clickedItem == null) return;
          if (clickedItem.getType() == Material.BOOK) {
             Bukkit.dispatchCommand(e.getWhoClicked(), "recipes");
          } else if (clickedItem.getType() == Material.PLAYER_HEAD && clickedItem.getItemMeta().hasLore()) {
@@ -1443,4 +1454,66 @@ public class GUIManagers implements Listener {
 	  if (inv.contains(getInventoryPlaceholder())) e.setCancelled(true);
 	  if (dest.contains(getInventoryPlaceholder())) e.setCancelled(true);
    }
+   // Value Item Updates
+	public void updateItems(InventoryEvent e) {
+		new BukkitRunnable() {
+			public void run() {
+				for (HumanEntity h : e.getViewers()) {
+					if (!(h instanceof Player p)) continue;
+					
+					for (byte index = 0; index < e.getView().getTopInventory().getSize(); index++) {
+						if (e.getView().getTopInventory().contains(getInventoryPlaceholder())) break;
+						ItemStack i = e.getView().getTopInventory().getItem(index);
+						if (i == null) continue;
+						if (Value.containsRarity(i)) continue;
+		 				ItemStack newItem = i;
+						ItemMeta newItemMeta = newItem.getItemMeta();
+						List<String> lore = (newItemMeta.hasLore() ? newItemMeta.getLore() : new ArrayList<>());
+						int target = (i.getItemMeta().hasLore() ? i.getItemMeta().getLore().size() : 0);
+						lore.add(target, Value.getRarity(i).nameColor());
+						newItemMeta.setLore(lore);
+						newItem.setItemMeta(newItemMeta);
+						
+						e.getView().getTopInventory().setItem(index, newItem);
+					}
+				}
+			}
+		}.runTask(plugin);
+	}
+	
+	@EventHandler
+	public void onInventory(InventoryOpenEvent e) {
+		updateItems(e);
+	}
+	
+	@EventHandler
+	public void onInventory(InventoryInteractEvent e) {
+		updateItems(e);
+	}
+	
+	@EventHandler
+	public void onInventory(PrepareAnvilEvent e) {
+		updateItems(e);
+	}
+	
+	@EventHandler
+	public void onInventory(PrepareItemCraftEvent e) {
+		updateItems(e);
+	}
+	
+	@EventHandler
+	public void onInventory(PrepareItemEnchantEvent e) {
+		updateItems(e);
+	}
+	
+	@EventHandler
+	public void onInventory(PrepareSmithingEvent e) {
+		updateItems(e);
+	}
+	
+	@EventHandler
+	public void onInventory(EnchantItemEvent e) {
+		updateItems(e);
+	}
+   
 }

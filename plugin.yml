@@ -1,5 +1,5 @@
-name: TheNoobyGodsSMP-Core
-main: us.teaminceptus.smpcore.Main
+name: SMPCore
+main: us.teaminceptus.smpcore.SMPCore
 version: 3.3.0
 api-version: 1.17
 author: GamerCoder215
@@ -44,7 +44,10 @@ commands:
     aliases: [ht, sethat]
   rankup:
     description: Rankup Players
-    aliase: [checkrank, crank, rup, ru]
+    aliases: [checkrank, crank, rup, ru]
+  value:
+    description: Get value of an item.
+    aliases: [noobucks, cb, vl, noobb, nbucks]
   # Admin
   invsee:
     description: Look at a player's inventory.
