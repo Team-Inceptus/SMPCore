@@ -1474,7 +1474,7 @@ public class GUIManagers implements Listener {
 						newItemMeta.setLore(lore);
 						newItem.setItemMeta(newItemMeta);
 						
-						e.getView().getTopInventory().setItem(index, newItem);
+						e.getView().getTopInventory().setItem(index, Value.validate(newItem));
 					}
 				}
 			}
@@ -1484,11 +1484,21 @@ public class GUIManagers implements Listener {
 	@EventHandler
 	public void onInventory(InventoryOpenEvent e) {
 		updateItems(e);
+		for (int i = 0; i < e.getInventory().getSize(); i++) {
+			ItemStack item = e.getInventory().getItem(i);
+			if (item == null) continue;
+			e.getInventory().setItem(i, Value.validate(item));
+		}
 	}
 	
 	@EventHandler
 	public void onInventory(InventoryInteractEvent e) {
 		updateItems(e);
+		for (int i = 0; i < e.getInventory().getSize(); i++) {
+			ItemStack item = e.getInventory().getItem(i);
+			if (item == null) continue;
+			e.getInventory().setItem(i, Value.validate(item));
+		}
 	}
 	
 	@EventHandler

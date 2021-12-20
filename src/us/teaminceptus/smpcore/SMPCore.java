@@ -346,7 +346,7 @@ public class SMPCore extends JavaPlugin {
 						newItemMeta.setLore(lore);
 						newItem.setItemMeta(newItemMeta);
 						
-						inv.setItem(index, newItem);
+						inv.setItem(index, Value.validate(newItem));
 					}
 			  }
 		  }
