@@ -1,5 +1,6 @@
 package us.teaminceptus.smpcore.commands;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -457,6 +460,22 @@ public class Value implements CommandExecutor, Listener {
 		}
 		
 		return i;
+	}
+	
+	@EventHandler
+	public void onSpawn(ItemSpawnEvent e) {
+		ItemStack i = e.getEntity().getItemStack();
+		if (i == null) return;
+		if (Value.containsRarity(i)) return;
+		ItemStack newItem = i;
+		ItemMeta newItemMeta = newItem.getItemMeta();
+		List<String> lore = (newItemMeta.hasLore() ? newItemMeta.getLore() : new ArrayList<>());
+		int target = (i.getItemMeta().hasLore() ? i.getItemMeta().getLore().size() : 0);
+		lore.add(target, Value.getRarity(i).nameColor());
+		newItemMeta.setLore(lore);
+		newItem.setItemMeta(newItemMeta);
+		
+		e.getEntity().setItemStack(newItem);
 	}
 	
 
