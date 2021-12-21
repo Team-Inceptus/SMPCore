@@ -20,7 +20,6 @@ public class SetRank implements CommandExecutor{
 	}
 	
 	public boolean onCommand(CommandSender cmdsender, Command cmd, String label, String[] args) {
-		
 		if (!(cmdsender instanceof Player)) return false;
 		
 		Player sender = (Player) cmdsender;
@@ -29,7 +28,7 @@ public class SetRank implements CommandExecutor{
 		
 		String oldRank = plugin.getConfig().getConfigurationSection(sender.getUniqueId().toString()).getString("rank");
 		
-		if (!(oldRank.equalsIgnoreCase("owner")) && !(oldRank.equalsIgnoreCase("god")) && !(sender.isOp())) {
+		if (!(oldRank.equalsIgnoreCase("owner")) && !(oldRank.equalsIgnoreCase("god")) && !(sender.isOp()) && !(oldRank.equalsIgnoreCase("headmod"))) {
 			sender.sendMessage(ChatColor.DARK_RED + "You do not have permission to use this command.");
 			return false;
 		}
@@ -121,6 +120,9 @@ public class SetRank implements CommandExecutor{
 					   p.setPlayerListName(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "[BOOSTER] " + ChatColor.DARK_PURPLE + p.getName() + ChatColor.RESET);
 				   
 					   PermissionUtils.giveDefaultPermissions(plugin, p);
+				   } else if (rank.equalsIgnoreCase("headgod")) {
+					   p.setDisplayName(ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Head God " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
+					   p.setPlayerListName(ChatColor.GREEN + "" + ChatColor.BOLD + "[HEAD GOD] " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
 				   }
 			   
 			   plugin.saveConfig();

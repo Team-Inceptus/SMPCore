@@ -11,9 +11,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import us.teaminceptus.smpcore.SMPCore;
+import us.teaminceptus.smpcore.commands.Value;
 import us.teaminceptus.smpcore.utils.PermissionUtils;
 
 public class PlayerStatusUpdate implements Listener {
@@ -102,6 +104,9 @@ public class PlayerStatusUpdate implements Listener {
 		   p.setPlayerListName(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "[BOOSTER] " + ChatColor.DARK_PURPLE + p.getName() + ChatColor.RESET);
 	   
 		   PermissionUtils.giveDefaultPermissions(plugin, p);
+	   } else if (rank.equalsIgnoreCase("headgod")) {
+		   p.setDisplayName(ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Head God " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
+		   p.setPlayerListName(ChatColor.GREEN + "[HEAD GOD] " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
 	   }
    }
    
@@ -166,6 +171,21 @@ public class PlayerStatusUpdate implements Listener {
     	  plugin.getConfig().getConfigurationSection(uuid).set("pet_speed", 0);
       }
       
+      
+      if (!(plugin.getConfig().getConfigurationSection(uuid).isDouble("last_networth"))) {
+    	  double echestValue = 0;
+    	  for (ItemStack i : p.getEnderChest()) {
+    		  echestValue += Value.getScore(i) * Value.getRarity(i).getMultiplier();
+    	  }
+	
+    	  double invValue = 0;
+    	  for (ItemStack i : p.getInventory()) {
+    		  invValue += Value.getScore(i) * Value.getRarity(i).getMultiplier();
+    	  }
+  
+    	  plugin.getConfig().getConfigurationSection(uuid).set("last_networth", echestValue + invValue);
+      }
+      
       // NPCs
       
       if (plugin.getConfig().getConfigurationSection(uuid).get("npc_talks") == null) {
@@ -174,6 +194,11 @@ public class PlayerStatusUpdate implements Listener {
       
       if (plugin.getConfig().getConfigurationSection(uuid).getConfigurationSection("npc_talks").get("bellator") == null) {
     	  plugin.getConfig().getConfigurationSection(uuid).getConfigurationSection("npc_talks").set("bellator", false);;
+      }
+      
+      // Non-Player Updates
+      if (!(plugin.getConfig().isConfigurationSection("networth_leaderboard"))) {
+    	  plugin.getConfig().createSection("networth_leaderboard");
       }
       
       plugin.saveConfig();
