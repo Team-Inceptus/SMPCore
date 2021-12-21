@@ -1,14 +1,19 @@
 package us.teaminceptus.smpcore;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -90,6 +95,7 @@ import us.teaminceptus.smpcore.commands.Yeet;
 import us.teaminceptus.smpcore.creatures.CreatureAbilities;
 import us.teaminceptus.smpcore.creatures.CreatureGUI;
 import us.teaminceptus.smpcore.creatures.CreaturesGuide;
+import us.teaminceptus.smpcore.listeners.CustomDrops;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.listeners.PlayerDrops;
 import us.teaminceptus.smpcore.listeners.PlayerStatusUpdate;
@@ -404,11 +410,54 @@ public class SMPCore extends JavaPlugin {
 			    	  main.getConfig().getConfigurationSection(uuid).getConfigurationSection("npc_talks").set("bellator", false);;
 			      }
 			      
+			      if (!(main.getConfig().getConfigurationSection(uuid).isDouble("last_networth"))) {
+			    	  double echestValue = 0;
+			    	  for (ItemStack i : p.getEnderChest()) {
+			    		  echestValue += Value.getScore(i) * Value.getRarity(i).getMultiplier();
+			    	  }
+				
+			    	  double invValue = 0;
+			    	  for (ItemStack i : p.getInventory()) {
+			    		  invValue += Value.getScore(i) * Value.getRarity(i).getMultiplier();
+			    	  }
+			  
+			    	  main.getConfig().getConfigurationSection(uuid).set("last_networth", echestValue + invValue);
+			      }
+			      
 			      main.saveConfig();
 			  }
 		  }
 	  }.runTaskTimer(this, 100, 100);
-
+	  
+	  // Generate Networth Leaderboards
+	  new BukkitRunnable() {
+		  public void run() {
+			  Map<Double, OfflinePlayer> players = new HashMap<>();
+			  List<Double> scores = new ArrayList<>();
+			  for (OfflinePlayer p : Bukkit.getOfflinePlayers()) {
+				  if (p.isOp()) continue;
+				  ConfigurationSection section = main.getConfig().getConfigurationSection(p.getUniqueId().toString());
+				  double value = section.getDouble("last_networth", 0);
+				  scores.add(value);
+				  players.put(value, p);
+			  }
+			  
+			  Collections.sort(scores, Collections.reverseOrder());
+			  
+			  ConfigurationSection leaderboard = main.getConfig().getConfigurationSection("networth_leaderboard");
+			  leaderboard.set("first", players.get(scores.get(0)));
+			  leaderboard.set("first-amount", scores.get(0));
+			  leaderboard.set("second", players.get(scores.get(1)));
+			  leaderboard.set("second-amount", scores.get(1));
+			  leaderboard.set("third", players.get(scores.get(2)));
+			  leaderboard.set("third-amount", scores.get(2));
+			  leaderboard.set("fourth", players.get(scores.get(3)));
+			  leaderboard.set("fourth-amount", scores.get(3));
+			  leaderboard.set("fifth", players.get(scores.get(4)));
+			  leaderboard.set("fifth-amount", scores.get(4));
+			  
+		  }
+	  }.runTaskTimer(main, 0, 20 * 30); // Updated every 30 seconds
 	  
 	  // Regular Commands
       new Help(this);
@@ -448,6 +497,8 @@ public class SMPCore extends JavaPlugin {
       new GUIManagers(this);
       new PlayerDrops(this);
       new DamageCalculation(this);
+      
+      new CustomDrops(this);
       
       new Spells(this);
       new PlayerAbilities(this);

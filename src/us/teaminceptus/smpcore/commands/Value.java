@@ -7,24 +7,30 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemSpawnEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import us.teaminceptus.smpcore.SMPCore;
+import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.listeners.caves.AlphaCave;
 import us.teaminceptus.smpcore.listeners.caves.DeltaCave;
 import us.teaminceptus.smpcore.listeners.caves.TitanCave;
@@ -220,7 +226,7 @@ public class Value implements CommandExecutor, Listener {
 				
 			}
 			
-			if (m.isBlock()) {
+			if (m.isBlock() && (m != Material.PLAYER_HEAD && m != Material.CREEPER_HEAD && m != Material.ZOMBIE_HEAD && m != Material.DRAGON_HEAD)) {
 				if (meta.hasEnchant(Enchantment.PROTECTION_ENVIRONMENTAL) && 
 					(meta.getEnchantLevel(Enchantment.PROTECTION_ENVIRONMENTAL) == 1) && meta.hasDisplayName()) {
 						score += 100;
@@ -405,6 +411,94 @@ public class Value implements CommandExecutor, Listener {
 				sender.sendMessage(ChatColor.GREEN + "\n" + target.getName() + "'s Total Networth: " + ChatColor.GOLD + GeneralUtils.withSuffix(invValue + echestValue) + " Noobucks");
 				
 			}
+		} else if (args[0].equalsIgnoreCase("leaderboard")) {
+			if (!(sender instanceof Player p)) return false;
+			p.sendMessage(ChatColor.GREEN + "Notice: Leaderboards are updated every 30 seconds.");
+			Inventory leaderboard = GUIManagers.generateGUI(45, ChatColor.GOLD + "" + ChatColor.BOLD + "Networth Leaderboards");
+			
+			ItemStack firstPlace = new ItemStack(Material.GOLD_BLOCK);
+			ItemMeta fMeta = firstPlace.getItemMeta();
+			fMeta.setDisplayName(ChatColor.YELLOW + "First Place");
+			firstPlace.setItemMeta(fMeta);
+			
+			ItemStack secondPlace = new ItemStack(Material.IRON_BLOCK);
+			ItemMeta sMeta = firstPlace.getItemMeta();
+			sMeta.setDisplayName(ChatColor.GRAY + "Second Place");
+			secondPlace.setItemMeta(sMeta);
+			
+			ItemStack thirdPlace = new ItemStack(Material.COPPER_BLOCK);
+			ItemMeta tMeta = firstPlace.getItemMeta();
+			tMeta.setDisplayName(GeneralUtils.hexToChat("6d3a03", "Third Place"));
+			thirdPlace.setItemMeta(tMeta);
+			
+			leaderboard.setItem(22, firstPlace);
+			leaderboard.setItem(30, secondPlace);
+			leaderboard.setItem(32, thirdPlace);
+			
+			ConfigurationSection leaderboards = plugin.getConfig().getConfigurationSection("networth_leaderboard");
+			
+			OfflinePlayer firstP = leaderboards.getOfflinePlayer("first");
+			ItemStack first = new ItemStack(Material.PLAYER_HEAD);
+			SkullMeta firstM = (SkullMeta) first.getItemMeta();
+			firstM.setOwningPlayer(firstP);
+			firstM.setDisplayName(ChatColor.GOLD + firstP.getName());
+			List<String> firstL = new ArrayList<>();
+			firstL.add(ChatColor.GREEN + Double.toString(Math.floor(leaderboards.getDouble("first-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
+			firstM.setLore(firstL);
+			first.setItemMeta(firstM);
+			
+			leaderboard.setItem(13, first);
+			
+			OfflinePlayer secondP = leaderboards.getOfflinePlayer("second");
+			ItemStack second = new ItemStack(Material.PLAYER_HEAD);
+			SkullMeta secondM = (SkullMeta) second.getItemMeta();
+			secondM.setOwningPlayer(secondP);
+			secondM.setDisplayName(ChatColor.WHITE + secondP.getName());
+			List<String> secondL = new ArrayList<>();
+			secondL.add(ChatColor.GREEN + Double.toString(Math.floor(leaderboards.getDouble("second-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
+			secondM.setLore(secondL);
+			second.setItemMeta(secondM);
+			
+			leaderboard.setItem(21, second);
+			
+			OfflinePlayer thirdP = leaderboards.getOfflinePlayer("third");
+			ItemStack third = new ItemStack(Material.PLAYER_HEAD);
+			SkullMeta thirdM = (SkullMeta) third.getItemMeta();
+			thirdM.setOwningPlayer(thirdP);
+			thirdM.setDisplayName(GeneralUtils.hexToChat("b87333", thirdP.getName()));
+			List<String> thirdL = new ArrayList<>();
+			thirdL.add(ChatColor.GREEN + Double.toString(Math.floor(leaderboards.getDouble("third-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
+			thirdM.setLore(thirdL);
+			third.setItemMeta(thirdM);
+			
+			leaderboard.setItem(23, third);
+			
+			OfflinePlayer fourthP = leaderboards.getOfflinePlayer("fourth");
+			ItemStack fourth = new ItemStack(Material.PLAYER_HEAD);
+			SkullMeta fourthM = (SkullMeta) fourth.getItemMeta();
+			fourthM.setOwningPlayer(fourthP);
+			fourthM.setDisplayName(ChatColor.BLUE + fourthP.getName());
+			List<String> fourthL = new ArrayList<>();
+			fourthL.add(ChatColor.GREEN + Double.toString(Math.floor(leaderboards.getDouble("fourth-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
+			fourthM.setLore(fourthL);
+			fourth.setItemMeta(fourthM);
+			
+			leaderboard.setItem(29, fourth);
+			
+			OfflinePlayer fifthP = leaderboards.getOfflinePlayer("fifth");
+			ItemStack fifth = new ItemStack(Material.PLAYER_HEAD);
+			SkullMeta fifthM = (SkullMeta) fifth.getItemMeta();
+			fifthM.setOwningPlayer(fifthP);
+			fifthM.setDisplayName(ChatColor.BLUE + fifthP.getName());
+			List<String> fifthL = new ArrayList<>();
+			fifthL.add(ChatColor.GREEN + Double.toString(Math.floor(leaderboards.getDouble("fifth-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
+			fifthM.setLore(fifthL);
+			fifth.setItemMeta(fifthM);
+			
+			leaderboard.setItem(33, fifth);
+			
+			p.openInventory(leaderboard);
+			p.playSound(p.getLocation(), Sound.BLOCK_BEACON_AMBIENT, 3F, 1F);
 		}
 		return true;
 		

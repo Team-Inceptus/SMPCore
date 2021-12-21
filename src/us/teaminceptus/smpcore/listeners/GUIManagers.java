@@ -43,6 +43,7 @@ import us.teaminceptus.smpcore.bosses.abilities.TitanAbilities;
 import us.teaminceptus.smpcore.bosses.abilities.ZombieKingAbilities;
 import us.teaminceptus.smpcore.commands.Boss;
 import us.teaminceptus.smpcore.commands.Value;
+import us.teaminceptus.smpcore.commands.Value.Rarity;
 import us.teaminceptus.smpcore.entities.Witherman;
 import us.teaminceptus.smpcore.entities.arena_titans.AmethystTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.ArcheryTitan;
@@ -187,7 +188,24 @@ public class GUIManagers implements Listener {
          e.setCancelled(true);
          if (e.getCurrentItem() == null) return;
          if (!(e.getCurrentItem().hasItemMeta())) return;
+         int index = 0;
          ItemStack clickedItem = e.getCurrentItem();
+         if (inv.getTitle().contains("SMP Bosses Menu")) {
+	         for (ItemStack i : p.getInventory()) {
+	        	 if (i == null) continue;
+	        	 ItemMeta oldMeta = i.getItemMeta();
+	        	 if (oldMeta.hasLore()) {
+	        		 List<String> newLore = oldMeta.getLore();
+	        		 for (Rarity r : Rarity.values()) {
+	        			 if (newLore.contains(r.nameColor())) newLore.remove(r.nameColor());
+	        		 }
+	        		 oldMeta.setLore((newLore.size() == 0 ? null : newLore));
+	        	 }
+	        	 i.setItemMeta(oldMeta);
+	        	 p.getInventory().setItem(index, i);
+	        	 index++;
+	         }
+         }
          if (clickedItem.getItemMeta().getDisplayName().contains("T5 Bosses")) {
         	 if (p.getStatistic(Statistic.KILL_ENTITY, EntityType.WITHER) >= 50 && p.getStatistic(Statistic.KILL_ENTITY, EntityType.ENDERMAN) >= 1000) {
         		 Boss.openEliteBosses(p);
@@ -1268,7 +1286,22 @@ public class GUIManagers implements Listener {
     	  p.closeInventory();
       } else if (inv.getTitle().contains("SMP Trades Menu")) {
     	  e.setCancelled(true);
+    	  int index = 0;
     	  ItemStack clickedItem = e.getCurrentItem();
+          for (ItemStack i : p.getInventory()) {
+        	  if (i == null) continue;
+    		  ItemMeta oldMeta = i.getItemMeta();
+    		  if (oldMeta.hasLore()) {
+    			  List<String> newLore = oldMeta.getLore();
+    			  for (Rarity r : Rarity.values()) {
+    				  if (newLore.contains(r.nameColor())) newLore.remove(r.nameColor());
+    			  }
+    			  oldMeta.setLore(newLore.size() == 0 ? null : newLore);
+    		  }
+			  i.setItemMeta(oldMeta);
+			  p.getInventory().setItem(index, i);
+			  index++;
+          }
     	  String notEnoughTrade = ChatColor.RED + "You don't have the necessary materials to trade!";
     	  String displayName = clickedItem.getItemMeta().getDisplayName();
     	  // Page Turners
@@ -1437,10 +1470,12 @@ public class GUIManagers implements Listener {
 			  new BukkitRunnable() {
 				  public void run() {
 					  finderCooldown.remove(p.getUniqueId());
-					  p.sendMessage(ChatColor.GOLD + "Bellator has found a new foe! Use /titanwarp to teleport!");
+					  p.sendMessage(ChatColor.GOLD + "Bellator has found a new foe! Use /titanwarps to teleport!");
 				  }
 			  }.runTaskLater(plugin, 20 * 60 * 20);
 		  }
+      } else if (inv.getTitle().contains("Networth Leaderboards")) {
+    	  e.setCancelled(true);
       }
    }
    
@@ -1484,21 +1519,29 @@ public class GUIManagers implements Listener {
 	@EventHandler
 	public void onInventory(InventoryOpenEvent e) {
 		updateItems(e);
-		for (int i = 0; i < e.getInventory().getSize(); i++) {
-			ItemStack item = e.getInventory().getItem(i);
-			if (item == null) continue;
-			e.getInventory().setItem(i, Value.validate(item));
-		}
+		new BukkitRunnable() {
+			public void run() {
+				for (int i = 0; i < e.getInventory().getSize(); i++) {
+					ItemStack item = e.getInventory().getItem(i);
+					if (item == null) continue;
+					e.getInventory().setItem(i, Value.validate(item));
+				}
+			}
+		}.runTask(plugin);
 	}
 	
 	@EventHandler
 	public void onInventory(InventoryInteractEvent e) {
 		updateItems(e);
-		for (int i = 0; i < e.getInventory().getSize(); i++) {
-			ItemStack item = e.getInventory().getItem(i);
-			if (item == null) continue;
-			e.getInventory().setItem(i, Value.validate(item));
-		}
+		new BukkitRunnable() {
+			public void run() {
+				for (int i = 0; i < e.getInventory().getSize(); i++) {
+					ItemStack item = e.getInventory().getItem(i);
+					if (item == null) continue;
+					e.getInventory().setItem(i, Value.validate(item));
+				}
+			}
+		}.runTask(plugin);
 	}
 	
 	@EventHandler
