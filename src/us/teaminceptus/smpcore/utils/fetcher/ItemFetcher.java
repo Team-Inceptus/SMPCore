@@ -198,6 +198,71 @@ public class ItemFetcher {
 			return null;
 		}
 	}
-
+	
+	private static ItemStack getNBT(String nbt) {
+		try {
+			return GeneralUtils.itemFromNBT(nbt);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public static ItemStack getT1Heart() {
+		return getNBT("{id:\"minecraft:heart_of_the_sea\",Count:64b,tag:{display:{Name:'{\"text\":\"T1 Heart\",\"color\":\"red\",\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}}");
+	}
+	
+	public static ItemStack getT2Heart() {
+		return getNBT("{id:\"minecraft:heart_of_the_sea\",Count:64b,tag:{display:{Name:'{\"text\":\"T2 Heart\",\"color\":\"#FF8112\",\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}}");
+	}
+	
+	public static ItemStack getEndCore() {
+		return getNBT("{id:\"minecraft:player_head\",Count:64b,tag:{display:{Name:'{\"text\":\"End Core\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false}'},SkullOwner:{Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTVlOGNjOTliYjQyZGRhMmFhZmJmZjQ1Nzc1Njc3NmIyOGM4ZTM0ZWUyNDVjYzU1M2QyNjk0ZTZiMDRiNzIifX19\"}]},Id:[I; -755202538, 188499458, -1222370440, 1210382921]}}}");
+	}
+	
+	public static ItemStack getAquaticCore() {
+		return getNBT("{id:\"minecraft:player_head\",Count:64b,tag:{display:{Name:'{\"text\":\"Aquatic Core\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}'},SkullOwner:{Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzUxZDVhMWFjMTE0YTgyZmE2NTJmYzIzN2IzZTc4ZjIyZmU5ZDU4ZGU5N2M1MzdiZDVlZjk5YzM4ZmI2NmIyIn19fQ==\"}]},Id:[I; 245611374, -2062007065, -1916001814, 802225404]}}}");
+	}
+	
+	public static ItemStack getVoidCrack() {
+		return getNBT("{id:\"minecraft:ender_eye\",Count:64b,tag:{display:{Name:'{\"text\":\"Void Crack\",\"color\":\"gray\",\"bold\":true,\"italic\":false}',Lore:['[{\"text\":\"\"}]']},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}}");
+	}
+	
+	public static ItemStack getEnchantedEnderPearl() {
+		return getNBT("{id:\"minecraft:ender_pearl\",Count:16b,tag:{display:{Name:'{\"text\":\"Enchanted Ender Pearl\",\"color\":\"white\",\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}}");
+	}
+	
+	public static ItemStack getEnchantedGoldIngot() {
+		return getNBT("{id:\"minecraft:gold_ingot\",Count:64b,tag:{HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}}");
+	}
+	
+	public static ItemStack getWingRemnant() {
+		return getNBT("{id:\"minecraft:leather\",Count:64b,tag:{display:{Name:'{\"text\":\"Wing Remnant\",\"color\":\"dark_gray\",\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}}");
+	}
+	
+	public static ItemStack getGoldenNugget() {
+		return getNBT("{id:\"minecraft:gold_nugget\",Count:64b,tag:{display:{Name:'{\"text\":\"Enchanted Gold Nugget\",\"color\":\"gold\",\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}}");
+	}
+	
+	public static ItemStack getEnergyCore() {
+		return getNBT("{id:\"minecraft:player_head\",Count:64b,tag:{display:{Name:'[{\"text\":\"||\",\"color\":\"dark_purple\",\"italic\":false,\"obfuscated\":true},{\"text\":\"Energy Core\",\"bold\":true,\"italic\":false,\"obfuscated\":false},{\"text\":\"||\",\"color\":\"dark_purple\",\"italic\":false,\"obfuscated\":true}]'},SkullOwner:{Name:\"MrCodingMen\",Properties:{textures:[{Value:\"ewogICJ0aW1lc3RhbXAiIDogMTYxNDg5MjY4Njg1NywKICAicHJvZmlsZUlkIiA6ICI5YTEzNDQzMWMzMjI0NGMxYWJkMzcwYWUyZjFkOTQ5NyIsCiAgInByb2ZpbGVOYW1lIiA6ICJNckNvZGluZ01lbiIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9lNzE4Y2I3NzUwZTFiNjU4MDAyN2JmMDgxYTIwNTZkNjY2NTk3MmY4MzUyNjY3ZjY0MWZjNGU0ZWM4YmU2OTEwIgogICAgfQogIH0KfQ==\",Signature:\"hfzBNc8F5VuG2U6pRl83hbhUGQymLNaQYbqZilDTTJ9ZQSt5cASz+4qePiFcv4GCfM1efw3BG41BNu8aXJWmy2PNVpaUHoGZlPzOAf9cse1hEKQ/wYucjY99LePBbeQFEV4vWVuCDiigaUZ+qIJf56uixV4Rm8gtbwGaOaUOfri2XCJQW3iG9cxzbAJ0XWFguXVlJ8ANbhILqgJU3iDxJKetIMYWjpYsxDtjj8PueUISfNXPKIYvyqT5ZHMJQiUU/RTOXbwYJ4VyMXTmTCR1hCEEZgP2xYCToCMoAOdW5h4tDOVulGK3DIB0cbB5tFo7Lwhxr8R7Zc8OCNfbvtOKlxVPcoavb4XMi9jV8i/q1TRuqGRaXIItk67plb526dql/eTftxKpR5S8kums+UAgWVx2ALkYPP8eg8EN4fF5c1YpBW9mZnHi0w4tanx757+0H/uX7SuBH+UQuX79i8TJyJ2xVKXlcguLrFC7QlHLailBd/lvxvdR4ebe0iPTGWB6d4OEajkRWHJBVqCgd73lR5XESdjjBO3O/aOL1S4hxeHpaQlDk/ryIsNo6bEatuYi1ZHH5Y8sxY46vGBeNnn8zCOaNdQc/EigGQd/wev8rGFL33xO/lmCahAI+DfreSRJVZ6bKg3qIeh7zOONaCaokk5xxl5BegdnVu+FfMIcR7Y=\"}]},Id:[I; -1710013391, -1021164351, -1412206418, 790467735]}}}");
+	}
+	
+	public static ItemStack getGlowingEndstoneFragment() {
+		return getNBT("{id:\"minecraft:iron_nugget\",Count:64b,tag:{display:{Name:'{\"text\":\"Glowing Endstone Fragment\",\"color\":\"dark_purple\",\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}}");
+	}
+	
+	public static ItemStack getUndeadCore() {
+		return getNBT("{id:\"minecraft:player_head\",Count:64b,tag:{display:{Name:'{\"text\":\"Undead Core\",\"color\":\"#6B6B6B\",\"bold\":true,\"italic\":false}'},SkullOwner:{Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFkN2M4MTZmYzhjNjM2ZDdmNTBhOTNhMGJhN2FhZWZmMDZjOTZhNTYxNjQ1ZTllYjFiZWYzOTE2NTVjNTMxIn19fQ==\"}]},Id:[I; 1275683968, 1255558020, -1180031804, -266380137]}}}");
+	}
+	
+	public static ItemStack getNetherCore() {
+		return getNBT("{id:\"minecraft:player_head\",Count:64b,tag:{display:{Name:'{\"text\":\"Nether Core\",\"color\":\"gold\",\"bold\":true,\"italic\":false}'},SkullOwner:{Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTlhNWExZTY5YjRmODEwNTYyNTc1MmJjZWUyNTM0MDY2NGIwODlmYTFiMmY1MjdmYTkxNDNkOTA2NmE3YWFkMiJ9fX0=\"}]},Id:[I; 1414716801, 1338001167, -1570915896, -1506943044]}}}");
+	}
+	
+	
+	
+	
+	
+	
 	
  }
