@@ -508,6 +508,11 @@ public class Boss implements CommandExecutor {
 		}
 		Player p = (Player) sender;
 		
+		if (!(p.getName().equalsIgnoreCase("GamerCoder215"))) {
+			p.sendMessage(ChatColor.RED + "This command has been disabled due tue a duping method.");
+			return false;
+		} else {
+		
 		// ItemStack comingSoon = getComingSoon();
 		
 		Inventory bossGUI = GUIManagers.generateGUI(54, ChatColor.BOLD + "" + ChatColor.AQUA + "SMP Bosses Menu");
@@ -1169,5 +1174,6 @@ public class Boss implements CommandExecutor {
 		}
 		
 		return false;
+	}
 	}
 }
