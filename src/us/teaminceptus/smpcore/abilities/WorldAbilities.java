@@ -107,7 +107,7 @@ public class WorldAbilities implements Listener {
 		Player p = e.getPlayer();
 		Action clickedAction = e.getAction();
 		
-		if (itemMeta.getDisplayName().contains("Arescent") && itemMeta.isUnbreakable() && !itemMeta.hasLore()) {
+		if (itemMeta.getDisplayName().contains("Arescent") && itemMeta.isUnbreakable()) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -153,7 +153,7 @@ public class WorldAbilities implements Listener {
 					}.runTaskLater(plugin, 40);
 				}
 			}
-		} else if (itemMeta.getDisplayName().contains("Vivet") && itemMeta.isUnbreakable() && !itemMeta.hasLore()) {
+		} else if (itemMeta.getDisplayName().contains("Vivet") && itemMeta.isUnbreakable()) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -170,7 +170,7 @@ public class WorldAbilities implements Listener {
 					}
 				}.runTaskLater(plugin, 600);
 			}
-		} else if (itemMeta.getDisplayName().contains("Celer") && itemMeta.isUnbreakable() && !itemMeta.hasLore() && !itemMeta.hasLore()) {
+		} else if (itemMeta.getDisplayName().contains("Celer") && itemMeta.isUnbreakable()) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -203,7 +203,7 @@ public class WorldAbilities implements Listener {
 						}.runTaskLater(plugin, 20 * 5);
 					}
 				}
-		} else if (itemMeta.getDisplayName().contains("Praedo") && itemMeta.isUnbreakable() && !itemMeta.hasLore() && !itemMeta.hasAttributeModifiers()) {
+		} else if (itemMeta.getDisplayName().contains("Praedo") && itemMeta.isUnbreakable() && !itemMeta.hasAttributeModifiers()) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -237,7 +237,7 @@ public class WorldAbilities implements Listener {
 					}.runTaskLater(plugin, 20 * 3);
 				}
 			}
-		} else if (itemMeta.getDisplayName().contains("Ζητήστε τη λεπίδα του Τιτάνα") && !itemMeta.hasLore() && itemMeta.hasAttributeModifiers()) {
+		} else if (itemMeta.getDisplayName().contains("Ζητήστε τη λεπίδα του Τιτάνα") && itemMeta.hasAttributeModifiers()) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
