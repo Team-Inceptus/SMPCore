@@ -106,7 +106,7 @@ public class PlayerStatusUpdate implements Listener {
 		   PermissionUtils.giveDefaultPermissions(plugin, p);
 	   } else if (rank.equalsIgnoreCase("headgod")) {
 		   p.setDisplayName(ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Head God " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
-		   p.setPlayerListName(ChatColor.GREEN + "[HEAD GOD] " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
+		   p.setPlayerListName(ChatColor.GREEN + "" + ChatColor.BOLD + "[HEAD GOD] " + ChatColor.DARK_BLUE + p.getName() + ChatColor.RESET);
 	   }
    }
    
@@ -244,6 +244,21 @@ public class PlayerStatusUpdate implements Listener {
       for (Player pl : Bukkit.getServer().getOnlinePlayers()) {
     	  pl.setPlayerListFooter(ChatColor.GOLD + Integer.toString(onlinePlayers) + " / " + Integer.toString(maxPlayers) + ChatColor.GREEN + " Online Players");
       }
+      
+      // Update Networth
+      double echestValue = 0;
+      for (ItemStack i : p.getEnderChest()) {
+    	  echestValue += Value.getScore(i) * Value.getRarity(i).getMultiplier();
+      }
+	
+      double invValue = 0;
+      for (ItemStack i : p.getInventory()) {
+    	  invValue += Value.getScore(i) * Value.getRarity(i).getMultiplier();
+      }
+      
+      double newValue = echestValue + invValue;
+      
+      plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("last_networth", newValue);
    }
    
    @EventHandler
