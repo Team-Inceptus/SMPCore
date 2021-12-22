@@ -206,19 +206,7 @@ public class GUIManagers implements Listener {
 	        	 index++;
 	         }
          }
-         if (clickedItem.getItemMeta().getDisplayName().contains("T5 Bosses")) {
-        	 if (p.getStatistic(Statistic.KILL_ENTITY, EntityType.WITHER) >= 50 && p.getStatistic(Statistic.KILL_ENTITY, EntityType.ENDERMAN) >= 1000) {
-        		 Boss.openEliteBosses(p);
-        	 } else {
-        		 p.sendMessage(ChatColor.RED + Integer.toString(p.getStatistic(Statistic.KILL_ENTITY, EntityType.WITHER)) + " / 50 Withers and " + Integer.toString(p.getStatistic(Statistic.KILL_ENTITY, EntityType.ENDERMAN)) + " / 1,000 Enderman.");
-        		 if (p.isOp()) {
-        			 p.sendMessage(ChatColor.GREEN + "Operator Bypass.");
-        			 Boss.openEliteBosses(p);
-        		 }
-        	 }
-        	 
-         }
-         else if (clickedItem.getItemMeta().getDisplayName().contains("The Hogatar")) {
+         if (clickedItem.getItemMeta().getDisplayName().contains("The Hogatar")) {
         	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.PORKCHOP, 1), 128))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
