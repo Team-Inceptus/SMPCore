@@ -508,11 +508,6 @@ public class Boss implements CommandExecutor {
 		}
 		Player p = (Player) sender;
 		
-		if (!(p.getName().equalsIgnoreCase("GamerCoder215"))) {
-			p.sendMessage(ChatColor.RED + "This command has been disabled due tue a duping method.");
-			return false;
-		} else {
-		
 		// ItemStack comingSoon = getComingSoon();
 		
 		Inventory bossGUI = GUIManagers.generateGUI(54, ChatColor.BOLD + "" + ChatColor.AQUA + "SMP Bosses Menu");
@@ -1144,36 +1139,28 @@ public class Boss implements CommandExecutor {
 		bossGUI.setItem(39, zking);
 		bossGUI.setItem(40, sculkWitch);
 		
-		ItemStack t5Bosses = new ItemStack(Material.ARROW, 1);
-		ItemMeta lockedBossMeta = t5Bosses.getItemMeta();
-		lockedBossMeta.setDisplayName(ChatColor.RED + "T5 Bosses");
-		
-		ArrayList<String> lockedLore = new ArrayList<String>();
-		lockedLore.add(ChatColor.DARK_RED + "You need to kill 50 withers");
-		lockedLore.add(ChatColor.DARK_RED + "and 1,000 enderman to unlock");
-		lockedLore.add(ChatColor.DARK_RED + "this menu!");
-		
-		lockedBossMeta.setLore(lockedLore);
-		
-		ItemMeta unlockedBossMeta = t5Bosses.getItemMeta();
-		unlockedBossMeta.setDisplayName(ChatColor.GREEN + "T5 Bosses");
-		
-		if (p.getStatistic(Statistic.KILL_ENTITY, EntityType.WITHER) >= 50 && p.getStatistic(Statistic.KILL_ENTITY, EntityType.ENDERMAN) >= 1000) {
-			t5Bosses.setItemMeta(unlockedBossMeta);
-		} else {
-			t5Bosses.setItemMeta(lockedBossMeta);
-		}
-		
-		bossGUI.setItem(49, t5Bosses);
-		
 		if (p.getWorld().getName().contains("world_titan")) {
 			p.sendMessage(ChatColor.RED + "You are too weak to summon a boss here...");
 		} else {
-			p.openInventory(bossGUI);
-			p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 3F, 0.5F);	
+			if (args.length < 1) {
+				p.openInventory(bossGUI);
+				p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 3F, 0.5F);
+			} else if (args[0].equalsIgnoreCase("t5")){
+	        	 if (p.getStatistic(Statistic.KILL_ENTITY, EntityType.WITHER) >= 50 && p.getStatistic(Statistic.KILL_ENTITY, EntityType.ENDERMAN) >= 1000) {
+	        		 openEliteBosses(p);
+	        	 } else {
+	        		 p.sendMessage(ChatColor.RED + Integer.toString(p.getStatistic(Statistic.KILL_ENTITY, EntityType.WITHER)) + " / 50 Withers and " + Integer.toString(p.getStatistic(Statistic.KILL_ENTITY, EntityType.ENDERMAN)) + " / 1,000 Enderman.");
+	        		 if (p.isOp()) {
+	        			 p.sendMessage(ChatColor.GREEN + "Operator Bypass.");
+	        			 openEliteBosses(p);
+	        		 }
+	        	 }
+			} else {
+				p.openInventory(bossGUI);
+				p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 3F, 0.5F);
+			}
 		}
 		
 		return false;
-	}
 	}
 }
