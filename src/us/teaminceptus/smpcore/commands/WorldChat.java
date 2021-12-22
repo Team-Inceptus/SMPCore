@@ -31,7 +31,7 @@ public class WorldChat implements CommandExecutor {
 			}
 			
 			for (Player pl : p.getWorld().getPlayers()) {
-				pl.sendMessage(ChatColor.WHITE + "<" + ChatColor.DARK_GREEN + p.getName() + " | WorldChat" + ChatColor.WHITE + "> " + msg);
+				pl.sendMessage(ChatColor.WHITE + "<" + p.getDisplayName() + ChatColor.DARK_GREEN + " | WorldChat" + ChatColor.WHITE + "> " + msg);
 			}
 		}
 		return false;
