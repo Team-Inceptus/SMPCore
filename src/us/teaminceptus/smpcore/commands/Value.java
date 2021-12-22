@@ -28,6 +28,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
@@ -411,29 +412,10 @@ public class Value implements CommandExecutor, Listener {
 				sender.sendMessage(ChatColor.GREEN + "\n" + target.getName() + "'s Total Networth: " + ChatColor.GOLD + GeneralUtils.withSuffix(invValue + echestValue) + " Noobucks");
 				
 			}
-		} else if (args[0].equalsIgnoreCase("leaderboard")) {
+		} else if (args[0].equalsIgnoreCase("leaderboard") || args[0].equalsIgnoreCase("leaderboards")) {
 			if (!(sender instanceof Player p)) return false;
 			p.sendMessage(ChatColor.GREEN + "Notice: Leaderboards are updated every 30 seconds.");
-			Inventory leaderboard = GUIManagers.generateGUI(45, ChatColor.GOLD + "" + ChatColor.BOLD + "Networth Leaderboards");
-			
-			ItemStack firstPlace = new ItemStack(Material.GOLD_BLOCK);
-			ItemMeta fMeta = firstPlace.getItemMeta();
-			fMeta.setDisplayName(ChatColor.YELLOW + "First Place");
-			firstPlace.setItemMeta(fMeta);
-			
-			ItemStack secondPlace = new ItemStack(Material.IRON_BLOCK);
-			ItemMeta sMeta = firstPlace.getItemMeta();
-			sMeta.setDisplayName(ChatColor.GRAY + "Second Place");
-			secondPlace.setItemMeta(sMeta);
-			
-			ItemStack thirdPlace = new ItemStack(Material.COPPER_BLOCK);
-			ItemMeta tMeta = firstPlace.getItemMeta();
-			tMeta.setDisplayName(GeneralUtils.hexToChat("6d3a03", "Third Place"));
-			thirdPlace.setItemMeta(tMeta);
-			
-			leaderboard.setItem(22, firstPlace);
-			leaderboard.setItem(30, secondPlace);
-			leaderboard.setItem(32, thirdPlace);
+			Inventory leaderboard = GUIManagers.generateGUI(27, ChatColor.GOLD + "" + ChatColor.BOLD + "Networth Leaderboards");
 			
 			ConfigurationSection leaderboards = plugin.getConfig().getConfigurationSection("networth_leaderboard");
 			
@@ -441,64 +423,69 @@ public class Value implements CommandExecutor, Listener {
 			ItemStack first = new ItemStack(Material.PLAYER_HEAD);
 			SkullMeta firstM = (SkullMeta) first.getItemMeta();
 			firstM.setOwningPlayer(firstP);
-			firstM.setDisplayName(ChatColor.GOLD + firstP.getName());
+			firstM.setDisplayName(ChatColor.BLUE + "#1 - " + ChatColor.GOLD + firstP.getName());
 			List<String> firstL = new ArrayList<>();
-			firstL.add(ChatColor.GREEN + Double.toString(Math.floor(leaderboards.getDouble("first-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
+			firstL.add(ChatColor.GREEN + GeneralUtils.withSuffix(Math.floor(leaderboards.getDouble("first-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
 			firstM.setLore(firstL);
 			first.setItemMeta(firstM);
 			
-			leaderboard.setItem(13, first);
+			leaderboard.setItem(11, first);
 			
 			OfflinePlayer secondP = leaderboards.getOfflinePlayer("second");
 			ItemStack second = new ItemStack(Material.PLAYER_HEAD);
 			SkullMeta secondM = (SkullMeta) second.getItemMeta();
 			secondM.setOwningPlayer(secondP);
-			secondM.setDisplayName(ChatColor.WHITE + secondP.getName());
+			secondM.setDisplayName(ChatColor.BLUE + "#2 - " + ChatColor.WHITE + secondP.getName());
 			List<String> secondL = new ArrayList<>();
-			secondL.add(ChatColor.GREEN + Double.toString(Math.floor(leaderboards.getDouble("second-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
+			secondL.add(ChatColor.GREEN + GeneralUtils.withSuffix(Math.floor(leaderboards.getDouble("second-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
 			secondM.setLore(secondL);
 			second.setItemMeta(secondM);
 			
-			leaderboard.setItem(21, second);
+			leaderboard.setItem(12, second);
 			
 			OfflinePlayer thirdP = leaderboards.getOfflinePlayer("third");
 			ItemStack third = new ItemStack(Material.PLAYER_HEAD);
 			SkullMeta thirdM = (SkullMeta) third.getItemMeta();
 			thirdM.setOwningPlayer(thirdP);
-			thirdM.setDisplayName(GeneralUtils.hexToChat("b87333", thirdP.getName()));
+			thirdM.setDisplayName(ChatColor.BLUE + "#3 - " + GeneralUtils.hexToChat("b87333", thirdP.getName()));
 			List<String> thirdL = new ArrayList<>();
-			thirdL.add(ChatColor.GREEN + Double.toString(Math.floor(leaderboards.getDouble("third-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
+			thirdL.add(ChatColor.GREEN + GeneralUtils.withSuffix(Math.floor(leaderboards.getDouble("third-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
 			thirdM.setLore(thirdL);
 			third.setItemMeta(thirdM);
 			
-			leaderboard.setItem(23, third);
+			leaderboard.setItem(13, third);
 			
 			OfflinePlayer fourthP = leaderboards.getOfflinePlayer("fourth");
 			ItemStack fourth = new ItemStack(Material.PLAYER_HEAD);
 			SkullMeta fourthM = (SkullMeta) fourth.getItemMeta();
 			fourthM.setOwningPlayer(fourthP);
-			fourthM.setDisplayName(ChatColor.BLUE + fourthP.getName());
+			fourthM.setDisplayName(ChatColor.BLUE + "#4 - " + ChatColor.GREEN + fourthP.getName());
 			List<String> fourthL = new ArrayList<>();
-			fourthL.add(ChatColor.GREEN + Double.toString(Math.floor(leaderboards.getDouble("fourth-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
+			fourthL.add(ChatColor.GREEN + GeneralUtils.withSuffix(Math.floor(leaderboards.getDouble("fourth-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
 			fourthM.setLore(fourthL);
 			fourth.setItemMeta(fourthM);
 			
-			leaderboard.setItem(29, fourth);
+			leaderboard.setItem(14, fourth);
 			
 			OfflinePlayer fifthP = leaderboards.getOfflinePlayer("fifth");
 			ItemStack fifth = new ItemStack(Material.PLAYER_HEAD);
 			SkullMeta fifthM = (SkullMeta) fifth.getItemMeta();
 			fifthM.setOwningPlayer(fifthP);
-			fifthM.setDisplayName(ChatColor.BLUE + fifthP.getName());
+			fifthM.setDisplayName(ChatColor.BLUE + "#5 - " + ChatColor.GREEN + fifthP.getName());
 			List<String> fifthL = new ArrayList<>();
-			fifthL.add(ChatColor.GREEN + Double.toString(Math.floor(leaderboards.getDouble("fifth-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
+			fifthL.add(ChatColor.GREEN + GeneralUtils.withSuffix(Math.floor(leaderboards.getDouble("fifth-amount") * 100) / 100) + ChatColor.DARK_GREEN + " Noobucks");
 			fifthM.setLore(fifthL);
 			fifth.setItemMeta(fifthM);
 			
-			leaderboard.setItem(33, fifth);
+			leaderboard.setItem(15, fifth);
 			
 			p.openInventory(leaderboard);
-			p.playSound(p.getLocation(), Sound.BLOCK_BEACON_AMBIENT, 3F, 1F);
+			new BukkitRunnable() {
+				public void run() {
+					if (!(p.getOpenInventory().getTitle().contains("Networth Leaderboards"))) cancel();
+					p.playSound(p.getLocation(), Sound.BLOCK_BEACON_AMBIENT, 3F, 1F);
+				}
+			}.runTaskTimer(plugin, 0, 90);
 		}
 		return true;
 		
