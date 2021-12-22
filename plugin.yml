@@ -48,6 +48,9 @@ commands:
   value:
     description: Get value of an item.
     aliases: [noobucks, cb, vl, noobb, nbucks]
+  wild:
+    description: Teleport somewhere safe in the overworld.
+    aliases: [wld]
   # Admin
   invsee:
     description: Look at a player's inventory.

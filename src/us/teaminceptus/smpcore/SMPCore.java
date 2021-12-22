@@ -1,5 +1,7 @@
 package us.teaminceptus.smpcore;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,6 +16,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -90,6 +94,7 @@ import us.teaminceptus.smpcore.commands.TitanWarps;
 import us.teaminceptus.smpcore.commands.TradesMenu;
 import us.teaminceptus.smpcore.commands.Value;
 import us.teaminceptus.smpcore.commands.WandInfo;
+import us.teaminceptus.smpcore.commands.Wild;
 import us.teaminceptus.smpcore.commands.WorldChat;
 import us.teaminceptus.smpcore.commands.Yeet;
 import us.teaminceptus.smpcore.creatures.CreatureAbilities;
@@ -119,11 +124,35 @@ public class SMPCore extends JavaPlugin {
 	
 	public static ProtocolManager pm;
 	
+	public static File divisionsFile;
+	public static FileConfiguration divisionsConfig;
+	
 	Random r = new Random();
-   public void onEnable() {
-	   
+	
+	public static File getDivisionsFile() {
+		return divisionsFile;
+	}
+	
+	public static FileConfiguration getDivisionsConfig() {
+		return divisionsConfig;
+	}
+	
+	public void onEnable() {
+	  
+	  // Setting
 	  SMPCore main = this;
 	  pm = ProtocolLibrary.getProtocolManager();
+	  divisionsFile = new File(this.getDataFolder(), "divisions.yml");
+	  
+	  if (!(divisionsFile.exists())) {
+		  try {
+			  divisionsFile.createNewFile();
+		  } catch (IOException e) {
+			  e.printStackTrace();
+		  }
+	  }
+	  
+	  divisionsConfig = YamlConfiguration.loadConfiguration(divisionsFile);
 	  
 	  
 	  // Info Messages
@@ -139,7 +168,7 @@ public class SMPCore extends JavaPlugin {
 						ChatColor.RED + "We are not a full anarchy server! Stealing and Griefing are allowed, but no hacking.",
 						ChatColor.BLUE + "Join the Discord to Updates & A Friendly Community - https://discord.io/thenoobygods",
 						ChatColor.LIGHT_PURPLE + "You can use /recipes to see the custom recipes!",
-						ChatColor.GOLD + "You are currently playing on " + ChatColor.GREEN + "TheNoobyGodsSMP" + ChatColor.GOLD + " with " + ChatColor.GREEN + GeneralUtils.thousandSeparator(Bukkit.getOfflinePlayers().length + Bukkit.getOnlinePlayers().size(), ",") + ChatColor.GOLD + " members!",
+						ChatColor.GOLD + "You are currently playing on " + ChatColor.GREEN + "TheNoobyGodsSMP" + ChatColor.GOLD + " with " + ChatColor.GREEN + GeneralUtils.thousandSeparator(Bukkit.getOfflinePlayers().length + Bukkit.getOnlinePlayers().size(), ",") + ChatColor.GOLD + " total members!",
 						ChatColor.DARK_BLUE + "You can apply for staff in the Discord.",
 				};
 			  
@@ -427,7 +456,7 @@ public class SMPCore extends JavaPlugin {
 			      main.saveConfig();
 			  }
 		  }
-	  }.runTaskTimer(this, 100, 100);
+	  }.runTaskTimerAsynchronously(this, 100, 100);
 	  
 	  // Generate Networth Leaderboards
 	  new BukkitRunnable() {
@@ -436,10 +465,25 @@ public class SMPCore extends JavaPlugin {
 			  List<Double> scores = new ArrayList<>();
 			  for (OfflinePlayer p : Bukkit.getOfflinePlayers()) {
 				  if (p.isOp()) continue;
+				  if (p.isOnline()) {
+					  Player online = p.getPlayer();
+					  double echestValue = 0;
+					  for (ItemStack i : online.getEnderChest()) {
+						  echestValue += Value.getScore(i) * Value.getRarity(i).getMultiplier();
+					  }
+						
+					  double invValue = 0;
+					  for (ItemStack i : online.getInventory()) {
+						  invValue += Value.getScore(i) * Value.getRarity(i).getMultiplier();
+					  }
+					  double newValue = echestValue + invValue;
+					  main.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("last_networth", newValue);
+				  }
 				  ConfigurationSection section = main.getConfig().getConfigurationSection(p.getUniqueId().toString());
 				  double value = section.getDouble("last_networth", 0);
 				  scores.add(value);
 				  players.put(value, p);
+				  
 			  }
 			  
 			  Collections.sort(scores, Collections.reverseOrder());
@@ -456,8 +500,9 @@ public class SMPCore extends JavaPlugin {
 			  leaderboard.set("fifth", players.get(scores.get(4)));
 			  leaderboard.set("fifth-amount", scores.get(4));
 			  
+			  main.saveConfig();
 		  }
-	  }.runTaskTimer(main, 0, 20 * 30); // Updated every 30 seconds
+	  }.runTaskTimerAsynchronously(main, 0, 20 * 30); // Updated every 30 seconds
 	  
 	  // Regular Commands
       new Help(this);
@@ -474,6 +519,7 @@ public class SMPCore extends JavaPlugin {
       new Hat(this);
       new RankUp(this);
       new Value(this);
+      new Wild(this);
       // Admin Commands
       new InvSee(this);
       new FlySpeed(this);
