@@ -108,18 +108,28 @@ public class CustomDrops implements Listener {
 		if (cores.size() < 1) return;
 		
 		for (ItemStack item : cores) {
+			if (item == null || item.getType() == Material.AIR) continue;
 			int amount = (r.nextInt(100) < 50 ? 1 : 0);
 			double lootingLevel = (p.getEquipment().getItemInMainHand() == null ? 0 : p.getEquipment().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS));
 			
 			for (int i = 0; i < lootingLevel; i++) {
+				if (amount >= 128) break;
 				if (r.nextInt(100) < (100 * (lootingLevel / lootingLevel + 1))) {
 					amount++;
 					continue;
 				} else break;
 			}
 			
-			item.setAmount(amount);
-			en.getWorld().dropItemNaturally(en.getLocation(), item);
+			if (amount > 64) {
+				item.setAmount(64);
+				ItemStack item2 = item.clone();
+				item2.setAmount(amount - 64);
+				en.getWorld().dropItemNaturally(en.getLocation(), item);
+				en.getWorld().dropItemNaturally(en.getLocation(), item2);
+			} else {
+				item.setAmount(amount);
+				en.getWorld().dropItemNaturally(en.getLocation(), item);
+			}
 		}
 	}
 	
@@ -133,6 +143,7 @@ public class CustomDrops implements Listener {
 		double lootingLevel = (p.getEquipment().getItemInMainHand() == null ? 0 : p.getEquipment().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS));
 		
 		for (int i = 0; i < lootingLevel; i++) {
+			if (lootingLevel >= 128) break;
 			if (r.nextInt(100) < (100 * (lootingLevel / lootingLevel + 1))) {
 				lootingBuff++;
 				continue;
@@ -175,6 +186,7 @@ public class CustomDrops implements Listener {
 		double fortuneLevel = (p.getEquipment().getItemInMainHand() == null ? 0 : p.getEquipment().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS));
 		
 		for (int i = 0; i < fortuneLevel; i++) {
+			if (fortuneBuff >= 128) break;
 			if (r.nextInt(100) < (100 * (fortuneLevel / fortuneLevel + 1))) {
 				fortuneBuff++;
 				continue;
