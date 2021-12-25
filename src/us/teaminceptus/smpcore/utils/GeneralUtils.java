@@ -14,12 +14,14 @@ import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import com.google.gson.Gson;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.nbt.MojangsonParser;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.entity.EntityTypes;
 import us.teaminceptus.smpcore.SMPCore;
+import us.teaminceptus.smpcore.utils.classes.APIPlayer;
 
 public class GeneralUtils {
 	
@@ -42,6 +44,16 @@ public class GeneralUtils {
 	    return String.format("%.1f%c",
 	                         count / Math.pow(1000, exp),
 	                         "KMBTQISPOND".charAt(exp-1));
+	}
+	
+	public static UUID getUUIDByName(String name) {
+		if (sendGETRequestStatusCode("https://api.mojang.com/users/profiles/minecraft/" + name) != 200) {
+			return null;
+		}
+		
+		Gson g = new Gson();
+		UUID uuid = GeneralUtils.untrimUUID(g.fromJson(sendGETRequest("https://api.mojang.com/users/profiles/minecraft/" + name), APIPlayer.class).id);
+		return uuid;
 	}
 	
 	public static String hexToChat(String hexCode, String message) {
