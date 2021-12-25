@@ -121,7 +121,27 @@ public class GUIManagers implements Listener {
 		
 		return guiBG;
    }
-    
+   
+   private static void removeItem(Player p, ItemStack... items) {
+	   for (ItemStack item : items) {
+		   if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+			   ItemStack chosen = item;
+			   for (ItemStack i : p.getInventory()) {
+				   if (i == null) continue;
+				   if (!(i.hasItemMeta())) continue;
+				   if (!(i.getItemMeta().hasDisplayName())) continue;
+				   if (item.getItemMeta().getDisplayName().equals(i.getItemMeta().getDisplayName())) {
+					   chosen = i;
+				   } else continue;
+			   }
+			   
+			   p.getInventory().removeItem(chosen);
+		   } else {
+			   ItemStack itemWithRarity = Value.validate(item);
+			   p.getInventory().removeItem(itemWithRarity);
+		   }
+	   }
+   }
    
    public GUIManagers(SMPCore plugin) {
       this.plugin = plugin;
@@ -188,30 +208,36 @@ public class GUIManagers implements Listener {
          e.setCancelled(true);
          if (e.getCurrentItem() == null) return;
          if (!(e.getCurrentItem().hasItemMeta())) return;
-         int index = 0;
          ItemStack clickedItem = e.getCurrentItem();
-         if (inv.getTitle().contains("SMP Bosses Menu")) {
-	         for (ItemStack i : p.getInventory()) {
-	        	 if (i == null) continue;
-	        	 ItemMeta oldMeta = i.getItemMeta();
-	        	 if (oldMeta.hasLore()) {
-	        		 List<String> newLore = oldMeta.getLore();
-	        		 for (Rarity r : Rarity.values()) {
-	        			 if (newLore.contains(r.nameColor())) newLore.remove(r.nameColor());
-	        		 }
-	        		 oldMeta.setLore((newLore.size() == 0 ? null : newLore));
-	        	 }
-	        	 i.setItemMeta(oldMeta);
-	        	 p.getInventory().setItem(index, i);
-	        	 index++;
-	         }
+         Inventory duplicateInv = Bukkit.createInventory(null, 45);
+         for (ItemStack i : p.getInventory()) {
+        	 if (i == null) continue;
+        	 ItemMeta oldMeta = i.getItemMeta();
+        	 if (oldMeta.hasLore()) {
+        		 List<String> newLore = oldMeta.getLore();
+        		 for (Rarity r : Rarity.values()) {
+        			 if (newLore.contains(r.nameColor())) newLore.remove(r.nameColor());
+        		 }
+        		 oldMeta.setLore((newLore.size() == 0 ? null : newLore));
+        	 }
+        	 i.setItemMeta(oldMeta);
+        	 // Other Items (items removed are not exact)
+        	 if (i.hasItemMeta() && i.getItemMeta().hasDisplayName()) {
+        		 if (i.getItemMeta().getDisplayName().equals(Boss.getTitanSummoner().getItemMeta().getDisplayName()))
+        			 duplicateInv.addItem(Boss.getTitanSummoner());
+        		 else if (i.getItemMeta().getDisplayName().equals(ItemFetcher.getBlackHoleCandle().getItemMeta().getDisplayName()))
+        			 duplicateInv.addItem(ItemFetcher.getBlackHoleCandle());
+        		 else if (i.getItemMeta().getDisplayName().equals(ItemFetcher.getWitherMaterial().getItemMeta().getDisplayName())) 
+        			 duplicateInv.addItem(ItemFetcher.getWitherMaterial());
+        	 }
+        	 else duplicateInv.addItem(i);
          }
          if (clickedItem.getItemMeta().getDisplayName().contains("The Hogatar")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.PORKCHOP, 1), 128))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.PORKCHOP, 1), 128))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.PORKCHOP, 64));
-        		 p.getInventory().removeItem(new ItemStack(Material.PORKCHOP, 64));
+        		 removeItem(p, new ItemStack(Material.PORKCHOP, 64));
+        		 removeItem(p, new ItemStack(Material.PORKCHOP, 64));
         		 p.sendMessage(ChatColor.RED + "The Hogatar has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.RED + "Porkchop!");
         		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon hoglin %x% %y% %z% {Silent:0b,Glowing:1b,CustomNameVisible:1b,Health:500f,IsImmuneToZombification:1b,CannotBeHunted:1b,CustomName:'{\"text\":\"The Hogatar\",\"color\":\"red\",\"italic\":false}',HandItems:[{id:\"minecraft:netherite_sword\",Count:1b,tag:{Enchantments:[{id:\"minecraft:sharpness\",lvl:3s},{id:\"minecraft:fire_aspect\",lvl:3s}]}},{}],ActiveEffects:[{Id:1b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:3b,Duration:200000,ShowParticles:0b},{Id:8b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:11b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:13b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:28b,Amplifier:3b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.follow_range,Base:40},{Name:generic.knockback_resistance,Base:1},{Name:generic.movement_speed,Base:2},{Name:generic.attack_damage,Base:5},{Name:generic.armor_toughness,Base:1},{Name:generic.attack_knockback,Base:3}]}"
         				 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY())).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
@@ -243,10 +269,10 @@ public class GUIManagers implements Listener {
             	 }
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Super Sniper")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.ARROW, 1), 64))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.ARROW, 1), 64))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.ARROW, 64));
+        		 removeItem(p, new ItemStack(Material.ARROW, 64));
         		 p.sendMessage(ChatColor.DARK_PURPLE + "A Super Sniper has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.DARK_PURPLE + "Arrows!");
         		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon skeleton %x% %y% %z% {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,FallFlying:1b,NoAI:0b,CanPickUpLoot:1b,Health:300f,CustomName:'{\"text\":\"Super Sniper\",\"color\":\"dark_purple\",\"italic\":false}',HandItems:[{id:\"minecraft:bow\",Count:1b,tag:{display:{Name:'{\"text\":\"Sniper Bow\",\"color\":\"dark_purple\",\"italic\":false}'},Unbreakable:1b,Enchantments:[{id:\"minecraft:unbreaking\",lvl:7s},{id:\"minecraft:power\",lvl:10s},{id:\"minecraft:punch\",lvl:3s},{id:\"minecraft:flame\",lvl:1s},{id:\"minecraft:infinity\",lvl:1s},{id:\"minecraft:mending\",lvl:1s}]}},{}],ArmorItems:[{},{},{},{id:\"minecraft:diamond_helmet\",Count:1b,tag:{display:{Name:'{\"text\":\"Sniper Cap\",\"color\":\"dark_purple\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:4s},{id:\"minecraft:fire_protection\",lvl:10s},{id:\"minecraft:blast_protection\",lvl:7s},{id:\"minecraft:projectile_protection\",lvl:10s},{id:\"minecraft:respiration\",lvl:3s},{id:\"minecraft:thorns\",lvl:4s},{id:\"minecraft:unbreaking\",lvl:7s}]}}],ActiveEffects:[{Id:1b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:8b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:0b,Duration:200000,ShowParticles:0b},{Id:28b,Amplifier:1b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:300},{Name:generic.knockback_resistance,Base:1}]}"
         				 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY())).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
@@ -280,10 +306,10 @@ public class GUIManagers implements Listener {
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Rotten Army")) {
         	 String displayName = clickedItem.getItemMeta().getDisplayName();
         	 if (displayName.contains("Private of Rotten Army")) {
-            	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.ROTTEN_FLESH, 1), 16))) {
+            	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.ROTTEN_FLESH, 1), 16))) {
             		 p.sendMessage(notEnoughMats);
             	 } else {
-            		 p.getInventory().removeItem(new ItemStack(Material.ROTTEN_FLESH, 16));
+            		 removeItem(p, new ItemStack(Material.ROTTEN_FLESH, 16));
             		 p.sendMessage(ChatColor.DARK_GREEN + "A Private of the Rotten Army has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.DARK_GREEN + "Rotten Flesh!");
             		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon zombie %x% %y% %z% {Silent:0b,Glowing:1b,CustomNameVisible:1b,CanPickUpLoot:1b,ActiveEffects:[{Id:5b,Amplifier:3b,Duration:200000,ShowParticles:0b}],Health:50f,IsBaby:0b,CanBreakDoors:1b,CustomName:'{\"text\":\"Private of Rotten Army\",\"color\":\"dark_green\",\"italic\":false}',HandItems:[{id:\"minecraft:iron_sword\",Count:1b,tag:{display:{Name:'{\"text\":\"Knife\",\"italic\":false}'},Enchantments:[{id:\"minecraft:sharpness\",lvl:2s},{id:\"minecraft:smite\",lvl:1s},{id:\"minecraft:sweeping\",lvl:1s}]}},{}],ArmorItems:[{},{},{id:\"minecraft:leather_chestplate\",Count:1b,tag:{display:{Name:'{\"text\":\"Vest\",\"italic\":false}',color:0},Enchantments:[{id:\"minecraft:protection\",lvl:4s},{id:\"minecraft:blast_protection\",lvl:6s},{id:\"minecraft:projectile_protection\",lvl:10s},{id:\"minecraft:unbreaking\",lvl:9s},{id:\"minecraft:mending\",lvl:1s}]}},{id:\"minecraft:iron_helmet\",Count:1b,tag:{display:{Name:'{\"text\":\"War Helmet\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:3s},{id:\"minecraft:blast_protection\",lvl:6s},{id:\"minecraft:projectile_protection\",lvl:7s},{id:\"minecraft:unbreaking\",lvl:6s},{id:\"minecraft:mending\",lvl:1s}]}}],Attributes:[{Name:generic.max_health,Base:50},{Name:generic.knockback_resistance,Base:0.1},{Name:zombie.spawn_reinforcements,Base:0}]}"
             			 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY())).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
@@ -315,10 +341,10 @@ public class GUIManagers implements Listener {
                 	 }
             	 }
         	 } else if (displayName.contains("Specialist of Rotten Army")) {
-            	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.BONE, 1), 16))) {
+            	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.BONE, 1), 16))) {
             		 p.sendMessage(notEnoughMats);
             	 } else {
-            		 p.getInventory().removeItem(new ItemStack(Material.BONE, 16));
+            		 removeItem(p, new ItemStack(Material.BONE, 16));
             		 p.sendMessage(ChatColor.GREEN + "A Specialist of the Rotten Army has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.GREEN + "Bones!");
             		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon stray %x% %y% %z% {Silent:0b,Glowing:1b,CustomNameVisible:1b,CanPickUpLoot:1b,Health:80f,CustomName:'{\"text\":\"Specialist of Rotten Army\",\"color\":\"green\",\"italic\":false}',HandItems:[{id:\"minecraft:bow\",Count:1b,tag:{display:{Name:'{\"text\":\"Handgun\",\"italic\":false}'},Enchantments:[{id:\"minecraft:unbreaking\",lvl:6s},{id:\"minecraft:power\",lvl:5s},{id:\"minecraft:punch\",lvl:1s}]}},{}],ArmorItems:[{},{},{id:\"minecraft:leather_chestplate\",Count:1b,tag:{display:{Name:'{\"text\":\"Vest\",\"italic\":false}',color:0},Enchantments:[{id:\"minecraft:protection\",lvl:4s},{id:\"minecraft:blast_protection\",lvl:6s},{id:\"minecraft:projectile_protection\",lvl:10s},{id:\"minecraft:unbreaking\",lvl:9s},{id:\"minecraft:mending\",lvl:1s}]}},{id:\"minecraft:iron_helmet\",Count:1b,tag:{display:{Name:'{\"text\":\"War Helmet\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:3s},{id:\"minecraft:blast_protection\",lvl:6s},{id:\"minecraft:projectile_protection\",lvl:7s},{id:\"minecraft:unbreaking\",lvl:6s},{id:\"minecraft:mending\",lvl:1s}]}}],ActiveEffects:[{Id:5b,Amplifier:3b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:80},{Name:generic.knockback_resistance,Base:0.15}]}"
             			 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY())).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
@@ -350,10 +376,10 @@ public class GUIManagers implements Listener {
                 	 }
             	 }
         	 } else if (displayName.contains("Seargant of Rotten Army")) {
-            	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.GOLD_INGOT, 1), 32))) {
+            	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.GOLD_INGOT, 1), 32))) {
             		 p.sendMessage(notEnoughMats);
             	 } else {
-            		 p.getInventory().removeItem(new ItemStack(Material.GOLD_INGOT, 32));
+            		 removeItem(p, new ItemStack(Material.GOLD_INGOT, 32));
             		 p.sendMessage(ChatColor.DARK_GREEN + "A Seargant of the Rotten Army has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.DARK_GREEN + "Gold!");
             		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon zombified_piglin %x% %y% %z% {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,CanPickUpLoot:1b,Health:400f,CanBreakDoors:1b,AngerTime:200000,CustomName:'{\"text\":\"Seargant of Rotten Army\",\"color\":\"#095201\",\"bold\":true,\"italic\":false}',HandItems:[{id:\"minecraft:diamond_sword\",Count:1b,tag:{display:{Name:'{\"text\":\"Machette\",\"italic\":false}'},Enchantments:[{id:\"minecraft:sharpness\",lvl:10s},{id:\"minecraft:smite\",lvl:8s},{id:\"minecraft:knockback\",lvl:3s},{id:\"minecraft:unbreaking\",lvl:8s}]}},{}],ArmorItems:[{id:\"minecraft:chainmail_boots\",Count:1b,tag:{display:{Name:'{\"text\":\"War Boots\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:5s},{id:\"minecraft:feather_falling\",lvl:6s},{id:\"minecraft:blast_protection\",lvl:10s}]}},{},{id:\"minecraft:leather_chestplate\",Count:1b,tag:{display:{Name:'{\"text\":\"Bulletproof Vest\",\"italic\":false}',color:0},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:10s},{id:\"minecraft:blast_protection\",lvl:10s},{id:\"minecraft:projectile_protection\",lvl:100s},{id:\"minecraft:unbreaking\",lvl:11s},{id:\"minecraft:mending\",lvl:1s}]}},{id:\"minecraft:diamond_helmet\",Count:1b,tag:{display:{Name:'{\"text\":\"War Helmet\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:5s},{id:\"minecraft:blast_protection\",lvl:7s},{id:\"minecraft:projectile_protection\",lvl:8s},{id:\"minecraft:unbreaking\",lvl:7s},{id:\"minecraft:mending\",lvl:1s}]}}],ActiveEffects:[{Id:1b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:5b,Duration:200000,ShowParticles:0b},{Id:10b,Amplifier:3b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:400},{Name:generic.knockback_resistance,Base:0.25}]}"
             			 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY())).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
@@ -385,10 +411,10 @@ public class GUIManagers implements Listener {
                 	 }
             	 }
         	 } else if (displayName.contains("Air Support")) {
-            	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.GHAST_TEAR, 1), 32))) {
+            	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.GHAST_TEAR, 1), 32))) {
             		 p.sendMessage(notEnoughMats);
             	 } else {
-            		 p.getInventory().removeItem(new ItemStack(Material.GHAST_TEAR, 32));
+            		 removeItem(p, new ItemStack(Material.GHAST_TEAR, 32));
             		 p.sendMessage(ChatColor.RED + "Rotten Army Air Support has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.RED + "Tears!");
             		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon ghast %x% %y% %z% {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,FallFlying:1b,PersistenceRequired:1b,NoAI:0b,CanPickUpLoot:0b,Health:400f,ExplosionPower:10,CustomName:'{\"text\":\"Rotten Army Air Support\",\"color\":\"red\",\"bold\":true,\"italic\":false}',ArmorItems:[{},{},{id:\"minecraft:netherite_chestplate\",Count:1b,tag:{Unbreakable:1b,Enchantments:[{id:\"minecraft:projectile_protection\",lvl:32767s}]}},{}],ArmorDropChances:[0.085F,0.085F,0.000F,0.085F],ActiveEffects:[{Id:1b,Amplifier:4b,Duration:200000,ShowParticles:0b},{Id:11b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:13b,Amplifier:0b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:400},{Name:generic.follow_range,Base:50},{Name:generic.knockback_resistance,Base:0.75},{Name:generic.attack_knockback,Base:5}]}"
             				 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY() + 15)).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
@@ -420,13 +446,13 @@ public class GUIManagers implements Listener {
                 	 }
             	 }
              } else if (displayName.contains("Rotten Army Submarine")) {
-            	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.PRISMARINE_SHARD, 1), 16))) {
+            	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.PRISMARINE_SHARD, 1), 16))) {
             		 p.sendMessage(notEnoughMats);
             	 } else {
             		 if (!(p.isInWater())) {
             			 p.sendMessage(ChatColor.RED + "You need to be in water to summon this boss!");
             		 } else {
-            			 p.getInventory().removeItem(new ItemStack(Material.PRISMARINE_SHARD, 16));
+            			 removeItem(p, new ItemStack(Material.PRISMARINE_SHARD, 16));
             		 	p.sendMessage(ChatColor.DARK_AQUA + "Rotten Army Submarine has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.RED + "Prismarine!");
             		 	Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon guardian %x% %y% %z% {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,PortalCooldown:200000,PersistenceRequired:0b,NoAI:0b,CanPickUpLoot:0b,Health:195f,CustomName:'{\"text\":\"Rotten Army Submarine\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}',HandItems:[{id:\"minecraft:prismarine_crystals\",Count:32b},{id:\"minecraft:sea_lantern\",Count:16b}],HandDropChances:[100.000F,50.000F],ArmorItems:[{id:\"minecraft:diamond_boots\",Count:1b,tag:{display:{Name:'{\"text\":\"Guardian Boots\",\"color\":\"aqua\",\"bold\":true,\"italic\":false}',Lore:['{\"text\":\"This gives the wearer\",\"color\":\"gray\",\"italic\":true}','{\"text\":\"immune to projectiles and\",\"color\":\"gray\",\"italic\":true}','[{\"text\":\"explosions, \",\"color\":\"gray\",\"italic\":true},{\"text\":\"while in water.\",\"color\":\"dark_aqua\",\"italic\":true}]']},Unbreakable:1b,Enchantments:[{id:\"minecraft:feather_falling\",lvl:10s},{id:\"minecraft:thorns\",lvl:6s}],AttributeModifiers:[{AttributeName:\"generic.max_health\",Name:\"generic.max_health\",Amount:5,Operation:0,UUID:[I;-1957300083,-1248772064,-1494549454,1837608863],Slot:\"feet\"}]}},{},{id:\"minecraft:netherite_chestplate\",Count:1b,tag:{Unbreakable:1b,Enchantments:[{id:\"minecraft:blast_protection\",lvl:32767s}]}},{}],ArmorDropChances:[8.000F,0.085F,0.000F,0.085F],ActiveEffects:[{Id:2b,Amplifier:4b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:3b,Duration:200000,ShowParticles:0b},{Id:30b,Amplifier:6b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:245},{Name:generic.follow_range,Base:300},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:10},{Name:generic.attack_knockback,Base:2}]}"
             		 			.replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY() + 15)).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
@@ -460,11 +486,11 @@ public class GUIManagers implements Listener {
             	 }
              }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Spider Queen")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.STRING, 1), 128))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.STRING, 1), 128))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.STRING, 64));
-        		 p.getInventory().removeItem(new ItemStack(Material.STRING, 64));
+        		 removeItem(p, new ItemStack(Material.STRING, 64));
+        		 removeItem(p, new ItemStack(Material.STRING, 64));
         		 p.sendMessage(ChatColor.GRAY + "The Spider Queen has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.GRAY + "String!");
         		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon spider ~ ~ ~ {Silent:1b,Glowing:0b,CustomNameVisible:1b,Health:800f,CustomName:'{\"text\":\"Spider Queen\",\"color\":\"gray\",\"bold\":true,\"italic\":false}',ActiveEffects:[{Id:1b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:7b,Duration:200000,ShowParticles:0b},{Id:8b,Amplifier:3b,Duration:200000,ShowParticles:0b},{Id:10b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:28b,Amplifier:2b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:800},{Name:generic.follow_range,Base:150},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_knockback,Base:5}]}");
                  plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
@@ -495,10 +521,10 @@ public class GUIManagers implements Listener {
             	 }
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Witherman")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.ENDER_PEARL), 64))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.ENDER_PEARL), 64))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.ENDER_PEARL, 16), new ItemStack(Material.ENDER_PEARL, 16), new ItemStack(Material.ENDER_PEARL, 16), new ItemStack(Material.ENDER_PEARL, 16));
+        		 removeItem(p, new ItemStack(Material.ENDER_PEARL, 16), new ItemStack(Material.ENDER_PEARL, 16), new ItemStack(Material.ENDER_PEARL, 16), new ItemStack(Material.ENDER_PEARL, 16));
         		 
         		 p.sendMessage(ChatColor.DARK_AQUA + "A Witherman has spawned from " + ChatColor.GRAY + p.getName() + "'s " + ChatColor.DARK_AQUA + "Pearls!");
         		 Witherman witherman = new Witherman(p.getLocation());
@@ -541,7 +567,7 @@ public class GUIManagers implements Listener {
         			 if (count == 2) break;
         			 if (i.getEnchantments().size() > 0) continue;
         			 if (i.getType() == Material.NETHERITE_SWORD) {
-        				 p.getInventory().removeItem(i);
+        				 removeItem(p, i);
         				 count++;
         				 continue;
         			 }
@@ -578,11 +604,11 @@ public class GUIManagers implements Listener {
             	 }
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Blaze King")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.BLAZE_ROD, 1), 128))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.BLAZE_ROD, 1), 128))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64));
-        		 p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64));
+        		 removeItem(p, new ItemStack(Material.BLAZE_ROD, 64));
+        		 removeItem(p, new ItemStack(Material.BLAZE_ROD, 64));
         		 p.sendMessage(ChatColor.GOLD + "The Blaze King has spawned from " + ChatColor.YELLOW + p.getName() + "'s " + ChatColor.GOLD + "Blaze Rods!");
         		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon blaze %x% %y% %z% {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,PersistenceRequired:1b,NoAI:0b,CanPickUpLoot:1b,Health:1000f,CustomName:'{\"text\":\"Blaze King\",\"color\":\"gold\",\"bold\":true,\"italic\":false}',ArmorItems:[{},{},{id:\"minecraft:netherite_chestplate\",Count:1b,tag:{Enchantments:[{id:\"minecraft:projectile_protection\",lvl:32767s}]}},{}],ArmorDropChances:[0.085F,0.085F,0.000F,0.085F],ActiveEffects:[{Id:1b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:4b,Duration:200000,ShowParticles:0b},{Id:11b,Amplifier:3b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:1000},{Name:generic.follow_range,Base:200},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:5},{Name:generic.attack_knockback,Base:3}]}"
         				 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY())).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
@@ -614,11 +640,11 @@ public class GUIManagers implements Listener {
             	 }
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Warglin")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.PORKCHOP, 1), 64)) && !(p.getInventory().containsAtLeast(new ItemStack(Material.DIAMOND_SWORD, 1), 1))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.PORKCHOP, 1), 64)) && !(duplicateInv.containsAtLeast(new ItemStack(Material.DIAMOND_SWORD, 1), 1))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.PORKCHOP, 64));
-        		 p.getInventory().removeItem(new ItemStack(Material.DIAMOND_SWORD, 1));
+        		 removeItem(p, new ItemStack(Material.PORKCHOP, 64));
+        		 removeItem(p, new ItemStack(Material.DIAMOND_SWORD, 1));
         		 p.sendMessage(ChatColor.DARK_RED + "A Warglin has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.DARK_RED + "Materials!");
         		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon piglin_brute %x% %y% %z% {PersistenceRequired:1b,NoAI:0b,CanPickUpLoot:0b,Health:150f,IsImmuneToZombification:1b,CustomName:'{\"text\":\"Warglin\",\"color\":\"dark_red\",\"italic\":false}',HandItems:[{id:\"minecraft:diamond_sword\",Count:1b,tag:{display:{Name:'{\"text\":\"Warglin\\'s Weapon\",\"color\":\"blue\",\"italic\":false}'},Enchantments:[{id:\"minecraft:sharpness\",lvl:6s},{id:\"minecraft:smite\",lvl:7s},{id:\"minecraft:bane_of_arthropods\",lvl:8s},{id:\"minecraft:knockback\",lvl:2s},{id:\"minecraft:fire_aspect\",lvl:3s},{id:\"minecraft:unbreaking\",lvl:4s}]}},{}],ArmorItems:[{},{},{},{id:\"minecraft:diamond_helmet\",Count:1b,tag:{display:{Name:'{\"text\":\"Warglin Helmet\",\"color\":\"dark_blue\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:6s},{id:\"minecraft:fire_protection\",lvl:6s},{id:\"minecraft:blast_protection\",lvl:7s},{id:\"minecraft:respiration\",lvl:4s}]}}],ArmorDropChances:[0.085F,0.085F,0.085F,10.000F],ActiveEffects:[{Id:1b,Amplifier:0b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:1b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:150},{Name:generic.follow_range,Base:50},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:2}]}"
         				 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY())).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
@@ -650,11 +676,11 @@ public class GUIManagers implements Listener {
             	 }
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Snow Prince")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.PACKED_ICE, 1), 64)) && !(p.getInventory().containsAtLeast(new ItemStack(Material.SNOW_BLOCK, 1), 48))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.PACKED_ICE, 1), 64)) && !(duplicateInv.containsAtLeast(new ItemStack(Material.SNOW_BLOCK, 1), 48))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.PACKED_ICE, 64));
-        		 p.getInventory().removeItem(new ItemStack(Material.SNOW_BLOCK, 48));
+        		 removeItem(p, new ItemStack(Material.PACKED_ICE, 64));
+        		 removeItem(p, new ItemStack(Material.SNOW_BLOCK, 48));
         		 p.sendMessage(ChatColor.WHITE + "The Snow Prince has spawned from " + ChatColor.YELLOW + p.getName() + "'s " + ChatColor.WHITE + "Materials!");
         		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon polar_bear %x% %y% %z% {Silent:1b,Invulnerable:0b,Glowing:0b,CustomNameVisible:0b,NoAI:0b,Health:1000f,AngerTime:200000,Passengers:[{id:\"minecraft:snow_golem\",Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,PersistenceRequired:1b,NoAI:0b,CanPickUpLoot:1b,Health:3000f,Pumpkin:0b,CustomName:'{\"text\":\"Snow Prince\",\"color\":\"white\",\"bold\":true,\"italic\":false}',ArmorItems:[{id:\"minecraft:diamond_boots\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Icey Boots\",\"color\":\"aqua\",\"italic\":false,\"bold\":true}',Lore:['{\"text\":\"As cold as blue ice,\",\"color\":\"gray\",\"italic\":true}','{\"text\":\"this is the armor piece\",\"color\":\"gray\",\"italic\":true}','{\"text\":\"that frightens the\",\"color\":\"gray\",\"italic\":true}','{\"text\":\"blaze family.\",\"color\":\"gray\",\"italic\":true}']},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:protection\",lvl:10s},{id:\"minecraft:fire_protection\",lvl:32767s},{id:\"minecraft:projectile_protection\",lvl:32767s},{id:\"minecraft:thorns\",lvl:4s},{id:\"minecraft:frost_walker\",lvl:25s}],AttributeModifiers:[{AttributeName:\"generic.knockback_resistance\",Name:\"generic.knockback_resistance\",Amount:1,Operation:0,UUID:[I;-995008823,-1850850912,-1484619506,-1757661022],Slot:\"feet\"},{AttributeName:\"generic.armor_toughness\",Name:\"generic.armor_toughness\",Amount:5,Operation:0,UUID:[I;-622147545,-184856608,-1553765133,-1332216925],Slot:\"feet\"},{AttributeName:\"generic.movement_speed\",Name:\"generic.movement_speed\",Amount:2,Operation:0,UUID:[I;-625475929,-1531885736,-1186117894,-1244499706],Slot:\"feet\"}]}},{},{},{}],ArmorDropChances:[9.000F,0.085F,0.085F,0.085F],ActiveEffects:[{Id:1b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:4b,Duration:200000,ShowParticles:0b},{Id:10b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:11b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:0b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:3000},{Name:generic.follow_range,Base:50},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:25},{Name:generic.attack_knockback,Base:7}]}],CustomName:'{\"text\":\"Royal Ice Bear\",\"color\":\"#DBDBDB\",\"bold\":true,\"italic\":false}',ArmorItems:[{},{},{id:\"minecraft:netherite_chestplate\",Count:1b,tag:{Enchantments:[{id:\"minecraft:projectile_protection\",lvl:32767s},{id:\"minecraft:thorns\",lvl:5s}]}},{}],ArmorDropChances:[0.085F,0.085F,0.000F,0.085F],ActiveEffects:[{Id:1b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:5b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:0b,Duration:200000,ShowParticles:0b},{Id:28b,Amplifier:1b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:1000},{Name:generic.follow_range,Base:75},{Name:generic.knockback_resistance,Base:0.5},{Name:generic.attack_damage,Base:30},{Name:generic.attack_knockback,Base:3}]}"
         				 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY())).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
@@ -686,12 +712,12 @@ public class GUIManagers implements Listener {
             	 }
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Magillager")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.BOW, 1), 2)) && !(p.getInventory().containsAtLeast(new ItemStack(Material.EMERALD, 1), 16))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.BOW, 1), 2)) && !(duplicateInv.containsAtLeast(new ItemStack(Material.EMERALD, 1), 16))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.BOW, 1));
-        		 p.getInventory().removeItem(new ItemStack(Material.BOW, 1));
-        		 p.getInventory().removeItem(new ItemStack(Material.EMERALD, 16));
+        		 removeItem(p, new ItemStack(Material.BOW, 1));
+        		 removeItem(p, new ItemStack(Material.BOW, 1));
+        		 removeItem(p, new ItemStack(Material.EMERALD, 16));
         		 p.sendMessage(ChatColor.DARK_AQUA + "A Magillager has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.DARK_AQUA + "Materials!");
         		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon illusioner %x% %y% %z% {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,PersistenceRequired:1b,NoAI:0b,CanPickUpLoot:1b,Health:150f,PatrolLeader:0b,Patrolling:0b,HasRaidGoal:0b,CanJoinRaid:1b,CustomName:'{\"text\":\"Magillager\",\"color\":\"dark_aqua\",\"italic\":false}',HandItems:[{id:\"minecraft:bow\",Count:1b,tag:{display:{Name:'{\"text\":\"The Magic Bow\",\"color\":\"dark_green\",\"bold\":true,\"italic\":false}'},Enchantments:[{id:\"minecraft:sharpness\",lvl:10s},{id:\"minecraft:smite\",lvl:10s},{id:\"minecraft:bane_of_arthropods\",lvl:10s},{id:\"minecraft:knockback\",lvl:4s},{id:\"minecraft:looting\",lvl:3s},{id:\"minecraft:unbreaking\",lvl:10s},{id:\"minecraft:power\",lvl:10s},{id:\"minecraft:punch\",lvl:4s},{id:\"minecraft:flame\",lvl:1s},{id:\"minecraft:infinity\",lvl:1s},{id:\"minecraft:mending\",lvl:1s}],AttributeModifiers:[{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:8,Operation:0,UUID:[I;-662801020,1482771992,-1077889840,-288011913],Slot:\"mainhand\"},{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:4,Operation:0,UUID:[I;814166081,-1747041816,-1911095690,1248500947],Slot:\"offhand\"}]}},{}],HandDropChances:[5.000F,0.085F],ActiveEffects:[{Id:1b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:8b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:0b,Duration:200000,ShowParticles:0b},{Id:13b,Amplifier:0b,Duration:200000,ShowParticles:0b},{Id:31b,Amplifier:1b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:150},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:10},{Name:generic.attack_knockback,Base:2}]}"
         				 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY())).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
@@ -723,19 +749,19 @@ public class GUIManagers implements Listener {
             	 }
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Netherite Skeleton")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.ANCIENT_DEBRIS, 1), 1))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.ANCIENT_DEBRIS, 1), 1))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.ANCIENT_DEBRIS, 1));
+        		 removeItem(p, new ItemStack(Material.ANCIENT_DEBRIS, 1));
         		 p.sendMessage(ChatColor.DARK_GRAY + "A Netherite Skeleton has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.DARK_GRAY + "Debris!");
         		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon wither_skeleton %x% %y% %z% {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,PortalCooldown:200000,PersistenceRequired:0b,NoAI:0b,CanPickUpLoot:0b,Health:20f,CustomName:'{\"text\":\"Netherite Skeleton\",\"color\":\"#542D05\",\"italic\":false}',HandItems:[{id:\"minecraft:netherite_sword\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Netherite Sword\",\"italic\":false}'},Enchantments:[{id:\"minecraft:sharpness\",lvl:10s},{id:\"minecraft:smite\",lvl:5s},{id:\"minecraft:bane_of_arthropods\",lvl:5s},{id:\"minecraft:knockback\",lvl:4s}]}},{id:\"minecraft:netherite_block\",Count:2b}],HandDropChances:[15.000F,5.000F],ArmorItems:[{id:\"minecraft:netherite_boots\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Netherite Boots\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:10s}]}},{id:\"minecraft:netherite_leggings\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Netherite Leggings\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:10s}]}},{id:\"minecraft:netherite_chestplate\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Netherite Chestplate\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:10s}]}},{id:\"minecraft:netherite_helmet\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Netherite Helmet\",\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:10s}]}}],ArmorDropChances:[0.085F,0.085F,10.000F,10.000F],ActiveEffects:[{Id:5b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:8b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:10b,Amplifier:0b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:20}]}"
         				 .replace("%x%", Integer.toString(p.getLocation().getBlockX())).replace("%y%", Integer.toString(p.getLocation().getBlockY())).replace("%z%", Integer.toString(p.getLocation().getBlockZ())));
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Zombie King")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.ROTTEN_FLESH, 1), 64))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.ROTTEN_FLESH, 1), 64))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.ROTTEN_FLESH, 64));
+        		 removeItem(p, new ItemStack(Material.ROTTEN_FLESH, 64));
         		 ZombieKingAbilities.announceDialogue(ChatColor.BOLD + "Who has summoned the great one?");
                  plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
                  
@@ -780,10 +806,10 @@ public class GUIManagers implements Listener {
         		 }.runTaskLater(plugin, 40);
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Amethyst Zombie")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.AMETHYST_SHARD, 1), 32))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.AMETHYST_SHARD, 1), 32))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.AMETHYST_SHARD, 32));
+        		 removeItem(p, new ItemStack(Material.AMETHYST_SHARD, 32));
         		 p.sendMessage(ChatColor.DARK_PURPLE + "An Amethyst Zombie has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.DARK_PURPLE + "Amethyst");
         		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon zombie ~ ~ ~ {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,Health:200f,CustomName:'{\"text\":\"Amethyst Zombie\",\"color\":\"light_purple\",\"italic\":false}',HandItems:[{id:\"minecraft:amethyst_shard\",Count:1b,tag:{display:{Name:'{\"text\":\"Super Amethyst Shard\",\"color\":\"dark_purple\",\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:sharpness\",lvl:15s},{id:\"minecraft:smite\",lvl:10s},{id:\"minecraft:bane_of_arthropods\",lvl:10s},{id:\"minecraft:looting\",lvl:10s},{id:\"minecraft:sweeping\",lvl:25s}],AttributeModifiers:[{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:5,Operation:0,UUID:[I;-909321703,1930970078,-2108694589,370468640],Slot:\"mainhand\"},{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:5,Operation:0,UUID:[I;114330334,-1037156303,-1388268589,-1427227550],Slot:\"offhand\"}]}},{}],HandDropChances:[0.063F,0.085F],ArmorItems:[{id:\"minecraft:leather_boots\",Count:1b,tag:{display:{Name:'{\"text\":\"Amethyst Boots\",\"color\":\"light_purple\",\"italic\":false}',color:12517548},HideFlags:65,Enchantments:[{id:\"minecraft:protection\",lvl:15s},{id:\"minecraft:fire_protection\",lvl:7s},{id:\"minecraft:blast_protection\",lvl:7s},{id:\"minecraft:projectile_protection\",lvl:7s},{id:\"minecraft:thorns\",lvl:2s},{id:\"minecraft:unbreaking\",lvl:25s}],AttributeModifiers:[{AttributeName:\"generic.armor\",Name:\"generic.armor\",Amount:4,Operation:0,UUID:[I;243299349,-30981221,-1852776914,208967007],Slot:\"feet\"}]}},{id:\"minecraft:leather_leggings\",Count:1b,tag:{display:{Name:'{\"text\":\"Amethyst Leggings\",\"color\":\"light_purple\",\"italic\":false}',color:12517548},HideFlags:65,Enchantments:[{id:\"minecraft:protection\",lvl:15s},{id:\"minecraft:fire_protection\",lvl:7s},{id:\"minecraft:blast_protection\",lvl:7s},{id:\"minecraft:projectile_protection\",lvl:7s},{id:\"minecraft:thorns\",lvl:2s},{id:\"minecraft:unbreaking\",lvl:25s}],AttributeModifiers:[{AttributeName:\"generic.armor\",Name:\"generic.armor\",Amount:7,Operation:0,UUID:[I;243299349,-30981221,-1852776914,208967007],Slot:\"legs\"}]}},{id:\"minecraft:leather_chestplate\",Count:1b,tag:{display:{Name:'{\"text\":\"Amethyst Chestplate\",\"color\":\"light_purple\",\"italic\":false}',color:12517548},HideFlags:65,Enchantments:[{id:\"minecraft:protection\",lvl:15s},{id:\"minecraft:fire_protection\",lvl:7s},{id:\"minecraft:blast_protection\",lvl:7s},{id:\"minecraft:projectile_protection\",lvl:7s},{id:\"minecraft:thorns\",lvl:2s},{id:\"minecraft:unbreaking\",lvl:25s}],AttributeModifiers:[{AttributeName:\"generic.armor\",Name:\"generic.armor\",Amount:8,Operation:0,UUID:[I;243299349,-30981221,-1852776914,208967007],Slot:\"chest\"}]}},{id:\"minecraft:amethyst_block\",Count:16b}],ArmorDropChances:[0.125F,125.000F,0.125F,1.000F],ActiveEffects:[{Id:1b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:3b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:200},{Name:generic.knockback_resistance,Base:1},{Name:generic.movement_speed,Base:0.2},{Name:generic.attack_damage,Base:10},{Name:generic.armor,Base:15},{Name:generic.armor_toughness,Base:10},{Name:generic.attack_knockback,Base:4},{Name:zombie.spawn_reinforcements,Base:1}]}");
                  plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
@@ -814,10 +840,10 @@ public class GUIManagers implements Listener {
             	 }
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("The Sculk Witch")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.ROTTEN_FLESH), 160))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.ROTTEN_FLESH), 160))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.ROTTEN_FLESH, 64), new ItemStack(Material.ROTTEN_FLESH, 64), new ItemStack(Material.ROTTEN_FLESH, 32));
+        		 removeItem(p, new ItemStack(Material.ROTTEN_FLESH, 64), new ItemStack(Material.ROTTEN_FLESH, 64), new ItemStack(Material.ROTTEN_FLESH, 32));
         		 p.sendMessage(ChatColor.DARK_AQUA + "A Sculk Witch has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.DARK_AQUA + "Rotten Flesh!");
         		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon witch ~ ~ ~ {Health:7000f,PatrolLeader:1b,HasRaidGoal:1b,CanJoinRaid:1b,CustomName:'{\"text\":\"The Sculk Witch\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}',HandItems:[{id:\"minecraft:sculk_sensor\",Count:64b},{id:\"minecraft:sculk_sensor\",Count:32b}],HandDropChances:[1.000F,0.250F],ArmorItems:[{},{},{id:\"minecraft:leather_chestplate\",Count:1b,tag:{display:{Name:'{\"text\":\"Sculk Chestplate\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}'},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:protection\",lvl:255s},{id:\"minecraft:fire_protection\",lvl:255s},{id:\"minecraft:blast_protection\",lvl:255s},{id:\"minecraft:thorns\",lvl:25s}]}},{id:\"minecraft:netherite_helmet\",Count:1b,tag:{display:{Name:'{\"text\":\"Sculk Helmet\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}',Lore:['{\"text\":\"An aura so strong,\",\"color\":\"gray\",\"italic\":false}','{\"text\":\"zombies and skeletons will\",\"color\":\"gray\",\"italic\":false}','{\"text\":\"ignore you.\",\"color\":\"gray\",\"italic\":false}']},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:protection\",lvl:200s},{id:\"minecraft:blast_protection\",lvl:255s},{id:\"minecraft:projectile_protection\",lvl:255s},{id:\"minecraft:respiration\",lvl:250s}],AttributeModifiers:[{AttributeName:\"generic.luck\",Name:\"generic.luck\",Amount:3,Operation:2,UUID:[I;-1483853205,1593395797,-2094303794,98091408],Slot:\"head\"}]}}],ArmorDropChances:[0.085F,0.085F,0.001F,0.003F],Attributes:[{Name:generic.max_health,Base:7000},{Name:generic.attack_damage,Base:150}]}");
         	 
@@ -846,13 +872,46 @@ public class GUIManagers implements Listener {
             		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
             	 }
         	 }
+         } else if (clickedItem.getItemMeta().getDisplayName().contains("Wither Zombie")) {
+        	 if (!(duplicateInv.containsAtLeast(ItemFetcher.getWitherMaterial(), 16))) {
+        		 p.sendMessage(notEnoughMats);
+        	 } else {
+        		 ItemStack wM = ItemFetcher.getWitherMaterial();
+        		 wM.setAmount(16);
+        		 removeItem(p, wM);
+        		 
+                 int bossSummons = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons");
+                 
+            	 if (bossSummons == 1) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(1, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 5) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(2, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 15) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(3, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 30) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(4, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 55) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(5, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 70) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(6, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 } else if (bossSummons == 125) {
+            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(7, true));
+            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
+            	 }
+        	 }
          }
          // T5 Bosses Spawn
          else if (clickedItem.getItemMeta().getDisplayName().contains("Golden Shulker")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.GOLDEN_APPLE, 1), 32))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.GOLDEN_APPLE, 1), 32))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-	    		 p.getInventory().removeItem(new ItemStack(Material.GOLDEN_APPLE, 32));
+	    		 removeItem(p, new ItemStack(Material.GOLDEN_APPLE, 32));
 	    		 p.sendMessage(ChatColor.GOLD + "A Golden Shulker has spawned from " + ChatColor.YELLOW + p.getName() + "'s " + ChatColor.GOLD + "Golden Apples!");
 	    		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon shulker ~ ~ ~ {Silent:0b,Invulnerable:0b,Glowing:0b,CustomNameVisible:1b,PortalCooldown:200000,CanPickUpLoot:0b,Health:25000f,Peek:3b,AttachFace:0b,Color:4b,CustomName:'{\"text\":\"Golden Shulker\",\"color\":\"gold\",\"bold\":true,\"italic\":false}',HandItems:[{id:\"minecraft:enchanted_golden_apple\",Count:32b},{}],HandDropChances:[0.500F,0.100F],ArmorItems:[{},{id:\"minecraft:gold_block\",Count:48b},{id:\"minecraft:golden_chestplate\",Count:1b,tag:{display:{Name:'{\"text\":\"Patina\\'s Golden Chestplate\",\"color\":\"gold\",\"bold\":true,\"italic\":false}'},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:blast_protection\",lvl:32767s},{id:\"minecraft:projectile_protection\",lvl:32767s},{id:\"minecraft:thorns\",lvl:8s}],AttributeModifiers:[{AttributeName:\"generic.armor\",Name:\"generic.armor\",Amount:30,Operation:0,UUID:[I;-1702195328,117457616,-2009818561,1416462628],Slot:\"chest\"},{AttributeName:\"generic.max_health\",Name:\"generic.max_health\",Amount:20,Operation:0,UUID:[I;-1474531694,-73121069,-2117049900,-1702337560],Slot:\"chest\"}]}},{id:\"minecraft:shulker_shell\",Count:31b}],ArmorDropChances:[1.000F,1.000F,0.050F,1.000F],ActiveEffects:[{Id:1b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:1b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:25000},{Name:generic.follow_range,Base:300},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:40},{Name:generic.attack_knockback,Base:10}]}");
 	             plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
@@ -883,14 +942,14 @@ public class GUIManagers implements Listener {
 	        	 }
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Pillager King")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.ARROW, 1), 256)) && !p.getInventory().containsAtLeast(new ItemStack(Material.EMERALD, 1), 48)) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.ARROW, 1), 256)) && !p.getInventory().containsAtLeast(new ItemStack(Material.EMERALD, 1), 48)) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-	    		 p.getInventory().removeItem(new ItemStack(Material.ARROW, 64));
-	    		 p.getInventory().removeItem(new ItemStack(Material.ARROW, 64));
-	    		 p.getInventory().removeItem(new ItemStack(Material.ARROW, 64));
-	    		 p.getInventory().removeItem(new ItemStack(Material.ARROW, 64));
-	    		 p.getInventory().removeItem(new ItemStack(Material.EMERALD, 48));
+	    		 removeItem(p, new ItemStack(Material.ARROW, 64));
+	    		 removeItem(p, new ItemStack(Material.ARROW, 64));
+	    		 removeItem(p, new ItemStack(Material.ARROW, 64));
+	    		 removeItem(p, new ItemStack(Material.ARROW, 64));
+	    		 removeItem(p, new ItemStack(Material.EMERALD, 48));
 	    		 p.sendMessage(ChatColor.DARK_GRAY + "The Pillager King has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.DARK_GRAY + "Materials!");
 	    		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon ravager ~ ~ ~ {Silent:1b,Invulnerable:0b,Glowing:0b,CustomNameVisible:0b,PersistenceRequired:0b,NoAI:0b,CanPickUpLoot:0b,Health:10000f,PatrolLeader:0b,Patrolling:0b,HasRaidGoal:0b,CanJoinRaid:1b,Passengers:[{id:\"minecraft:pillager\",Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,Health:20000f,PatrolLeader:1b,Patrolling:0b,HasRaidGoal:0b,CanJoinRaid:1b,CustomName:'{\"text\":\"King Pillager\",\"color\":\"green\",\"bold\":true,\"italic\":false}',HandItems:[{id:\"minecraft:crossbow\",Count:1b,tag:{display:{Name:'{\"text\":\"Praedo\",\"color\":\"dark_gray\",\"bold\":true,\"italic\":false}'},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:power\",lvl:50s},{id:\"minecraft:punch\",lvl:10s},{id:\"minecraft:multishot\",lvl:1s},{id:\"minecraft:piercing\",lvl:50s},{id:\"minecraft:quick_charge\",lvl:4s}]}},{id:\"minecraft:firework_rocket\",Count:64b,tag:{display:{Name:'{\"text\":\"Pillager Rocket\",\"color\":\"gray\",\"italic\":false}'},Fireworks:{Flight:1b,Explosions:[{Type:0,Trail:1b,Colors:[I;5855577],FadeColors:[I;16777215]}]}}}],HandDropChances:[1.000F,1.000F],ArmorItems:[{id:\"minecraft:diamond_boots\",Count:1b,tag:{display:{Name:'{\"text\":\"Ucide\\'s Boots\",\"color\":\"dark_gray\",\"bold\":true,\"italic\":false}'},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:protection\",lvl:40s},{id:\"minecraft:feather_falling\",lvl:60s},{id:\"minecraft:blast_protection\",lvl:32767s},{id:\"minecraft:soul_speed\",lvl:15s}],AttributeModifiers:[{AttributeName:\"generic.knockback_resistance\",Name:\"generic.knockback_resistance\",Amount:1,Operation:0,UUID:[I;-219942479,1029456979,-1724980511,343220973],Slot:\"feet\"},{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:20,Operation:0,UUID:[I;-388507174,-1860677750,-1491346897,500153693],Slot:\"feet\"}]}},{id:\"minecraft:emerald_block\",Count:48b},{id:\"minecraft:netherite_chestplate\",Count:1b,tag:{Enchantments:[{id:\"minecraft:fire_protection\",lvl:32767s},{id:\"minecraft:projectile_protection\",lvl:1327s}]}},{id:\"minecraft:iron_helmet\",Count:1b,tag:{display:{Name:'{\"text\":\"Raid Crown\",\"bold\":true,\"italic\":false}'},Enchantments:[{id:\"minecraft:protection\",lvl:8s},{id:\"minecraft:respiration\",lvl:5s},{id:\"minecraft:aqua_affinity\",lvl:1s},{id:\"minecraft:thorns\",lvl:2s},{id:\"minecraft:unbreaking\",lvl:7s}]}}],ArmorDropChances:[0.500F,1.000F,0.000F,1.000F],Attributes:[{Name:generic.max_health,Base:20000},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:30},{Name:generic.attack_knockback,Base:35}]}],CustomName:'{\"text\":\"Mutant Ravager\",\"color\":\"dark_gray\",\"bold\":true,\"italic\":false}',ArmorItems:[{},{},{id:\"minecraft:leather_chestplate\",Count:1b,tag:{display:{Name:'{\"text\":\"Raider Chestplate\",\"color\":\"gray\",\"bold\":true,\"italic\":false}',color:12895428},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:protection\",lvl:10s},{id:\"minecraft:blast_protection\",lvl:6s},{id:\"minecraft:projectile_protection\",lvl:10s},{id:\"minecraft:thorns\",lvl:9s}]}},{}],ArmorDropChances:[0.085F,0.085F,0.500F,0.085F],ActiveEffects:[{Id:1b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:8b,Amplifier:3b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:1b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:10000},{Name:generic.follow_range,Base:300},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:25},{Name:generic.attack_knockback,Base:25}]}");
 	             plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
@@ -921,10 +980,10 @@ public class GUIManagers implements Listener {
 	        	 }
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Phantom King")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.ELYTRA, 1), 1))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.ELYTRA, 1), 1))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-	    		 p.getInventory().removeItem(new ItemStack(Material.ELYTRA, 1));
+	    		 removeItem(p, new ItemStack(Material.ELYTRA, 1));
 	    		 p.sendMessage(ChatColor.GRAY + "The Phantom King has spawned from " + ChatColor.GOLD + p.getName() + "'s " + ChatColor.GRAY + "Elytra!");
 	    		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon phantom ~ ~10 ~ {Silent:1b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,Health:15000f,Size:10,CustomName:'{\"text\":\"Phantom King\",\"color\":\"dark_gray\",\"bold\":true,\"italic\":false}',HandItems:[{id:\"minecraft:phantom_membrane\",Count:48b},{id:\"minecraft:potion\",Count:1b,tag:{display:{Name:'{\"text\":\"Phantom Potion\",\"color\":\"gray\",\"italic\":false}'},CustomPotionEffects:[{Id:1b,Amplifier:2b,Duration:6000,ShowParticles:1b},{Id:10b,Amplifier:2b,Duration:6000,ShowParticles:1b},{Id:14b,Amplifier:3b,Duration:6000,ShowParticles:1b}],Potion:\"minecraft:empty\",CustomPotionColor:3684408}}],HandDropChances:[1.000F,1.000F],ArmorItems:[{},{id:\"minecraft:iron_leggings\",Count:1b,tag:{display:{Name:'{\"text\":\"Phantom Leggings\",\"color\":\"dark_gray\",\"bold\":true,\"italic\":false}'},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:protection\",lvl:45s},{id:\"minecraft:fire_protection\",lvl:2767s},{id:\"minecraft:blast_protection\",lvl:32767s},{id:\"minecraft:thorns\",lvl:10s}],AttributeModifiers:[{AttributeName:\"generic.max_health\",Name:\"generic.max_health\",Amount:10,Operation:0,UUID:[I;815077853,-1008122040,-1285646117,-1674774986],Slot:\"legs\"}]}},{id:\"minecraft:elytra\",Count:1b,tag:{display:{Name:'{\"text\":\"Tenuem\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false}'},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:protection\",lvl:35s},{id:\"minecraft:fire_protection\",lvl:45s},{id:\"minecraft:projectile_protection\",lvl:32767s},{id:\"minecraft:thorns\",lvl:15s}],AttributeModifiers:[{AttributeName:\"generic.max_health\",Name:\"generic.max_health\",Amount:20,Operation:0,UUID:[I;-1874920176,-497530890,-1122040731,-1024443108],Slot:\"chest\"},{AttributeName:\"generic.movement_speed\",Name:\"generic.movement_speed\",Amount:0.5,Operation:0,UUID:[I;-595386506,2041791217,-2139681147,600308124],Slot:\"chest\"}]}},{}],ArmorDropChances:[0.085F,1.000F,1.000F,0.085F],ActiveEffects:[{Id:1b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:1b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:15000},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:25},{Name:generic.attack_knockback,Base:4}]}");
 	             plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
@@ -955,10 +1014,10 @@ public class GUIManagers implements Listener {
 	        	 }
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Emerald Warrior")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.EMERALD, 1), 48))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.EMERALD, 1), 48))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.EMERALD, 48));
+        		 removeItem(p, new ItemStack(Material.EMERALD, 48));
         		 EmeraldWarriorAbilities.announceDialogue(ChatColor.BOLD + "I smell emeralds.");
                  plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
                  
@@ -1003,10 +1062,10 @@ public class GUIManagers implements Listener {
         		 }.runTaskLater(plugin, 40);
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Creeper King")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.TNT, 1), 64))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.TNT, 1), 64))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.TNT, 64));
+        		 removeItem(p, new ItemStack(Material.TNT, 64));
                  plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
                  
                  int bossSummons = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons");
@@ -1051,10 +1110,10 @@ public class GUIManagers implements Listener {
         		 }.runTaskLater(plugin, 40);
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Aranea")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.COBWEB, 1), 64))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.COBWEB, 1), 64))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.COBWEB, 64));
+        		 removeItem(p, new ItemStack(Material.COBWEB, 64));
         		 p.sendMessage(ChatColor.DARK_RED + "You summoned an Araena!");
                  plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
                  
@@ -1085,11 +1144,11 @@ public class GUIManagers implements Listener {
         		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon spider ~ ~5 ~ {Silent:1b,Invulnerable:0b,Glowing:0b,CustomNameVisible:1b,PersistenceRequired:0b,NoAI:0b,CanPickUpLoot:0b,Health:60000f,CustomName:'{\"text\":\"Aranea\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false}',ArmorItems:[{id:\"minecraft:netherite_boots\",Count:1b,tag:{display:{Name:'{\"text\":\"Saliant Boots\",\"color\":\"dark_gray\",\"bold\":true,\"italic\":false}',Lore:['{\"text\":\"Sneak to launch.\",\"color\":\"gray\",\"italic\":false}']},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:protection\",lvl:50s},{id:\"minecraft:fire_protection\",lvl:327667s},{id:\"minecraft:feather_falling\",lvl:200s},{id:\"minecraft:projectile_protection\",lvl:32767s},{id:\"minecraft:thorns\",lvl:25s},{id:\"minecraft:depth_strider\",lvl:200s},{id:\"minecraft:soul_speed\",lvl:25s}],AttributeModifiers:[{AttributeName:\"generic.max_health\",Name:\"generic.max_health\",Amount:-0.5,Operation:2,UUID:[I;609111164,2133803578,-1988813555,-642493658],Slot:\"feet\"},{AttributeName:\"generic.armor_toughness\",Name:\"generic.armor_toughness\",Amount:3,Operation:2,UUID:[I;834723943,-37729396,-1559490516,559751520],Slot:\"feet\"},{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:2.5,Operation:2,UUID:[I;724814354,2133543774,-2005980464,9588628],Slot:\"feet\"},{AttributeName:\"generic.knockback_resistance\",Name:\"generic.knockback_resistance\",Amount:1,Operation:0,UUID:[I;-405599343,90326049,-1906695391,2016605205],Slot:\"feet\"}]}},{id:\"minecraft:iron_sword\",Count:1b,tag:{display:{Name:'[{\"text\":\"()()()\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false,\"obfuscated\":true},{\"text\":\" Chordate Sword \",\"color\":\"red\",\"bold\":true,\"obfuscated\":false},{\"text\":\"()()()\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false,\"obfuscated\":true}]'},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:sharpness\",lvl:200s},{id:\"minecraft:smite\",lvl:212s},{id:\"minecraft:bane_of_arthropods\",lvl:300s},{id:\"minecraft:knockback\",lvl:50s},{id:\"minecraft:fire_aspect\",lvl:100s},{id:\"minecraft:looting\",lvl:50s},{id:\"minecraft:sweeping\",lvl:250s}],AttributeModifiers:[{AttributeName:\"generic.knockback_resistance\",Name:\"generic.knockback_resistance\",Amount:1,Operation:0,UUID:[I;-1768090679,-537244671,-1834606829,1709889286],Slot:\"mainhand\"},{AttributeName:\"generic.knockback_resistance\",Name:\"generic.knockback_resistance\",Amount:1,Operation:0,UUID:[I;489399515,-787067520,-1632339604,-981042791],Slot:\"offhand\"},{AttributeName:\"generic.max_health\",Name:\"generic.max_health\",Amount:-0.75,Operation:2,UUID:[I;-1935964939,-656651427,-1208389519,1307265224],Slot:\"offhand\"},{AttributeName:\"generic.attack_speed\",Name:\"generic.attack_speed\",Amount:5,Operation:0,UUID:[I;-243678660,1556696172,-1728120791,-383891467],Slot:\"mainhand\"},{AttributeName:\"generic.attack_speed\",Name:\"generic.attack_speed\",Amount:5,Operation:0,UUID:[I;1531833587,-1051047238,-2090606401,1506779688],Slot:\"offhand\"},{AttributeName:\"generic.armor_toughness\",Name:\"generic.armor_toughness\",Amount:4,Operation:2,UUID:[I;-715696331,364462409,-2097099902,228354340],Slot:\"mainhand\"},{AttributeName:\"generic.armor_toughness\",Name:\"generic.armor_toughness\",Amount:4,Operation:2,UUID:[I;-1685380959,-1421391710,-1728677529,1537833210],Slot:\"offhand\"},{AttributeName:\"generic.max_health\",Name:\"generic.max_health\",Amount:-0.8,Operation:2,UUID:[I;-1113967130,-619165963,-1128713699,-1562641481],Slot:\"mainhand\"},{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:35,Operation:0,UUID:[I;-1248227078,-788837659,-1390430414,-828060146],Slot:\"mainhand\"},{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:25,Operation:0,UUID:[I;1673692688,852771497,-1099068021,-521515566],Slot:\"offhand\"}]}},{},{id:\"minecraft:string\",Count:1b,tag:{display:{Name:'{\"text\":\"Spider Sericum\",\"color\":\"gray\",\"bold\":true,\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}}],ArmorDropChances:[0.050F,0.006F,0.085F,1.000F],ActiveEffects:[{Id:1b,Amplifier:1b,Duration:20000,ShowParticles:0b},{Id:8b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:1b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:60000},{Name:generic.follow_range,Base:1000},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:35},{Name:generic.attack_knockback,Base:10}]}");
         	 }
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Iron King")) {
-        	 if (!(p.getInventory().containsAtLeast(new ItemStack(Material.IRON_INGOT, 1), 128))) {
+        	 if (!(duplicateInv.containsAtLeast(new ItemStack(Material.IRON_INGOT, 1), 128))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
-        		 p.getInventory().removeItem(new ItemStack(Material.IRON_INGOT, 64));
-        		 p.getInventory().removeItem(new ItemStack(Material.IRON_INGOT, 64));
+        		 removeItem(p, new ItemStack(Material.IRON_INGOT, 64));
+        		 removeItem(p, new ItemStack(Material.IRON_INGOT, 64));
         		 p.sendMessage(ChatColor.WHITE + "You summoned The Iron King!");
                  plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
                  
@@ -1122,10 +1181,10 @@ public class GUIManagers implements Listener {
         	 
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Dimensional Dragon")) {
         	 if (p.getWorld().getName().contains("world_the_end")) {
-	        	 if (!(p.getInventory().containsAtLeast(ItemFetcher.getBlackHoleCandle(), 1))) {
+	        	 if (!(duplicateInv.containsAtLeast(ItemFetcher.getBlackHoleCandle(), 1))) {
 	        		 p.sendMessage(notEnoughMats);
 	        	 } else {
-	        		 p.getInventory().removeItem(ItemFetcher.getBlackHoleCandle());
+	        		 removeItem(p, ItemFetcher.getBlackHoleCandle());
 	        		 p.sendMessage(ChatColor.DARK_AQUA + "You summoned the Dimensional Dragon!");
 	                 plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
 	                 
@@ -1157,37 +1216,37 @@ public class GUIManagers implements Listener {
 	        	 }
         	 } else p.sendMessage(ChatColor.AQUA + "The Dimensional Dragon is biased towards the end dimension...");
          } else if (clickedItem.getItemMeta().getDisplayName().contains("Titan")) {
-        	 if (!(p.getInventory().containsAtLeast(Boss.getTitanSummoner(), 1))) {
+        	 if (!(duplicateInv.containsAtLeast(Boss.getTitanSummoner(), 1))) {
         		 p.sendMessage(notEnoughMats);
         	 } else {
 	        	 String itemName = clickedItem.getItemMeta().getDisplayName();
 	        	 
 	        	 if (itemName.contains("Damage Titan")) {
-	        		 p.getInventory().removeItem(Boss.getTitanSummoner());
+	        		 removeItem(p, Boss.getTitanSummoner());
 	        		 TitanAbilities.announceDialogue("The " + ChatColor.DARK_RED + "Damage Titan" + ChatColor.GOLD + " has been summoned by " + ChatColor.YELLOW + p.getName());
 	        		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon wither ~ ~5 ~ {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,PersistenceRequired:1b,NoAI:0b,CanPickUpLoot:0b,Health:50f,Invul:100,CustomName:'{\"text\":\"Damage Titan\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false}',HandItems:[{id:\"minecraft:brick\",Count:1b,tag:{display:{Name:'{\"text\":\"Damage Ingot\",\"color\":\"red\",\"bold\":true,\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}},{}],HandDropChances:[1.000F,0.085F],ArmorItems:[{},{},{id:\"minecraft:wither_skeleton_skull\",Count:64b},{id:\"minecraft:sunflower\",Count:1b,tag:{display:{Name:'[{\"text\":\"||\",\"color\":\"red\",\"bold\":true,\"italic\":false,\"obfuscated\":true},{\"text\":\" Enchanted Damage Coin \",\"color\":\"dark_red\",\"bold\":true,\"italic\":false,\"obfuscated\":false},{\"text\":\"||\",\"color\":\"red\",\"bold\":true,\"italic\":false,\"obfuscated\":true}]'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}}],ArmorDropChances:[0.085F,0.085F,1.000F,0.100F],ActiveEffects:[{Id:5b,Amplifier:4b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:1b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:50},{Name:generic.follow_range,Base:1000},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:45},{Name:generic.attack_knockback,Base:10}]}");
 	        	 } else if (itemName.contains("End Titan")) {
 	        		 if (p.getWorld().getName().contains("world_the_end")) {
-	        			 p.getInventory().removeItem(Boss.getTitanSummoner());
+	        			 removeItem(p, Boss.getTitanSummoner());
 		        		 TitanAbilities.announceDialogue("The " + ChatColor.DARK_PURPLE + "End Titan" + ChatColor.GOLD + " has been summoned by " + ChatColor.YELLOW + p.getName());
 		        		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon ender_dragon ~ ~10 ~ {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,Health:90f,DragonPhase:4,CustomName:'{\"text\":\"Ender Titan\",\"color\":\"light_purple\",\"bold\":true,\"italic\":false}',HandItems:[{},{id:\"minecraft:black_dye\",Count:1b,tag:{display:{Name:'{\"text\":\"Essence of Consummationem\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}}],HandDropChances:[0.085F,1.000F],ArmorItems:[{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Artifact of Flight\",\"color\":\"gold\",\"bold\":true,\"italic\":false}',Lore:['[{\"text\":\"Craft with a \",\"color\":\"gray\",\"italic\":false},{\"text\":\"Tenuem\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false}]','{\"text\":\"to make an elytra\",\"color\":\"gray\",\"italic\":false}','{\"text\":\"that can simulate flight.\",\"color\":\"gray\",\"italic\":false}']},SkullOwner:{Id:[I;-1917329199,1493911248,-2090273876,-1830921933],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ0MmJiMzM5MWIzOTY0ZGUyNjZkOWJlYmU3Y2NmN2VmM2MzOTA2MjZlYjdhODQ1NjEyYWQ5MGYzZmE0MmMxMiJ9fX0=\"}]}}}},{id:\"minecraft:end_rod\",Count:1b,tag:{display:{Name:'{\"text\":\"Titan Spike\",\"color\":\"light_purple\",\"bold\":true,\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}},{id:\"minecraft:pink_dye\",Count:1b,tag:{display:{Name:'[{\"text\":\"()()\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false,\"obfuscated\":true},{\"text\":\" Enchanted End Essence \",\"color\":\"light_purple\",\"bold\":true,\"italic\":false,\"obfuscated\":false},{\"text\":\"()()\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false,\"obfuscated\":true}]'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}},{}],ArmorDropChances:[1.000F,1.000F,1.000F,0.085F],Attributes:[{Name:generic.max_health,Base:90},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:65},{Name:generic.attack_knockback,Base:55}]}");
 	        		 } else p.sendMessage(ChatColor.RED + "You need to be in the end to spawn this boss!");
 	        	 } else if (itemName.contains("Nether Titan")) {
 	        		 if (p.getWorld().getName().contains("world_nether")) {
-	        			 p.getInventory().removeItem(Boss.getTitanSummoner());
+	        			 removeItem(p, Boss.getTitanSummoner());
 	        			 TitanAbilities.announceDialogue("The " + ChatColor.RED + "Nether Titan" + ChatColor.GOLD + " has been summoned by " + ChatColor.YELLOW + p.getName());
 	        			 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon magma_cube ~ ~ ~ {Silent:1b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,PersistenceRequired:0b,NoAI:0b,CanPickUpLoot:0b,Health:200f,Size:5,wasOnGround:1b,Passengers:[{id:\"minecraft:blaze\",Silent:1b,Invulnerable:0b,Glowing:0b,CustomNameVisible:1b,PersistenceRequired:0b,NoAI:0b,CanPickUpLoot:1b,Health:1000f,Passengers:[{id:\"minecraft:blaze\",Silent:1b,Invulnerable:0b,Glowing:0b,CustomNameVisible:1b,PersistenceRequired:0b,NoAI:0b,CanPickUpLoot:1b,Health:1000f,Passengers:[{id:\"minecraft:blaze\",Silent:1b,Invulnerable:0b,Glowing:0b,CustomNameVisible:1b,PersistenceRequired:0b,NoAI:0b,CanPickUpLoot:1b,Health:1000f,Passengers:[{id:\"minecraft:blaze\",Silent:1b,Invulnerable:0b,Glowing:0b,CustomNameVisible:1b,PersistenceRequired:0b,NoAI:0b,CanPickUpLoot:1b,Health:1000f,CustomName:'{\"text\":\"Inferno Blaze\",\"color\":\"gold\",\"italic\":false}',Attributes:[{Name:generic.max_health,Base:1000},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:25}]}],CustomName:'{\"text\":\"Inferno Blaze\",\"color\":\"gold\",\"italic\":false}',Attributes:[{Name:generic.max_health,Base:1000},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:25}]}],CustomName:'{\"text\":\"Inferno Blaze\",\"color\":\"gold\",\"italic\":false}',Attributes:[{Name:generic.max_health,Base:1000},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:25}]}],CustomName:'{\"text\":\"Inferno Blaze\",\"color\":\"gold\",\"italic\":false}',Attributes:[{Name:generic.max_health,Base:1000},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:25}]}],CustomName:'{\"text\":\"Nether Titan\",\"color\":\"red\",\"bold\":true,\"italic\":false}',HandItems:[{id:\"minecraft:netherite_sword\",Count:1b,tag:{display:{Name:'[{\"text\":\"()()()\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false,\"obfuscated\":true},{\"text\":\" Inferno Arescent \",\"color\":\"red\",\"bold\":true,\"italic\":false,\"obfuscated\":false},{\"text\":\"()()()\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false,\"obfuscated\":true}]'},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:sharpness\",lvl:250s},{id:\"minecraft:smite\",lvl:200s},{id:\"minecraft:bane_of_arthropods\",lvl:175s},{id:\"minecraft:fire_aspect\",lvl:25s},{id:\"minecraft:looting\",lvl:75s},{id:\"minecraft:sweeping\",lvl:250s}],AttributeModifiers:[{AttributeName:\"generic.max_health\",Name:\"generic.max_health\",Amount:-0.8,Operation:2,UUID:[I;508656979,-1395504158,-1778247833,-1280057405],Slot:\"mainhand\"},{AttributeName:\"generic.attack_damage\",Name:\"generic.attack_damage\",Amount:11,Operation:2,UUID:[I;754816496,-144684281,-1084403386,-2053114714],Slot:\"mainhand\"},{AttributeName:\"generic.attack_speed\",Name:\"generic.attack_speed\",Amount:2,Operation:0,UUID:[I;-1025514587,-1746910995,-1599264703,282817427],Slot:\"mainhand\"}]}},{}],HandDropChances:[1.000F,0.085F],ArmorItems:[{id:\"minecraft:diamond_boots\",Count:1b,tag:{Unbreakable:1b}},{},{},{id:\"minecraft:apple\",Count:1b,tag:{display:{Name:'{\"text\":\"Inferno Apple\",\"color\":\"red\",\"bold\":true,\"italic\":false}'},HideFlags:1,Enchantments:[{id:\"minecraft:protection\",lvl:1s}]}}],ArmorDropChances:[0.000F,0.085F,0.085F,1.000F],ActiveEffects:[{Id:1b,Amplifier:2b,Duration:200000,ShowParticles:0b},{Id:5b,Amplifier:14b,Duration:200000,ShowParticles:0b},{Id:8b,Amplifier:5b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:1b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:200},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:80},{Name:generic.attack_knockback,Base:10}]}");
 	        		 } else p.sendMessage(ChatColor.RED + "You need to be in the nether to spawn this boss!");
 	        	 } else if (itemName.contains("Speed Titan")) {
-	        		 p.getInventory().removeItem(Boss.getTitanSummoner());
+	        		 removeItem(p, Boss.getTitanSummoner());
 	        		 TitanAbilities.announceDialogue("The " + ChatColor.AQUA + "Speed Titan" + ChatColor.GOLD + " has been summoned by " + ChatColor.YELLOW + p.getName());
 	        		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon zombie ~ ~ ~ {Silent:0b,Invulnerable:0b,Glowing:1b,CustomNameVisible:1b,NoAI:0b,CanPickUpLoot:0b,Health:100f,IsBaby:1b,CanBreakDoors:1b,CustomName:'{\"text\":\"Speed Titan\",\"color\":\"aqua\",\"bold\":true,\"italic\":false}',HandItems:[{id:\"minecraft:iron_sword\",Count:1b,tag:{display:{Name:'{\"text\":\"Speedy Sword\",\"color\":\"dark_blue\",\"bold\":true,\"italic\":false}'},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:sharpness\",lvl:25s},{id:\"minecraft:smite\",lvl:15s},{id:\"minecraft:bane_of_arthropods\",lvl:15s},{id:\"minecraft:knockback\",lvl:30s},{id:\"minecraft:fire_aspect\",lvl:2s},{id:\"minecraft:looting\",lvl:15s},{id:\"minecraft:sweeping\",lvl:255s}],AttributeModifiers:[{AttributeName:\"generic.attack_speed\",Name:\"generic.attack_speed\",Amount:15,Operation:0,UUID:[I;-2034508983,666519266,-1184414323,-2059296110],Slot:\"mainhand\"},{AttributeName:\"generic.movement_speed\",Name:\"generic.movement_speed\",Amount:0.5,Operation:0,UUID:[I;1318279769,-1970322398,-1432561688,247014184],Slot:\"mainhand\"}]}},{id:\"minecraft:totem_of_undying\",Count:2b}],HandDropChances:[0.250F,0.000F],ArmorItems:[{id:\"minecraft:netherite_boots\",Count:1b,tag:{display:{Name:'{\"text\":\"Speedy Soul Boots\",\"color\":\"#301B02\",\"bold\":true,\"italic\":false}'},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:protection\",lvl:15s},{id:\"minecraft:fire_protection\",lvl:255s},{id:\"minecraft:feather_falling\",lvl:255s},{id:\"minecraft:thorns\",lvl:5s},{id:\"minecraft:depth_strider\",lvl:3s},{id:\"minecraft:frost_walker\",lvl:8s},{id:\"minecraft:soul_speed\",lvl:30s}]}},{},{},{id:\"minecraft:leather_helmet\",Count:1b,tag:{display:{Name:'{\"text\":\"Speed Crown\",\"color\":\"blue\",\"bold\":true,\"italic\":false}',color:63487},Unbreakable:1b,Enchantments:[{id:\"minecraft:protection\",lvl:10s},{id:\"minecraft:fire_protection\",lvl:7s},{id:\"minecraft:respiration\",lvl:10s},{id:\"minecraft:aqua_affinity\",lvl:10s}],AttributeModifiers:[{AttributeName:\"generic.attack_speed\",Name:\"generic.attack_speed\",Amount:5,Operation:0,UUID:[I;-1531656764,-1855894734,-1956664037,1619467644],Slot:\"head\"},{AttributeName:\"generic.movement_speed\",Name:\"generic.movement_speed\",Amount:0.5,Operation:0,UUID:[I;359970970,692931930,-2121941000,78001233],Slot:\"head\"}]}}],ArmorDropChances:[1.000F,0.085F,0.085F,0.085F],ActiveEffects:[{Id:1b,Amplifier:4b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:1b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:100},{Name:generic.follow_range,Base:400},{Name:generic.knockback_resistance,Base:0},{Name:generic.movement_speed,Base:0.42},{Name:generic.attack_damage,Base:15},{Name:generic.attack_knockback,Base:5},{Name:zombie.spawn_reinforcements,Base:1}]}");
 	        	 } else if (itemName.contains("Golden Titan")) {
-	        		 if (!(p.getInventory().containsAtLeast(Boss.getTitanSummoner(), 2))) {
+	        		 if (!(duplicateInv.containsAtLeast(Boss.getTitanSummoner(), 2))) {
 	        			 p.sendMessage(notEnoughMats);
 	        		 } else {
-	        			p.getInventory().removeItem(Boss.getTitanSummoner());
-	        			p.getInventory().removeItem(Boss.getTitanSummoner());
+	        			removeItem(p, Boss.getTitanSummoner());
+	        			removeItem(p, Boss.getTitanSummoner());
 	        			TitanAbilities.announceDialogue("Hello, " + ChatColor.YELLOW + p.getName());
 	        			new BukkitRunnable() {
 	        				public void run() {
@@ -1320,7 +1379,7 @@ public class GUIManagers implements Listener {
     				  p.sendMessage(ChatColor.RED + "Your inventory is full!");
     				  p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 3F, 0F);
     			  } else {
-    				  p.getInventory().removeItem(new ItemStack(TradeParser.getMaterialCost(clickedItem).getType(), TradeParser.getAmountCost(clickedItem)));
+    				  removeItem(p, new ItemStack(TradeParser.getMaterialCost(clickedItem).getType(), TradeParser.getAmountCost(clickedItem)));
     				  p.getInventory().addItem(new ItemStack(TradeParser.getMaterialReward(clickedItem).getType(), TradeParser.getAmountReward(clickedItem)));
     				  p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 3F, 2F);
     			  }
@@ -1481,11 +1540,11 @@ public class GUIManagers implements Listener {
 	public void updateItems(InventoryEvent e) {
 		new BukkitRunnable() {
 			public void run() {
+				if (e.getView().getTopInventory().contains(getInventoryPlaceholder())) return;
 				for (HumanEntity h : e.getViewers()) {
 					if (!(h instanceof Player p)) continue;
 					
 					for (byte index = 0; index < e.getView().getTopInventory().getSize(); index++) {
-						if (e.getView().getTopInventory().contains(getInventoryPlaceholder())) break;
 						ItemStack i = e.getView().getTopInventory().getItem(index);
 						if (i == null) continue;
 						if (Value.containsRarity(i)) continue;

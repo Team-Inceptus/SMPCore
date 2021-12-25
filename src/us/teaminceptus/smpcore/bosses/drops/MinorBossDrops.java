@@ -116,6 +116,10 @@ public class MinorBossDrops implements Listener {
 			if (r.nextBoolean() == true) {
 				deathLoc.getWorld().dropItemNaturally(deathLoc, ItemFetcher.getEndEssence());
 			}
+		} else if (en.getCustomName().contains("Wither Zombie")) {
+			ItemStack mat = ItemFetcher.getWitherMaterial();
+			mat.setAmount(r.nextInt(12) + 4);
+			deathLoc.getWorld().dropItemNaturally(deathLoc, mat);
 		}
 	}
 }
