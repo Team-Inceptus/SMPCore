@@ -138,7 +138,6 @@ public class SMPCore extends JavaPlugin {
 	}
 	
 	public void onEnable() {
-	  
 	  // Setting
 	  SMPCore main = this;
 	  pm = ProtocolLibrary.getProtocolManager();
