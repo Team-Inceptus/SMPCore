@@ -1,7 +1,7 @@
 name: SMPCore
 main: us.teaminceptus.smpcore.SMPCore
-version: 3.3.0
-api-version: 1.17
+version: 3.4.0
+api-version: 1.18
 author: GamerCoder215
 softdepend: [CrazyAdvancementsAPI, ProtocolLib]
 description: Powers NoobyGodsSMP with bosses, abilities, and more.
@@ -48,9 +48,16 @@ commands:
   value:
     description: Get value of an item.
     aliases: [noobucks, cb, vl, noobb, nbucks]
-  wild:
-    description: Teleport somewhere safe in the overworld.
-    aliases: [wld]
+  # Division Commands
+  division:
+    description: Main command for managing & using divisions
+    aliases: [dv, d, div]
+  divisionchat:
+    description: Send a command in your division (if you have one).
+    aliases: [dchat, dc, divisionc, divchat, divc]
+  divisionsetting:
+    description: Set a setting for your division (owners of it only).
+    aliases: [dset, divisionset, divset, dsetting, divsetting]
   # Admin
   invsee:
     description: Look at a player's inventory.
