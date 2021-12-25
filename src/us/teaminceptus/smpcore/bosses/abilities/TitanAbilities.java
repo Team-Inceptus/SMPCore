@@ -106,6 +106,7 @@ public class TitanAbilities implements Listener {
 		
 		if (p.getInventory().getItemInMainHand() == null) e.setCancelled(true);
 		ItemStack weapon = p.getInventory().getItemInMainHand();
+		if (weapon == null) e.setCancelled(true);
 		if (!(weapon.hasItemMeta())) e.setCancelled(true);
 		if (!(weapon.getItemMeta().isUnbreakable())) e.setCancelled(true);
 		if (!(weapon.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS))) e.setCancelled(true);
