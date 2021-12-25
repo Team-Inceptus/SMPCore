@@ -53,6 +53,7 @@ public class Value implements CommandExecutor, Listener {
 	public static final Rarity UNCOMMON = Rarity.UNCOMMON;
 	public static final Rarity RARE = Rarity.RARE;
 	public static final Rarity EPIC = Rarity.EPIC;
+	public static final Rarity SUPER = Rarity.SUPER;
 	public static final Rarity LEGENDARY = Rarity.LEGENDARY;
 	public static final Rarity MYTHIC = Rarity.MYTHIC;
 	public static final Rarity ULTRA = Rarity.ULTRA;
@@ -64,7 +65,8 @@ public class Value implements CommandExecutor, Listener {
 		UNCOMMON(1.05),
 		RARE(1.25),
 		EPIC(1.6),
-		LEGENDARY(2.25),
+		SUPER(2),
+		LEGENDARY(2.35),
 		MYTHIC(3),
 		ULTRA(4.5),
 		SUPREME(6),
@@ -97,6 +99,8 @@ public class Value implements CommandExecutor, Listener {
 				return ChatColor.BLUE + formatted;
 			case EPIC:
 				return ChatColor.DARK_PURPLE + formatted;
+			case SUPER:
+				return ChatColor.DARK_BLUE + formatted;
 			case LEGENDARY:
 				return ChatColor.GOLD + formatted;
 			case MYTHIC:
@@ -323,15 +327,16 @@ public class Value implements CommandExecutor, Listener {
 	public static Rarity getRarity(ItemStack item) {
 		long score = getScore(item);
 		
-		if (score < 100) return COMMON;
-		else if (score >= 100 && score < 500) return UNCOMMON;
-		else if (score >= 500 && score < 1200) return RARE;
-		else if (score >= 1200 && score < 2300) return EPIC;
-		else if (score >= 2300 && score < 5500) return LEGENDARY;
-		else if (score >= 5500 && score < 12000) return MYTHIC;
-		else if (score >= 12000 && score < 35000) return ULTRA;
-		else if (score >= 35000 && score < 50000) return SUPREME;
-		else if (score >= 50000) return SPECIAL;
+		if (score < 500) return COMMON;
+		else if (score >= 500 && score < 1500) return UNCOMMON;
+		else if (score >= 1500 && score < 4750) return RARE;
+		else if (score >= 4750 && score < 9900) return EPIC;
+		else if (score >= 9900 && score < 14000) return SUPER;
+		else if (score >= 14000 && score < 17500) return LEGENDARY;
+		else if (score >= 17500 && score < 25000) return MYTHIC;
+		else if (score >= 25000 && score < 40000) return ULTRA;
+		else if (score >= 40000 && score < 75000) return SUPREME;
+		else if (score >= 75000) return SPECIAL;
 		else return COMMON;
 	}
 	
@@ -507,6 +512,14 @@ public class Value implements CommandExecutor, Listener {
 		if (!(i.hasItemMeta())) return i;
 		if (!(i.getItemMeta().hasLore())) return i;
 		List<String> lore = i.getItemMeta().getLore();
+		if (!(containsRarity(i))) {
+			ItemMeta newItemMeta = i.getItemMeta();
+			int target = (i.getItemMeta().hasLore() ? i.getItemMeta().getLore().size() : 0);
+			lore.add(target, Value.getRarity(i).nameColor());
+			newItemMeta.setLore(lore);
+			i.setItemMeta(newItemMeta);
+		}
+		
 		int occurences = 0;
 		for (Rarity r : Rarity.values()) {
 			if (lore.contains(r.nameColor())) {
@@ -525,7 +538,6 @@ public class Value implements CommandExecutor, Listener {
 			lore.add(target, getRarity(i).nameColor());
 			newMeta.setLore(lore);
 			i.setItemMeta(newMeta);
-			return i;
 		}
 		
 		try {
@@ -534,7 +546,6 @@ public class Value implements CommandExecutor, Listener {
 				lore.set(lore.size() - 1, getRarity(i).nameColor());
 				newMeta.setLore(lore);
 				i.setItemMeta(newMeta);
-				return i;
 			}
 		} catch (IllegalArgumentException e) {
 			// Do Nothing, Item is outside of plugin (ex. CraftEnhance turn page)
