@@ -4,9 +4,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -14,25 +17,29 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
+import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
 import us.teaminceptus.smpcore.utils.enums.TitanType;
 
 public class TitanFetcher {
 	
-	public static Inventory getTitanWarps() {
+	public static Inventory getTitanWarps(Player p) {
 		Inventory inv = GUIManagers.generateGUI(45, ChatColor.DARK_AQUA + "Titan Warps");
 		
 		ItemStack dimTeleporter = new ItemStack(Material.END_PORTAL_FRAME, 1);
@@ -43,6 +50,17 @@ public class TitanFetcher {
 		dimTeleporter.setItemMeta(dimMeta);
 		
 		inv.setItem(19, dimTeleporter);
+		
+		if (JavaPlugin.getPlugin(SMPCore.class).getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills") >= 50) {
+			ItemStack arenaTitans = new ItemStack(Material.NETHERITE_AXE);
+			ItemMeta aMeta = arenaTitans.getItemMeta();
+			aMeta.setDisplayName(ChatColor.DARK_RED + "Arena Titan Menu");
+			aMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+			aMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+			arenaTitans.setItemMeta(aMeta);
+			
+			inv.setItem(28, arenaTitans);
+		}
 		
 		ItemStack arescentAve = new ItemStack(Material.NETHERITE_SWORD);
 		ItemMeta aveMeta = arescentAve.getItemMeta();
@@ -1455,5 +1473,181 @@ public class TitanFetcher {
 		plasmaPick.setItemMeta(pMeta);
 
 		return plasmaPick;
+	}
+	
+	// v3.4 Potions
+	public static enum Potion {
+		DOUBLE_DAMAGE(0, 240, Color.fromRGB(211, 4, 4)),
+		GHOST(1, 60, Color.fromRGB(237, 237, 237)),
+		FREEZE(2, 180, Color.fromRGB(147, 255, 251)),
+		RNG(3, 0, Color.fromRGB(252, 85, 208)),
+		ANGEL(4, 0, Color.fromRGB(255, 238, 61)),
+		RADIATION(5, 90, Color.fromRGB(43, 201, 0)),
+		XRAY(6, 210, Color.fromRGB(196, 255, 255)),
+		OXYGEN(7, 300, Color.fromRGB(0, 255, 255)),
+		;
+		
+		private final int id;
+		private final long duration;
+		private final Color color;
+		
+		private List<String> lore;
+		
+		private Potion(int id, long duration, Color color) {
+			this.id = id;
+			this.duration = duration;
+			this.color = color;
+			
+			List<String> lore = new ArrayList<>();
+			switch(this.id) {
+				case 1: {
+					lore.add(ChatColor.GRAY + "Turn into spectator");
+					lore.add(ChatColor.GRAY + "mode for 60 seconds.");
+					lore.add(ChatColor.GRAY + "After time is up, you will");
+					lore.add(ChatColor.GRAY + "be reverted back to your");
+					lore.add(ChatColor.GRAY + "original gamemode and position.");
+					this.lore = lore;
+					break;
+				}
+				case 2: {
+					lore.add(ChatColor.GRAY + "Any entity that you damage");
+					lore.add(ChatColor.GRAY + "(excluding players) will");
+					lore.add(ChatColor.GRAY + "be frozen for " + ChatColor.GREEN + "5");
+					lore.add(ChatColor.GRAY + "seconds.");
+					this.lore = lore;
+					break;
+				}
+				case 3: {
+					lore.add(ChatColor.GRAY + "Get a random vanilla potion effect.");
+					lore.add(ChatColor.RED + "This includes negative effects.");
+					this.lore = lore;
+					break;
+				}
+				case 4: {
+					lore.add(ChatColor.GRAY + "Fully restore your health.");
+					this.lore = lore;
+					break;
+				}
+				case 5: {
+					lore.add(ChatColor.GRAY + "All entities in a 10x10x10");
+					lore.add(ChatColor.GRAY + "area will be poisoned and weakened.");
+					this.lore = lore;
+					break;
+				}
+				case 6: {
+					lore.add(ChatColor.GRAY + "ALL non-ore, non-container and");
+					lore.add(ChatColor.GRAY + "a few others will look like air.");
+					this.lore = lore;
+					break;
+				}
+				case 7: {
+					lore.add(ChatColor.GRAY + "Hide from players, completely.");
+					this.lore = lore;
+					break;
+				}
+				default:
+					this.lore = lore;
+				}
+		}
+		
+		public final int getID() {
+			return this.id;
+		}
+		
+		public final long getDurationTicks() {
+			return this.duration * 20;
+		}
+		
+		public final long getDurationSecs() {
+			return this.duration;
+		}
+		
+		public final Color getColor() {
+			return this.color;
+		}
+		
+		public final List<String> getLore() {
+			return this.lore;
+		}
+		
+		private static final ChatColor getChatColor(Potion pot) {
+			switch(pot.getID()) {
+				case 0:
+					return ChatColor.DARK_RED;
+				case 1:
+					return ChatColor.WHITE;
+				case 2:
+				case 7:
+					return ChatColor.AQUA;
+				case 3:
+					return ChatColor.LIGHT_PURPLE;
+				case 4:
+					return ChatColor.YELLOW;
+				case 5:
+					return ChatColor.DARK_GREEN;
+				default: {
+					return ChatColor.BLUE;
+				}
+			}
+		}
+		
+		public final static Potion getById(int id) {
+			for (Potion pot : Potion.values()) {
+				if (pot.getID() == id) return pot;
+			}
+			
+			return null;
+		}
+		
+		public final String getName() {
+		    char[] charArray = this.name().toLowerCase().toCharArray();
+		    boolean foundSpace = true;
+
+		    for(int i = 0; i < charArray.length; i++) {
+
+		      // if the array element is a letter
+		      if(Character.isLetter(charArray[i])) {
+
+		        // check space is present before the letter
+		        if(foundSpace) {
+
+		          // change the letter into uppercase
+		          charArray[i] = Character.toUpperCase(charArray[i]);
+		          foundSpace = false;
+		        }
+		      }
+
+		      else {
+		        // if the new character is not character
+		        foundSpace = true;
+		      }
+		    }
+		    
+		    return (getChatColor(this) + String.valueOf(charArray));
+		}
+		
+		public final String getDurationString() {
+			long minutes = (long) Math.floor(this.duration / 60);
+			long remainder = this.duration % 60;
+			
+			String time = Long.toString(minutes) + ":" + (Long.toString(remainder).length() == 1 ? "0" + Long.toString(remainder) : Long.toString(remainder));
+			if (this.duration == 0) {
+				return "";
+			} else return ChatColor.BLUE + time;
+		}
+	}
+	
+	public static ItemStack generatePotion(Potion pot) {
+		ItemStack potion = new ItemStack(Material.POTION);
+		PotionMeta meta = (PotionMeta) potion.getItemMeta();
+		meta.setColor(pot.getColor());
+		List<String> lore = Stream.of(Arrays.asList(pot.getDurationString()), pot.getLore()).flatMap(Collection::stream).collect(Collectors.toList());
+		meta.setLore(lore);
+		meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+		meta.setDisplayName(pot.getName());
+		meta.setLocalizedName("potion_" + Integer.toString(pot.getID()));
+		potion.setItemMeta(meta);
+		
+		return potion;
 	}
 }
