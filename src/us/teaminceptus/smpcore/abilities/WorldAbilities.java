@@ -115,7 +115,7 @@ public class WorldAbilities implements Listener {
 		
 		String localized = itemMeta.getLocalizedName();
 		
-		if (localized.contains("arescent")) {
+		if (itemMeta.getDisplayName().contains("Arescent")) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -141,7 +141,7 @@ public class WorldAbilities implements Listener {
 					}.runTaskLater(plugin, 200);
 				}
 			}
-		} else if (localized.contains("aribus")) {
+		} else if (itemMeta.getDisplayName().contains("Aribus")) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -161,7 +161,7 @@ public class WorldAbilities implements Listener {
 					}.runTaskLater(plugin, 40);
 				}
 			}
-		} else if (localized.contains("vivet")) {
+		} else if (itemMeta.getDisplayName().contains("Vivet")) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -178,7 +178,7 @@ public class WorldAbilities implements Listener {
 					}
 				}.runTaskLater(plugin, 600);
 			}
-		} else if (localized.contains("celer")) {
+		} else if (itemMeta.getDisplayName().contains("Celer")) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -211,7 +211,7 @@ public class WorldAbilities implements Listener {
 						}.runTaskLater(plugin, 20 * 5);
 					}
 				}
-		} else if (localized.contains("praedo")) {
+		} else if (itemMeta.getDisplayName().contains("Praedo")) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -571,8 +571,6 @@ public class WorldAbilities implements Listener {
 		} else if (itemMeta.getDisplayName().contains("Refine")) {
 			e.setCancelled(true);
 		} else if (itemMeta.getDisplayName().contains("Protector")) {
-			e.setCancelled(true);
-		} else if (itemMeta.hasLocalizedName()) {
 			e.setCancelled(true);
 		} else if (itemMeta.getDisplayName().contains(ChatColor.BOLD + "")) {
 			e.setCancelled(true);
