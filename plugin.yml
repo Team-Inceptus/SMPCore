@@ -27,9 +27,6 @@ commands:
   creaturesguide:
     description: Opens up the creature guide.
     aliases: [cg, creatuesg, cguide, csg, creatureguide, csguide]
-  trades:
-    description: Opens up a menu where you can trade items for different items.
-    aliases: [tmenu, trademenu, trade, t, tradem, tm]
   abilities:
     description: Opens up a menu where you can choose different abilities based on your skills.
     aliases: [ability, ab, abil, abils]
