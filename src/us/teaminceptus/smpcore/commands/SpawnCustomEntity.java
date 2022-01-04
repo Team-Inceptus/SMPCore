@@ -7,12 +7,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.entity.Player;
 
+import net.citizensnpcs.api.npc.NPC;
 import net.minecraft.server.level.WorldServer;
 import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.entities.TitanEnderman;
 import us.teaminceptus.smpcore.entities.TitanPiglin;
+import us.teaminceptus.smpcore.entities.arena_titans.ArcheryTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.GroundTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.IceTitan;
+import us.teaminceptus.smpcore.fishing.FishingFetcher;
+import us.teaminceptus.smpcore.fishing.FishingUtils;
+import us.teaminceptus.smpcore.fishing.FishingUtils.FishSkin;
 
 public class SpawnCustomEntity implements CommandExecutor{
 	
@@ -48,6 +53,15 @@ public class SpawnCustomEntity implements CommandExecutor{
 			} else if (args[0].contains("ground_titan")) {
 				GroundTitan g = new GroundTitan(p.getLocation());
 				wrld.e(g);
+			} else if (args[0].contains("archery_titan")) {
+				ArcheryTitan a = new ArcheryTitan(p.getLocation());
+				wrld.e(a);
+			} else if (args[0].contains("sea_snake")) {
+				NPC seaSnake = FishingFetcher.getNPCS().get(FishSkin.SEA_SNAKE);
+				seaSnake.spawn(p.getLocation());
+				if (seaSnake.isSpawned()) {
+					FishingUtils.addNPCAttributes(p, seaSnake, 2);
+				}
 			}
 		}
 		
