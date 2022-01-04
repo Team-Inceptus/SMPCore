@@ -101,8 +101,6 @@ import us.teaminceptus.smpcore.commands.Yeet;
 import us.teaminceptus.smpcore.creatures.CreatureAbilities;
 import us.teaminceptus.smpcore.creatures.CreatureGUI;
 import us.teaminceptus.smpcore.creatures.CreaturesGuide;
-import us.teaminceptus.smpcore.divisions.DivisionCommands;
-import us.teaminceptus.smpcore.divisions.DivisionListener;
 import us.teaminceptus.smpcore.fishing.FishingUtils;
 import us.teaminceptus.smpcore.listeners.CustomDrops;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
@@ -158,8 +156,8 @@ public class SMPCore extends JavaPlugin {
 	  }
 	  
 	  divisionsConfig = YamlConfiguration.loadConfiguration(divisionsFile);
-	  new DivisionCommands(this);
-	  new DivisionListener(this);
+	  // new DivisionCommands(this);
+	  // new DivisionListener(this);
 	  
 	  // Info Messages
 	  new BukkitRunnable() {

@@ -111,6 +111,7 @@ public class DivisionCommands implements TabExecutor {
 							return false;
 						}
 						
+						
 						Division div = Division.getByPlayer(p);
 						OfflinePlayer owner = div.getOwner();
 						List<OfflinePlayer> admins = div.getPlayers().stream().filter(op -> div.getRank(op) == Rank.ADMIN).toList();
