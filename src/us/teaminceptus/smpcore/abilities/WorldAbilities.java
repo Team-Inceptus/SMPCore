@@ -1,6 +1,7 @@
 package us.teaminceptus.smpcore.abilities;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +17,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.Statistic;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Arrow;
@@ -28,6 +31,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.SpectralArrow;
+import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -46,6 +50,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
@@ -63,6 +68,7 @@ import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.listeners.caves.AlphaCave;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
+import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher.Potion;
 
 public class WorldAbilities implements Listener {
 	
@@ -107,7 +113,9 @@ public class WorldAbilities implements Listener {
 		Player p = e.getPlayer();
 		Action clickedAction = e.getAction();
 		
-		if (itemMeta.getDisplayName().contains("Arescent") && itemMeta.isUnbreakable()) {
+		String localized = itemMeta.getLocalizedName();
+		
+		if (localized.contains("arescent")) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -133,7 +141,7 @@ public class WorldAbilities implements Listener {
 					}.runTaskLater(plugin, 200);
 				}
 			}
-		} else if (itemMeta.getDisplayName().contains("Aribus") && itemMeta.isUnbreakable() && item.getType().equals(Material.NETHERITE_AXE) && itemMeta.hasLore()) {
+		} else if (localized.contains("aribus")) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -153,7 +161,7 @@ public class WorldAbilities implements Listener {
 					}.runTaskLater(plugin, 40);
 				}
 			}
-		} else if (itemMeta.getDisplayName().contains("Vivet") && itemMeta.isUnbreakable()) {
+		} else if (localized.contains("vivet")) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -170,7 +178,7 @@ public class WorldAbilities implements Listener {
 					}
 				}.runTaskLater(plugin, 600);
 			}
-		} else if (itemMeta.getDisplayName().contains("Celer") && itemMeta.isUnbreakable()) {
+		} else if (localized.contains("celer")) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -203,7 +211,7 @@ public class WorldAbilities implements Listener {
 						}.runTaskLater(plugin, 20 * 5);
 					}
 				}
-		} else if (itemMeta.getDisplayName().contains("Praedo") && itemMeta.isUnbreakable() && !itemMeta.hasAttributeModifiers()) {
+		} else if (localized.contains("praedo")) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -283,7 +291,7 @@ public class WorldAbilities implements Listener {
 				witherArrow.addCustomEffect(new PotionEffect(PotionEffectType.WITHER, 200, 4, true, false, true), true);
 				witherArrow.setColor(Color.fromRGB(0, 0, 0));
 			}
-		} else if (itemMeta.getDisplayName().contains("Machine Gun") && item.getEnchantmentLevel(Enchantment.ARROW_DAMAGE) >= 10) {
+		} else if (localized.contains("machine_gun")) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -294,7 +302,7 @@ public class WorldAbilities implements Listener {
 				p.getWorld().spawnArrow(arrowLoc, p.getLocation().getDirection(), 1.8F, 6);
 				p.playSound(p.getLocation(), Sound.ENTITY_ARROW_SHOOT, 3F, 0.5F);
 			}
-		} else if (itemMeta.getDisplayName().contains("Ghast Sword") && itemMeta.isUnbreakable()) {
+		} else if (localized.contains("ghast_sword")) {
 			if (p.getWorld().getName().equalsIgnoreCase("world_titan")) {
 				p.sendMessage(ChatColor.RED + "Normal Abilities don't work here...");
 				return;
@@ -412,6 +420,16 @@ public class WorldAbilities implements Listener {
 			
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "luckperms user " + p.getName() + " permission set core.special.itemprotector true");
 			p.sendMessage(ChatColor.GOLD + "Your items are now (almost) protected!\nYou can throw away this item now; it's useless. If you can...");
+		} else if (itemMeta.hasLocalizedName() && itemMeta.getLocalizedName().equalsIgnoreCase("wither_scythe")) {
+			if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				WitherSkull skull = (WitherSkull) p.getWorld().spawnEntity(p.getEyeLocation().add(p.getEyeLocation().getDirection()), EntityType.WITHER_SKULL);
+				skull.setDirection(p.getEyeLocation().getDirection());
+				skull.setYield(Math.min((float) p.getStatistic(Statistic.KILL_ENTITY, EntityType.WITHER) / 10F, 25F));
+				
+				if (r.nextInt(100) < 20) {
+					skull.setCharged(true);
+				}
+			}
 		}
 	}
 	
@@ -828,9 +846,9 @@ public class WorldAbilities implements Listener {
 		if (!(e.getItem().hasItemMeta())) return;
 		
 		
-		if (e.getItem().isSimilar(TitanFetcher.getTitanPorkchop())) {
+		if (e.getItem().getItemMeta().hasDisplayName() &&  e.getItem().getItemMeta().getDisplayName().equals(TitanFetcher.getTitanPorkchop().getItemMeta().getDisplayName())) {
 			p.setFoodLevel(20);
-		} else if (e.getItem().isSimilar(TitanFetcher.getTitanGapple())) {
+		} else if (e.getItem().getItemMeta().hasDisplayName() && e.getItem().getItemMeta().getDisplayName().equals(TitanFetcher.getTitanGapple().getItemMeta().getDisplayName())) {
 			e.setCancelled(true);
 			
 			if (gappleCooldown.contains(p.getUniqueId())) {
@@ -861,7 +879,7 @@ public class WorldAbilities implements Listener {
 					}.runTaskLater(plugin, 20 * 60 * 15);
 				}
 			}
-		} else if (e.getItem().isSimilar(TitanFetcher.getAttributeApple())) {
+		} else if (e.getItem().getItemMeta().hasDisplayName() && e.getItem().getItemMeta().getDisplayName().equals(TitanFetcher.getAttributeApple().getItemMeta().getDisplayName())) {
 			e.setCancelled(true);
 			p.getInventory().removeItem(TitanFetcher.getAttributeApple());
 			
@@ -888,11 +906,6 @@ public class WorldAbilities implements Listener {
 			} else if (chosen == Attribute.GENERIC_KNOCKBACK_RESISTANCE) {
 				p.sendMessage(ChatColor.GREEN + "The attribute \"" + ChatColor.YELLOW + "Knockback Resistance" + ChatColor.GREEN + "\" has been upgraded!");
 			}
-		} else if (e.getItem().getItemMeta().getDisplayName().contains("Claim Apple")) {
-			e.setCancelled(true);
-			p.getInventory().removeItem(e.getItem());
-			
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "adjustbonusclaimblocks " + e.getPlayer().getName() + " 100");
 		}
 		
 		// Localized Ones (3.3.0+)
@@ -923,7 +936,85 @@ public class WorldAbilities implements Listener {
 			
 			p.sendMessage(ChatColor.GREEN + "The attribute \"" + ChatColor.BLUE + readable + ChatColor.GREEN + " has been upgraded!");
 		}
+		
+		if (e.getItem().getItemMeta().getLocalizedName().contains("potion_")) {
+			Potion potion = Potion.getById(Integer.parseInt(e.getItem().getItemMeta().getLocalizedName().replaceAll("potion_", "")));
+			
+			switch (potion.getID()) {
+				case 0: {
+					doubleDamage.put(p.getUniqueId(), potion.getDurationSecs());
+					break;
+				}
+				case 1: {
+					if (p.getWorld().getName().contains("world_titan")) {
+						e.setCancelled(true);
+						p.sendMessage(ChatColor.RED + "This potion does not work here...");
+						break;
+					}
+					Location originalPosition = p.getLocation();
+					GameMode originalGameMode = p.getGameMode();
+					p.setGameMode(GameMode.SPECTATOR);
+					
+					new BukkitRunnable() {
+						public void run() {
+							p.teleport(originalPosition);
+							p.setGameMode(originalGameMode);
+						}
+					}.runTaskLater(plugin, potion.getDurationTicks());
+					break;
+				}
+				case 2: {
+					freeze.put(p.getUniqueId(), potion.getDurationSecs());
+					break;
+				}
+				case 3: {
+					PotionEffectType type = PotionEffectType.values()[r.nextInt(PotionEffectType.values().length)];
+					
+					PotionEffect effect = new PotionEffect(type, 20 * (r.nextInt(60) + 30), r.nextInt(2));
+					p.addPotionEffect(effect);
+					break;
+				}
+				case 4: {
+					p.setHealth(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+					p.setAbsorptionAmount(6);
+					break;
+				}
+				case 5: {
+					radiation.put(p.getUniqueId(), potion.getDurationSecs());
+					break;
+				}
+				case 6: {
+					xray.put(p.getUniqueId(), potion.getDurationSecs());
+					for (int x = -10; x <= 10; x++) {
+						for (int y = -10; y <= 10; y++) {
+							for (int z = -10; z <= 10; z++) {
+								Block target = p.getWorld().getBlockAt(p.getLocation().getBlockX() + x, p.getLocation().getBlockY() + y, p.getLocation().getBlockZ() + z);
+								BlockData bD = Material.GLASS.createBlockData();
+								if (!(Arrays.asList(blocks).contains(target.getType()))) { 
+									p.sendBlockChange(target.getLocation(), bD); 
+								}
+							}
+						}
+					}
+					break;
+				}
+				case 7: {
+					oxygen.put(p.getUniqueId(), potion.getDurationSecs());
+					for (Player target : Bukkit.getOnlinePlayers()) {
+						if (target.getUniqueId().equals(p.getUniqueId())) continue;
+						target.hidePlayer(plugin, p);
+					}
+					break;
+				}
+			}
+		}
 	}
+	
+	public static Map<UUID, Long> doubleDamage = new HashMap<>();
+	public static Map<UUID, Long> freeze = new HashMap<>();
+	public static Map<UUID, Long> radiation = new HashMap<>();
+	public static Map<UUID, Long> xray = new HashMap<>();
+	public static Map<UUID, Long> oxygen = new HashMap<>();
 	
 	@EventHandler
 	public void onCombust(EntityCombustEvent e) {
@@ -1102,6 +1193,110 @@ public class WorldAbilities implements Listener {
 					}
 				}.runTaskLater(plugin, 200);
 			}
+		}
+	}
+	
+	Material[] blocks = {
+		Material.COAL_ORE,
+		Material.DEEPSLATE_COAL_ORE,
+		Material.IRON_ORE,
+		Material.DEEPSLATE_IRON_ORE,
+		Material.LAPIS_ORE,
+		Material.DEEPSLATE_LAPIS_ORE,
+		Material.GOLD_ORE,
+		Material.DEEPSLATE_GOLD_ORE,
+		Material.DIAMOND_ORE,
+		Material.DEEPSLATE_DIAMOND_ORE,
+		Material.EMERALD_ORE,
+		Material.DEEPSLATE_EMERALD_ORE,
+		Material.ANCIENT_DEBRIS,
+		Material.NETHERITE_BLOCK,
+		Material.NETHER_GOLD_ORE,
+		Material.COPPER_ORE,
+		Material.DEEPSLATE_COPPER_ORE,
+		Material.WATER,
+		Material.LAVA,
+		Material.BEDROCK,
+		Material.SPAWNER,
+		Material.CHEST,
+		Material.GOLD_BLOCK,
+		Material.IRON_BLOCK,
+		Material.COAL_BLOCK,
+		Material.AMETHYST_BLOCK,
+		Material.SMALL_AMETHYST_BUD,
+		Material.BUDDING_AMETHYST,
+		Material.MEDIUM_AMETHYST_BUD,
+		Material.LARGE_AMETHYST_BUD,
+		Material.AMETHYST_CLUSTER,
+		Material.END_PORTAL_FRAME,
+		Material.NETHER_QUARTZ_ORE,
+		Material.AIR,
+		Material.TNT,
+		Material.GLASS,
+		Material.SUGAR_CANE,
+		Material.FURNACE,
+		Material.TRAPPED_CHEST,
+		Material.CRAFTING_TABLE,
+		Material.ENDER_CHEST,
+		Material.ENCHANTING_TABLE,
+		Material.ANVIL,
+		Material.BARREL,
+		Material.LOOM,
+		Material.CARTOGRAPHY_TABLE,
+		Material.BLAST_FURNACE,
+		Material.SMOKER,
+		Material.STONECUTTER,
+		Material.SMITHING_TABLE,
+		Material.FIRE,
+		Material.CAMPFIRE,
+		Material.POINTED_DRIPSTONE,
+		Material.OAK_DOOR,
+		Material.FLOWER_POT,
+		Material.TORCH,
+		Material.WALL_TORCH,
+		Material.RED_CARPET,
+		Material.ITEM_FRAME,
+		Material.GLOW_ITEM_FRAME,
+		Material.BOOKSHELF
+	};
+	
+	// Potion Abilities
+	@EventHandler
+	public void potionOnMove(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		
+		if (xray.containsKey(p.getUniqueId())) {
+			
+			for (int x = -10; x <= 10; x++) {
+				for (int y = -10; y <= 10; y++) {
+					for (int z = -10; z <= 10; z++) {
+						Block target = p.getWorld().getBlockAt(p.getLocation().getBlockX() + x, p.getLocation().getBlockY() + y, p.getLocation().getBlockZ() + z);
+						BlockData bD = Material.GLASS.createBlockData();
+						if (!(Arrays.asList(blocks).contains(target.getType()))) { 
+							p.sendBlockChange(target.getLocation(), bD); 
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	@EventHandler
+	public void potionOnDamage(EntityDamageByEntityEvent e) {
+		if (!(e.getDamager() instanceof Player p)) return;
+		
+		if (doubleDamage.containsKey(p.getUniqueId())) {
+			e.setDamage(e.getDamage() * 2);
+		}
+		
+		if (freeze.containsKey(p.getUniqueId()) && !(e.getEntity() instanceof Player) && e.getEntity() instanceof LivingEntity en) {
+			en.setAI(false);
+			
+			new BukkitRunnable() {
+				public void run() {
+					en.setAI(true);
+				}
+			}.runTaskLater(plugin, 20 * 5);
 		}
 	}
 }
