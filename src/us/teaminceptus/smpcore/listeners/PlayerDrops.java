@@ -70,6 +70,7 @@ public class PlayerDrops implements Listener {
 	@EventHandler
 	public void onDeathAnimationKiller(PlayerDeathEvent e) {
 		Player p = e.getEntity();
+		if (p.getName().startsWith("CIT-")) return;
 		
 		if (p.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
 			e.setDeathMessage(p.getDisplayName() + ChatColor.GREEN + parseDamageCause(((EntityDamageByEntityEvent) p.getLastDamageCause()).getCause(), ((EntityDamageByEntityEvent) p.getLastDamageCause()).getDamager()));
