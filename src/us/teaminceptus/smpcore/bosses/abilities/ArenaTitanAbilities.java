@@ -1152,6 +1152,25 @@ public class ArenaTitanAbilities implements Listener {
 				Bukkit.broadcastMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "Rare Drop!" + ChatColor.DARK_GRAY + " Wither Scythe");
 				en.getWorld().dropItemNaturally(en.getLocation(), ArenaTitanFetcher.getWitherScythe());
 			}
+		} else if (e.getEntityType() == EntityType.ENDER_DRAGON) {
+			if (r.nextInt(100) < 25) {
+				en.getWorld().dropItemNaturally(en.getLocation(), TitanFetcher.getTitanEssence());
+			}
+			
+			ItemStack cracks = ItemFetcher.getVoidCrack();
+			cracks.setAmount(r.nextInt(16) + 32);
+			
+			ItemStack remnants = ItemFetcher.getWingRemnant();
+			remnants.setAmount(r.nextInt(32) + 32);
+			
+			ItemStack essence = ItemFetcher.getEndEssence();
+			essence.setAmount(r.nextInt(16) + 48);
+			
+			en.getWorld().dropItemNaturally(en.getLocation(), cracks);
+			en.getWorld().dropItemNaturally(en.getLocation(), remnants);
+			
+			en.getWorld().dropItemNaturally(en.getLocation(), essence);
+			en.getWorld().dropItemNaturally(en.getLocation(), essence);
 		}
 		
 		if (en.getKiller() == null) return;
