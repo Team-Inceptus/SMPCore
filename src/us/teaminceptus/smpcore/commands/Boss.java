@@ -1116,38 +1116,6 @@ public class Boss implements CommandExecutor {
 		ItemMeta sculkWitchMeta = sculkWitch.getItemMeta();
 		sculkWitchMeta.setLore(sculkWitchLore);
 		sculkWitch.setItemMeta(sculkWitchMeta);
-		
-		ItemStack witherZombie = generateItem(Material.WITHER_SKELETON_SKULL, ChatColor.BOLD + "Wither Zombie", ChatColor.DARK_GRAY, 4);
-		
-		List<String> witherZombieLore = new ArrayList<>();
-		witherZombieLore.add("");
-		witherZombieLore.add(ChatColor.RED + "8,200 HP");
-		witherZombieLore.add("");
-		witherZombieLore.add(ChatColor.GRAY + "A zombie feel through a ruined portal");
-		witherZombieLore.add(ChatColor.GRAY + "and was fused with the soul sand nearby.");
-		witherZombieLore.add(ChatColor.GRAY + "Rumors claim he is part wither now.");
-		witherZombieLore.add("");
-		witherZombieLore.add(ChatColor.DARK_GRAY + "" + ChatColor.UNDERLINE + "Spawn Cost");
-		witherZombieLore.add("");
-		witherZombieLore.add(ChatColor.WHITE + "- " + ChatColor.DARK_GRAY + "Wither Material x16");
-		witherZombieLore.add("");
-		witherZombieLore.add(ChatColor.DARK_GRAY + "" + ChatColor.UNDERLINE + "Abilities");
-		witherZombieLore.add("");
-		witherZombieLore.add(ChatColor.WHITE + "Wither Archers");
-		witherZombieLore.add(ChatColor.GRAY + "Summons a Wither Archer as defense.");
-		witherZombieLore.add("");
-		witherZombieLore.add(ChatColor.DARK_RED + "Wither Blood");
-		witherZombieLore.add(ChatColor.GRAY + "Summons a Wither Skull at you every 5 seconds.");
-		witherZombieLore.add("");
-		witherZombieLore.add("");
-		witherZombieLore.add(ChatColor.DARK_GRAY + "" + ChatColor.UNDERLINE + "Drops");
-		witherZombieLore.add("");
-		witherZombieLore.add(ChatColor.RESET + "- " + ChatColor.BLACK + "Wither Set" + ChatColor.DARK_GRAY + " x1");
-		witherZombieLore.add(ChatColor.RESET + "- " + ChatColor.DARK_GRAY + "Gold Infused Netherite Sword x1");
-		
-		ItemMeta witherZombieMeta = witherZombie.getItemMeta();
-		witherZombieMeta.setLore(witherZombieLore);
-		witherZombie.setItemMeta(witherZombieMeta);
 		// T1 Sets
 		bossGUI.setItem(10, superSniper);
 		bossGUI.setItem(11, rottenPrivate);
@@ -1169,7 +1137,6 @@ public class Boss implements CommandExecutor {
 		bossGUI.setItem(38, dimGuard);
 		bossGUI.setItem(39, zking);
 		bossGUI.setItem(40, sculkWitch);
-		bossGUI.setItem(41, witherZombie);
 		
 		if (p.getWorld().getName().contains("world_titan")) {
 			p.sendMessage(ChatColor.RED + "You are too weak to summon a boss here...");
