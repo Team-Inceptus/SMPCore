@@ -24,7 +24,7 @@ public class TitanWarps implements CommandExecutor {
 		if (!(TitanEnchantmentTable.hasUnlocked(plugin, p))) {
 			p.sendMessage(ChatColor.RED + "You need to kill 30 titans to unlock this command!");
 		} else {
-			p.openInventory(TitanFetcher.getTitanWarps());
+			p.openInventory(TitanFetcher.getTitanWarps(p));
 		}
 		
 		return false;
