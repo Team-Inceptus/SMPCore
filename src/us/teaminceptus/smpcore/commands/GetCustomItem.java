@@ -20,6 +20,7 @@ import us.teaminceptus.smpcore.utils.fetcher.ArenaTitanFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.ItemFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.PlanataeFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
+import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher.Potion;
 import us.teaminceptus.smpcore.utils.fetcher.WandFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.WeaponFetcher;
 
@@ -203,6 +204,15 @@ public class GetCustomItem implements CommandExecutor {
 					
 					p.openInventory(inv);
 					break;
+				}
+				case "v3items5": {
+					Inventory inv = Bukkit.createInventory(null, 54);
+					
+					for (Potion pot : Potion.values()) {
+						inv.addItem(TitanFetcher.generatePotion(pot));
+					}
+					
+					p.openInventory(inv);
 				}
 				
 			}
