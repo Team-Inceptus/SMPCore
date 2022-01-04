@@ -15,6 +15,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,6 +32,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import us.teaminceptus.smpcore.SMPCore;
+import us.teaminceptus.smpcore.divisions.Division;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.listeners.caves.AlphaCave;
 import us.teaminceptus.smpcore.listeners.caves.DeltaCave;
@@ -395,6 +397,10 @@ public class Value implements CommandExecutor, Listener {
 			}
 			p.sendMessage(ChatColor.DARK_GREEN + "Ender Chest Value - " + Double.toString(Math.floor(echestValue * 100) / 100));
 			p.sendMessage(ChatColor.DARK_GREEN + "Inventory Value - " + Double.toString(Math.floor(invValue * 100) / 100));
+			if (Division.isInDivision(p)) {
+				Division div = Division.getByPlayer(p);
+				p.sendMessage(ChatColor.LIGHT_PURPLE + "Division Multiplier - x" + Double.toString(div.getValueMultiplier()));
+			}
 			p.sendMessage(ChatColor.GREEN + "\nTotal Networth: " + ChatColor.GOLD + GeneralUtils.withSuffix(invValue + echestValue) + " Noobucks");
 			
 			} else {
@@ -565,6 +571,8 @@ public class Value implements CommandExecutor, Listener {
 		int target = (i.getItemMeta().hasLore() ? i.getItemMeta().getLore().size() : 0);
 		lore.add(target, Value.getRarity(i).nameColor());
 		newItemMeta.setLore(lore);
+		newItemMeta.setLocalizedName(newItemMeta.hasDisplayName() ? ChatColor.stripColor(newItemMeta.getDisplayName()).toLowerCase().replaceAll(" ", "_") : 
+			(ChatColor.stripColor(CraftItemStack.asNMSCopy(i).c().a()).replaceAll(" ", "_")));
 		newItem.setItemMeta(newItemMeta);
 		
 		e.getEntity().setItemStack(newItem);
