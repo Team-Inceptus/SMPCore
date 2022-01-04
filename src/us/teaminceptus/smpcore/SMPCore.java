@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,6 +19,8 @@ import org.bukkit.WorldCreator;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -91,15 +94,16 @@ import us.teaminceptus.smpcore.commands.SpawnCustomEntity;
 import us.teaminceptus.smpcore.commands.Suspend;
 import us.teaminceptus.smpcore.commands.Suspendlist;
 import us.teaminceptus.smpcore.commands.TitanWarps;
-import us.teaminceptus.smpcore.commands.TradesMenu;
 import us.teaminceptus.smpcore.commands.Value;
 import us.teaminceptus.smpcore.commands.WandInfo;
-import us.teaminceptus.smpcore.commands.Wild;
 import us.teaminceptus.smpcore.commands.WorldChat;
 import us.teaminceptus.smpcore.commands.Yeet;
 import us.teaminceptus.smpcore.creatures.CreatureAbilities;
 import us.teaminceptus.smpcore.creatures.CreatureGUI;
 import us.teaminceptus.smpcore.creatures.CreaturesGuide;
+import us.teaminceptus.smpcore.divisions.DivisionCommands;
+import us.teaminceptus.smpcore.divisions.DivisionListener;
+import us.teaminceptus.smpcore.fishing.FishingUtils;
 import us.teaminceptus.smpcore.listeners.CustomDrops;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
 import us.teaminceptus.smpcore.listeners.PlayerDrops;
@@ -141,6 +145,8 @@ public class SMPCore extends JavaPlugin {
 	  // Setting
 	  SMPCore main = this;
 	  pm = ProtocolLibrary.getProtocolManager();
+	  
+	  // Divisions Files & Setting
 	  divisionsFile = new File(this.getDataFolder(), "divisions.yml");
 	  
 	  if (!(divisionsFile.exists())) {
@@ -152,7 +158,8 @@ public class SMPCore extends JavaPlugin {
 	  }
 	  
 	  divisionsConfig = YamlConfiguration.loadConfiguration(divisionsFile);
-	  
+	  new DivisionCommands(this);
+	  new DivisionListener(this);
 	  
 	  // Info Messages
 	  new BukkitRunnable() {
@@ -378,6 +385,10 @@ public class SMPCore extends JavaPlugin {
 						int target = (i.getItemMeta().hasLore() ? i.getItemMeta().getLore().size() : 0);
 						lore.add(target, Value.getRarity(i).nameColor());
 						newItemMeta.setLore(lore);
+						if (!(newItemMeta.hasLocalizedName())) {
+							newItemMeta.setLocalizedName(newItemMeta.hasDisplayName() ? ChatColor.stripColor(newItemMeta.getDisplayName()).toLowerCase().replaceAll(" ", "_") : 
+							(ChatColor.stripColor(CraftItemStack.asNMSCopy(i).c().a()).replaceAll(" ", "_")));
+						}
 						newItem.setItemMeta(newItemMeta);
 						
 						inv.setItem(index, Value.validate(newItem));
@@ -428,6 +439,10 @@ public class SMPCore extends JavaPlugin {
 			    	  main.getConfig().getConfigurationSection(uuid).set("pet_speed", 0);
 			      }
 			      
+			      if (!(main.getConfig().getConfigurationSection(uuid).isBoolean("killed_dragtitan"))) {
+			    	  main.getConfig().getConfigurationSection(uuid).set("killed_dragtitan", false);
+			      }
+			      
 			      // NPCs
 			      
 			      if (main.getConfig().getConfigurationSection(uuid).get("npc_talks") == null) {
@@ -456,50 +471,113 @@ public class SMPCore extends JavaPlugin {
 			  }
 		  }
 	  }.runTaskTimerAsynchronously(this, 100, 100);
+	  // Custom Potions Check
+	  new BukkitRunnable() {
+		  public void run() {
+			  for (Map.Entry<UUID, Long> entry : WorldAbilities.doubleDamage.entrySet()) {
+				  if (entry.getValue() == 0 || Bukkit.getPlayer(entry.getKey()) == null) {
+					  WorldAbilities.doubleDamage.remove(entry.getKey());
+				  }
+				  else {
+					  WorldAbilities.doubleDamage.put(entry.getKey(), entry.getValue() - 1);
+				  }
+			  }
+			  
+			  for (Map.Entry<UUID, Long> entry : WorldAbilities.freeze.entrySet()) {
+				  if (entry.getValue() == 0 || Bukkit.getPlayer(entry.getKey()) == null) {
+					  WorldAbilities.freeze.remove(entry.getKey());
+				  }
+				  else {
+					  WorldAbilities.freeze.put(entry.getKey(), entry.getValue() - 1);
+				  }
+			  }
+			  
+			  for (Map.Entry<UUID, Long> entry : WorldAbilities.radiation.entrySet()) {
+				  if (entry.getValue() == 0 || Bukkit.getPlayer(entry.getKey()) == null) {
+					  WorldAbilities.radiation.remove(entry.getKey());
+				  }
+				  else {
+					  WorldAbilities.radiation.put(entry.getKey(), entry.getValue() - 1);
+				  }
+				  
+				  Player p = Bukkit.getPlayer(entry.getKey());
+				  
+				  p.getNearbyEntities(10, 10, 10).forEach(en -> {
+					  if (!(en instanceof LivingEntity len)) return;
+					  len.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 20 * 5, 2, true, true, true));
+					  len.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 20 * 5, 1, true, true, true));
+					  len.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 10, 1, true, true, true));
+				  });
+			  }
+			  
+			  for (Map.Entry<UUID, Long> entry : WorldAbilities.oxygen.entrySet()) {
+				  if (entry.getValue() == 0 || Bukkit.getPlayer(entry.getKey()) == null) {
+					  WorldAbilities.oxygen.remove(entry.getKey());
+				  }
+				  else {
+					  WorldAbilities.oxygen.put(entry.getKey(), entry.getValue() - 1);
+				  }
+			  }
+			  
+			  for (Map.Entry<UUID, Long> entry : WorldAbilities.xray.entrySet()) {
+				  if (entry.getValue() == 0 || Bukkit.getPlayer(entry.getKey()) == null) {
+					  WorldAbilities.xray.remove(entry.getKey());
+				  }
+				  else {
+					  WorldAbilities.xray.put(entry.getKey(), entry.getValue() - 1);
+				  }
+			  }
+		  }
+	  }.runTaskTimer(main, 0, 20);
 	  
 	  // Generate Networth Leaderboards
 	  new BukkitRunnable() {
 		  public void run() {
-			  Map<Double, OfflinePlayer> players = new HashMap<>();
-			  List<Double> scores = new ArrayList<>();
-			  for (OfflinePlayer p : Bukkit.getOfflinePlayers()) {
-				  if (p.isOp()) continue;
-				  if (p.isOnline()) {
-					  Player online = p.getPlayer();
-					  double echestValue = 0;
-					  for (ItemStack i : online.getEnderChest()) {
-						  echestValue += Value.getScore(i) * Value.getRarity(i).getMultiplier();
+			  try {
+				  Map<Double, OfflinePlayer> players = new HashMap<>();
+				  List<Double> scores = new ArrayList<>();
+				  for (OfflinePlayer p : Bukkit.getOfflinePlayers()) {
+					  if (p.isOp()) continue;
+					  if (p.isOnline()) {
+						  Player online = p.getPlayer();
+						  double echestValue = 0;
+						  for (ItemStack i : online.getEnderChest()) {
+							  echestValue += Value.getScore(i) * Value.getRarity(i).getMultiplier();
+						  }
+							
+						  double invValue = 0;
+						  for (ItemStack i : online.getInventory()) {
+							  invValue += Value.getScore(i) * Value.getRarity(i).getMultiplier();
+						  }
+						  double newValue = echestValue + invValue;
+						  main.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("last_networth", newValue);
 					  }
-						
-					  double invValue = 0;
-					  for (ItemStack i : online.getInventory()) {
-						  invValue += Value.getScore(i) * Value.getRarity(i).getMultiplier();
-					  }
-					  double newValue = echestValue + invValue;
-					  main.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("last_networth", newValue);
+					  ConfigurationSection section = main.getConfig().getConfigurationSection(p.getUniqueId().toString());
+					  double value = section.getDouble("last_networth", 0);
+					  scores.add(value);
+					  players.put(value, p);
+					  
 				  }
-				  ConfigurationSection section = main.getConfig().getConfigurationSection(p.getUniqueId().toString());
-				  double value = section.getDouble("last_networth", 0);
-				  scores.add(value);
-				  players.put(value, p);
 				  
+				  Collections.sort(scores, Collections.reverseOrder());
+				  
+				  ConfigurationSection leaderboard = main.getConfig().getConfigurationSection("networth_leaderboard");
+				  leaderboard.set("first", players.get(scores.get(0)));
+				  leaderboard.set("first-amount", scores.get(0));
+				  leaderboard.set("second", players.get(scores.get(1)));
+				  leaderboard.set("second-amount", scores.get(1));
+				  leaderboard.set("third", players.get(scores.get(2)));
+				  leaderboard.set("third-amount", scores.get(2));
+				  leaderboard.set("fourth", players.get(scores.get(3)));
+				  leaderboard.set("fourth-amount", scores.get(3));
+				  leaderboard.set("fifth", players.get(scores.get(4)));
+				  leaderboard.set("fifth-amount", scores.get(4));
+				  
+				  main.saveConfig();
+			  } catch (Exception e) {
+				  // Do Nothing
+				  e.hashCode();
 			  }
-			  
-			  Collections.sort(scores, Collections.reverseOrder());
-			  
-			  ConfigurationSection leaderboard = main.getConfig().getConfigurationSection("networth_leaderboard");
-			  leaderboard.set("first", players.get(scores.get(0)));
-			  leaderboard.set("first-amount", scores.get(0));
-			  leaderboard.set("second", players.get(scores.get(1)));
-			  leaderboard.set("second-amount", scores.get(1));
-			  leaderboard.set("third", players.get(scores.get(2)));
-			  leaderboard.set("third-amount", scores.get(2));
-			  leaderboard.set("fourth", players.get(scores.get(3)));
-			  leaderboard.set("fourth-amount", scores.get(3));
-			  leaderboard.set("fifth", players.get(scores.get(4)));
-			  leaderboard.set("fifth-amount", scores.get(4));
-			  
-			  main.saveConfig();
 		  }
 	  }.runTaskTimerAsynchronously(main, 0, 20 * 30); // Updated every 30 seconds
 	  
@@ -510,7 +588,6 @@ public class SMPCore extends JavaPlugin {
       new Boss(this); 
       new Craft(this);
       new Enderchest(this);
-      new TradesMenu(this);
       new Abilities(this);
       new WorldChat(this);
       new WandInfo(this);
@@ -518,7 +595,6 @@ public class SMPCore extends JavaPlugin {
       new Hat(this);
       new RankUp(this);
       new Value(this);
-      new Wild(this);
       // Admin Commands
       new InvSee(this);
       new FlySpeed(this);
@@ -544,6 +620,8 @@ public class SMPCore extends JavaPlugin {
       new DamageCalculation(this);
       
       new CustomDrops(this);
+      
+      new FishingUtils(this);
       
       new Spells(this);
       new PlayerAbilities(this);
