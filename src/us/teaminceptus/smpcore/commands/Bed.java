@@ -2,6 +2,7 @@ package us.teaminceptus.smpcore.commands;
 
 import java.util.ArrayList;
 import java.util.UUID;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
