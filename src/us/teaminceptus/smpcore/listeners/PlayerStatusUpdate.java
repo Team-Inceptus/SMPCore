@@ -171,6 +171,10 @@ public class PlayerStatusUpdate implements Listener {
     	  plugin.getConfig().getConfigurationSection(uuid).set("pet_speed", 0);
       }
       
+      if (!(plugin.getConfig().getConfigurationSection(uuid).isBoolean("killed_dragtitan"))) {
+    	  plugin.getConfig().getConfigurationSection(uuid).set("killed_dragtitan", false);
+      }
+      
       
       if (!(plugin.getConfig().getConfigurationSection(uuid).isDouble("last_networth"))) {
     	  double echestValue = 0;
@@ -243,6 +247,9 @@ public class PlayerStatusUpdate implements Listener {
       
       for (Player pl : Bukkit.getServer().getOnlinePlayers()) {
     	  pl.setPlayerListFooter(ChatColor.GOLD + Integer.toString(onlinePlayers) + " / " + Integer.toString(maxPlayers) + ChatColor.GREEN + " Online Players");
+    	  if (!(pl.canSee(p))) {
+    		  pl.showPlayer(plugin, p);
+    	  }
       }
       
       // Update Networth
