@@ -128,6 +128,8 @@ public class CustomDrops implements Listener {
 				en.getWorld().dropItemNaturally(en.getLocation(), item2);
 			} else {
 				item.setAmount(amount);
+				
+				if (item == null || item.getType() ==  Material.AIR) continue;
 				en.getWorld().dropItemNaturally(en.getLocation(), item);
 			}
 		}
