@@ -3,7 +3,7 @@ main: us.teaminceptus.smpcore.SMPCore
 version: 3.4.0
 api-version: 1.18
 author: GamerCoder215
-softdepend: [CrazyAdvancementsAPI, ProtocolLib]
+softdepend: [CrazyAdvancementsAPI, ProtocolLib, Citizens, Sentinel]
 description: Powers NoobyGodsSMP with bosses, abilities, and more.
 commands:
   # User
