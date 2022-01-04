@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Statistic;
 import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
@@ -49,6 +50,7 @@ import us.teaminceptus.smpcore.entities.arena_titans.AmethystTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.ArcheryTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.AxeTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.CrossbowTitan;
+import us.teaminceptus.smpcore.entities.arena_titans.DragonTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.ExplosionTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.FireTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.GhostTitan;
@@ -59,9 +61,9 @@ import us.teaminceptus.smpcore.entities.arena_titans.MagicalTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.NetheriteTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.PotionTitan;
 import us.teaminceptus.smpcore.entities.arena_titans.SandTitan;
+import us.teaminceptus.smpcore.entities.arena_titans.WitherTitan;
+import us.teaminceptus.smpcore.listeners.titan.TitanFinder;
 import us.teaminceptus.smpcore.utils.AdvancementMessages;
-import us.teaminceptus.smpcore.utils.TradeInventories;
-import us.teaminceptus.smpcore.utils.TradeParser;
 import us.teaminceptus.smpcore.utils.fetcher.ItemFetcher;
 import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 
@@ -872,39 +874,6 @@ public class GUIManagers implements Listener {
             		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
             	 }
         	 }
-         } else if (clickedItem.getItemMeta().getDisplayName().contains("Wither Zombie")) {
-        	 if (!(duplicateInv.containsAtLeast(ItemFetcher.getWitherMaterial(), 16))) {
-        		 p.sendMessage(notEnoughMats);
-        	 } else {
-        		 ItemStack wM = ItemFetcher.getWitherMaterial();
-        		 wM.setAmount(16);
-        		 removeItem(p, wM);
-        		 
-                 int bossSummons = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons");
-                 
-            	 if (bossSummons == 1) {
-            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(1, true));
-            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
-            	 } else if (bossSummons == 5) {
-            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(2, true));
-            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
-            	 } else if (bossSummons == 15) {
-            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(3, true));
-            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
-            	 } else if (bossSummons == 30) {
-            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(4, true));
-            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
-            	 } else if (bossSummons == 55) {
-            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(5, true));
-            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
-            	 } else if (bossSummons == 70) {
-            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(6, true));
-            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
-            	 } else if (bossSummons == 125) {
-            		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getBossSpawner(7, true));
-            		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
-            	 }
-        	 }
          }
          // T5 Bosses Spawn
          else if (clickedItem.getItemMeta().getDisplayName().contains("Golden Shulker")) {
@@ -915,7 +884,6 @@ public class GUIManagers implements Listener {
 	    		 p.sendMessage(ChatColor.GOLD + "A Golden Shulker has spawned from " + ChatColor.YELLOW + p.getName() + "'s " + ChatColor.GOLD + "Golden Apples!");
 	    		 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute at " + p.getName() + " run summon shulker ~ ~ ~ {Silent:0b,Invulnerable:0b,Glowing:0b,CustomNameVisible:1b,PortalCooldown:200000,CanPickUpLoot:0b,Health:25000f,Peek:3b,AttachFace:0b,Color:4b,CustomName:'{\"text\":\"Golden Shulker\",\"color\":\"gold\",\"bold\":true,\"italic\":false}',HandItems:[{id:\"minecraft:enchanted_golden_apple\",Count:32b},{}],HandDropChances:[0.500F,0.100F],ArmorItems:[{},{id:\"minecraft:gold_block\",Count:48b},{id:\"minecraft:golden_chestplate\",Count:1b,tag:{display:{Name:'{\"text\":\"Patina\\'s Golden Chestplate\",\"color\":\"gold\",\"bold\":true,\"italic\":false}'},HideFlags:1,Unbreakable:1b,Enchantments:[{id:\"minecraft:blast_protection\",lvl:32767s},{id:\"minecraft:projectile_protection\",lvl:32767s},{id:\"minecraft:thorns\",lvl:8s}],AttributeModifiers:[{AttributeName:\"generic.armor\",Name:\"generic.armor\",Amount:30,Operation:0,UUID:[I;-1702195328,117457616,-2009818561,1416462628],Slot:\"chest\"},{AttributeName:\"generic.max_health\",Name:\"generic.max_health\",Amount:20,Operation:0,UUID:[I;-1474531694,-73121069,-2117049900,-1702337560],Slot:\"chest\"}]}},{id:\"minecraft:shulker_shell\",Count:31b}],ArmorDropChances:[1.000F,1.000F,0.050F,1.000F],ActiveEffects:[{Id:1b,Amplifier:1b,Duration:200000,ShowParticles:0b},{Id:12b,Amplifier:1b,Duration:200000,ShowParticles:0b}],Attributes:[{Name:generic.max_health,Base:25000},{Name:generic.follow_range,Base:300},{Name:generic.knockback_resistance,Base:1},{Name:generic.attack_damage,Base:40},{Name:generic.attack_knockback,Base:10}]}");
 	             plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("boss_summons", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons") + 1);
-	             
 	             int bossSummons = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("boss_summons");
 	             
 	        	 if (bossSummons == 1) {
@@ -1331,60 +1299,6 @@ public class GUIManagers implements Listener {
     		  }.runTaskLater(plugin, 100);
     	  }
     	  p.closeInventory();
-      } else if (inv.getTitle().contains("SMP Trades Menu")) {
-    	  e.setCancelled(true);
-    	  int index = 0;
-    	  ItemStack clickedItem = e.getCurrentItem();
-          for (ItemStack i : p.getInventory()) {
-        	  if (i == null) continue;
-    		  ItemMeta oldMeta = i.getItemMeta();
-    		  if (oldMeta.hasLore()) {
-    			  List<String> newLore = oldMeta.getLore();
-    			  for (Rarity r : Rarity.values()) {
-    				  if (newLore.contains(r.nameColor())) newLore.remove(r.nameColor());
-    			  }
-    			  oldMeta.setLore(newLore.size() == 0 ? null : newLore);
-    		  }
-			  i.setItemMeta(oldMeta);
-			  p.getInventory().setItem(index, i);
-			  index++;
-          }
-    	  String notEnoughTrade = ChatColor.RED + "You don't have the necessary materials to trade!";
-    	  String displayName = clickedItem.getItemMeta().getDisplayName();
-    	  // Page Turners
-    	  if (displayName.contains("Page 1")) {
-    		  p.openInventory(TradeInventories.getPage1());
-    		  p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_AMBIENT, 3F, 1.5F);
-    	  } else if (displayName.contains("Page 2")) {
-    		  p.openInventory(TradeInventories.getPage2());
-    		  p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_AMBIENT, 3F, 1.5F);
-    	  } else if (displayName.contains("Page 3")) {
-    		  p.openInventory(TradeInventories.getPage3());
-    		  p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_AMBIENT, 3F, 1.5F);
-    	  } else if (displayName.contains("Page 4")) {
-    		  p.openInventory(TradeInventories.getPage4());
-    		  p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_AMBIENT, 3F, 1.5F);
-    	  } else if (displayName.contains("Page 5")) {
-    		  p.openInventory(TradeInventories.getPage5());
-    		  p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_AMBIENT, 3F, 1.5F);
-    	  }
-    	  // Trades
-    	  else if (displayName.contains("Trade")) {
-    		  if (!(p.getInventory().containsAtLeast(TradeParser.getMaterialCost(clickedItem), TradeParser.getAmountCost(clickedItem)))) {
-    			  p.sendMessage(notEnoughTrade);
-    			  p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 3F, 0F);
-    		  } else {
-    			  
-    			  if (p.getInventory().firstEmpty() == -1) {
-    				  p.sendMessage(ChatColor.RED + "Your inventory is full!");
-    				  p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 3F, 0F);
-    			  } else {
-    				  removeItem(p, new ItemStack(TradeParser.getMaterialCost(clickedItem).getType(), TradeParser.getAmountCost(clickedItem)));
-    				  p.getInventory().addItem(new ItemStack(TradeParser.getMaterialReward(clickedItem).getType(), TradeParser.getAmountReward(clickedItem)));
-    				  p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 3F, 2F);
-    			  }
-    		  }
-    	  }
       } else if (inv.getTitle().contains("SMP Spells Menu")) {
     	  e.setCancelled(true);
       } else if (inv.getTitle().contains("Titan Warps")) {
@@ -1433,6 +1347,8 @@ public class GUIManagers implements Listener {
     		 p.teleport(Bukkit.getWorld("world_titan_nether").getSpawnLocation(), TeleportCause.END_PORTAL);
     	  } else if (clickedItem.getType().equals(Material.BEDROCK)) {
     		  p.teleport(Bukkit.getWorld("world_titan_end").getSpawnLocation(), TeleportCause.END_PORTAL);
+    	  } else if (clickedItem.getType().equals(Material.NETHERITE_AXE)) {
+    		  p.openInventory(TitanFinder.getTitanFinder(plugin, p));
     	  }
     	  
     	  if (!p.isOp() && !(p.getGameMode().equals(GameMode.ADVENTURE))) {
@@ -1507,6 +1423,12 @@ public class GUIManagers implements Listener {
     	  } else if (type == Material.BOW) {
     		  ArcheryTitan a = new ArcheryTitan(bossLoc);
     		  ws.e(a);
+    	  } else if (type == Material.WITHER_ROSE) {
+    		  WitherTitan w = new WitherTitan(bossLoc);
+    		  ws.e(w);
+    	  } else if (type == Material.END_CRYSTAL) {
+    		  DragonTitan d = new DragonTitan(bossLoc);
+    		  ws.e(d);
     	  }
     	  
     	  p.playSound(bossLoc, Sound.ENTITY_ENDER_DRAGON_GROWL, 3F, 1F);
@@ -1554,6 +1476,10 @@ public class GUIManagers implements Listener {
 						int target = (i.getItemMeta().hasLore() ? i.getItemMeta().getLore().size() : 0);
 						lore.add(target, Value.getRarity(i).nameColor());
 						newItemMeta.setLore(lore);
+						if (!(newItemMeta.hasLocalizedName())) {
+							newItemMeta.setLocalizedName(newItemMeta.hasDisplayName() ? ChatColor.stripColor(newItemMeta.getDisplayName()).toLowerCase().replaceAll(" ", "_") : 
+							(ChatColor.stripColor(CraftItemStack.asNMSCopy(i).c().a()).replaceAll(" ", "_")));
+						}
 						newItem.setItemMeta(newItemMeta);
 						
 						e.getView().getTopInventory().setItem(index, Value.validate(newItem));

@@ -261,6 +261,26 @@ public class TitanFinder {
 		arMeta.setLore(arLore);
 		archTitan.setItemMeta(arMeta);
 		
+		List<String> wLore = new ArrayList<>();
+		wLore.add(ChatColor.GRAY + "King of all withers,");
+		wLore.add(ChatColor.GRAY + "You're in for a WONDERFUL treat!");
+		
+		ItemStack witherTitan = generateTitanItem(Material.WITHER_ROSE, ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Wither Titan", 4.9);
+		ItemMeta wMeta = witherTitan.getItemMeta();
+		wMeta.setLore(wLore);
+		witherTitan.setItemMeta(wMeta);
+		
+		List<String> drLore = new ArrayList<>();
+		drLore.add(ChatColor.GRAY + "The final boss before");
+		drLore.add(ChatColor.GRAY + "advancing to the titan");
+		drLore.add(ChatColor.GRAY + "army. I wish you the best");
+		drLore.add(ChatColor.GRAY + "of luck.");
+		
+		ItemStack dragonTitan = generateTitanItem(Material.END_CRYSTAL, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Dragon Titan", 5.5);
+		ItemMeta drMeta = dragonTitan.getItemMeta();
+		drMeta.setLore(drLore);
+		dragonTitan.setItemMeta(drMeta);
+		
 		// Setting
 		titanFinder.setItem(10, (hasUnlocked(plugin, p, 40) ? fireTitan : notUnlocked(40)));
 		titanFinder.setItem(11, (hasUnlocked(plugin, p, 45) ? magicTitan : notUnlocked(45)));
@@ -278,14 +298,13 @@ public class TitanFinder {
 		titanFinder.setItem(24, (hasUnlocked(plugin, p, 255) ? nTitan : notUnlocked(255)));
 		titanFinder.setItem(25, (hasUnlocked(plugin, p, 290) ? archTitan : notUnlocked(290)));
 		
+		titanFinder.setItem(30, (hasUnlocked(plugin, p, 350) ? witherTitan : notUnlocked(350)));
+		titanFinder.setItem(32, (hasUnlocked(plugin, p, 425) ? dragonTitan : notUnlocked(425)));
+		
 		// Later
-		titanFinder.setItem(28, later);
-		titanFinder.setItem(29, later);
 		titanFinder.setItem(30, later);
-		titanFinder.setItem(31, later);
-		titanFinder.setItem(32, later);
-		titanFinder.setItem(33, later);
-		titanFinder.setItem(34, later);
+		
+		titanFinder.setItem(32, later); 
 		
 		
 		return titanFinder;
