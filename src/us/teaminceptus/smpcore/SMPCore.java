@@ -164,16 +164,17 @@ public class SMPCore extends JavaPlugin {
 		  public void run() {
 				String[] infoMessages = {
 						ChatColor.AQUA + "You can chat with other players in your world only by doing /wc <message>.",
-						ChatColor.DARK_RED + "Hacking or Duping are bannable offenses! Remember that we are semi-anarchy!",
+						ChatColor.DARK_RED + "Hacking or Duping are bannable offenses! Remember to play fair!",
 						ChatColor.GREEN + "You can use /trades to barter.",
 						ChatColor.YELLOW + "Remember to play fair and have fun!",
 						ChatColor.DARK_AQUA + "Use /menu for statistics and shortcuts!",
 						ChatColor.BLUE + "You can use /cguide to find unique creatures!",
-						ChatColor.RED + "We are not a full anarchy server! Stealing and Griefing are allowed, but no hacking.",
+						ChatColor.RED + "We are not an full anarchy server! Stealing, Griefing and Hacking are not allowed!",
 						ChatColor.BLUE + "Join the Discord to Updates & A Friendly Community - https://discord.io/thenoobygods",
 						ChatColor.LIGHT_PURPLE + "You can use /recipes to see the custom recipes!",
 						ChatColor.GOLD + "You are currently playing on " + ChatColor.GREEN + "TheNoobyGodsSMP" + ChatColor.GOLD + " with " + ChatColor.GREEN + GeneralUtils.thousandSeparator(Bukkit.getOfflinePlayers().length + Bukkit.getOnlinePlayers().size(), ",") + ChatColor.GOLD + " total members!",
 						ChatColor.DARK_BLUE + "You can apply for staff in the Discord.",
+						ChatColor.LIGHT_PURPLE + "We have a new YouTube Channel! Check it out -> https://bit.ly/tng-yt",
 				};
 			  
 			  Bukkit.broadcastMessage(infoMessages[r.nextInt(infoMessages.length)]);
