@@ -7,8 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -92,8 +90,5 @@ public class PlayerDrops implements Listener {
 		playerHead.setItemMeta(playerHeadMeta);
 		
 		p.getWorld().dropItemNaturally(p.getLocation(), playerHead);
-		// Drop Actual XP
-		ExperienceOrb exp = (ExperienceOrb) p.getWorld().spawnEntity(p.getLocation(), EntityType.EXPERIENCE_ORB);
-		exp.setExperience(p.getTotalExperience());
 	}
 }
