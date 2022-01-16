@@ -15,8 +15,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import us.teaminceptus.smpcore.utils.GeneralUtils;
 
 public class PlanataeFetcher {
@@ -212,13 +210,8 @@ public class PlanataeFetcher {
 	}
 	
 	public static ItemStack getOmegaPlasma() {
-		try {
-			ItemStack oP = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Omega Plasma\",\"color\":\"yellow\",\"bold\":true,\"italic\":false}'},SkullOwner:{Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzI0ZmFhMWRjNTJhZDZjMTM2NzFmZDdjNjhlOTg1ZDVkMWZlZmVhNWIxZjE3NmZhODI5NTZjZDMxNWRlNTAifX19\"}]},Id:[I; -507505342, -1940111085, -1326241871, 1834761283]}}}");
-			return oP;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		return null;
+		ItemStack oP = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Omega Plasma\",\"color\":\"yellow\",\"bold\":true,\"italic\":false}'},SkullOwner:{Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzI0ZmFhMWRjNTJhZDZjMTM2NzFmZDdjNjhlOTg1ZDVkMWZlZmVhNWIxZjE3NmZhODI5NTZjZDMxNWRlNTAifX19\"}]},Id:[I; -507505342, -1940111085, -1326241871, 1834761283]}}}");
+		return oP;
 	}
 	
 	public static ItemStack getRawNivi() {

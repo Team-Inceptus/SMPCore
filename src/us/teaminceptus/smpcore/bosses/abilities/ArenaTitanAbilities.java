@@ -56,8 +56,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import net.minecraft.server.level.WorldServer;
 import net.minecraft.world.entity.ai.attributes.AttributeModifiable;
 import net.minecraft.world.entity.ai.attributes.GenericAttributes;
@@ -923,27 +921,23 @@ public class ArenaTitanAbilities implements Listener {
 			}
 		} else if (e.getEntityType() == EntityType.WITCH) {
 			int chance = r.nextInt(100);
-			try {
-				ItemStack titanPot = GeneralUtils.itemFromNBT("{id: \"minecraft:potion\", tag: {display: {Name: '{\"text\":\"Potion of Titans\",\"color\":\"blue\",\"bold\":true,\"italic\":false}'}, Enchantments: [{id: \"minecraft:protection\", lvl: 1s}], CustomPotionEffects: [{ShowParticles: 1b, Id: 1b, Duration: 6000, ShowIcon: 1b, Amplifier: 2b, Ambient: 0b}, {ShowParticles: 1b, Id: 5b, Duration: 6000, ShowIcon: 1b, Amplifier: 6b, Ambient: 0b}, {ShowParticles: 1b, Id: 8b, Duration: 6000, ShowIcon: 1b, Amplifier: 2b, Ambient: 0b}, {ShowParticles: 1b, Id: 11b, Duration: 6000, ShowIcon: 1b, Amplifier: 3b, Ambient: 0b}, {ShowParticles: 1b, Id: 12b, Duration: 6000, ShowIcon: 1b, Amplifier: 2b, Ambient: 0b}, {ShowParticles: 1b, Id: 13b, Duration: 6000, ShowIcon: 1b, Amplifier: 1b, Ambient: 0b}, {ShowParticles: 1b, Id: 16b, Duration: 6000, ShowIcon: 1b, Amplifier: 1b, Ambient: 0b}, {ShowParticles: 1b, Id: 22b, Duration: 6000, ShowIcon: 1b, Amplifier: 6b, Ambient: 0b}, {ShowParticles: 1b, Id: 23b, Duration: 6000, ShowIcon: 1b, Amplifier: 1b, Ambient: 0b}, {ShowParticles: 1b, Id: 26b, Duration: 6000, ShowIcon: 1b, Amplifier: 3b, Ambient: 0b}, {ShowParticles: 1b, Id: 28b, Duration: 6000, ShowIcon: 1b, Amplifier: 2b, Ambient: 0b}], HideFlags: 1, CustomPotionColor: 39423, Potion: \"minecraft:empty\"}, Count: 1b}");
+			ItemStack titanPot = GeneralUtils.itemFromNBT("{id: \"minecraft:potion\", tag: {display: {Name: '{\"text\":\"Potion of Titans\",\"color\":\"blue\",\"bold\":true,\"italic\":false}'}, Enchantments: [{id: \"minecraft:protection\", lvl: 1s}], CustomPotionEffects: [{ShowParticles: 1b, Id: 1b, Duration: 6000, ShowIcon: 1b, Amplifier: 2b, Ambient: 0b}, {ShowParticles: 1b, Id: 5b, Duration: 6000, ShowIcon: 1b, Amplifier: 6b, Ambient: 0b}, {ShowParticles: 1b, Id: 8b, Duration: 6000, ShowIcon: 1b, Amplifier: 2b, Ambient: 0b}, {ShowParticles: 1b, Id: 11b, Duration: 6000, ShowIcon: 1b, Amplifier: 3b, Ambient: 0b}, {ShowParticles: 1b, Id: 12b, Duration: 6000, ShowIcon: 1b, Amplifier: 2b, Ambient: 0b}, {ShowParticles: 1b, Id: 13b, Duration: 6000, ShowIcon: 1b, Amplifier: 1b, Ambient: 0b}, {ShowParticles: 1b, Id: 16b, Duration: 6000, ShowIcon: 1b, Amplifier: 1b, Ambient: 0b}, {ShowParticles: 1b, Id: 22b, Duration: 6000, ShowIcon: 1b, Amplifier: 6b, Ambient: 0b}, {ShowParticles: 1b, Id: 23b, Duration: 6000, ShowIcon: 1b, Amplifier: 1b, Ambient: 0b}, {ShowParticles: 1b, Id: 26b, Duration: 6000, ShowIcon: 1b, Amplifier: 3b, Ambient: 0b}, {ShowParticles: 1b, Id: 28b, Duration: 6000, ShowIcon: 1b, Amplifier: 2b, Ambient: 0b}], HideFlags: 1, CustomPotionColor: 39423, Potion: \"minecraft:empty\"}, Count: 1b}");
+			en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
+			
+			if (chance < 60) {
 				en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
-				
-				if (chance < 60) {
-					en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
-				}
-				
-				if (chance < 30) {
-					en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
-				}
-				
-				if (chance < 15) {
-					en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
-				}
-				
-				if (chance < 5) {
-					en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
-				}
-			} catch (CommandSyntaxException err) {
-				err.printStackTrace();
+			}
+			
+			if (chance < 30) {
+				en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
+			}
+			
+			if (chance < 15) {
+				en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
+			}
+			
+			if (chance < 5) {
+				en.getWorld().dropItemNaturally(en.getLocation(), titanPot);
 			}
 		} else if (e.getEntityType() == EntityType.IRON_GOLEM) {
 			int max = r.nextInt(40 - 15) + 15;

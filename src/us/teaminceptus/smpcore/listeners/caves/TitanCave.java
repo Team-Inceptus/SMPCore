@@ -34,8 +34,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.entities.TitanPiglin;
 import us.teaminceptus.smpcore.utils.GeneralUtils;
@@ -46,7 +44,7 @@ public class TitanCave implements Listener {
 	protected Map<Material, ItemStack> drops;
 	protected Map<Material, Integer> dropChance;
 	protected Map<Material, Integer> exp;
-	
+		
 	public static Map<Material, ItemStack> getDrops() {
 		Map<Material, ItemStack> drops = new HashMap<>();
 		
@@ -58,7 +56,7 @@ public class TitanCave implements Listener {
 		
 		return drops;
 	}
-	
+			
 	public static Map<Material, Integer> getDropChance() {
 		Map<Material, Integer> dropChance = new HashMap<>();
 		
@@ -159,14 +157,8 @@ public class TitanCave implements Listener {
 	}
 	
 	public static ItemStack getPlasma() {
-		try {
-			ItemStack plasma = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Plasma\",\"color\":\"gold\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;324366184,1666009919,-1905030642,-840027344],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjg5MDQyMDgyYmI3YTc2MThiNzg0ZWU3NjA1YTEzNGM1ODgzNGUyMWUzNzRjODg4OTM3MTYxMDU3ZjZjNyJ9fX0=\"}]}}}}");
-			return plasma;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
+		ItemStack plasma = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Plasma\",\"color\":\"gold\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;324366184,1666009919,-1905030642,-840027344],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjg5MDQyMDgyYmI3YTc2MThiNzg0ZWU3NjA1YTEzNGM1ODgzNGUyMWUzNzRjODg4OTM3MTYxMDU3ZjZjNyJ9fX0=\"}]}}}}");
+		return plasma;
 	}
 	
 	public static List<ItemStack> getItems() {
@@ -191,34 +183,30 @@ public class TitanCave implements Listener {
 	}
 
 	public static ItemStack getMatter(String type) {
-		try {
-			if (type.equalsIgnoreCase("raw")) {
-				ItemStack rawMatter = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Raw Matter\",\"color\":\"dark_blue\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-16919354,124731398,-1680564083,-1619545682],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjA5NWE3ZmQ5MGRhYTFiYmU3MDY5MDg5NzQwZTA1ZDBiZmM2NjI5NmVlM2M0MGVlNzFhNGUwYTY2MTZiMmJiYyJ9fX0=\"}]}}}}");
+		if (type.equalsIgnoreCase("raw")) {
+			ItemStack rawMatter = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Raw Matter\",\"color\":\"dark_blue\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-16919354,124731398,-1680564083,-1619545682],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjA5NWE3ZmQ5MGRhYTFiYmU3MDY5MDg5NzQwZTA1ZDBiZmM2NjI5NmVlM2M0MGVlNzFhNGUwYTY2MTZiMmJiYyJ9fX0=\"}]}}}}");
 
-				return rawMatter;
-			} else if (type.equalsIgnoreCase("dark")) {
-				ItemStack darkMatter = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Dark Matter\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1089212003,1212826785,-1484138629,-404192881],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjg4MTMwOTI1NmEwNjQxMzVjMDlkNDhiNzM4ODgxYzcwMmU5Y2RjMTMwNjJkYzk5MjdjZWM0ZWM0ZmU1ZWQ3YiJ9fX0=\"}]}}}}");
+			return rawMatter;
+		} else if (type.equalsIgnoreCase("dark")) {
+			ItemStack darkMatter = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Dark Matter\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1089212003,1212826785,-1484138629,-404192881],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjg4MTMwOTI1NmEwNjQxMzVjMDlkNDhiNzM4ODgxYzcwMmU5Y2RjMTMwNjJkYzk5MjdjZWM0ZWM0ZmU1ZWQ3YiJ9fX0=\"}]}}}}");
 
-				return darkMatter;
-			} else if (type.equalsIgnoreCase("quantumn")) {
-				ItemStack quantumnMatter = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Quantumn Matter\",\"color\":\"light_purple\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1048396531,2059159011,-1939323280,-630683356],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjIwMWFlMWE4YTA0ZGY1MjY1NmY1ZTQ4MTNlMWZiY2Y5Nzg3N2RiYmZiYzQyNjhkMDQzMTZkNmY5Zjc1MyJ9fX0=\"}]}}}}");
+			return darkMatter;
+		} else if (type.equalsIgnoreCase("quantumn")) {
+			ItemStack quantumnMatter = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Quantumn Matter\",\"color\":\"light_purple\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1048396531,2059159011,-1939323280,-630683356],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjIwMWFlMWE4YTA0ZGY1MjY1NmY1ZTQ4MTNlMWZiY2Y5Nzg3N2RiYmZiYzQyNjhkMDQzMTZkNmY5Zjc1MyJ9fX0=\"}]}}}}");
 
-				return quantumnMatter;
-			} else if (type.equalsIgnoreCase("quark_plasma")) {
-				ItemStack quarkPlasma = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Quark Plasma\",\"color\":\"dark_green\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1371085713,996951556,-2092667368,-1447930404],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjViNWZhYThlNDgxZmNiODRjYmVmMWU1YzQyMGQ2YTgxYTZlNjhmNWEwNzUwMDFhMDI4ODI1YWMyMDE4ZWJlNyJ9fX0=\"}]}}}}");
+			return quantumnMatter;
+		} else if (type.equalsIgnoreCase("quark_plasma")) {
+			ItemStack quarkPlasma = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Quark Plasma\",\"color\":\"dark_green\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1371085713,996951556,-2092667368,-1447930404],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjViNWZhYThlNDgxZmNiODRjYmVmMWU1YzQyMGQ2YTgxYTZlNjhmNWEwNzUwMDFhMDI4ODI1YWMyMDE4ZWJlNyJ9fX0=\"}]}}}}");
 
-				return quarkPlasma;
-			} else if (type.equalsIgnoreCase("fermionic")) {
-				ItemStack fermionicMatter = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Fermionic Matter\",\"color\":\"#FFA000\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1129330477,1414415070,-1721945380,-1457986176],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJhOTlkMDc0OWIzOGM0NGJjMTU5ZTRjNzEwZGRmNGU2MWNlYzEyNGM2NjllODk1MTBlN2I2NGNiOWQ0YjI0NyJ9fX0=\"}]}}}}");
+			return quarkPlasma;
+		} else if (type.equalsIgnoreCase("fermionic")) {
+			ItemStack fermionicMatter = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Fermionic Matter\",\"color\":\"#FFA000\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1129330477,1414415070,-1721945380,-1457986176],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJhOTlkMDc0OWIzOGM0NGJjMTU5ZTRjNzEwZGRmNGU2MWNlYzEyNGM2NjllODk1MTBlN2I2NGNiOWQ0YjI0NyJ9fX0=\"}]}}}}");
 
-				return fermionicMatter;
-			} else if (type.equalsIgnoreCase("degenerative")) {
-				ItemStack degenerativeMatter = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Degenerative Matter\",\"color\":\"#D1C300\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;2033765199,245321654,-1719796429,-201417324],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjMzNTI4OGMxZDI5ZjVhZWM1NTdjYWY2NjcxY2VlYTJiNjZlMzQ0NTE4MDlkZjAxY2RjZDg1MDM5ZjA0MjFhMiJ9fX0=\"}]}}}}");
+			return fermionicMatter;
+		} else if (type.equalsIgnoreCase("degenerative")) {
+			ItemStack degenerativeMatter = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Degenerative Matter\",\"color\":\"#D1C300\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;2033765199,245321654,-1719796429,-201417324],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjMzNTI4OGMxZDI5ZjVhZWM1NTdjYWY2NjcxY2VlYTJiNjZlMzQ0NTE4MDlkZjAxY2RjZDg1MDM5ZjA0MjFhMiJ9fX0=\"}]}}}}");
 
-				return degenerativeMatter;
-			}
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
+			return degenerativeMatter;
 		}
 
 		return null;
@@ -254,27 +242,23 @@ public class TitanCave implements Listener {
 
 		quantumnSet.put(EquipmentSlot.HAND, quantumnSword);
 		
-		try {
-			ItemStack quantumnHelmet = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Quantumn Helmet\",\"color\":\"light_purple\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1216197870,1232357966,-1142916173,-1472087353],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTU5N2EwOTE3YjI1ZWM2MzEzY2JmODExYjllNjI2NzdlNzlmMWJhNTEwMTAwZjIwMGQ0NWFlZWM2MDIwYTU3MiJ9fX0=\"}]}}}}");
-			ItemMeta hMeta = quantumnHelmet.getItemMeta();
-			
-			hMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 750, true);
-			hMeta.addEnchant(Enchantment.OXYGEN, 450, true);
-			hMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 32767, true);
-			hMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 32767, true);
-			
-			hMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-			
-			hMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 550, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
-			hMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 500, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
-			hMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 50, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HEAD));
-			
-			quantumnHelmet.setItemMeta(hMeta);
-			
-			quantumnSet.put(EquipmentSlot.HEAD, quantumnHelmet);
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
+		ItemStack quantumnHelmet = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Quantumn Helmet\",\"color\":\"light_purple\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1216197870,1232357966,-1142916173,-1472087353],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTU5N2EwOTE3YjI1ZWM2MzEzY2JmODExYjllNjI2NzdlNzlmMWJhNTEwMTAwZjIwMGQ0NWFlZWM2MDIwYTU3MiJ9fX0=\"}]}}}}");
+		ItemMeta hMeta = quantumnHelmet.getItemMeta();
+		
+		hMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 750, true);
+		hMeta.addEnchant(Enchantment.OXYGEN, 450, true);
+		hMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 32767, true);
+		hMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, 32767, true);
+		
+		hMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		
+		hMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR", 550, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+		hMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "GENERIC_ARMOR_TOUGHNESS", 500, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+		hMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "GENERIC_ATTACK_DAMAGE", 50, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HEAD));
+		
+		quantumnHelmet.setItemMeta(hMeta);
+		
+		quantumnSet.put(EquipmentSlot.HEAD, quantumnHelmet);
 		
 		ItemStack quantumnChestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
 		LeatherArmorMeta cMeta = (LeatherArmorMeta) quantumnChestplate.getItemMeta();

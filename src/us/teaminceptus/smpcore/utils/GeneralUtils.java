@@ -68,12 +68,16 @@ public class GeneralUtils {
 		return (ChatColor.translateAlternateColorCodes('&', "&x" + hex1 + hex2 + hex3 + hex4 + hex5 + hex6 + message));
 	}
 	
-	public static ItemStack itemFromNBT(String nbtStr) throws CommandSyntaxException {
-		NBTTagCompound nbt =  MojangsonParser.a(nbtStr);
-		net.minecraft.world.item.ItemStack nmsItem = net.minecraft.world.item.ItemStack.a(nbt);
-		org.bukkit.inventory.ItemStack item = CraftItemStack.asBukkitCopy(nmsItem);
-		
-		return item;
+	public static ItemStack itemFromNBT(String nbtStr) {
+		try {
+			NBTTagCompound nbt =  MojangsonParser.a(nbtStr);
+			net.minecraft.world.item.ItemStack nmsItem = net.minecraft.world.item.ItemStack.a(nbt);
+			org.bukkit.inventory.ItemStack item = CraftItemStack.asBukkitCopy(nmsItem);
+			return item;
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public static EntityTypes<?> matchEntityType(String oldname) {

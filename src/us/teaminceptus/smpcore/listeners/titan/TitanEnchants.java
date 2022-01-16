@@ -25,8 +25,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.advancements.TitanAdvancements;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
@@ -108,160 +106,155 @@ public class TitanEnchants implements Listener {
 			if (level < 300) {
 				p.sendMessage(notEnoughLevels);
 			} else {
-				try {
-					ItemStack novaStack = TitanFetcher.getNova();
-					novaStack.setAmount(64);
-					
-					ItemStack refinedWither = GeneralUtils.itemFromNBT("{id: \"minecraft:coal\", Count: 1b, tag: {HideFlags: 1, display: {Name: '{\"text\":\"Refined Wither Material\",\"color\":\"dark_gray\",\"bold\":true,\"italic\":false}'}, Enchantments: [{lvl: 1s, id: \"minecraft:protection\"}]}}");
-					ItemStack refinedWitherStack = refinedWither;
-					refinedWitherStack.setAmount(64);
-					
-					
-					ItemStack cStack = TitanFetcher.getConstibilis();
-					cStack.setAmount(64);
-					
-					ItemStack clarusStack = TitanFetcher.getClarus();
-					clarusStack.setAmount(64);
-					if (ench.equals(TitanEnchant.DOUBLE_DAMAGE)) {
-						if (!(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 640))) {
-							p.sendMessage(notEnoughMats);
-							return;
-						} else {
-							p.getInventory().removeItem(novaStack, novaStack, novaStack,
-									novaStack, novaStack, novaStack,novaStack, novaStack, novaStack, novaStack);
-						}
-					} else if (ench.equals(TitanEnchant.WEAKENING)) {
-						if (!(p.getInventory().containsAtLeast(TitanFetcher.getConstibilis(), 320))) {
-							p.sendMessage(notEnoughMats);
-							return;
-						} else {
-							p.getInventory().removeItem(cStack, cStack, cStack, cStack, cStack);
-						}
-					} else if (ench.equals(TitanEnchant.WITHERING)) {
-						if (!(p.getInventory().containsAtLeast(refinedWither, 64)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 640))) {
-							p.sendMessage(notEnoughMats);
-							return;
-						} else {
-							p.getInventory().removeItem(refinedWitherStack);
-							p.getInventory().removeItem(novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack);
-						}
-					} else if (ench.equals(TitanEnchant.POISONING)) {
-						if (!(p.getInventory().containsAtLeast(new ItemStack(Material.PUFFERFISH), 16)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 640))) {
-							p.sendMessage(notEnoughMats);
-							return;
-						} else {
-							p.getInventory().removeItem(new ItemStack(Material.PUFFERFISH, 16));
-							p.getInventory().removeItem(novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack);
-						}
-					} else if (ench.equals(TitanEnchant.BEFORLUS_FIRE)) {
-						if (!(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 832))) {
-							p.sendMessage(notEnoughMats);
-							return;
-						} else {
-							p.getInventory().removeItem(novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack,novaStack,novaStack);
-						}
-					} else if (ench.equals(TitanEnchant.BEFORLUS_EXPLOSION)) {
-						if (!(p.getInventory().containsAtLeast(new ItemStack(Material.TNT), 64)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 704))) {
-							p.sendMessage(notEnoughMats);
-							return;
-						} else {
-							p.getInventory().removeItem(new ItemStack(Material.TNT, 64));
-							p.getInventory().removeItem(novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack);
-						}
-					} else if (ench.equals(TitanEnchant.BEFORLUS_PROJECTILE)) {
-						if (!(p.getInventory().containsAtLeast(new ItemStack(Material.ARROW), 128)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 704))) {
-							p.sendMessage(notEnoughMats);
-							return;
-						} else {
-							p.getInventory().removeItem(new ItemStack(Material.ARROW, 64));
-							p.getInventory().removeItem(new ItemStack(Material.ARROW, 64));
-							
-							p.getInventory().removeItem(novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack);
-						}
-					} else if (ench.equals(TitanEnchant.BEFORLUS_LIGHTNING)) {
-						if (!(p.getInventory().containsAtLeast(TitanFetcher.getClarus(), 128)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 704))) {
-							p.sendMessage(notEnoughMats);
-							return;
-						} else {
-							p.getInventory().removeItem(clarusStack, clarusStack);
-							p.getInventory().removeItem(novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack);
-						}
-					} else if (ench.equals(TitanEnchant.BEFORLUS_POTION)) {
-						if (!(p.getInventory().containsAtLeast(new ItemStack(Material.BLAZE_ROD), 320)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 704))) {
-							p.sendMessage(notEnoughMats);
-						} else {
-							p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64));
-							p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64));
-							p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64));
-							p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64));
-							p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64));
-							
-							p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64), new ItemStack(Material.BLAZE_ROD, 64), new ItemStack(Material.BLAZE_ROD, 64), 
-									new ItemStack(Material.BLAZE_ROD, 64), new ItemStack(Material.BLAZE_ROD, 64));
-							p.getInventory().removeItem(novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack);
-						}
-					} else if (ench.equals(TitanEnchant.BEFORLUS_FALLING)) {
-						if (!(p.getInventory().containsAtLeast(new ItemStack(Material.FEATHER), 384)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 704))) {
-							p.sendMessage(notEnoughMats);
-							return;
-						} else {
-							p.getInventory().removeItem(new ItemStack(Material.FEATHER, 64), new ItemStack(Material.FEATHER, 64), 
-									new ItemStack(Material.FEATHER, 64), new ItemStack(Material.FEATHER, 64), new ItemStack(Material.FEATHER, 64), 
-									new ItemStack(Material.FEATHER, 64));
-							p.getInventory().removeItem(novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack);
-							
-						}
-					} else if (ench.equals(TitanEnchant.BEFORLUS_WITHER)) {
-						if (!(p.getInventory().containsAtLeast(refinedWither, 256)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 960)) && !(p.getInventory().containsAtLeast(TitanFetcher.getExitatus(), 256))) {
-							p.sendMessage(notEnoughMats);
-							return;
-						} else {
-							ItemStack exitatusStack = TitanFetcher.getExitatus();
-							exitatusStack.setAmount(64);
-							
-							p.getInventory().removeItem(refinedWitherStack,refinedWitherStack,refinedWitherStack,refinedWitherStack);
-							p.getInventory().removeItem(novaStack,novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,
-									novaStack,novaStack,novaStack,novaStack,novaStack);
-							p.getInventory().removeItem(exitatusStack,exitatusStack,exitatusStack,exitatusStack);
-						}
-					} else if (ench.equals(TitanEnchant.SMELTING)) {
-						if (!(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 128))) {
-							p.sendMessage(notEnoughMats);
-							return;
-						} else {
-							p.getInventory().removeItem(novaStack, novaStack);
-						}
-					} else {
-						p.sendMessage(ChatColor.RED + "This Enchantment is not released yet!");
+				ItemStack novaStack = TitanFetcher.getNova();
+				novaStack.setAmount(64);
+				
+				ItemStack refinedWither = GeneralUtils.itemFromNBT("{id: \"minecraft:coal\", Count: 1b, tag: {HideFlags: 1, display: {Name: '{\"text\":\"Refined Wither Material\",\"color\":\"dark_gray\",\"bold\":true,\"italic\":false}'}, Enchantments: [{lvl: 1s, id: \"minecraft:protection\"}]}}");
+				ItemStack refinedWitherStack = refinedWither;
+				refinedWitherStack.setAmount(64);
+				
+				
+				ItemStack cStack = TitanFetcher.getConstibilis();
+				cStack.setAmount(64);
+				
+				ItemStack clarusStack = TitanFetcher.getClarus();
+				clarusStack.setAmount(64);
+				if (ench.equals(TitanEnchant.DOUBLE_DAMAGE)) {
+					if (!(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 640))) {
+						p.sendMessage(notEnoughMats);
 						return;
+					} else {
+						p.getInventory().removeItem(novaStack, novaStack, novaStack,
+								novaStack, novaStack, novaStack,novaStack, novaStack, novaStack, novaStack);
 					}
-					p.setLevel(level - 300);
-					ItemMeta itemMeta = itemToEnchant.getItemMeta();
-					List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<String>();
-					lore.add(enchant.name);
-					itemMeta.setLore(lore);
-					itemToEnchant.setItemMeta(itemMeta);
-					titanEtable.setItem(49, itemToEnchant);
-					
-					
-					TitanAdvancements.grantEnchanterAdvancement(p);
-				} catch (CommandSyntaxException err) {
-					p.sendMessage(ChatColor.RED + "There was an error enchanting this item.");
-					err.printStackTrace();
+				} else if (ench.equals(TitanEnchant.WEAKENING)) {
+					if (!(p.getInventory().containsAtLeast(TitanFetcher.getConstibilis(), 320))) {
+						p.sendMessage(notEnoughMats);
+						return;
+					} else {
+						p.getInventory().removeItem(cStack, cStack, cStack, cStack, cStack);
+					}
+				} else if (ench.equals(TitanEnchant.WITHERING)) {
+					if (!(p.getInventory().containsAtLeast(refinedWither, 64)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 640))) {
+						p.sendMessage(notEnoughMats);
+						return;
+					} else {
+						p.getInventory().removeItem(refinedWitherStack);
+						p.getInventory().removeItem(novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack);
+					}
+				} else if (ench.equals(TitanEnchant.POISONING)) {
+					if (!(p.getInventory().containsAtLeast(new ItemStack(Material.PUFFERFISH), 16)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 640))) {
+						p.sendMessage(notEnoughMats);
+						return;
+					} else {
+						p.getInventory().removeItem(new ItemStack(Material.PUFFERFISH, 16));
+						p.getInventory().removeItem(novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,novaStack);
+					}
+				} else if (ench.equals(TitanEnchant.BEFORLUS_FIRE)) {
+					if (!(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 832))) {
+						p.sendMessage(notEnoughMats);
+						return;
+					} else {
+						p.getInventory().removeItem(novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack,novaStack,novaStack);
+					}
+				} else if (ench.equals(TitanEnchant.BEFORLUS_EXPLOSION)) {
+					if (!(p.getInventory().containsAtLeast(new ItemStack(Material.TNT), 64)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 704))) {
+						p.sendMessage(notEnoughMats);
+						return;
+					} else {
+						p.getInventory().removeItem(new ItemStack(Material.TNT, 64));
+						p.getInventory().removeItem(novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack);
+					}
+				} else if (ench.equals(TitanEnchant.BEFORLUS_PROJECTILE)) {
+					if (!(p.getInventory().containsAtLeast(new ItemStack(Material.ARROW), 128)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 704))) {
+						p.sendMessage(notEnoughMats);
+						return;
+					} else {
+						p.getInventory().removeItem(new ItemStack(Material.ARROW, 64));
+						p.getInventory().removeItem(new ItemStack(Material.ARROW, 64));
+						
+						p.getInventory().removeItem(novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack);
+					}
+				} else if (ench.equals(TitanEnchant.BEFORLUS_LIGHTNING)) {
+					if (!(p.getInventory().containsAtLeast(TitanFetcher.getClarus(), 128)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 704))) {
+						p.sendMessage(notEnoughMats);
+						return;
+					} else {
+						p.getInventory().removeItem(clarusStack, clarusStack);
+						p.getInventory().removeItem(novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack);
+					}
+				} else if (ench.equals(TitanEnchant.BEFORLUS_POTION)) {
+					if (!(p.getInventory().containsAtLeast(new ItemStack(Material.BLAZE_ROD), 320)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 704))) {
+						p.sendMessage(notEnoughMats);
+					} else {
+						p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64));
+						p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64));
+						p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64));
+						p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64));
+						p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64));
+						
+						p.getInventory().removeItem(new ItemStack(Material.BLAZE_ROD, 64), new ItemStack(Material.BLAZE_ROD, 64), new ItemStack(Material.BLAZE_ROD, 64), 
+								new ItemStack(Material.BLAZE_ROD, 64), new ItemStack(Material.BLAZE_ROD, 64));
+						p.getInventory().removeItem(novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack);
+					}
+				} else if (ench.equals(TitanEnchant.BEFORLUS_FALLING)) {
+					if (!(p.getInventory().containsAtLeast(new ItemStack(Material.FEATHER), 384)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 704))) {
+						p.sendMessage(notEnoughMats);
+						return;
+					} else {
+						p.getInventory().removeItem(new ItemStack(Material.FEATHER, 64), new ItemStack(Material.FEATHER, 64), 
+								new ItemStack(Material.FEATHER, 64), new ItemStack(Material.FEATHER, 64), new ItemStack(Material.FEATHER, 64), 
+								new ItemStack(Material.FEATHER, 64));
+						p.getInventory().removeItem(novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack);
+						
+					}
+				} else if (ench.equals(TitanEnchant.BEFORLUS_WITHER)) {
+					if (!(p.getInventory().containsAtLeast(refinedWither, 256)) && !(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 960)) && !(p.getInventory().containsAtLeast(TitanFetcher.getExitatus(), 256))) {
+						p.sendMessage(notEnoughMats);
+						return;
+					} else {
+						ItemStack exitatusStack = TitanFetcher.getExitatus();
+						exitatusStack.setAmount(64);
+						
+						p.getInventory().removeItem(refinedWitherStack,refinedWitherStack,refinedWitherStack,refinedWitherStack);
+						p.getInventory().removeItem(novaStack,novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack,novaStack,novaStack,novaStack,
+								novaStack,novaStack,novaStack,novaStack,novaStack);
+						p.getInventory().removeItem(exitatusStack,exitatusStack,exitatusStack,exitatusStack);
+					}
+				} else if (ench.equals(TitanEnchant.SMELTING)) {
+					if (!(p.getInventory().containsAtLeast(TitanFetcher.getNova(), 128))) {
+						p.sendMessage(notEnoughMats);
+						return;
+					} else {
+						p.getInventory().removeItem(novaStack, novaStack);
+					}
+				} else {
+					p.sendMessage(ChatColor.RED + "This Enchantment is not released yet!");
+					return;
 				}
+				p.setLevel(level - 300);
+				ItemMeta itemMeta = itemToEnchant.getItemMeta();
+				List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<String>();
+				lore.add(enchant.name);
+				itemMeta.setLore(lore);
+				itemToEnchant.setItemMeta(itemMeta);
+				titanEtable.setItem(49, itemToEnchant);
+				
+				
+				TitanAdvancements.grantEnchanterAdvancement(p);
 			}
 			
 			p.playSound(p.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 3F, 1F);

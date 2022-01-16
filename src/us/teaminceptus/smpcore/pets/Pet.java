@@ -35,20 +35,16 @@ public enum Pet {
 		DAMAGE, DEFENSE, SPEED
 	}
 	
-	public static ItemStack getIcon(Type t) {
-		try {
-			if (t.equals(Pet.Type.DAMAGE)) {
-				ItemStack dmgPet = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Damage Pet\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;582869171,-761640499,-1516239665,1326477683],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzgzYWI0MmYyMmFkZDkzNjZkODkzNjRiYTNhZTIwMTNmYTQ1YTQ1NWNkODdjYTZhYWQ4MmY0MDFhNzcifX19\"}]}}}}");
-				return dmgPet;
-			} else if (t.equals(Pet.Type.DEFENSE)) {
-				ItemStack defPet = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Defense Pet\",\"color\":\"green\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1920685385,-2076357520,-1826153904,-750453537],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODMxMjkxZjhhYmZkOGFiNDVlN2RmMmEyODE2ZTgwZmIyYWUxNmI3ZjFhNDM5YWUzZDNjZTZhYjFlMjg1YmUzOCJ9fX0=\"}]}}}}");
-				return defPet;
-			} else if (t.equals(Pet.Type.SPEED)) {
-				ItemStack spdPet = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Speed Pet\",\"color\":\"blue\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1467310334,1173374197,-1782880167,1306618016],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjZjZjU3MWQ4ZDBiN2E1YzQ5M2QyY2ZlZGFlYmVkOWIzZGUxMGFmMzJlYWFiZTZiNWNlOGU0MWNlZGI4OWQyZiJ9fX0=\"}]}}}}");
-				return spdPet;
-			}
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
+	public static ItemStack getIcon(Type t) throws CommandSyntaxException {
+		if (t.equals(Pet.Type.DAMAGE)) {
+			ItemStack dmgPet = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Damage Pet\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;582869171,-761640499,-1516239665,1326477683],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzgzYWI0MmYyMmFkZDkzNjZkODkzNjRiYTNhZTIwMTNmYTQ1YTQ1NWNkODdjYTZhYWQ4MmY0MDFhNzcifX19\"}]}}}}");
+			return dmgPet;
+		} else if (t.equals(Pet.Type.DEFENSE)) {
+			ItemStack defPet = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Defense Pet\",\"color\":\"green\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1920685385,-2076357520,-1826153904,-750453537],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODMxMjkxZjhhYmZkOGFiNDVlN2RmMmEyODE2ZTgwZmIyYWUxNmI3ZjFhNDM5YWUzZDNjZTZhYjFlMjg1YmUzOCJ9fX0=\"}]}}}}");
+			return defPet;
+		} else if (t.equals(Pet.Type.SPEED)) {
+			ItemStack spdPet = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Speed Pet\",\"color\":\"blue\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1467310334,1173374197,-1782880167,1306618016],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjZjZjU3MWQ4ZDBiN2E1YzQ5M2QyY2ZlZGFlYmVkOWIzZGUxMGFmMzJlYWFiZTZiNWNlOGU0MWNlZGI4OWQyZiJ9fX0=\"}]}}}}");
+			return spdPet;
 		}
 		
 		return null;

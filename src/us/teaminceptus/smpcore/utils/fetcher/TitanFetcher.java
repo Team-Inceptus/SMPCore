@@ -30,7 +30,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
@@ -174,160 +173,88 @@ public class TitanFetcher {
 	// TODO Other Items
 	
 	public static ItemStack getTitanCore() {
-		try {
-			ItemStack titanCore = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", tag: {display: {Name: '{\"text\":\"Titan Core\",\"color\":\"#006478\",\"bold\":true,\"italic\":false}'}, SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTRhZDIyOWQ4MDMwODA1OWZhN2FlZDg2NTQzNzc5Y2Y5MzNmOTFiNmE0Mzc0MzEyOTNkMGJiMzFhMDk1NWI3MSJ9fX0=\"}]}, Id: [I; 1341988342, 1338392604, -1334015479, -26366109]}}, Count: 1b}");
-			return titanCore;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		return null;
+		ItemStack titanCore = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", tag: {display: {Name: '{\"text\":\"Titan Core\",\"color\":\"#006478\",\"bold\":true,\"italic\":false}'}, SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTRhZDIyOWQ4MDMwODA1OWZhN2FlZDg2NTQzNzc5Y2Y5MzNmOTFiNmE0Mzc0MzEyOTNkMGJiMzFhMDk1NWI3MSJ9fX0=\"}]}, Id: [I; 1341988342, 1338392604, -1334015479, -26366109]}}, Count: 1b}");
+		return titanCore;
 	}
 	
 	// TODO Titan World Tools
 	public static ItemStack getOpulensHoe() {
-		try {
-			ItemStack opulensHoe = GeneralUtils.itemFromNBT("{id:\"minecraft:wooden_hoe\",Count:1b,tag:{CanDestroy:[\"minecraft:warped_fungus\",\"minecraft:warped_nylium\"],display:{Name:'{\"text\":\"Opulens Hoe\",\"color\":\"dark_aqua\",\"italic\":false}'},HideFlags:8,Unbreakable:1b}}");
-			return opulensHoe;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		return null;
+		ItemStack opulensHoe = GeneralUtils.itemFromNBT("{id:\"minecraft:wooden_hoe\",Count:1b,tag:{CanDestroy:[\"minecraft:warped_fungus\",\"minecraft:warped_nylium\"],display:{Name:'{\"text\":\"Opulens Hoe\",\"color\":\"dark_aqua\",\"italic\":false}'},HideFlags:8,Unbreakable:1b}}");
+		return opulensHoe;
 	}
 	
 	public static ItemStack getPraefortisGen(int gen) {
-		try {
-			if (gen > 4) gen = 4;
-			if (gen < 1) gen = 1;
-			
-			if (gen == 1) {
-				ItemStack praefortisGen = GeneralUtils.itemFromNBT("{id: \"minecraft:wooden_hoe\", Count: 1b, tag: {Unbreakable: 1b, HideFlags: 9, display: {Name: '{\"text\":\"Praefortis Gen I\",\"color\":\"aqua\",\"italic\":false}'}, Enchantments: [{lvl: 1s, id: \"minecraft:efficiency\"}], Damage: 0, CanDestroy: [\"minecraft:warped_fungus\", \"minecraft:warped_nylium\", \"minecraft:warped_wart_block\"]}}");
-				return praefortisGen;
-			} else if (gen == 2) {
-				ItemStack praefortisGen = GeneralUtils.itemFromNBT("{id:\"minecraft:wooden_hoe\",Count:1b,tag:{CanDestroy:[\"minecraft:warped_fungus\",\"minecraft:warped_nylium\",\"minecraft:warped_wart_block\",\"minecraft:shroomlight\"],display:{Name:'{\"text\":\"Praefortis Gen II\",\"color\":\"aqua\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:2s}]}}");
-				return praefortisGen;
-			} else if (gen == 3) {
-				ItemStack praefortisGen = GeneralUtils.itemFromNBT("{id:\"minecraft:stone_hoe\",Count:1b,tag:{CanDestroy:[\"minecraft:warped_fungus\",\"minecraft:warped_nylium\",\"minecraft:warped_wart_block\",\"minecraft:shroomlight\",\"minecraft:soul_sand\"],display:{Name:'{\"text\":\"Praefortis Gen III\",\"color\":\"dark_aqua\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:3s}]}}");
-				return praefortisGen;
-			} else if (gen == 4) {
-				ItemStack praefortisGen = GeneralUtils.itemFromNBT("{id:\"minecraft:iron_hoe\",Count:1b,tag:{CanDestroy:[\"minecraft:warped_fungus\",\"minecraft:warped_nylium\",\"minecraft:warped_wart_block\",\"minecraft:shroomlight\",\"minecraft:soul_sand\",\"minecraft:warped_hyphae\"],display:{Name:'{\"text\":\"Praefortis Gen IV\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:5s}]}}");
-				return praefortisGen;
-			}
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
+		if (gen > 4) gen = 4;
+		if (gen < 1) gen = 1;
+		
+		if (gen == 1) {
+			ItemStack praefortisGen = GeneralUtils.itemFromNBT("{id: \"minecraft:wooden_hoe\", Count: 1b, tag: {Unbreakable: 1b, HideFlags: 9, display: {Name: '{\"text\":\"Praefortis Gen I\",\"color\":\"aqua\",\"italic\":false}'}, Enchantments: [{lvl: 1s, id: \"minecraft:efficiency\"}], Damage: 0, CanDestroy: [\"minecraft:warped_fungus\", \"minecraft:warped_nylium\", \"minecraft:warped_wart_block\"]}}");
+			return praefortisGen;
+		} else if (gen == 2) {
+			ItemStack praefortisGen = GeneralUtils.itemFromNBT("{id:\"minecraft:wooden_hoe\",Count:1b,tag:{CanDestroy:[\"minecraft:warped_fungus\",\"minecraft:warped_nylium\",\"minecraft:warped_wart_block\",\"minecraft:shroomlight\"],display:{Name:'{\"text\":\"Praefortis Gen II\",\"color\":\"aqua\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:2s}]}}");
+			return praefortisGen;
+		} else if (gen == 3) {
+			ItemStack praefortisGen = GeneralUtils.itemFromNBT("{id:\"minecraft:stone_hoe\",Count:1b,tag:{CanDestroy:[\"minecraft:warped_fungus\",\"minecraft:warped_nylium\",\"minecraft:warped_wart_block\",\"minecraft:shroomlight\",\"minecraft:soul_sand\"],display:{Name:'{\"text\":\"Praefortis Gen III\",\"color\":\"dark_aqua\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:3s}]}}");
+			return praefortisGen;
+		} else if (gen == 4) {
+			ItemStack praefortisGen = GeneralUtils.itemFromNBT("{id:\"minecraft:iron_hoe\",Count:1b,tag:{CanDestroy:[\"minecraft:warped_fungus\",\"minecraft:warped_nylium\",\"minecraft:warped_wart_block\",\"minecraft:shroomlight\",\"minecraft:soul_sand\",\"minecraft:warped_hyphae\"],display:{Name:'{\"text\":\"Praefortis Gen IV\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:5s}]}}");
+			return praefortisGen;
 		}
 		return null;
 	}
 	
 	public static ItemStack getConstibilisGen() {
-		try {
-			ItemStack constibilisGen = GeneralUtils.itemFromNBT("{id:\"minecraft:iron_axe\",Count:1b,tag:{CanDestroy:[\"minecraft:warped_fungus\",\"minecraft:warped_nylium\",\"minecraft:warped_wart_block\",\"minecraft:shroomlight\",\"minecraft:soul_sand\",\"minecraft:warped_hyphae\"],display:{Name:'{\"text\":\"Constibilis Gen I\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:9s}]}}");
-			return constibilisGen;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		return null;
+		ItemStack constibilisGen = GeneralUtils.itemFromNBT("{id:\"minecraft:iron_axe\",Count:1b,tag:{CanDestroy:[\"minecraft:warped_fungus\",\"minecraft:warped_nylium\",\"minecraft:warped_wart_block\",\"minecraft:shroomlight\",\"minecraft:soul_sand\",\"minecraft:warped_hyphae\"],display:{Name:'{\"text\":\"Constibilis Gen I\",\"color\":\"dark_aqua\",\"bold\":true,\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:9s}]}}");
+		return constibilisGen;
 	}
 	
 	public static ItemStack getSaxumPickaxe() {
-		try {
-			ItemStack saxumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:wooden_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\"],display:{Name:'{\"text\":\"Saxum Pickaxe\",\"color\":\"gray\",\"italic\":false}'},HideFlags:8,Unbreakable:1b}}");
-			return saxumPickaxe;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
+		ItemStack saxumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:wooden_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\"],display:{Name:'{\"text\":\"Saxum Pickaxe\",\"color\":\"gray\",\"italic\":false}'},HideFlags:8,Unbreakable:1b}}");
+		return saxumPickaxe;
 	}
 	
 	public static ItemStack getRefinedSaxumPickaxe() {
-		try {
-			ItemStack saxumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:stone_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\",\"minecraft:tuff\"],display:{Name:'{\"text\":\"Refined Saxum Pickaxe\",\"color\":\"gray\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:1s}]}}");
-			return saxumPickaxe;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		return null; 
+		ItemStack saxumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:stone_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\",\"minecraft:tuff\"],display:{Name:'{\"text\":\"Refined Saxum Pickaxe\",\"color\":\"gray\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:1s}]}}");
+		return saxumPickaxe;
 	}
 	
 	public static ItemStack getOssumPickaxe() {
-		try {
-			ItemStack ossumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:stone_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\",\"minecraft:tuff\",\"minecraft:deepslate_copper_ore\"],display:{Name:'{\"text\":\"Ossum Pickaxe\",\"color\":\"dark_gray\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:3s}]}}");
-			return ossumPickaxe;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
+		ItemStack ossumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:stone_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\",\"minecraft:tuff\",\"minecraft:deepslate_copper_ore\"],display:{Name:'{\"text\":\"Ossum Pickaxe\",\"color\":\"dark_gray\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:3s}]}}");
+		return ossumPickaxe;
 	}
 	
 	public static ItemStack getCantoniumPickaxe() {
-		try {
-			ItemStack cantoniumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:iron_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\",\"minecraft:tuff\",\"minecraft:deepslate_copper_ore\",\"minecraft:polished_diorite\"],display:{Name:'{\"text\":\"Cantonium Pickaxe\",\"color\":\"white\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:5s}]}}");
-			return cantoniumPickaxe;
-		} catch (CommandSyntaxException e)  {
-			e.printStackTrace();
-		}
-		return null;
+		ItemStack cantoniumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:iron_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\",\"minecraft:tuff\",\"minecraft:deepslate_copper_ore\",\"minecraft:polished_diorite\"],display:{Name:'{\"text\":\"Cantonium Pickaxe\",\"color\":\"white\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:5s}]}}");
+		return cantoniumPickaxe;
 	}
 	
 	public static ItemStack getRefinedCantoniumPickaxe() {
-		try {
-			ItemStack cantoniumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:iron_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\",\"minecraft:tuff\",\"minecraft:deepslate_copper_ore\",\"minecraft:polished_diorite\",\"minecraft:raw_iron_block\"],display:{Name:'{\"text\":\"Refined Cantonium Pickaxe\",\"color\":\"white\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:7s}]}}");
-			return cantoniumPickaxe;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
+		ItemStack cantoniumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:iron_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\",\"minecraft:tuff\",\"minecraft:deepslate_copper_ore\",\"minecraft:polished_diorite\",\"minecraft:raw_iron_block\"],display:{Name:'{\"text\":\"Refined Cantonium Pickaxe\",\"color\":\"white\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:7s}]}}");
+		return cantoniumPickaxe;
 	}
 	
 	public static ItemStack getFerrumPickaxe() {
-		try {
-			ItemStack ferrumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:iron_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\",\"minecraft:tuff\",\"minecraft:deepslate_copper_ore\",\"minecraft:polished_diorite\",\"minecraft:raw_iron_block\",\"minecraft:iron_block\"],display:{Name:'{\"text\":\"Ferrum Pickaxe\",\"color\":\"white\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:9s}]}}");
-			return ferrumPickaxe;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
+		ItemStack ferrumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:iron_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\",\"minecraft:tuff\",\"minecraft:deepslate_copper_ore\",\"minecraft:polished_diorite\",\"minecraft:raw_iron_block\",\"minecraft:iron_block\"],display:{Name:'{\"text\":\"Ferrum Pickaxe\",\"color\":\"white\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:9s}]}}");
+		return ferrumPickaxe;
 	}
 	
 	public static ItemStack getEnchantedFerrumPickaxe() {
-		try {
-			ItemStack ferrumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:diamond_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\",\"minecraft:tuff\",\"minecraft:deepslate_copper_ore\",\"minecraft:polished_diorite\",\"minecraft:raw_iron_block\",\"minecraft:iron_block\"],display:{Name:'{\"text\":\"Enchanted Ferrum Pickaxe\",\"color\":\"white\",\"bold\":true,\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:12s}]}}");
-			return ferrumPickaxe;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
+		ItemStack ferrumPickaxe = GeneralUtils.itemFromNBT("{id:\"minecraft:diamond_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:deepslate\",\"minecraft:tuff\",\"minecraft:deepslate_copper_ore\",\"minecraft:polished_diorite\",\"minecraft:raw_iron_block\",\"minecraft:iron_block\"],display:{Name:'{\"text\":\"Enchanted Ferrum Pickaxe\",\"color\":\"white\",\"bold\":true,\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:12s}]}}");
+		return ferrumPickaxe;
 	}
 	
 	public static ItemStack getIncitatusAxe() {
-		try {
-			ItemStack incitatusAxe = GeneralUtils.itemFromNBT("{id:\"minecraft:diamond_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:amethyst_block\",\"minecraft:ancient_debris\"],display:{Name:'{\"text\":\"Incitatus Axe\",\"color\":\"light_purple\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:4s}]}}");
-			return incitatusAxe;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
+		ItemStack incitatusAxe = GeneralUtils.itemFromNBT("{id:\"minecraft:diamond_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:amethyst_block\",\"minecraft:ancient_debris\"],display:{Name:'{\"text\":\"Incitatus Axe\",\"color\":\"light_purple\",\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:4s}]}}");
+		return incitatusAxe;
 	}
 	
 	public static ItemStack getNovaAxe() {
-		try {
-			ItemStack novaAxe = GeneralUtils.itemFromNBT("{id:\"minecraft:netherite_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:glowstone\",\"minecraft:amethyst_block\",\"minecraft:smooth_basalt\",\"minecraft:ancient_debris\"],display:{Name:'{\"text\":\"Nova Axe\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:11s}]}}");
-			return novaAxe;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
+		ItemStack novaAxe = GeneralUtils.itemFromNBT("{id:\"minecraft:netherite_pickaxe\",Count:1b,tag:{CanDestroy:[\"minecraft:glowstone\",\"minecraft:amethyst_block\",\"minecraft:smooth_basalt\",\"minecraft:ancient_debris\"],display:{Name:'{\"text\":\"Nova Axe\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false}'},HideFlags:9,Unbreakable:1b,Enchantments:[{id:\"minecraft:efficiency\",lvl:11s}]}}");
+		return novaAxe;
 	}
 	
 	// Titan World Items
-	public static ItemStack getPraefortisShroom() throws CommandSyntaxException {
+	public static ItemStack getPraefortisShroom()  {
 		ItemStack praefortisShroom = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", Count: 1b, tag: {SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzQyNTE4Mjc4YjZhODg3MDE0Y2E3ZjczZDY5MGJiM2MwZjg3ZjE5MGMwYTI1ZThhY2ZmZjVkYjIwMWZiYTIxNyJ9fX0=\"}]}, Id: [I; -606413287, -1332919988, -1336847232, 493686667]}, display: {Name: '{\"text\":\"Warped Fungus\"}'}}}");
 		ItemMeta praefortisMeta = praefortisShroom.getItemMeta();
 		praefortisMeta.setDisplayName(ChatColor.DARK_AQUA + "Praefortis Shroom");
@@ -354,7 +281,7 @@ public class TitanFetcher {
 		return ferrumBlock;
 	}
 	
-	public static ItemStack getConstibilis() throws CommandSyntaxException {
+	public static ItemStack getConstibilis()  {
 		ItemStack constibilis = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", Count: 1b, tag: {SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjA5NmIwZDdlZGRmN2IwNTlmYjQwY2ExNmZmMjllOGZjYWU4NTI3NTEyZTJjN2UwZjY3MTdjNGZlYmQ3YjBjNSJ9fX0=\"}]}, Id: [I; -700933268, 1075333996, -1156945916, -859483202]}, display: {Name: '{\"text\":\"Warped Hyphae\"}'}}}");
 		ItemMeta constibilisMeta = constibilis.getItemMeta();
 		constibilisMeta.setDisplayName(ChatColor.AQUA + "Constibilis");
@@ -375,7 +302,7 @@ public class TitanFetcher {
 		return iabesium;
 	}
 	
-	public static ItemStack getCantonium() throws CommandSyntaxException {
+	public static ItemStack getCantonium()  {
 		ItemStack cantonium = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", Count: 1b, tag: {SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTRhZDBkZGQ1M2ZlMmQzMDk1YmUyMDg1NWFhYTU1M2U5ZWViMGY5ODAxMzRjZjVlMDEyOGRjZjI5MDM3ZmY1NiJ9fX0=\"}]}, Id: [I; 1592369478, -73577914, -1653763014, 132391569]}, display: {Name: '{\"text\":\"Calcite\"}'}}}");
 		ItemMeta cantMeta = cantonium.getItemMeta();
 		cantMeta.setDisplayName(ChatColor.WHITE + "Cantonium");
@@ -384,7 +311,7 @@ public class TitanFetcher {
 		return cantonium;
 	}
 	
-	public static ItemStack getClarus() throws CommandSyntaxException {
+	public static ItemStack getClarus()  {
 		ItemStack clarus = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", Count: 1b, tag: {SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU3NTJjOGY0MjIwZTJiM2UzOTc1NTU2ODQ1NDYwNjEzYWFlYjRkYjBjNjRiYTFjZTk2ZmFiZjNkNmVjMzVkYyJ9fX0=\"}]}, Id: [I; -736629994, 528239951, -2024529591, -692181003]}, display: {Name: '{\"text\":\"Light Rune\"}'}}}");
 		ItemMeta clarusMeta = clarus.getItemMeta();
 		clarusMeta.setDisplayName(ChatColor.YELLOW + "Clarus");
@@ -393,7 +320,7 @@ public class TitanFetcher {
 		return clarus;
 	}
 	
-	public static ItemStack getEnchantedFerrum() throws CommandSyntaxException {
+	public static ItemStack getEnchantedFerrum()  {
 		ItemStack enchantedFerrum = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", Count: 1b, tag: {SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTM5YTFjOTBhMzY3YzQ0ZmFhNDlkMGUyNzM0ODc3NzBmMmUzZjgzZGNiMWViYTZkNzU4YjQ3MzBhZTVmOTY4OCJ9fX0=\"}]}, Id: [I; 285665203, 1068583350, -1452503605, 419396161]}, display: {Name: '{\"text\":\"Iron Egg\"}'}}}");
 		ItemMeta enchantedMeta = enchantedFerrum.getItemMeta();
 		enchantedMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.WHITE + "Enchanted Ferrum");
@@ -420,7 +347,7 @@ public class TitanFetcher {
 		return rawFerrum;
 	}
 	
-	public static ItemStack getNova() throws CommandSyntaxException {
+	public static ItemStack getNova()  {
 		ItemStack nova = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", Count: 1b, tag: {SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzc0MDBlYTE5ZGJkODRmNzVjMzlhZDY4MjNhYzRlZjc4NmYzOWY0OGZjNmY4NDYwMjM2NmFjMjliODM3NDIyIn19fQ==\"}]}, Id: [I; -497262744, 1908819480, -1557314868, 888921618]}, display: {Name: '{\"text\":\"Energy Core\"}'}}}");
 		ItemMeta novaMeta = nova.getItemMeta();
 		novaMeta.setDisplayName(ChatColor.YELLOW + "Nova");
@@ -429,7 +356,7 @@ public class TitanFetcher {
 		return nova;
 	}
 	
-	public static ItemStack getIncitatusLeaves() throws CommandSyntaxException {
+	public static ItemStack getIncitatusLeaves()  {
 		ItemStack leaves = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", Count: 1b, tag: {SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2IyZWE5NDIzYmRmM2MzM2E5NjEyZGZmY2EwYjQ1ZmIyYTQ3NzkzNWNjYTcyNjM0YmNlYTY5NTFjZmVkNTE3In19fQ==\"}]}, Id: [I; -1350470105, -613332726, -1547509688, -1542169711]}, display: {Name: '{\"text\":\"Wisteria Leaves\"}'}}}");
 		ItemMeta leavesMeta = leaves.getItemMeta();
 		leavesMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Incitatus Leaves");
@@ -438,7 +365,7 @@ public class TitanFetcher {
 		return leaves;
 	}
 	
-	public static ItemStack getSaxum() throws CommandSyntaxException {
+	public static ItemStack getSaxum()  {
 		ItemStack saxum = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", Count: 1b, tag: {SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2IyYjVkNDhlNTc1Nzc1NjNhY2EzMTczNTUxOWNiNjIyMjE5YmMwNThiMWYzNDY0OGI2N2I4ZTcxYmMwZmEifX19\"}]}, Id: [I; 411544170, 604653863, -1201111754, 837825911]}, display: {Name: '{\"text\":\"Stone Ball\"}'}}}");
 		ItemMeta saxumMeta = saxum.getItemMeta();
 		saxumMeta.setDisplayName(ChatColor.GRAY + "Saxum");
@@ -447,7 +374,7 @@ public class TitanFetcher {
 		return saxum;
 	}
 	
-	public static ItemStack getOssum() throws CommandSyntaxException {
+	public static ItemStack getOssum()  {
 		ItemStack ossum = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", Count: 1b, tag: {SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDY4YjljNjEzMTMxN2NhZTc5ODk4MmJiMDAwZDliNDRiYTk4MWE0YmIwY2YxMjE2NGVjN2Q0ZDA5Yjk0MGM1MCJ9fX0=\"}]}, Id: [I; -137003361, -60601692, -1482376035, -1229799306]}, display: {Name: '{\"text\":\"Tuff\"}'}}}");
 		ItemMeta ossumMeta = ossum.getItemMeta();
 		ossumMeta.setDisplayName(GeneralUtils.hexToChat("c6bfa3", "Ossum"));
@@ -465,7 +392,7 @@ public class TitanFetcher {
 		return incitatusLog;
 	}
 	
-	public static ItemStack getCito() throws CommandSyntaxException {
+	public static ItemStack getCito()  {
 		ItemStack cito = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", Count: 1b, tag: {SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODA4MjJjNjEzOWFiNDhkNjg1MjMzMjNhOTNjYzJkMjA0M2U2MzRmM2E0MGY2NjRhNGE1MzQ5ZjNjYjdjMmIxOSJ9fX0=\"}]}, Id: [I; -1772556877, 1984712477, -2113045231, 941288179]}, display: {Name: '{\"text\":\"Basalt\"}'}}}");
 		ItemMeta citoMeta = cito.getItemMeta();
 		citoMeta.setDisplayName(ChatColor.DARK_GRAY + "Cito");
@@ -483,7 +410,7 @@ public class TitanFetcher {
 		return opulens;
 	}
 	
-	public static ItemStack getChalybs() throws CommandSyntaxException {
+	public static ItemStack getChalybs()  {
 		ItemStack chalybs = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", Count: 1b, tag: {SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGRlNzE5YjcyOTA5ZWZhMDk3ODE1YTYzMzgwZjQ0NTZhZjllNGFmZWJkZDg5NGU1YjU4YjdjOWUwNTY3NTU3NyJ9fX0=\"}]}, Id: [I; 662591030, 1631273344, -1703775134, -1075639018]}, display: {Name: '{\"text\":\"Obsidian\"}'}}}");
 		ItemMeta chalybsMeta = chalybs.getItemMeta();
 		chalybsMeta.setDisplayName(ChatColor.GRAY + "Chalybs");
@@ -492,7 +419,7 @@ public class TitanFetcher {
 		return chalybs;
 	}
 	
-	public static ItemStack getExitatus() throws CommandSyntaxException {
+	public static ItemStack getExitatus()  {
 		ItemStack exitatus = GeneralUtils.itemFromNBT("{id: \"minecraft:player_head\", Count: 1b, tag: {SkullOwner: {Properties: {textures: [{Value: \"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjA4ZDU5Mzc2NmM1NWU0MmI0OTUzYTY4YmY2ZjM0ODI1NTMxODg0MDgxYzE1MGMxNjZjODExMDI3OWM5ZjJhNSJ9fX0=\"}]}, Id: [I; 284203740, 1682000916, -1646723021, -90232381]}, display: {Name: '{\"text\":\"Soul Sand\"}'}}}");
 		ItemMeta exitatusMeta = exitatus.getItemMeta();
 		exitatusMeta.setDisplayName(GeneralUtils.hexToChat("493a16", "Exitatus"));
@@ -502,68 +429,62 @@ public class TitanFetcher {
 	}
 	
 	public static ArrayList<ItemStack> getTitanWorldItems() {
-		try {
-			ArrayList<ItemStack> titanWorldItems = new ArrayList<ItemStack>();
-			
-			ItemStack[] items = {
-					getOpulensHoe(),
-					getPraefortisGen(1),
-					getPraefortisGen(2),
-					getPraefortisGen(3),
-					getPraefortisGen(4),
-					getConstibilisGen(),
-					getSaxumPickaxe(),
-					getRefinedSaxumPickaxe(),
-					getOssumPickaxe(),
-					getCantoniumPickaxe(),
-					getRefinedCantoniumPickaxe(),
-					getFerrumPickaxe(),
-					getEnchantedFerrumPickaxe(),
-					getIncitatusAxe(),
-					getNovaAxe(),
-					getPraefortisShroom(),
-					getPraefortis(),
-					getFerrumBlock(),
-					getConstibilis(),
-					getIabesium(),
-					getCantonium(),
-					getClarus(),
-					getEnchantedFerrum(),
-					getFerrumIngot(),
-					getRawFerrumIngot(),
-					getNova(),
-					getIncitatusLeaves(),
-					getSaxum(),
-					getOssum(),
-					getIncitatusLog(),
-					getCito(),
-					getOpulens(),
-					getChalybs(),
-					getExitatus(),
-					// Nether
-					getSoftenedMitis(),
-					getRedMitis(),
-					getBlackMitis(),
-					getGoldenMitis(),
-					getCrystalMitis(),
-					getTitanPorkchop(),
-					// End
-					getMitis(),
-					getHardenedMitis(),
-					getMitisEssence(),
-					getMitisHelmet(),
-					getAgnes(),
-					getMitisBoots(),
-					getIndeses()
-			};
-			titanWorldItems.addAll(Arrays.asList(items));
-			
-			return titanWorldItems;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
+		ArrayList<ItemStack> titanWorldItems = new ArrayList<ItemStack>();
 		
-		return null;
+		ItemStack[] items = {
+				getOpulensHoe(),
+				getPraefortisGen(1),
+				getPraefortisGen(2),
+				getPraefortisGen(3),
+				getPraefortisGen(4),
+				getConstibilisGen(),
+				getSaxumPickaxe(),
+				getRefinedSaxumPickaxe(),
+				getOssumPickaxe(),
+				getCantoniumPickaxe(),
+				getRefinedCantoniumPickaxe(),
+				getFerrumPickaxe(),
+				getEnchantedFerrumPickaxe(),
+				getIncitatusAxe(),
+				getNovaAxe(),
+				getPraefortisShroom(),
+				getPraefortis(),
+				getFerrumBlock(),
+				getConstibilis(),
+				getIabesium(),
+				getCantonium(),
+				getClarus(),
+				getEnchantedFerrum(),
+				getFerrumIngot(),
+				getRawFerrumIngot(),
+				getNova(),
+				getIncitatusLeaves(),
+				getSaxum(),
+				getOssum(),
+				getIncitatusLog(),
+				getCito(),
+				getOpulens(),
+				getChalybs(),
+				getExitatus(),
+				// Nether
+				getSoftenedMitis(),
+				getRedMitis(),
+				getBlackMitis(),
+				getGoldenMitis(),
+				getCrystalMitis(),
+				getTitanPorkchop(),
+				// End
+				getMitis(),
+				getHardenedMitis(),
+				getMitisEssence(),
+				getMitisHelmet(),
+				getAgnes(),
+				getMitisBoots(),
+				getIndeses()
+		};
+		titanWorldItems.addAll(Arrays.asList(items));
+		
+		return titanWorldItems;
 	}
 	
 	// TODO Titan Nether Items
@@ -587,33 +508,18 @@ public class TitanFetcher {
 	}
 	
 	public static ItemStack getTitanGapple() {
-		try {
-			ItemStack titanGapple = GeneralUtils.itemFromNBT("{id:\"minecraft:enchanted_golden_apple\",Count:1b,tag:{display:{Name:'[{\"text\":\"()\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false,\"obfuscated\":true},{\"text\":\" Titan Golden Apple \",\"color\":\"light_purple\",\"bold\":true,\"italic\":false,\"obfuscated\":false},{\"text\":\"()\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false,\"obfuscated\":true}]'}}}");
-			return titanGapple;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		return null;
+		ItemStack titanGapple = GeneralUtils.itemFromNBT("{id:\"minecraft:enchanted_golden_apple\",Count:1b,tag:{display:{Name:'[{\"text\":\"()\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false,\"obfuscated\":true},{\"text\":\" Titan Golden Apple \",\"color\":\"light_purple\",\"bold\":true,\"italic\":false,\"obfuscated\":false},{\"text\":\"()\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false,\"obfuscated\":true}]'}}}");
+		return titanGapple;
 	}
 	
 	public static ItemStack getSoftenedMitis() {
-		try {
-			ItemStack softenedMitis = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Softened Mitis\",\"color\":\"#2AC7AD\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1526982026,1365196975,-1324047174,245731363],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODZkYjVlZDY2MDZjZDQ2MzkxNGNhZDZmZDlkYWRjMTQ2NGE1MTVlMjFhYTMxNmE1ZDZhZGY4MzE0YWY5Y2QifX19\"}]}}}}");
-			return softenedMitis;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		return null;
+		ItemStack softenedMitis = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Softened Mitis\",\"color\":\"#2AC7AD\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1526982026,1365196975,-1324047174,245731363],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODZkYjVlZDY2MDZjZDQ2MzkxNGNhZDZmZDlkYWRjMTQ2NGE1MTVlMjFhYTMxNmE1ZDZhZGY4MzE0YWY5Y2QifX19\"}]}}}}");
+		return softenedMitis;
 	}
 	
 	public static ItemStack getCrystalMitis() {
-		try {
-			ItemStack crystalMitis = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Crystalized Mitis\",\"color\":\"#5EFF00\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1689374481,-1707195267,-2142533999,-163636692],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2YyMzU1YzYwYzFmZDk1ZjMzMWFkZDUyNjNjMjhmMTE0NWY2ODIzOWVmMmMwODFhZjU1Zjg4MDI0MTc1ZWM0NyJ9fX0=\"}]}}}}");
-			return crystalMitis;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		return null;
+		ItemStack crystalMitis = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Crystalized Mitis\",\"color\":\"#5EFF00\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1689374481,-1707195267,-2142533999,-163636692],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2YyMzU1YzYwYzFmZDk1ZjMzMWFkZDUyNjNjMjhmMTE0NWY2ODIzOWVmMmMwODFhZjU1Zjg4MDI0MTc1ZWM0NyJ9fX0=\"}]}}}}");
+		return crystalMitis;
 	}
 	
 	public static ItemStack getRedMitis() {
@@ -657,23 +563,13 @@ public class TitanFetcher {
 	// TODO Titan End Items
 	
 	public static ItemStack getMitis() {
-		try {
-			ItemStack mitis = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Mitis\",\"color\":\"#F5F5F5\",\"italic\":false}'},SkullOwner:{Id:[I;-1027895906,1676627499,-1832298011,-1603800004],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTQ3ZGU4OTE0YWMyY2I5NzVmODU1ODdlMzNiZTk2N2E4MWVlNzUxYjQ1MzJhOWJmMmVhOWZiODVmMmQ3NTliZSJ9fX0=\"}]}}}}");
-			return mitis;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		return null;
+		ItemStack mitis = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Mitis\",\"color\":\"#F5F5F5\",\"italic\":false}'},SkullOwner:{Id:[I;-1027895906,1676627499,-1832298011,-1603800004],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTQ3ZGU4OTE0YWMyY2I5NzVmODU1ODdlMzNiZTk2N2E4MWVlNzUxYjQ1MzJhOWJmMmVhOWZiODVmMmQ3NTliZSJ9fX0=\"}]}}}}");
+		return mitis;
 	}
 	
 	public static ItemStack getHardenedMitis() {
-		try {
-			ItemStack hardenedMitis = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Hardened Mitis\",\"color\":\"#878787\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-211773432,1670399169,-1754482048,-302969030],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTM3NjVmM2RiZTViZDE0ZDRmMWNiOTdlNTAxY2UyNDExNmVjYTg4YzNkYWRmNDYzMjE3MzVlZTgxNDFmNyJ9fX0=\"}]}}}}");
-			return hardenedMitis;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		return null;
+		ItemStack hardenedMitis = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Hardened Mitis\",\"color\":\"#878787\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-211773432,1670399169,-1754482048,-302969030],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTM3NjVmM2RiZTViZDE0ZDRmMWNiOTdlNTAxY2UyNDExNmVjYTg4YzNkYWRmNDYzMjE3MzVlZTgxNDFmNyJ9fX0=\"}]}}}}");
+		return hardenedMitis;
 	}
 	
 	public static ItemStack getMitisEssence() {
@@ -1316,14 +1212,8 @@ public class TitanFetcher {
 	}
 	
 	public static ItemStack getRectus() {
-		try {
-			ItemStack rectus = GeneralUtils.itemFromNBT("{id: \"minecraft:crossbow\", tag: {Enchantments: [{id: \"minecraft:flame\", lvl: 1s}, {id: \"minecraft:infinity\", lvl: 1s}, {id: \"minecraft:looting\", lvl: 175s}, {id: \"minecraft:multishot\", lvl: 1s}, {id: \"minecraft:piercing\", lvl: 300s}, {id: \"minecraft:power\", lvl: 600s}, {id: \"minecraft:punch\", lvl: 150s}, {id: \"minecraft:quick_charge\", lvl: 4s}], Unbreakable: 1b, Damage: 0, HideFlags: 67, Charged: 0b, display: {Name: '{\"text\":\"Rectus\",\"color\":\"blue\",\"bold\":true,\"italic\":false}'}, AttributeModifiers: [{Slot: \"mainhand\", AttributeName: \"generic.attack_damage\", Operation: 0, UUID: [I; -1323901606, 399658585, -1600109813, 1924284967], Name: \"generic.attack_damage\", Amount: 11000}, {Slot: \"offhand\", AttributeName: \"generic.attack_damage\", Operation: 0, UUID: [I; -1865026865, 845563246, -2095761092, -1675840117], Name: \"generic.attack_damage\", Amount: 9000}], ChargedProjectiles: []}, Count: 1b}");
-			return rectus;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
+		ItemStack rectus = GeneralUtils.itemFromNBT("{id: \"minecraft:crossbow\", tag: {Enchantments: [{id: \"minecraft:flame\", lvl: 1s}, {id: \"minecraft:infinity\", lvl: 1s}, {id: \"minecraft:looting\", lvl: 175s}, {id: \"minecraft:multishot\", lvl: 1s}, {id: \"minecraft:piercing\", lvl: 300s}, {id: \"minecraft:power\", lvl: 600s}, {id: \"minecraft:punch\", lvl: 150s}, {id: \"minecraft:quick_charge\", lvl: 4s}], Unbreakable: 1b, Damage: 0, HideFlags: 67, Charged: 0b, display: {Name: '{\"text\":\"Rectus\",\"color\":\"blue\",\"bold\":true,\"italic\":false}'}, AttributeModifiers: [{Slot: \"mainhand\", AttributeName: \"generic.attack_damage\", Operation: 0, UUID: [I; -1323901606, 399658585, -1600109813, 1924284967], Name: \"generic.attack_damage\", Amount: 11000}, {Slot: \"offhand\", AttributeName: \"generic.attack_damage\", Operation: 0, UUID: [I; -1865026865, 845563246, -2095761092, -1675840117], Name: \"generic.attack_damage\", Amount: 9000}], ChargedProjectiles: []}, Count: 1b}");
+		return rectus;
 	}
 	
 	public static ItemStack getAxeHelmet() {
@@ -1372,56 +1262,39 @@ public class TitanFetcher {
 	public static ItemStack getExplosionHeads(int tier) {
 		if (tier > 6) tier = 6;
 		if (tier < 1) tier = 1;
+		if (tier == 1) {
+			ItemStack explosionFragment1 = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"T1 Explosion Fragment\",\"color\":\"red\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1031853657,919423726,-2059367205,1418649205],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2FmNTk3NzZmMmYwMzQxMmM3YjU5NDdhNjNhMGNmMjgzZDUxZmU2NWFjNmRmN2YyZjg4MmUwODM0NDU2NWU5In19fQ==\"}]}}}}");
 
-		try {
-			if (tier == 1) {
-				ItemStack explosionFragment1 = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"T1 Explosion Fragment\",\"color\":\"red\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1031853657,919423726,-2059367205,1418649205],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2FmNTk3NzZmMmYwMzQxMmM3YjU5NDdhNjNhMGNmMjgzZDUxZmU2NWFjNmRmN2YyZjg4MmUwODM0NDU2NWU5In19fQ==\"}]}}}}");
+			return explosionFragment1;
+		} else if (tier == 2) {
+			ItemStack explosionFragment2 = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"T2 Explosion Fragment\",\"color\":\"#FF6F00\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1014255629,1171278060,-2058471159,-1461211901],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODAyMjQ2ZmY4YjZjNjE3MTY4ZWRhZWMzOTY2MDYxMmU3MmE1NGFiMmVhY2MyN2M1ZTgxNWU0YWM3MDIzOWUzYSJ9fX0=\"}]}}}}");
 
-				return explosionFragment1;
-			} else if (tier == 2) {
-				ItemStack explosionFragment2 = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"T2 Explosion Fragment\",\"color\":\"#FF6F00\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;-1014255629,1171278060,-2058471159,-1461211901],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODAyMjQ2ZmY4YjZjNjE3MTY4ZWRhZWMzOTY2MDYxMmU3MmE1NGFiMmVhY2MyN2M1ZTgxNWU0YWM3MDIzOWUzYSJ9fX0=\"}]}}}}");
+			return explosionFragment2;
+		} else if (tier == 3) {
+			ItemStack explosionFragment3 = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"T3 Explosion Fragment\",\"color\":\"green\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1472624348,-432782946,-1938919542,-1670585879],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmI2YTk3YmEyNzkzZmUxZmM4M2ZkMjYxZTZkZThhYzMyOTlmOWY2NDZmMzIyYmI4ZDQwNTU0YmFhZWNmZiJ9fX0=\"}]}}}}");
 
-				return explosionFragment2;
-			} else if (tier == 3) {
-				ItemStack explosionFragment3 = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"T3 Explosion Fragment\",\"color\":\"green\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1472624348,-432782946,-1938919542,-1670585879],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmI2YTk3YmEyNzkzZmUxZmM4M2ZkMjYxZTZkZThhYzMyOTlmOWY2NDZmMzIyYmI4ZDQwNTU0YmFhZWNmZiJ9fX0=\"}]}}}}");
+			return explosionFragment3;
+		} else if (tier == 4) {
 
-				return explosionFragment3;
-			} else if (tier == 4) {
+		} else if (tier == 5) {
 
-			} else if (tier == 5) {
+		} else if (tier == 6) {
 
-			} else if (tier == 6) {
-
-			} else getExplosionHeads(1);
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
 		}
 		
-		return null;
+		return getExplosionHeads(1);
 	}
 
-	public static ItemStack getFerrumCore() {
-		try {
-			ItemStack ferrumCore = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Ferrum Core\",\"color\":\"white\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1838584329,1763920353,-1789367321,1902106177],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzhhNDY1MGVlM2I3NDU5NDExMjQyNjAwNDI0NmRmNTMxZTJjNjhiNmNhNDdjYWI4ZmUyMzIzYjk3OTBhMWE1ZSJ9fX0=\"}]}}}}");
+	public static ItemStack getFerrumCore()  {
+		ItemStack ferrumCore = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Ferrum Core\",\"color\":\"white\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;1838584329,1763920353,-1789367321,1902106177],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzhhNDY1MGVlM2I3NDU5NDExMjQyNjAwNDI0NmRmNTMxZTJjNjhiNmNhNDdjYWI4ZmUyMzIzYjk3OTBhMWE1ZSJ9fX0=\"}]}}}}");
 
-			return ferrumCore;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		return ferrumCore;
 	}
 
-	public static ItemStack getTitanEssence() {
-		try {
-			ItemStack titanEssence = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'[{\"text\":\"T\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false},{\"text\":\"i\",\"color\":\"red\",\"bold\":true,\"italic\":false},{\"text\":\"t\",\"color\":\"#FFA200\",\"bold\":true,\"italic\":false},{\"text\":\"a\",\"color\":\"yellow\",\"bold\":true,\"italic\":false},{\"text\":\"n\",\"color\":\"green\",\"bold\":true,\"italic\":false},{\"text\":\" E\",\"color\":\"dark_green\",\"bold\":true,\"italic\":false},{\"text\":\"s\",\"color\":\"blue\",\"bold\":true,\"italic\":false},{\"text\":\"s\",\"color\":\"dark_blue\",\"bold\":true,\"italic\":false},{\"text\":\"e\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false},{\"text\":\"n\",\"color\":\"light_purple\",\"bold\":true,\"italic\":false},{\"text\":\"c\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false},{\"text\":\"e\",\"color\":\"red\",\"bold\":true,\"italic\":false}]'},SkullOwner:{Id:[I;-167457212,-1082375449,-1113432311,-881891383],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2E1YTA3MTVjNjIxMjJkZWQ2NWFmNGVhZTA5NjlmMjNmNTcxYjBhZmE1MGNmOTNmYzllZTJhZjRjN2IzNGUxMiJ9fX0=\"}]}}}}");
+	public static ItemStack getTitanEssence()  {
+		ItemStack titanEssence = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'[{\"text\":\"T\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false},{\"text\":\"i\",\"color\":\"red\",\"bold\":true,\"italic\":false},{\"text\":\"t\",\"color\":\"#FFA200\",\"bold\":true,\"italic\":false},{\"text\":\"a\",\"color\":\"yellow\",\"bold\":true,\"italic\":false},{\"text\":\"n\",\"color\":\"green\",\"bold\":true,\"italic\":false},{\"text\":\" E\",\"color\":\"dark_green\",\"bold\":true,\"italic\":false},{\"text\":\"s\",\"color\":\"blue\",\"bold\":true,\"italic\":false},{\"text\":\"s\",\"color\":\"dark_blue\",\"bold\":true,\"italic\":false},{\"text\":\"e\",\"color\":\"dark_purple\",\"bold\":true,\"italic\":false},{\"text\":\"n\",\"color\":\"light_purple\",\"bold\":true,\"italic\":false},{\"text\":\"c\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false},{\"text\":\"e\",\"color\":\"red\",\"bold\":true,\"italic\":false}]'},SkullOwner:{Id:[I;-167457212,-1082375449,-1113432311,-881891383],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2E1YTA3MTVjNjIxMjJkZWQ2NWFmNGVhZTA5NjlmMjNmNTcxYjBhZmE1MGNmOTNmYzllZTJhZjRjN2IzNGUxMiJ9fX0=\"}]}}}}");
 
-			return titanEssence;
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		return titanEssence;
 	}
 
 	public static ItemStack getTitanPerussi() {

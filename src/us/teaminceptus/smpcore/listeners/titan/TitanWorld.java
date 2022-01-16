@@ -35,8 +35,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import eu.endercentral.crazy_advancements.NameKey;
 import eu.endercentral.crazy_advancements.advancement.Advancement;
 import eu.endercentral.crazy_advancements.manager.AdvancementManager;
@@ -119,69 +117,64 @@ public class TitanWorld implements Listener {
 	}
 	
 	public ItemStack parseMaterial(TitanMaterial mat) {
-		try {
-			if (mat.equals(TitanMaterial.INCITATUS_LEAVES)) {
-				return TitanFetcher.getIncitatusLeaves();
-			} else if (mat.equals(TitanMaterial.SAXUM)) {
-				return TitanFetcher.getSaxum();
-			} else if (mat.equals(TitanMaterial.OSSUM)) {
-				return TitanFetcher.getOssum();
-			} else if (mat.equals(TitanMaterial.EXITATUS)) {
-				return TitanFetcher.getExitatus();
-			} else if (mat.equals(TitanMaterial.OPULENS)) {
-				return TitanFetcher.getOpulens();
-			} else if (mat.equals(TitanMaterial.CHALYBS)) {
-				return TitanFetcher.getChalybs();
-			} else if (mat.equals(TitanMaterial.CITO)) {
-				return TitanFetcher.getCito();
-			} else if (mat.equals(TitanMaterial.INCITATUS_LOG)) {
-				return TitanFetcher.getIncitatusLog();
-			} else if (mat.equals(TitanMaterial.NOVA)) {
-				return TitanFetcher.getNova();
-			} else if (mat.equals(TitanMaterial.RAW_FERRUM_INGOT)) {
-				return TitanFetcher.getRawFerrumIngot();
-			} else if (mat.equals(TitanMaterial.FERRUM_INGOT)) {
-				return TitanFetcher.getFerrumIngot();
-			} else if (mat.equals(TitanMaterial.ENCHANTED_FERRUM)) {
-				return TitanFetcher.getEnchantedFerrum();
-			} else if (mat.equals(TitanMaterial.CLARUS)) {
-				return TitanFetcher.getClarus();
-			} else if (mat.equals(TitanMaterial.CANTONIUM)) {
-				return TitanFetcher.getCantonium();
-			} else if (mat.equals(TitanMaterial.IABESIUM)) {
-				return TitanFetcher.getIabesium();
-			} else if (mat.equals(TitanMaterial.CONSTIBILIS)) {
-				return TitanFetcher.getConstibilis();
-			} else if (mat.equals(TitanMaterial.FERRUM_BLOCK)) {
-				return TitanFetcher.getFerrumBlock();
-			} else if (mat.equals(TitanMaterial.PRAEFORTIS_BLOCK)) {
-				return TitanFetcher.getPraefortis();
-			} else if (mat.equals(TitanMaterial.PRAEFORTIS_SHROOM)) {
-				return TitanFetcher.getPraefortisShroom();
-			}
-			// Nether
-			else if (mat.equals(TitanMaterial.SOFTENED_MITIS)) {
-				return TitanFetcher.getSoftenedMitis();
-			} else if (mat.equals(TitanMaterial.CRYSTAL_MITIS)) {
-				return TitanFetcher.getCrystalMitis();
-			} else if (mat.equals(TitanMaterial.BLACK_MITIS)) {
-				return TitanFetcher.getBlackMitis();
-			} else if (mat.equals(TitanMaterial.RED_MITIS)) {
-				return TitanFetcher.getRedMitis();
-			} else if (mat.equals(TitanMaterial.GOLDEN_MITIS)) {
-				return TitanFetcher.getGoldenMitis();
-			}
-			// End
-			else if (mat.equals(TitanMaterial.MITIS)) {
-				return TitanFetcher.getMitis();
-			} else if (mat.equals(TitanMaterial.HARDENED_MITIS)) {
-				return TitanFetcher.getHardenedMitis();
-			}
-			else return null;
-		
-		} catch (CommandSyntaxException e) {
-			return null;
+		if (mat.equals(TitanMaterial.INCITATUS_LEAVES)) {
+			return TitanFetcher.getIncitatusLeaves();
+		} else if (mat.equals(TitanMaterial.SAXUM)) {
+			return TitanFetcher.getSaxum();
+		} else if (mat.equals(TitanMaterial.OSSUM)) {
+			return TitanFetcher.getOssum();
+		} else if (mat.equals(TitanMaterial.EXITATUS)) {
+			return TitanFetcher.getExitatus();
+		} else if (mat.equals(TitanMaterial.OPULENS)) {
+			return TitanFetcher.getOpulens();
+		} else if (mat.equals(TitanMaterial.CHALYBS)) {
+			return TitanFetcher.getChalybs();
+		} else if (mat.equals(TitanMaterial.CITO)) {
+			return TitanFetcher.getCito();
+		} else if (mat.equals(TitanMaterial.INCITATUS_LOG)) {
+			return TitanFetcher.getIncitatusLog();
+		} else if (mat.equals(TitanMaterial.NOVA)) {
+			return TitanFetcher.getNova();
+		} else if (mat.equals(TitanMaterial.RAW_FERRUM_INGOT)) {
+			return TitanFetcher.getRawFerrumIngot();
+		} else if (mat.equals(TitanMaterial.FERRUM_INGOT)) {
+			return TitanFetcher.getFerrumIngot();
+		} else if (mat.equals(TitanMaterial.ENCHANTED_FERRUM)) {
+			return TitanFetcher.getEnchantedFerrum();
+		} else if (mat.equals(TitanMaterial.CLARUS)) {
+			return TitanFetcher.getClarus();
+		} else if (mat.equals(TitanMaterial.CANTONIUM)) {
+			return TitanFetcher.getCantonium();
+		} else if (mat.equals(TitanMaterial.IABESIUM)) {
+			return TitanFetcher.getIabesium();
+		} else if (mat.equals(TitanMaterial.CONSTIBILIS)) {
+			return TitanFetcher.getConstibilis();
+		} else if (mat.equals(TitanMaterial.FERRUM_BLOCK)) {
+			return TitanFetcher.getFerrumBlock();
+		} else if (mat.equals(TitanMaterial.PRAEFORTIS_BLOCK)) {
+			return TitanFetcher.getPraefortis();
+		} else if (mat.equals(TitanMaterial.PRAEFORTIS_SHROOM)) {
+			return TitanFetcher.getPraefortisShroom();
 		}
+		// Nether
+		else if (mat.equals(TitanMaterial.SOFTENED_MITIS)) {
+			return TitanFetcher.getSoftenedMitis();
+		} else if (mat.equals(TitanMaterial.CRYSTAL_MITIS)) {
+			return TitanFetcher.getCrystalMitis();
+		} else if (mat.equals(TitanMaterial.BLACK_MITIS)) {
+			return TitanFetcher.getBlackMitis();
+		} else if (mat.equals(TitanMaterial.RED_MITIS)) {
+			return TitanFetcher.getRedMitis();
+		} else if (mat.equals(TitanMaterial.GOLDEN_MITIS)) {
+			return TitanFetcher.getGoldenMitis();
+		}
+		// End
+		else if (mat.equals(TitanMaterial.MITIS)) {
+			return TitanFetcher.getMitis();
+		} else if (mat.equals(TitanMaterial.HARDENED_MITIS)) {
+			return TitanFetcher.getHardenedMitis();
+		}
+		else return null;
 	}
 	
 	Random r = new Random();
@@ -416,77 +409,72 @@ public class TitanWorld implements Listener {
 			return;
 		}
 		
-		try {
-			if (inv.getTitle().contains("Venalicius's Barter")) {
-				if (display.equalsIgnoreCase("Ossum Trade")) {
-					if (click.equals(ClickType.LEFT) || click.equals(ClickType.SHIFT_LEFT)) {
-						if (!(p.getInventory().containsAtLeast(TitanFetcher.getSaxum(), 8))) {
-							p.sendMessage(notEnoughBuy);
-						} else {
-							p.getInventory().removeItem(TitanFetcher.getSaxum());
-							p.getInventory().removeItem(TitanFetcher.getSaxum());
-							p.getInventory().removeItem(TitanFetcher.getSaxum());
-							p.getInventory().removeItem(TitanFetcher.getSaxum());
-							p.getInventory().removeItem(TitanFetcher.getSaxum());
-							p.getInventory().removeItem(TitanFetcher.getSaxum());
-							p.getInventory().removeItem(TitanFetcher.getSaxum());
-							
-							p.getInventory().addItem(TitanFetcher.getOssum());
-						}
-					} else if (click.equals(ClickType.RIGHT) || click.equals(ClickType.SHIFT_RIGHT)) {
-						if (!(p.getInventory().containsAtLeast(TitanFetcher.getOssum(), 1))) {
-							p.sendMessage(notEnoughSell);
-						} else {
-							p.getInventory().removeItem(TitanFetcher.getOssum());
-							
-							p.getInventory().addItem(TitanFetcher.getSaxum());
-							p.getInventory().addItem(TitanFetcher.getSaxum());
-							p.getInventory().addItem(TitanFetcher.getSaxum());
-							p.getInventory().addItem(TitanFetcher.getSaxum());
-							p.getInventory().addItem(TitanFetcher.getSaxum());
-							p.getInventory().addItem(TitanFetcher.getSaxum());
-							p.getInventory().addItem(TitanFetcher.getSaxum());
-						}
+		if (inv.getTitle().contains("Venalicius's Barter")) {
+			if (display.equalsIgnoreCase("Ossum Trade")) {
+				if (click.equals(ClickType.LEFT) || click.equals(ClickType.SHIFT_LEFT)) {
+					if (!(p.getInventory().containsAtLeast(TitanFetcher.getSaxum(), 8))) {
+						p.sendMessage(notEnoughBuy);
+					} else {
+						p.getInventory().removeItem(TitanFetcher.getSaxum());
+						p.getInventory().removeItem(TitanFetcher.getSaxum());
+						p.getInventory().removeItem(TitanFetcher.getSaxum());
+						p.getInventory().removeItem(TitanFetcher.getSaxum());
+						p.getInventory().removeItem(TitanFetcher.getSaxum());
+						p.getInventory().removeItem(TitanFetcher.getSaxum());
+						p.getInventory().removeItem(TitanFetcher.getSaxum());
+						
+						p.getInventory().addItem(TitanFetcher.getOssum());
 					}
-				} else if (display.equalsIgnoreCase("Praefortis Trade")) {
-					if (click.equals(ClickType.LEFT) || click.equals(ClickType.SHIFT_LEFT)) {
-						if (!(p.getInventory().containsAtLeast(TitanFetcher.getPraefortisShroom(), 9))) {
-							p.sendMessage(notEnoughBuy);
-						} else {
-							p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
-							
-							p.getInventory().addItem(TitanFetcher.getPraefortis());
-						}
-					} else if (click.equals(ClickType.RIGHT) || click.equals(ClickType.SHIFT_RIGHT)) {
-						if (!(p.getInventory().containsAtLeast(TitanFetcher.getPraefortis(), 1))) {
-							p.sendMessage(notEnoughSell);
-						} else {
-							p.getInventory().removeItem(TitanFetcher.getPraefortis());
-							
-							p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
-							p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
-						}
+				} else if (click.equals(ClickType.RIGHT) || click.equals(ClickType.SHIFT_RIGHT)) {
+					if (!(p.getInventory().containsAtLeast(TitanFetcher.getOssum(), 1))) {
+						p.sendMessage(notEnoughSell);
+					} else {
+						p.getInventory().removeItem(TitanFetcher.getOssum());
+						
+						p.getInventory().addItem(TitanFetcher.getSaxum());
+						p.getInventory().addItem(TitanFetcher.getSaxum());
+						p.getInventory().addItem(TitanFetcher.getSaxum());
+						p.getInventory().addItem(TitanFetcher.getSaxum());
+						p.getInventory().addItem(TitanFetcher.getSaxum());
+						p.getInventory().addItem(TitanFetcher.getSaxum());
+						p.getInventory().addItem(TitanFetcher.getSaxum());
+					}
+				}
+			} else if (display.equalsIgnoreCase("Praefortis Trade")) {
+				if (click.equals(ClickType.LEFT) || click.equals(ClickType.SHIFT_LEFT)) {
+					if (!(p.getInventory().containsAtLeast(TitanFetcher.getPraefortisShroom(), 9))) {
+						p.sendMessage(notEnoughBuy);
+					} else {
+						p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().removeItem(TitanFetcher.getPraefortisShroom());
+						
+						p.getInventory().addItem(TitanFetcher.getPraefortis());
+					}
+				} else if (click.equals(ClickType.RIGHT) || click.equals(ClickType.SHIFT_RIGHT)) {
+					if (!(p.getInventory().containsAtLeast(TitanFetcher.getPraefortis(), 1))) {
+						p.sendMessage(notEnoughSell);
+					} else {
+						p.getInventory().removeItem(TitanFetcher.getPraefortis());
+						
+						p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
+						p.getInventory().addItem(TitanFetcher.getPraefortisShroom());
 					}
 				}
 			}
-		} catch (CommandSyntaxException err) {
-			p.sendMessage(ChatColor.RED + "An error has occured! Please report this!");
-			err.printStackTrace();
 		}
 		
 	}
