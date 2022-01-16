@@ -212,27 +212,10 @@ public class PlayerStatusUpdate implements Listener {
    
    Location[] spawns = {
 		   Bukkit.getWorld("world").getSpawnLocation(),
-		   new Location(Bukkit.getWorld("world"), 3343, 64, 701),
-		   new Location(Bukkit.getWorld("world"), 19748, 68, 23639),
-		   new Location(Bukkit.getWorld("world"), -61272, 71, 3198),
-		   new Location(Bukkit.getWorld("world"), -103423, 66, 331541),
-		   new Location(Bukkit.getWorld("world"), 8829, 63, -441603),
-		   new Location(Bukkit.getWorld("world"), 72866, 67, -1608953),
-		   new Location(Bukkit.getWorld("world"), 271979, 107, 15078),
-		   new Location(Bukkit.getWorld("world"), 4691, 67, -2526),
-		   new Location(Bukkit.getWorld("world"), 2154511, 63, -3145615),
-		   new Location(Bukkit.getWorld("world"), 54949, 69, -14451180),
-		   new Location(Bukkit.getWorld("world"), -771156, 66, 1142434),
-		   new Location(Bukkit.getWorld("world"), 912397, 66, -2234952),
-		   new Location(Bukkit.getWorld("world"), 1002465, 85, -8221399),
-		   new Location(Bukkit.getWorld("world"), -14506, 92, 3314451),
-		   new Location(Bukkit.getWorld("world"), -9982106, 64, 30028),
-		   new Location(Bukkit.getWorld("world"), 6000002, 90, 5999985),
-		   new Location(Bukkit.getWorld("world"), 9221532, 68, 5313324),
-		   new Location(Bukkit.getWorld("world"), -8463117, 70, -6623204),
-		   new Location(Bukkit.getWorld("world"), -1330, 81, 8849),
-		   new Location(Bukkit.getWorld("world"), 3019, 72, -8902),
-		   new Location(Bukkit.getWorld("world"), -11910, 63, -211),
+		   new Location(Bukkit.getWorld("world"), 137, 64, -237),
+		   new Location(Bukkit.getWorld("world"), 49, 68, -874),
+		   new Location(Bukkit.getWorld("world"), -20341, 76, 3084),
+		   new Location(Bukkit.getWorld("world"), -20619, 92, 3207),
    };
    
    Random r = new Random();
