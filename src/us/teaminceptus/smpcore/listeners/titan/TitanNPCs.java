@@ -1,11 +1,14 @@
 package us.teaminceptus.smpcore.listeners.titan;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -72,7 +75,8 @@ public class TitanNPCs implements Listener {
 		} else if (name.equalsIgnoreCase("Shulker Wizard")) {
 			p.playSound(p.getLocation(), pillagerSounds[r.nextInt(pillagerSounds.length)], 3F, 0.75F);
 		} else if (name.equalsIgnoreCase("Bellator")) {
-			if (!(plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getConfigurationSection("npc_talks").getBoolean("bellator"))) {
+			FileConfiguration config = SMPCore.getFile(p);
+			if (!(config.getConfigurationSection("npc_talks").getBoolean("bellator"))) {
 				if (bellatorTalking) return;
 				bellatorTalking = true;
 				
@@ -86,8 +90,12 @@ public class TitanNPCs implements Listener {
 				}
 				
 				p.openInventory(TitanFinder.getTitanFinder(plugin, p));
-				plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getConfigurationSection("npc_talks").set("bellator", true);
-				plugin.saveConfig();
+				config.getConfigurationSection("npc_talks").set("bellator", true);
+			      try {
+			    	  config.save(new File(SMPCore.getPlayersDirectory(), p.getUniqueId().toString() + ".yml"));
+			      } catch (IOException err) {
+			    	  err.printStackTrace();
+			      }
 				
 				bellatorTalking = false;
 				

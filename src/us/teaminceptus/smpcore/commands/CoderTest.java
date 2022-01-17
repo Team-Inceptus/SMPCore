@@ -1,9 +1,9 @@
 package us.teaminceptus.smpcore.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
 import us.teaminceptus.smpcore.SMPCore;
@@ -18,19 +18,14 @@ public class CoderTest implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!(sender instanceof Player)) return false;
+		if (!(sender instanceof Player p)) return false;
 		
-		Player p = (Player) sender;
-		if (!(p.getUniqueId().toString().equalsIgnoreCase("8069233e-5b25-410c-9475-daa6a044c365"))) {
-			p.sendMessage(ChatColor.RED + "Only GamerCoder215 can make worlds.");
-		} else {
-			try {
-				if (args[0].equalsIgnoreCase("colortest")) {
-				}
-			} catch (NullPointerException e) {
-				p.sendMessage(ChatColor.RED + "Invalid Arguments");
-			}
-		}
+		org.bukkit.inventory.ItemStack item = p.getInventory().getItemInMainHand();
+		
+		if (item == null) return false;
+		
+		
+		
 		return false;
 	}
 }

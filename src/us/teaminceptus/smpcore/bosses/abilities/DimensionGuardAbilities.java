@@ -1,9 +1,12 @@
 package us.teaminceptus.smpcore.bosses.abilities;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -75,9 +78,14 @@ public class DimensionGuardAbilities implements Listener {
 		if (e2.getDamager() == null) return;
 		if (!(e2.getDamager() instanceof Player p)) return;
 		
-		if (plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getBoolean("killed_dimguard") == false) {
-			plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("killed_dimguard", true);
-			plugin.saveConfig();
+		FileConfiguration config = SMPCore.getFile(p);
+		if (config.getBoolean("killed_dimguard") == false) {
+			config.set("killed_dimguard", true);
+		      try {
+		    	  config.save(new File(SMPCore.getPlayersDirectory(), p.getUniqueId().toString() + ".yml"));
+		      } catch (IOException err) {
+		      	err.printStackTrace();
+		      }
 		}
 	}
 	

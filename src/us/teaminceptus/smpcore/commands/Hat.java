@@ -24,7 +24,7 @@ public class Hat implements CommandExecutor {
 			return false;
 		}
 		
-		String rank = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getString("rank");
+		String rank = SMPCore.getFile(p).getString("rank");
 		
 		if (!(rank.contains("mvp")) && !(p.hasPermission("core.admin.gamemodebypass"))) {
 			p.sendMessage(ChatColor.RED + "You need MVP or Higher to use this Command!");

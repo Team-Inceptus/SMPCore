@@ -17,7 +17,7 @@ import us.teaminceptus.smpcore.utils.fetcher.TitanFetcher;
 public class TitanEnchantmentTable {
 	
 	public static boolean hasUnlocked(SMPCore plugin, Player p) {
-		return (plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills") >= 30);
+		return (SMPCore.getFile(p).getInt("titan_kills") >= 30);
 	}
 	
 	

@@ -49,7 +49,7 @@ public class TitanFinder {
 	}
 	
 	protected static boolean hasUnlocked(SMPCore plugin, Player p, int amountReq) {
-		return (plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills") >= amountReq);
+		return (SMPCore.getFile(p).getInt("titan_kills") >= amountReq);
 	}
 	
 	public static ItemStack generateTitanItem(Material icon, String name, double rating) {

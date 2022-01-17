@@ -24,7 +24,7 @@ public class Cosmetics implements Listener {
 	}
 	
 	private Particle getParticle(Player p) {
-		String rank = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getString("rank");
+		String rank = SMPCore.getFile(p).getString("rank");
 		
 		Particle pa = null;
 		
@@ -62,7 +62,7 @@ public class Cosmetics implements Listener {
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
-		String rank = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getString("rank");
+		String rank = SMPCore.getFile(p).getString("rank");
 		
 		if (rank.equalsIgnoreCase("mvp+") || p.hasPermission("core.admin.gamemodebypass")) {
 			e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));

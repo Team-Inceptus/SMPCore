@@ -23,7 +23,7 @@ public class RankUp implements CommandExecutor {
 	public static void setRank(Player p, String rank) {
 		SMPCore plugin = JavaPlugin.getPlugin(SMPCore.class);
 		
-		plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("rank", rank);
+		SMPCore.getFile(p).set("rank", rank);
 		
 		if (rank.equalsIgnoreCase("vip")) {
 			p.setDisplayName(ChatColor.DARK_GREEN + "VIP " + ChatColor.GREEN + p.getName() + ChatColor.RESET);

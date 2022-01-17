@@ -1,5 +1,7 @@
 package us.teaminceptus.smpcore.bosses.abilities;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,6 +20,7 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftHusk;
 import org.bukkit.enchantments.Enchantment;
@@ -1169,12 +1172,11 @@ public class ArenaTitanAbilities implements Listener {
 		
 		if (en.getKiller() == null) return;
 		Player p = en.getKiller();
-		
-		plugin.saveConfig();
 
-		plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).set("titan_kills", plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills") + 1);
+		FileConfiguration config = SMPCore.getFile(p);
+		config.set("titan_kills", config.getInt("titan_kills") + 1);
 		
-	   	 int titanKills = plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills");
+	   	 int titanKills = config.getInt("titan_kills");
 	   	 if (titanKills == 1) {
 	   		 Bukkit.broadcastMessage(AdvancementMessages.getUnlockedMessage(p) + AdvancementMessages.getTitanKiller(1, true));
 	   		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
@@ -1198,7 +1200,11 @@ public class ArenaTitanAbilities implements Listener {
 	   		 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 3F, 1.5F);
 	   	 }
 		
-		plugin.saveConfig();
+	      try {
+	    	  config.save(new File(SMPCore.getPlayersDirectory(), p.getUniqueId().toString() + ".yml"));
+	      } catch (IOException err) {
+	      	err.printStackTrace();
+	      }
 	}
 	
 }

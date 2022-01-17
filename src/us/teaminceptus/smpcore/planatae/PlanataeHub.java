@@ -16,7 +16,6 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import us.teaminceptus.smpcore.SMPCore;
 import us.teaminceptus.smpcore.listeners.GUIManagers;
@@ -95,7 +94,6 @@ public class PlanataeHub implements Listener {
 	}
 	
 	public static Inventory getPlanataeMenu(Player p) {
-		SMPCore plugin = JavaPlugin.getPlugin(SMPCore.class);
 		try {
 			Inventory menu = GUIManagers.generateGUI(27, ChatColor.DARK_BLUE + "Planatae Menu");
 			ItemStack locked = GeneralUtils.itemFromNBT("{id: \"minecraft:bedrock\", tag: {display: {Name: '{\"text\":\"Locked!\",\"color\":\"dark_red\",\"italic\":false}'}}, Count: 1b}");
@@ -104,9 +102,9 @@ public class PlanataeHub implements Listener {
 			ItemStack omega = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Omega Planatae System\",\"color\":\"dark_blue\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;118494323,-75739210,-1508257811,-2088513105],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODdkNjZmOTM5MDlhNmQ0NjQxYzY1MzA4MmUwNDc0OTY5MWRlODJjZjc3MjMyYmQyMGFiMzJhZGY0ZiJ9fX0=\"}]}}}}");
 			ItemStack titan = GeneralUtils.itemFromNBT("{id:\"minecraft:player_head\",Count:1b,tag:{display:{Name:'{\"text\":\"Titan Planatae System\",\"color\":\"dark_red\",\"bold\":true,\"italic\":false}'},SkullOwner:{Id:[I;29464294,160580508,-1779136758,1804506042],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWMzNzgzMmM0MTM1MjU1NTU1M2Q4NmFhYWUxMzQxOTMzMWUzYWRlOTk3YmNlMGI4MTEzN2Q1MjA0ZTRjZGU3ZSJ9fX0=\"}]}}}}");
 			
-			menu.setItem(10, (plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getBoolean("killed_dimguard") || p.hasPermission("core.admin.gamemodebypass") ? gamma : locked));
+			menu.setItem(10, (SMPCore.getFile(p).getBoolean("killed_dimguard") || p.hasPermission("core.admin.gamemodebypass") ? gamma : locked));
 			menu.setItem(13, (p.getStatistic(Statistic.KILL_ENTITY, EntityType.CREEPER) < 1500 && !(p.hasPermission("core.admin.gamemodebypass")) ? locked : omega));
-			menu.setItem(16, (plugin.getConfig().getConfigurationSection(p.getUniqueId().toString()).getInt("titan_kills") < 40 && !(p.hasPermission("core.admin.gamemodebypass")) ? locked : titan));
+			menu.setItem(16, (SMPCore.getFile(p).getInt("titan_kills") < 40 && !(p.hasPermission("core.admin.gamemodebypass")) ? locked : titan));
 			
 			return menu;
 		} catch (Exception e) {
