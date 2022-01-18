@@ -3,6 +3,7 @@ package us.teaminceptus.smpcore.abilities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Particle;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -36,6 +37,8 @@ public class Cosmetics implements Listener {
 			pa = Particle.SPELL_WITCH;
 		else if (p.hasPermission("core.admin.gamemodebypass"))
 			pa = Particle.ELECTRIC_SPARK;
+		else if (rank.equalsIgnoreCase("booster" ))
+			pa = Particle.HEART;
 		
 		return pa;
 	}
@@ -62,11 +65,19 @@ public class Cosmetics implements Listener {
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
-		String rank = SMPCore.getFile(p).getString("rank");
+		FileConfiguration config = SMPCore.getFile(p);
+		String rank = config.getString("rank");
 		
-		if (rank.equalsIgnoreCase("mvp+") || p.hasPermission("core.admin.gamemodebypass")) {
+		if (config.getBoolean("muted")) {
+			e.setCancelled(true);
+			p.sendMessage(ChatColor.RED + "You are currently muted.");
+		}
+		
+		if (rank.equalsIgnoreCase("mvp+") || rank.equalsIgnoreCase("booster") || p.hasPermission("core.admin.gamemodebypass")) {
 			e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
 		}
  	}
+	
+	
 
 }
