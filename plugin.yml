@@ -129,6 +129,16 @@ commands:
     aliases: [yt, yeetintoactualsun, yeetintoactualblackhole]
     permission: core.admin.gamemodebypass
     permission-message: You do not have permission to use this command.
+  mute:
+    descritption: Mute someone if they talk too much.
+    aliases: [silence, mte]
+    permission: core.admin.mute
+    permission-message: You have zero power here.
+  unmute:
+    description: Unmute someone if they should be lifted.
+    aliases: [unsilence, unmte]
+    permission: core.admin.mute
+    permission-message: You have zero power here.
   
   
 permissions:
@@ -199,6 +209,10 @@ permissions:
       core.admin: true
   core.admin.ecsee:
     description: Allows you to see a player's enderchest.
+    children:
+      core.admin: true
+  core.admin.mute:
+    description: Allows you to mute a player.
     children:
       core.admin: true
  

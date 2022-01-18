@@ -204,6 +204,7 @@ public class PermissionUtils {
 		a.setPermission("minecraft.command.kill", true);
 		a.setPermission("minecraft.command.bossbar", true);
 		a.setPermission("citizens", true);
+		a.setPermission("core.admin.mute", true);
 		
 		return a;
 	}
