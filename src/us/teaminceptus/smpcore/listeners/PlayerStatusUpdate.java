@@ -152,6 +152,10 @@ public class PlayerStatusUpdate implements Listener {
     	  config.set("killed_dragtitan", false);
       }
       
+      if (!(config.isBoolean("muted"))) {
+    	  config.set("muted", false);
+      }
+      
       
       if (!(config.isDouble("last_networth"))) {
     	  double echestValue = 0;
@@ -177,6 +181,12 @@ public class PlayerStatusUpdate implements Listener {
     	  config.getConfigurationSection("npc_talks").set("bellator", false);;
       }
       
+      try {
+    	  config.save(new File(SMPCore.getPlayersDirectory(), p.getUniqueId().toString() + ".yml"));
+      } catch (IOException err) {
+      	err.printStackTrace();
+      }
+      
       setRank(p);
       e.setJoinMessage(ChatColor.DARK_GREEN + p.getDisplayName() + ChatColor.GREEN + " joined the game");
       if (!(p.hasPlayedBefore())) {
@@ -200,7 +210,6 @@ public class PlayerStatusUpdate implements Listener {
       if (!(plugin.getConfig().isConfigurationSection("networth_leaderboard"))) {
     	  plugin.getConfig().createSection("networth_leaderboard");
       }
-      
       try {
     	  config.save(new File(SMPCore.getPlayersDirectory(), p.getUniqueId().toString() + ".yml"));
       } catch (IOException err) {
@@ -262,6 +271,7 @@ public class PlayerStatusUpdate implements Listener {
 	   if (!(e.getWhoClicked() instanceof Player p)) return;
 	   List<ItemStack> newItems = new ArrayList<>();
 	   for (ItemStack i : inv.getMatrix()) {
+		 if (i == null) continue;
       	 ItemMeta oldMeta = i.getItemMeta();
       	 if (oldMeta.hasLore()) {
       		 List<String> newLore = oldMeta.getLore();
@@ -273,6 +283,8 @@ public class PlayerStatusUpdate implements Listener {
       	 i.setItemMeta(oldMeta);
       	 newItems.add(i);
 	   }
+	   
+	   if (newItems.size() != 9) return;
 	   
 	   ItemStack result = Bukkit.craftItem(newItems.toArray(new ItemStack[] {}), p.getWorld(), p);
 	   if (result.getType() != Material.AIR) {
