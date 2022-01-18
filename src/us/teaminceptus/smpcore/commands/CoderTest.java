@@ -3,7 +3,6 @@ package us.teaminceptus.smpcore.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
 import us.teaminceptus.smpcore.SMPCore;
